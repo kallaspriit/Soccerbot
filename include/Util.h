@@ -25,14 +25,14 @@ class Util
 
             return ss.str();
         }
+
         static inline int toInt(const std::string str) {
             return atoi(str.c_str());
         }
 
-        static const double PI_D = 3.141592653589793238462;
-        static const float  PI_F = 3.14159265358979f;
-        static const double TWO_PI_D = 2 * 3.141592653589793238462;
-        static const float  TWO_PI_F = 2.0f * 3.14159265358979f;
+        static inline float toFloat(const std::string str) {
+            return atof(str.c_str());
+        }
 };
 
 #endif // UTIL_H

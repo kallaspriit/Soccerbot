@@ -1,6 +1,7 @@
 #include "Wheel.h"
 
 #include "serial/Serial.h"
+#include "Math.h"
 #include "Util.h"
 
 Wheel::Wheel(std::string serialPortName) : serialPortName(serialPortName) {
@@ -53,9 +54,9 @@ void Wheel::step(double dt) {
 }*/
 
 float Wheel::omegaToSpeed(float omega) {
-    return omega / Util::TWO_PI_F * ticksPerRevolution / pidFrequency;
+    return omega / Math::TWO_PI * ticksPerRevolution / pidFrequency;
 }
 
 float Wheel::speedToOmega(float speed) {
-    return speed * pidFrequency / ticksPerRevolution * Util::TWO_PI_F;
+    return speed * pidFrequency / ticksPerRevolution * Math::TWO_PI;
 }

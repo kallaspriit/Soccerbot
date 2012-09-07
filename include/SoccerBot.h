@@ -5,6 +5,7 @@
 
 class Robot;
 class Serial;
+class Command;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
@@ -18,6 +19,10 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void onSocketClose(websocketpp::server::connection_ptr con);
         void onSocketMessage(websocketpp::server::connection_ptr con, websocketpp::server::handler::message_ptr msg);
 
+        void handleRequest(std::string request);
+        void handleTargetVectorCommand(const Command& cmd);
+        void handleTargetDirCommand(const Command& cmd);
+
     private:
         Robot* robot;
         WebSocketServer* socket;
@@ -25,6 +30,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         double lastStepTime;
         double lastStepDt;
+        double lastStepDuration; // @TODO Send to browser
+        double lastStepLoad;
 };
 
 #endif // SOCCERBOT_H

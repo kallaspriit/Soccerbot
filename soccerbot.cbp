@@ -47,6 +47,7 @@
 		</Linker>
 		<Unit filename="include/JSON.h" />
 		<Unit filename="include/JsonResponse.h" />
+		<Unit filename="include/Math.h" />
 		<Unit filename="include/Robot.h" />
 		<Unit filename="include/SoccerBot.h" />
 		<Unit filename="include/Util.h" />
@@ -56,6 +57,7 @@
 		<Unit filename="libraries/serial/Serial.h" />
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
+		<Unit filename="src/Math.cpp" />
 		<Unit filename="src/Robot.cpp" />
 		<Unit filename="src/SoccerBot.cpp" />
 		<Unit filename="src/Util.cpp" />

@@ -112,17 +112,22 @@ float Util::limit(float num, float min, float max) {
 }
 
 size_t Util::strpos(const std::string &haystack, const std::string &needle) {
-    int sleng = haystack.length();
-    int nleng = needle.length();
+    int inputLength = haystack.length();
+    int needleLength = needle.length();
 
-    if (sleng==0 || nleng==0)
+    if (inputLength == 0 || needleLength == 0) {
         return std::string::npos;
-
-    for(int i=0, j=0; i<sleng; j=0, i++ ) {
-        while (i+j<sleng && j<nleng && haystack[i+j]==needle[j])
-            j++;
-        if (j==nleng)
-            return i;
     }
+
+    for (int i = 0, j = 0; i < inputLength; j = 0, i++) {
+        while (i + j < inputLength && j < needleLength && haystack[i + j] == needle[j]) {
+            j++;
+        }
+
+        if (j == needleLength) {
+            return i;
+        }
+    }
+
     return std::string::npos;
 }
