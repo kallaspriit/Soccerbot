@@ -8,7 +8,7 @@ class Serial;
 class Wheel
 {
     public:
-        Wheel(std::string serialPortName);
+        Wheel(int id);
         ~Wheel();
 
         void setTargetOmega(float omega);
@@ -22,10 +22,12 @@ class Wheel
         //std::string getStateJSON() const;
 
     private:
+        int id;
         std::string serialPortName;
         Serial* serial;
         float targetOmega;
         float realOmega;
+        bool ready;
 
         static const float pidFrequency = 62.5f;
         static const float ticksPerRevolution = 64.0f * 18.75f;

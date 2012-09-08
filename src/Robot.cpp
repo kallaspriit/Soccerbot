@@ -47,22 +47,52 @@ void Robot::init() {
 		-Math::sin(wheelAngles[2]), Math::cos(wheelAngles[2]), wheelOffset,
 		-Math::sin(wheelAngles[3]), Math::cos(wheelAngles[3]), wheelOffset
     );
+    omegaMatrixInvA = Math::Matrix3x3(
+        -Math::sin(wheelAngles[0]), Math::cos(wheelAngles[0]), wheelOffset,
+		-Math::sin(wheelAngles[1]), Math::cos(wheelAngles[1]), wheelOffset,
+		-Math::sin(wheelAngles[2]), Math::cos(wheelAngles[2]), wheelOffset
+    ).getInversed();
+    omegaMatrixInvB = Math::Matrix3x3(
+        -Math::sin(wheelAngles[0]), Math::cos(wheelAngles[0]), wheelOffset,
+		-Math::sin(wheelAngles[1]), Math::cos(wheelAngles[1]), wheelOffset,
+		-Math::sin(wheelAngles[3]), Math::cos(wheelAngles[3]), wheelOffset
+    ).getInversed();
+    omegaMatrixInvC = Math::Matrix3x3(
+        -Math::sin(wheelAngles[0]), Math::cos(wheelAngles[0]), wheelOffset,
+		-Math::sin(wheelAngles[2]), Math::cos(wheelAngles[2]), wheelOffset,
+		-Math::sin(wheelAngles[3]), Math::cos(wheelAngles[3]), wheelOffset
+    ).getInversed();
+    omegaMatrixInvD = Math::Matrix3x3(
+		-Math::sin(wheelAngles[1]), Math::cos(wheelAngles[1]), wheelOffset,
+		-Math::sin(wheelAngles[2]), Math::cos(wheelAngles[2]), wheelOffset,
+		-Math::sin(wheelAngles[3]), Math::cos(wheelAngles[3]), wheelOffset
+    ).getInversed();
 
     // positive omega means that FL turns to the left and all others follow the same direction
-    wheelFL = new Wheel("/dev/ttyACM2");
-    wheelFR = new Wheel("/dev/ttyACM1");
-    wheelRL = new Wheel("/dev/ttyACM3");
-    wheelRR = new Wheel("/dev/ttyACM0");
+    wheelFL = new Wheel(1);
+    wheelFR = new Wheel(2);
+    wheelRL = new Wheel(3);
+    wheelRR = new Wheel(4);
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
     //setTargetDir(Math::Deg(45.0f), 1.0f, 0.0f);
 }
 
 void Robot::step(double dt) {
-    x += dt * 1.0d;
-    y += dt * 2.0d;
     lastDt = dt;
     totalTime += dt;
+
+    Movement movement = getMovement();
+
+    orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
+
+    float globalVelocityX = movement.velocityX * Math::cos(orientation) - movement.velocityY * Math::sin(orientation);
+    float globalVelocityY = movement.velocityX * Math::sin(orientation) + movement.velocityY * Math::cos(orientation);
+
+    x += globalVelocityX * dt;
+    y += globalVelocityY * dt;
+
+    //std::cout << "Vx: " << movement.velocityX << "; Vy: " << movement.velocityY << "; omega: " << movement.omega << std::endl;
 
     updateWheelSpeeds();
 
@@ -98,11 +128,40 @@ void Robot::updateWheelSpeeds() {
     wheelFL->setTargetOmega(-resultMatrix.a21);
     wheelFR->setTargetOmega(-resultMatrix.a31);
     wheelRR->setTargetOmega(-resultMatrix.a41);
+}
 
-    /*wheelFL->setTargetOmega(0.0f);
-    wheelFR->setTargetOmega(0.0f);
-    wheelRL->setTargetOmega(0.0f);
-    wheelRR->setTargetOmega(0.0f);*/
+Robot::Movement Robot::getMovement() {
+    Math::Matrix3x1 wheelMatrixA = Math::Matrix3x1(
+        wheelRL->getRealOmega(),
+        wheelFL->getRealOmega(),
+        wheelFR->getRealOmega()
+    );
+    Math::Matrix3x1 wheelMatrixB = Math::Matrix3x1(
+        wheelRL->getRealOmega(),
+        wheelFL->getRealOmega(),
+        wheelRR->getRealOmega()
+    );
+    Math::Matrix3x1 wheelMatrixC = Math::Matrix3x1(
+        wheelRL->getRealOmega(),
+        wheelFR->getRealOmega(),
+        wheelRR->getRealOmega()
+    );
+    Math::Matrix3x1 wheelMatrixD = Math::Matrix3x1(
+        wheelFL->getRealOmega(),
+        wheelFR->getRealOmega(),
+        wheelRR->getRealOmega()
+    );
+
+    Math::Matrix3x1 movementA = omegaMatrixInvA.getMultiplied(wheelMatrixA).getMultiplied(wheelRadius);
+    Math::Matrix3x1 movementB = omegaMatrixInvB.getMultiplied(wheelMatrixB).getMultiplied(wheelRadius);
+    Math::Matrix3x1 movementC = omegaMatrixInvC.getMultiplied(wheelMatrixC).getMultiplied(wheelRadius);
+    Math::Matrix3x1 movementD = omegaMatrixInvD.getMultiplied(wheelMatrixD).getMultiplied(wheelRadius);
+
+    return Movement(
+        -(movementA.a11 + movementB.a11 + movementC.a11 + movementD.a11) / 4.0,
+        -(movementA.a21 + movementB.a21 + movementC.a21 + movementD.a21) / 4.0,
+        -(movementA.a31 + movementB.a31 + movementC.a31 + movementD.a31) / 4.0
+    );
 }
 
 std::string Robot::getStateJSON() const {
@@ -113,6 +172,7 @@ std::string Robot::getStateJSON() const {
     // general robot info
     stream << "\"x\":" << x << ",";
     stream << "\"y\":" << y << ",";
+    stream << "\"orientation\":" << orientation << ",";
     stream << "\"lastDt\":" << lastDt << ",";
     stream << "\"totalTime\":" << totalTime << ",";
 

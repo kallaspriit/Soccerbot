@@ -1,7 +1,7 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include "serial/Serial.h"
+#include "Serial.h"
 #include "Math.h"
 
 #include <string>
@@ -10,6 +10,15 @@ class Wheel;
 
 class Robot {
     public:
+        struct Movement {
+            Movement(float velocityX, float velocityY, float omega) :
+                velocityX(velocityX), velocityY(velocityY), omega(omega) {}
+
+            float velocityX;
+            float velocityY;
+            float omega;
+        };
+
         Robot();
         ~Robot();
 
@@ -18,6 +27,7 @@ class Robot {
 
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
+        Robot::Movement getMovement();
 
         std::string getStateJSON() const;
 
@@ -26,6 +36,8 @@ class Robot {
 
         float x;
         float y;
+        float orientation;
+
         float targetOmega;
         float wheelOffset;
         float wheelRadius;
@@ -38,6 +50,10 @@ class Robot {
         Wheel* wheelRR;
 
         Math::Matrix4x3 omegaMatrix;
+        Math::Matrix3x3 omegaMatrixInvA;
+        Math::Matrix3x3 omegaMatrixInvB;
+        Math::Matrix3x3 omegaMatrixInvC;
+        Math::Matrix3x3 omegaMatrixInvD;
         Math::Vector targetDir;
 
         double lastDt;

@@ -23,11 +23,17 @@ Serial::~Serial() {
 }
 
 bool Serial::open(const char* device, int speed, const char delimiter) {
+    if (isOpen()) {
+        close();
+    }
+
 	this->speed = speed;
 	this->delimiter = delimiter;
 	this->fd = ::open(device, O_RDWR | O_NOCTTY | O_NONBLOCK);
 	this->message = "";
 	this->messages = std::stack<std::string>();
+
+	//std::cout << "Open result for " << device << ": " << fd << std::endl;
 
 	if (fd == -1) {
 	    return false;
@@ -84,22 +90,25 @@ void Serial::close() {
 }
 
 void Serial::listen() {
-    std::cout << "! Serial is now listening" << std::endl;
+    //std::cout << "! Serial is now listening" << std::endl;
 
-    std::string message;
+    std::string msg;
+    bool isMore;
 
     while (true) {
-        message = readDirect();
+        msg = readDirect(isMore);
 
-        if (message.length() > 0) {
-            //std::cout << "Add '" << message.c_str() << "' - " << message.length() << std::endl;
+        if (msg.length() > 0) {
+            //std::cout << "Add '" << msg.c_str() << "' - " << msg.length() << std::endl;
 
             pthread_mutex_lock(&messagesMutex);
-            messages.push(message);
+            messages.push(msg);
             pthread_mutex_unlock(&messagesMutex);
         }
 
-        usleep(16000);
+        if (!isMore) {
+            usleep(1600);
+        }
     }
 }
 
@@ -134,7 +143,7 @@ const std::string Serial::read() {
     return message;
 }
 
-const std::string Serial::readDirect() {
+const std::string Serial::readDirect(bool& isMore) {
     char character;
     int i;
 
@@ -142,19 +151,29 @@ const std::string Serial::readDirect() {
         i = ::read(fd, &character, 1);
 
         if (i <= 0) {
+            isMore = false;
+
             return "";
 
             break;
         }
 
         if (character == delimiter) {
+            pthread_mutex_lock(&messagesMutex);
             std::string result = message;
             message = "";
+            pthread_mutex_unlock(&messagesMutex);
+
+            isMore = true;
+
+            //std::cout << "Raw: '" << result << "'" << std::endl;
 
             return result;
         } else {
             if (character != '\n' && character != '\r') {
+                pthread_mutex_lock(&messagesMutex);
                 message += character;
+                pthread_mutex_unlock(&messagesMutex);
             }
         }
     };

@@ -1,7 +1,6 @@
 #include "SoccerBot.h"
 
-#include "serial/Serial.h"
-
+#include "Serial.h"
 #include "Robot.h"
 #include "WebSocketServer.h"
 #include "JsonResponse.h"
@@ -59,9 +58,9 @@ void SoccerBot::run() {
         while (serial->available() > 0) {
             message = serial->read();
 
-            std::cout << "Arduino serial: " << message.c_str() << "!" << std::endl;
+            /*std::cout << "Arduino serial: " << message.c_str() << "!" << std::endl;
 
-            socket->broadcast(message);
+            socket->broadcast(message);*/
         }
 
         robot->step(dt);

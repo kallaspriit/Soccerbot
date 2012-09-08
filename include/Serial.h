@@ -13,6 +13,7 @@ class Serial {
         void close();
         int available();
         const std::string read();
+        bool isOpen() { return opened; }
 
         int write(std::string message);
         int writeln(std::string message) { return write(message + "\n"); }
@@ -20,7 +21,7 @@ class Serial {
     private:
         void listen();
         static void* _listen(void* context);
-        const std::string readDirect();
+        const std::string readDirect(bool& isMore);
 
         int fd;
         int speed;
