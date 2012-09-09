@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/release
 DEP_RELEASE = 
 OUT_RELEASE = ./soccerbot
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/Wheel.o $(OBJDIR_DEBUG)/src/WebSocketServer.o $(OBJDIR_DEBUG)/src/Util.o $(OBJDIR_DEBUG)/src/SoccerBot.o $(OBJDIR_DEBUG)/src/Robot.o $(OBJDIR_DEBUG)/src/JsonResponse.o $(OBJDIR_DEBUG)/src/JSON.o $(OBJDIR_DEBUG)/libraries/serial/Serial.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/Command.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/Wheel.o $(OBJDIR_DEBUG)/src/WebSocketServer.o $(OBJDIR_DEBUG)/src/Util.o $(OBJDIR_DEBUG)/src/SoccerBot.o $(OBJDIR_DEBUG)/src/Serial.o $(OBJDIR_DEBUG)/src/Robot.o $(OBJDIR_DEBUG)/src/Math.o $(OBJDIR_DEBUG)/src/JsonResponse.o $(OBJDIR_DEBUG)/src/JSON.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/Wheel.o $(OBJDIR_RELEASE)/src/WebSocketServer.o $(OBJDIR_RELEASE)/src/Util.o $(OBJDIR_RELEASE)/src/SoccerBot.o $(OBJDIR_RELEASE)/src/Robot.o $(OBJDIR_RELEASE)/src/JsonResponse.o $(OBJDIR_RELEASE)/src/JSON.o $(OBJDIR_RELEASE)/libraries/serial/Serial.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/Command.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/Wheel.o $(OBJDIR_RELEASE)/src/WebSocketServer.o $(OBJDIR_RELEASE)/src/Util.o $(OBJDIR_RELEASE)/src/SoccerBot.o $(OBJDIR_RELEASE)/src/Serial.o $(OBJDIR_RELEASE)/src/Robot.o $(OBJDIR_RELEASE)/src/Math.o $(OBJDIR_RELEASE)/src/JsonResponse.o $(OBJDIR_RELEASE)/src/JSON.o
 
 all: debug release
 
@@ -51,7 +51,6 @@ clean: clean_debug clean_release
 before_debug: 
 	test -d . || mkdir -p .
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
-	test -d $(OBJDIR_DEBUG)/libraries/serial || mkdir -p $(OBJDIR_DEBUG)/libraries/serial
 
 after_debug: 
 
@@ -59,6 +58,9 @@ debug: before_debug out_debug after_debug
 
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
+
+$(OBJDIR_DEBUG)/src/Command.o: src/Command.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Command.cpp -o $(OBJDIR_DEBUG)/src/Command.o
 
 $(OBJDIR_DEBUG)/src/main.o: src/main.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/main.cpp -o $(OBJDIR_DEBUG)/src/main.o
@@ -75,8 +77,14 @@ $(OBJDIR_DEBUG)/src/Util.o: src/Util.cpp
 $(OBJDIR_DEBUG)/src/SoccerBot.o: src/SoccerBot.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/SoccerBot.cpp -o $(OBJDIR_DEBUG)/src/SoccerBot.o
 
+$(OBJDIR_DEBUG)/src/Serial.o: src/Serial.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Serial.cpp -o $(OBJDIR_DEBUG)/src/Serial.o
+
 $(OBJDIR_DEBUG)/src/Robot.o: src/Robot.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Robot.cpp -o $(OBJDIR_DEBUG)/src/Robot.o
+
+$(OBJDIR_DEBUG)/src/Math.o: src/Math.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Math.cpp -o $(OBJDIR_DEBUG)/src/Math.o
 
 $(OBJDIR_DEBUG)/src/JsonResponse.o: src/JsonResponse.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/JsonResponse.cpp -o $(OBJDIR_DEBUG)/src/JsonResponse.o
@@ -84,19 +92,14 @@ $(OBJDIR_DEBUG)/src/JsonResponse.o: src/JsonResponse.cpp
 $(OBJDIR_DEBUG)/src/JSON.o: src/JSON.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/JSON.cpp -o $(OBJDIR_DEBUG)/src/JSON.o
 
-$(OBJDIR_DEBUG)/libraries/serial/Serial.o: libraries/serial/Serial.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c libraries/serial/Serial.cpp -o $(OBJDIR_DEBUG)/libraries/serial/Serial.o
-
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
 	rm -rf .
 	rm -rf $(OBJDIR_DEBUG)/src
-	rm -rf $(OBJDIR_DEBUG)/libraries/serial
 
 before_release: 
 	test -d . || mkdir -p .
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
-	test -d $(OBJDIR_RELEASE)/libraries/serial || mkdir -p $(OBJDIR_RELEASE)/libraries/serial
 
 after_release: 
 
@@ -104,6 +107,9 @@ release: before_release out_release after_release
 
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
+
+$(OBJDIR_RELEASE)/src/Command.o: src/Command.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Command.cpp -o $(OBJDIR_RELEASE)/src/Command.o
 
 $(OBJDIR_RELEASE)/src/main.o: src/main.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/main.cpp -o $(OBJDIR_RELEASE)/src/main.o
@@ -120,8 +126,14 @@ $(OBJDIR_RELEASE)/src/Util.o: src/Util.cpp
 $(OBJDIR_RELEASE)/src/SoccerBot.o: src/SoccerBot.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/SoccerBot.cpp -o $(OBJDIR_RELEASE)/src/SoccerBot.o
 
+$(OBJDIR_RELEASE)/src/Serial.o: src/Serial.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Serial.cpp -o $(OBJDIR_RELEASE)/src/Serial.o
+
 $(OBJDIR_RELEASE)/src/Robot.o: src/Robot.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Robot.cpp -o $(OBJDIR_RELEASE)/src/Robot.o
+
+$(OBJDIR_RELEASE)/src/Math.o: src/Math.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Math.cpp -o $(OBJDIR_RELEASE)/src/Math.o
 
 $(OBJDIR_RELEASE)/src/JsonResponse.o: src/JsonResponse.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/JsonResponse.cpp -o $(OBJDIR_RELEASE)/src/JsonResponse.o
@@ -129,14 +141,10 @@ $(OBJDIR_RELEASE)/src/JsonResponse.o: src/JsonResponse.cpp
 $(OBJDIR_RELEASE)/src/JSON.o: src/JSON.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/JSON.cpp -o $(OBJDIR_RELEASE)/src/JSON.o
 
-$(OBJDIR_RELEASE)/libraries/serial/Serial.o: libraries/serial/Serial.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c libraries/serial/Serial.cpp -o $(OBJDIR_RELEASE)/libraries/serial/Serial.o
-
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
 	rm -rf .
 	rm -rf $(OBJDIR_RELEASE)/src
-	rm -rf $(OBJDIR_RELEASE)/libraries/serial
 
 .PHONY: before_debug after_debug clean_debug before_release after_release clean_release
 
