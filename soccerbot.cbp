@@ -54,8 +54,6 @@
 		<Unit filename="include/Util.h" />
 		<Unit filename="include/WebSocketServer.h" />
 		<Unit filename="include/Wheel.h" />
-		<Unit filename="libraries/serial/Serial.cpp" />
-		<Unit filename="libraries/serial/Serial.h" />
 		<Unit filename="src/Command.cpp" />
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
