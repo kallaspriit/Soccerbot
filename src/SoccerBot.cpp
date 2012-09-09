@@ -87,8 +87,6 @@ void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {
 }
 
 void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websocketpp::server::handler::message_ptr msg) {
-    std::cout << "! Message received: " << msg->get_payload() << std::endl;
-
     std::string request = msg->get_payload();
 
     handleRequest(request);
@@ -104,8 +102,7 @@ void SoccerBot::handleRequest(std::string request) {
     if (Command::isValid(request)) {
         Command command = Command::parse(request);
 
-        std::cout << "Command: " << request << std::endl;
-        std::cout << "Parsed: " << command.name << " with " << command.params.size() << " parameters" << std::endl;
+        std::cout << "Command: " << command.name << " " << Util::toString(command.params) << std::endl;
 
         if (command.name == "target-vector" && command.params.size() == 3) {
             handleTargetVectorCommand(command);
