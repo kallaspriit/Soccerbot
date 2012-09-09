@@ -50,6 +50,7 @@
 		<Unit filename="include/JsonResponse.h" />
 		<Unit filename="include/Math.h" />
 		<Unit filename="include/Robot.h" />
+		<Unit filename="include/Serial.h" />
 		<Unit filename="include/SoccerBot.h" />
 		<Unit filename="include/Util.h" />
 		<Unit filename="include/WebSocketServer.h" />
@@ -59,6 +60,7 @@
 		<Unit filename="src/JsonResponse.cpp" />
 		<Unit filename="src/Math.cpp" />
 		<Unit filename="src/Robot.cpp" />
+		<Unit filename="src/Serial.cpp" />
 		<Unit filename="src/SoccerBot.cpp" />
 		<Unit filename="src/Util.cpp" />
 		<Unit filename="src/WebSocketServer.cpp" />
