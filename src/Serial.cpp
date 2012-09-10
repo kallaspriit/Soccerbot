@@ -107,7 +107,7 @@ void Serial::listen() {
         }
 
         if (!isMore) {
-            usleep(1600);
+            usleep(16000);
         }
     }
 }

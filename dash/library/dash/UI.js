@@ -7,13 +7,55 @@ Dash.UI = function() {
 };
 
 Dash.UI.prototype.init = function() {
+	this.initSlider();
+	this.initSocket();
+	
+	this.addState(new Dash.State(0.125, '#CC0', 0.125, 0.125, 0));
+	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 1, 0.125 + 1, Math.PI / 4));
+	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 2, 0.125 + 1, Math.PI / 2));
+	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 2, 0.125 + 2, Math.PI));
+	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 3, 0.125 + 1, Math.PI * 3.0 / 4.0));
+};
+
+Dash.UI.prototype.initSlider = function() {
 	var self = this;
 	
 	this.stateSlider = $('#state-slider');
 	this.currentStateIndexWrap = $('#current-state-index');
 	this.stateCountWrap = $('#state-count');
 	
-	this.stateSlider.slider({
+	$("#state-slider").empty().noUiSlider('init', {
+		step: 1,
+		knobs: 1,
+		connect: 'lower',
+		scale: [1, 5],
+		change: function(){
+			var values = $(this).noUiSlider( 'value' );
+			
+			console.log('values', values);
+
+			/*$(this).find('.noUi-lowerHandle .infoBox').text(values[0]);
+			$(this).find('.noUi-upperHandle .infoBox').text(values[1]);*/
+
+		},
+		end: function(type){
+			console.log('end', type);
+			
+			/*var message = "The slider was last changed by ";
+
+			if ( type=="click" ){ message=message+"clicking the bar."; }
+			else if ( type=="slide" ){ message=message+"sliding a knob."; }
+			else if ( type=="move" ){ message=message+"calling the move function."; }
+
+			$("#slideType").fadeOut(function(){
+
+				$(this).text(message).fadeIn();
+
+			});*/
+		}
+	});
+	
+	/*this.stateSlider.slider({
 		min: 1,
 		max: 0,
 		step: 1,
@@ -34,13 +76,17 @@ Dash.UI.prototype.init = function() {
 		}
 		
 		self.showState(newIndex);
+	});*/
+};
+
+Dash.UI.prototype.initSocket = function() {
+	dash.socket.bind(Dash.Socket.Event.OPEN, function(e) {
+		dash.dbg.log(
+			'Socket server opened on ' + e.socket.host + ':' + e.socket.port
+		);
 	});
 	
-	this.addState(new Dash.State(0.125, '#CC0', 0.125, 0.125, 0));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 1, 0.125 + 1, Math.PI / 4));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 2, 0.125 + 1, Math.PI / 2));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 2, 0.125 + 2, Math.PI));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 3, 0.125 + 1, Math.PI * 3.0 / 4.0));
+	dash.socket.open('rx', 8080);
 };
 
 Dash.UI.prototype.addState = function(state) {

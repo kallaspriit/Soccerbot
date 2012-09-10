@@ -4,21 +4,22 @@
 		<meta charset="utf-8"/>
 		<title>SoccerBot :: Dashboard</title>
 		<script src="library/jquery/jquery-1.8.0.min.js"></script>
-		<script src="library/jquery/jquery-ui-1.8.23.custom.min.js"></script>
+		<script src="library/slider/jquery.nouislider.js"></script>
 		<script src="library/dash/Bindable.js"></script>
+		<script src="library/dash/Debug.js"></script>
 		<script src="library/dash/Bootstrapper.js"></script>
 		<script src="library/dash/Socket.js"></script>
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
 		<script src="library/dash/State.js"></script>
-		<link rel="stylesheet" href="style/jquery-ui/jquery-ui-1.8.23.custom.css" type="text/css"/>
+		<link rel="stylesheet" href="library/slider/nouislider.css" type="text/css"/>
 		<link rel="stylesheet" href="style/screen.css" type="text/css"/>
 	</head>
 	<body>
 		<div id="contents">
 			<canvas id="canvas" width="800" height="537"></canvas>
 			<div id="controls">
-				<div id="state-slider"></div>
+				<div id="state-slider" class="noUiSlider"></div>
 				<div id="range-indicator"><input type="number" name="current-state-index" id="current-state-index" value="1"/> / <span id="state-count">600</span></div>
 			</div>
 		</div>

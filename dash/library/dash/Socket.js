@@ -29,20 +29,23 @@ Dash.Socket.prototype.open = function(host, port) {
 	
 	this.ws.onopen = function() {
 		self.fire({
-			type: Dash.Socket.Event.OPEN
+			type: Dash.Socket.Event.OPEN,
+			socket: this
 		});
 	};
 	
 	this.ws.onclose = function() {
 		self.fire({
-			type: Dash.Socket.Event.CLOSE
+			type: Dash.Socket.Event.CLOSE,
+			socket: this
 		});
 	};
 	
 	this.ws.onerror = function(error) {
 		self.fire({
 			type: Dash.Socket.Event.ERROR,
-			error: error
+			error: error,
+			socket: this
 		});
 	};
 	

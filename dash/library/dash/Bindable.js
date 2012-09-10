@@ -1,3 +1,6 @@
+// Define the namespace
+window.Dash = {};
+
 /**
  * Event target base class used for custom events system.
  */

@@ -58,3 +58,22 @@ BODY {
 .ui-slider {
 	background: rgba(255, 255, 255, 0.5);
 }
+
+/* Debugging */
+#debug-wrap {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#debug-wrap > LI {
+    float: left;
+    clear: both;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 0 0 10px;
+    color: #FFF;
+}

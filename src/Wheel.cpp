@@ -12,7 +12,7 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
 
     bool found = false;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 7; i++) {
         std::string port = "/dev/ttyACM" + Util::toString(i);
 
         if (serial->isOpen()) {
