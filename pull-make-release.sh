@@ -1,7 +1,10 @@
 #!/bin/bash
 
+killall soccerbotd
+killall soccerbot
 cd /home/rx/projects/soccerbot
 # git reset --hard HEAD
 git pull
 make release
-./soccerbot
+./soccerbot &
+exit 0
