@@ -55,10 +55,6 @@ BODY {
 	outline: none;
 }
 
-.ui-slider {
-	background: rgba(255, 255, 255, 0.5);
-}
-
 /* Debugging */
 #debug-wrap {
     position: absolute;

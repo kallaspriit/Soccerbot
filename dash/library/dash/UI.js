@@ -25,14 +25,16 @@ Dash.UI.prototype.initSlider = function() {
 	this.stateCountWrap = $('#state-count');
 	
 	$("#state-slider").empty().noUiSlider('init', {
-		step: 1,
+		//step: 1,
 		knobs: 1,
 		connect: 'lower',
-		scale: [1, 5],
+		scale: [1, 1],
 		change: function(){
-			var values = $(this).noUiSlider( 'value' );
+			var value = $(this).noUiSlider('value')[1];
 			
-			console.log('values', values);
+			self.showState(value);
+			
+			console.log('value', value);
 
 			/*$(this).find('.noUi-lowerHandle .infoBox').text(values[0]);
 			$(this).find('.noUi-upperHandle .infoBox').text(values[1]);*/
@@ -64,7 +66,7 @@ Dash.UI.prototype.initSlider = function() {
 	
 	this.stateSlider.bind('slide', function(e, ui) {
 		self.showState(ui.value);
-	});
+	});*/
 	
 	this.currentStateIndexWrap.bind('change keyup click', function(e) {
 		var newIndex = parseInt(self.currentStateIndexWrap.val());
@@ -76,7 +78,7 @@ Dash.UI.prototype.initSlider = function() {
 		}
 		
 		self.showState(newIndex);
-	});*/
+	});
 };
 
 Dash.UI.prototype.initSocket = function() {
@@ -93,7 +95,10 @@ Dash.UI.prototype.addState = function(state) {
 	this.states.push(state);
 	
 	this.stateCountWrap.html(this.states.length);
-	this.stateSlider.slider('option', 'max', this.states.length);
+	this.stateSlider.noUiSlider('move', {
+		knob: 0,
+		scale: [1, this.states.length]
+	});
 
 	if (this.states.length == 1 || this.currentStateIndex == this.states.length - 1) {
 		this.showState(this.states.length);
@@ -102,7 +107,11 @@ Dash.UI.prototype.addState = function(state) {
 
 Dash.UI.prototype.showState = function(index) {
 	this.currentStateIndexWrap.val(index);
-	this.stateSlider.slider('option', 'value', index);
+	this.stateSlider.noUiSlider('move', {
+		knob: 0,
+		to: index
+	});
+	//this.stateSlider.noUiSlider('init', 'scale', [1, this.states.length]);
 	
 	this.currentStateIndex = index;
 	
