@@ -63,7 +63,7 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
         std::cout << "+ Wheel #" << id << " found on port '" << serialPortName << "'" << std::endl;
 
         // request sending speed automatically
-        serial->write("gs1");
+        serial->writeln("gs1");
 
         ready = true;
     } else {
@@ -92,8 +92,8 @@ float Wheel::getRealOmega() const {
 
 void Wheel::step(double dt) {
     // write speed and request speed
-    //serial->write("sd" + Util::toString(omegaToSpeed(targetOmega)) + "\ns\n");
-    serial->writeln("sd" + Util::toString(omegaToSpeed(targetOmega)));
+    serial->write("sd" + Util::toString(omegaToSpeed(targetOmega)) + "\ngs1\n");
+    //serial->writeln("sd" + Util::toString(omegaToSpeed(targetOmega)));
 
     std::string message;
 
@@ -108,9 +108,7 @@ void Wheel::step(double dt) {
             if (cmd.name == "s" && cmd.params.size() == 1) {
                 realOmega = speedToOmega(Util::toInt(cmd.params[0]));
 
-                /*if (id == 1) {
-                    std::cout << "Read speed #" << i++ << ": " << realOmega << std::endl;
-                }*/
+                //std::cout << "Read speed #" << id << ": " << realOmega << std::endl;
             }
         }
     }

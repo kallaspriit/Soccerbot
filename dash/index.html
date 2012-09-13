@@ -4,7 +4,7 @@
 		<meta charset="utf-8"/>
 		<title>SoccerBot :: Dashboard</title>
 		<script src="library/jquery/jquery-1.8.0.min.js"></script>
-		<script src="library/slider/jquery.nouislider.js"></script>
+		<script src="library/slider/slider.js"></script>
 		<script src="library/dash/Bindable.js"></script>
 		<script src="library/dash/Debug.js"></script>
 		<script src="library/dash/Bootstrapper.js"></script>
@@ -12,16 +12,18 @@
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
 		<script src="library/dash/State.js"></script>
-		<link rel="stylesheet" href="library/slider/nouislider.css" type="text/css"/>
+		<script src="library/dash/Robot.js"></script>
+		<script src="library/dash/KeyboardController.js"></script>
 		<link rel="stylesheet" href="style/screen.css" type="text/css"/>
 	</head>
 	<body>
 		<div id="contents">
 			<canvas id="canvas" width="800" height="537"></canvas>
 			<div id="controls">
-				<div id="state-slider" class="noUiSlider"></div>
-				<div id="range-indicator"><input type="number" name="current-state-index" id="current-state-index" value="1"/> / <span id="state-count">600</span></div>
+				<input type="range" id="state-slider" name="state-slider" min="1" max="1" value="1" step="1" />
+				<div id="range-indicator"><input type="number" name="current-state-index" id="current-state-index" value="1"/> / <span id="state-count">1</span></div>
 			</div>
 		</div>
+		<div id="log"></div>
 	</body>
 </html>

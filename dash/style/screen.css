@@ -73,3 +73,54 @@ BODY {
     margin: 0 0 10px;
     color: #FFF;
 }
+
+/* Slider */
+.slider {
+    background:#CCC;
+    height:4px;
+    position:relative;
+    cursor:pointer;
+    border:1px solid #333;
+    width:800px;
+    border-radius:3px;
+}
+.handle {
+    background:#666;
+    height:20px;
+    width:20px;
+    top:-8px;
+    position:absolute;
+    display:block;
+	border-radius: 10px;
+}
+.range {
+
+}
+
+/* Debugging */
+#log {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 300px;
+	background-color: rgba(255, 255, 255, 0.75);
+	font-size: 12px;
+	overflow: hidden;
+}
+#log > div {
+	padding: 0px 12px;
+	line-height: 14px;
+}
+#log > div:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+#log > .negative {
+	color: #900;
+}
+#log > .positive {
+	color: #090;
+}
+#log > .info {
+	color: #000;
+}

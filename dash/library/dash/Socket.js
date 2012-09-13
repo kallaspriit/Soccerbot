@@ -9,7 +9,8 @@ Dash.Socket.prototype = new Dash.Bindable();
 Dash.Socket.Event = {
 	OPEN: 'open',
 	CLOSE: 'close',
-	MESSAGE: 'message',
+	MESSAGE_RECEIVED: 'message-received',
+	MESSAGE_SENT: 'message-sent',
 	ERROR: 'error'
 };
 
@@ -30,14 +31,14 @@ Dash.Socket.prototype.open = function(host, port) {
 	this.ws.onopen = function() {
 		self.fire({
 			type: Dash.Socket.Event.OPEN,
-			socket: this
+			socket: self
 		});
 	};
 	
 	this.ws.onclose = function() {
 		self.fire({
 			type: Dash.Socket.Event.CLOSE,
-			socket: this
+			socket: self
 		});
 	};
 	
@@ -45,13 +46,13 @@ Dash.Socket.prototype.open = function(host, port) {
 		self.fire({
 			type: Dash.Socket.Event.ERROR,
 			error: error,
-			socket: this
+			socket: self
 		});
 	};
 	
 	this.ws.onmessage = function(message) {
 		self.fire({
-			type: Dash.Socket.Event.ERROR,
+			type: Dash.Socket.Event.MESSAGE_RECEIVED,
 			message: message
 		});
 	};
@@ -70,6 +71,17 @@ Dash.Socket.prototype.getBufferedAmount = function() {
 		return 0;
 	} else {
 		return this.ws.bufferedAmount;
+	}
+};
+
+Dash.Socket.prototype.send = function(message) {
+	if (this.ws != null) {
+		this.ws.send(message);
+
+		this.fire({
+			type: Dash.Socket.Event.MESSAGE_SENT,
+			message: message
+		});
 	}
 };
 

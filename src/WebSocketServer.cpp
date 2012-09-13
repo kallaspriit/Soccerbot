@@ -7,9 +7,17 @@ WebSocketServer::WebSocketServer(int port) : port(port), handler(this), server(h
 }
 
 void WebSocketServer::listen() {
-    std::cout << "! Socket server is now listening" << std::endl;
+    std::cout << "! Starting socket server on port " << port << ".. ";
 
-    server.listen(port);
+    try {
+        server.listen(port);
+
+        std::cout << "done!" << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "FAILED! " << e.what() << std::endl;
+
+        exit(1);
+    }
 }
 
 void* WebSocketServer::_listen(void* context)  {
