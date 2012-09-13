@@ -1,0 +1,48 @@
+-- Starting Up --
+! Port '/dev/ttyACM0' already in use, skip it
+! Port '/dev/ttyACM1' already in use, skip it
+! Port '/dev/ttyACM2' already in use, skip it
+! Port '/dev/ttyACM3' already in use, skip it
+! Port '/dev/ttyACM4' already in use, skip it
+! Port '/dev/ttyACM5' already in use, skip it
+! Port '/dev/ttyACM6' already in use, skip it
+- Failed to find wheel #1 on any of the serial ports
+! Port '/dev/ttyACM0' already in use, skip it
+! Port '/dev/ttyACM1' already in use, skip it
+! Port '/dev/ttyACM2' already in use, skip it
+! Port '/dev/ttyACM3' already in use, skip it
+! Port '/dev/ttyACM4' already in use, skip it
+! Port '/dev/ttyACM5' already in use, skip it
+! Port '/dev/ttyACM6' already in use, skip it
+- Failed to find wheel #2 on any of the serial ports
+! Port '/dev/ttyACM0' already in use, skip it
+! Port '/dev/ttyACM1' already in use, skip it
+! Port '/dev/ttyACM2' already in use, skip it
+! Port '/dev/ttyACM3' already in use, skip it
+! Port '/dev/ttyACM4' already in use, skip it
+! Port '/dev/ttyACM5' already in use, skip it
+! Port '/dev/ttyACM6' already in use, skip it
+- Failed to find wheel #3 on any of the serial ports
+! Port '/dev/ttyACM0' already in use, skip it
+! Port '/dev/ttyACM1' already in use, skip it
+! Port '/dev/ttyACM2' already in use, skip it
+! Port '/dev/ttyACM3' already in use, skip it
+! Port '/dev/ttyACM4' already in use, skip it
+! Port '/dev/ttyACM5' already in use, skip it
+! Port '/dev/ttyACM6' already in use, skip it
+- Failed to find wheel #4 on any of the serial ports
+! SoccerBot ready
+! Socket server is now listening
+! Socket connection opened
+Not a command: Hello from browser!
+Command: target-dir [0, 1, 0]
+Set robot dir by orientation: 0, speed: 1 and omega 0
+Command: target-dir [0, 1, 0]
+Set robot dir by orientation: 0, speed: 1 and omega 0
+Command: target-dir [0, 1, 0]
+Set robot dir by orientation: 0, speed: 1 and omega 0
+! Socket connection closed
+! Socket connection opened
+Not a command: Hello from browser!
+Command: target-dir [0, 1, 0]
+Set robot dir by orientation: 0, speed: 1 and omega 0

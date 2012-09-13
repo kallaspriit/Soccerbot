@@ -1,0 +1,305 @@
+# depslib dependency file v1.0
+1347112090 source:/home/rx/projects/soccerbot/libraries/serial/Serial.cpp
+	<stdio.h>
+	<stdlib.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<unistd.h>
+	<termios.h>
+	<string.h>
+	<iostream>
+	"Serial.h"
+
+1347111965 /home/rx/projects/soccerbot/libraries/serial/Serial.h
+	<string>
+	<stack>
+	<pthread.h>
+
+1346158255 source:/home/rx/projects/soccerbot/src/JSON.cpp
+	"JSON.h"
+	<sstream>
+
+1346157981 /home/rx/projects/soccerbot/include/JSON.h
+	<string>
+	<map>
+
+1346857409 source:/home/rx/projects/soccerbot/src/JsonResponse.cpp
+	"JsonResponse.h"
+	<sstream>
+
+1346857388 /home/rx/projects/soccerbot/include/JsonResponse.h
+	<string>
+
+1347395672 source:/home/rx/projects/soccerbot/src/Robot.cpp
+	"Robot.h"
+	"JSON.h"
+	"Wheel.h"
+	"Util.h"
+	<iostream>
+	<map>
+	<sstream>
+
+1347118590 /home/rx/projects/soccerbot/include/Robot.h
+	"Serial.h"
+	"Math.h"
+	<string>
+
+1347108293 /home/rx/projects/soccerbot/include/Wheel.h
+	<string>
+
+1347179528 /home/rx/projects/soccerbot/include/Util.h
+	<string>
+	<sstream>
+	<cstdlib>
+	<vector>
+	<iterator>
+
+1347179145 source:/home/rx/projects/soccerbot/src/SoccerBot.cpp
+	"SoccerBot.h"
+	"Serial.h"
+	"Robot.h"
+	"WebSocketServer.h"
+	"JsonResponse.h"
+	"Command.h"
+	"Util.h"
+
+1347037814 /home/rx/projects/soccerbot/include/SoccerBot.h
+	"WebSocketServer.h"
+
+1346007148 /home/rx/projects/soccerbot/include/WebSocketServer.h
+	"websocketpp.hpp"
+	<pthread.h>
+	<set>
+
+1345738826 /usr/local/include/websocketpp/websocketpp.hpp
+	"common.hpp"
+	"endpoint.hpp"
+
+1345738826 /usr/local/include/websocketpp/common.hpp
+	<boost/cstdint.hpp>
+	<exception>
+	<string>
+	<vector>
+	<boost/shared_ptr.hpp>
+
+1345738826 /usr/local/include/websocketpp/endpoint.hpp
+	"connection.hpp"
+	"sockets/plain.hpp"
+	"logger/logger.hpp"
+	<boost/asio.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/thread/recursive_mutex.hpp>
+	<boost/utility.hpp>
+	<iostream>
+	<set>
+
+1345738826 /usr/local/include/websocketpp/connection.hpp
+	"common.hpp"
+	"http/parser.hpp"
+	"logger/logger.hpp"
+	"roles/server.hpp"
+	"processors/hybi.hpp"
+	"messages/data.hpp"
+	"messages/control.hpp"
+	<boost/asio.hpp>
+	<boost/bind.hpp>
+	<boost/enable_shared_from_this.hpp>
+	<iostream>
+	<vector>
+	<string>
+	<queue>
+	<set>
+
+1345738826 /usr/local/include/websocketpp/http/parser.hpp
+	<iostream>
+	<map>
+	<string>
+	<sstream>
+	"constants.hpp"
+
+1345738826 /usr/local/include/websocketpp/http/constants.hpp
+
+1345738826 /usr/local/include/websocketpp/logger/logger.hpp
+	<iostream>
+	<sstream>
+	<boost/date_time/posix_time/posix_time.hpp>
+
+1345738826 /usr/local/include/websocketpp/roles/server.hpp
+	"../processors/hybi.hpp"
+	"../processors/hybi_legacy.hpp"
+	"../rng/blank_rng.hpp"
+	"../shared_const_buffer.hpp"
+	<boost/algorithm/string.hpp>
+	<boost/asio.hpp>
+	<boost/bind.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/scoped_ptr.hpp>
+	<boost/thread.hpp>
+	<boost/thread/recursive_mutex.hpp>
+	<iostream>
+	<stdexcept>
+
+1345738826 /usr/local/include/websocketpp/processors/hybi.hpp
+	"processor.hpp"
+	"hybi_header.hpp"
+	"../base64/base64.h"
+	"../sha1/sha1.h"
+	<boost/algorithm/string.hpp>
+
+1345738826 /usr/local/include/websocketpp/processors/processor.hpp
+	<exception>
+	<string>
+	"../http/parser.hpp"
+	"../uri.hpp"
+	"../websocket_frame.hpp"
+	"../messages/data.hpp"
+	"../messages/control.hpp"
+	<boost/shared_ptr.hpp>
+	<iostream>
+
+1345738826 /usr/local/include/websocketpp/uri.hpp
+	"common.hpp"
+	<exception>
+
+1345738826 /usr/local/include/websocketpp/websocket_frame.hpp
+	"common.hpp"
+	"network_utilities.hpp"
+	"processors/processor.hpp"
+	"utf8_validator/utf8_validator.hpp"
+	<boost/utility.hpp>
+	<winsock2.h>
+	<arpa/inet.h>
+	<vector>
+	<cstring>
+	<iostream>
+	<algorithm>
+
+1345738826 /usr/local/include/websocketpp/network_utilities.hpp
+	<stdint.h>
+	<string>
+
+1345738826 /usr/local/include/websocketpp/utf8_validator/utf8_validator.hpp
+	<stdint.h>
+
+1345738826 /usr/local/include/websocketpp/messages/data.hpp
+	"../common.hpp"
+	"../utf8_validator/utf8_validator.hpp"
+	"../processors/hybi_util.hpp"
+	<boost/detail/atomic_count.hpp>
+	<boost/enable_shared_from_this.hpp>
+	<boost/function.hpp>
+	<boost/intrusive_ptr.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/utility.hpp>
+	<algorithm>
+	<iostream>
+	<queue>
+	<vector>
+
+1345738826 /usr/local/include/websocketpp/processors/hybi_util.hpp
+	"../common.hpp"
+
+1345738826 /usr/local/include/websocketpp/messages/control.hpp
+	<iostream>
+	<boost/shared_ptr.hpp>
+	"../processors/processor.hpp"
+	"../websocket_frame.hpp"
+	"../utf8_validator/utf8_validator.hpp"
+	"../processors/hybi_util.hpp"
+
+1345738826 /usr/local/include/websocketpp/processors/hybi_header.hpp
+	"processor.hpp"
+
+1345738826 /usr/local/include/websocketpp/base64/base64.h
+	<string>
+
+1345738826 /usr/local/include/websocketpp/sha1/sha1.h
+
+1345738826 /usr/local/include/websocketpp/processors/hybi_legacy.hpp
+	"processor.hpp"
+	"../md5/md5.hpp"
+	"../network_utilities.hpp"
+	<cassert>
+
+1345738826 /usr/local/include/websocketpp/md5/md5.hpp
+	"md5.h"
+	<string>
+
+1345738826 /usr/local/include/websocketpp/md5/md5.h
+	<stddef.h>
+
+1345738826 /usr/local/include/websocketpp/rng/blank_rng.hpp
+	<stdint.h>
+
+1345738826 /usr/local/include/websocketpp/shared_const_buffer.hpp
+	<boost/asio.hpp>
+	<boost/shared_ptr.hpp>
+	<string>
+	<vector>
+
+1345738826 /usr/local/include/websocketpp/sockets/plain.hpp
+	"socket_base.hpp"
+	<boost/asio.hpp>
+	<boost/function.hpp>
+	<iostream>
+
+1345738826 /usr/local/include/websocketpp/sockets/socket_base.hpp
+	<boost/system/error_code.hpp>
+	<boost/function.hpp>
+
+1347034913 source:/home/rx/projects/soccerbot/src/Util.cpp
+	"Util.h"
+	<math.h>
+	<iostream>
+	<sys/time.h>
+	<stdlib.h>
+
+1347536101 source:/home/rx/projects/soccerbot/src/WebSocketServer.cpp
+	"WebSocketServer.h"
+	<cstring>
+
+1347536305 source:/home/rx/projects/soccerbot/src/Wheel.cpp
+	"Wheel.h"
+	"Serial.h"
+	"Math.h"
+	"Command.h"
+	"Util.h"
+	<iostream>
+
+1346004008 source:/home/rx/projects/soccerbot/src/main.cpp
+	"SoccerBot.h"
+	<iostream>
+
+1347117588 source:/home/rx/projects/soccerbot/src/Math.cpp
+	"Math.h"
+
+1347118907 /home/rx/projects/soccerbot/include/Math.h
+	<math.h>
+
+1347105769 source:/home/rx/projects/soccerbot/src/Command.cpp
+	"Command.h"
+	"Util.h"
+	<iostream>
+
+1347035030 /home/rx/projects/soccerbot/include/Command.h
+	<string>
+	<vector>
+
+1347111965 /home/rx/projects/soccerbot/include/Serial.h
+	<string>
+	<stack>
+	<pthread.h>
+
+1347195831 source:/home/rx/projects/soccerbot/src/Serial.cpp
+	<stdio.h>
+	<stdlib.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<unistd.h>
+	<termios.h>
+	<string.h>
+	<iostream>
+	"Serial.h"
+

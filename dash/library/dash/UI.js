@@ -147,7 +147,7 @@ Dash.UI.prototype.initSocket = function() {
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.ERROR, function(e) {
-		dash.dbg.log('- Socket server error occured: ' + e.message);
+		dash.dbg.log('- Socket error occured: ' + e.message);
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.MESSAGE_SENT, function(e) {
@@ -172,11 +172,11 @@ Dash.UI.prototype.initKeyboardController = function() {
 Dash.UI.prototype.initKeyListeners = function() {
 	var self = this;
 	
-	$(window).keydown(function(e) {
+	$(document.body).keydown(function(e) {
 		if (typeof(self.keystates[e.keyCode]) == 'undefined' || self.keystates[e.keyCode] == false) {
 			self.keystates[e.keyCode] = true;
 			
-			self.onKeyDown(e.keyCode);
+			self.onKeyDown(e);
 		}
 		
 		self.fire({
@@ -186,11 +186,11 @@ Dash.UI.prototype.initKeyListeners = function() {
 		});
 	});
 	
-	$(window).keyup(function(e) {
+	$(document.body).keyup(function(e) {
 		if (typeof(self.keystates[e.keyCode]) == 'undefined' || self.keystates[e.keyCode] == true) {
 			self.keystates[e.keyCode] = false;
 			
-			self.onKeyUp(e.keyCode);
+			self.onKeyUp(e);
 		}
 		
 		self.fire({
@@ -212,7 +212,7 @@ Dash.UI.prototype.initKeyListeners = function() {
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {
-	dash.dbg.log('! Key down: ' + e.keyCode);
+	//dash.dbg.log('! Key down: ' + e.keyCode);
 	
 	if (this.keyboardControllerEnabled) {
 		this.keyboardController.onKeyDown(e.keyCode);
@@ -220,7 +220,7 @@ Dash.UI.prototype.onKeyDown = function(e) {
 };
 
 Dash.UI.prototype.onKeyUp = function(e) {
-	dash.dbg.log('! Key up: ' + e.keyCode);
+	//dash.dbg.log('! Key up: ' + e.keyCode);
 	
 	if (this.keyboardControllerEnabled) {
 		this.keyboardController.onKeyUp(e.keyCode);

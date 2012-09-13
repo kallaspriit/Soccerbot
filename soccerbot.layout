@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="debug" />
+	<File name="include/Command.h" open="1" top="0" tabpos="3">
+		<Cursor position="305" topLine="0" />
+	</File>
+	<File name="include/Math.h" open="0" top="0" tabpos="0">
+		<Cursor position="2895" topLine="108" />
+	</File>
+	<File name="include/Robot.h" open="1" top="0" tabpos="8">
+		<Cursor position="382" topLine="5" />
+	</File>
+	<File name="include/SoccerBot.h" open="1" top="0" tabpos="6">
+		<Cursor position="187" topLine="2" />
+	</File>
+	<File name="include/Util.h" open="1" top="0" tabpos="5">
+		<Cursor position="1014" topLine="3" />
+	</File>
+	<File name="include/Wheel.h" open="1" top="0" tabpos="9">
+		<Cursor position="584" topLine="5" />
+	</File>
+	<File name="src/Command.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="367" topLine="0" />
+	</File>
+	<File name="src/Math.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3336" topLine="96" />
+	</File>
+	<File name="src/Robot.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="2733" topLine="79" />
+	</File>
+	<File name="src/Serial.cpp" open="1" top="0" tabpos="11">
+		<Cursor position="2103" topLine="87" />
+	</File>
+	<File name="src/SoccerBot.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="1281" topLine="31" />
+	</File>
+	<File name="src/Util.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="3129" topLine="98" />
+	</File>
+	<File name="src/Wheel.cpp" open="1" top="1" tabpos="10">
+		<Cursor position="2221" topLine="85" />
+	</File>
+</CodeBlocks_layout_file>

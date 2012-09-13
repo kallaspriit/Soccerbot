@@ -15,7 +15,7 @@ Dash.Socket.Event = {
 };
 
 Dash.Socket.State = {
-	READY: 0,
+	CONNECTING: 0,
 	OPEN: 1,
 	CLOSING: 2,
 	CLOSED: 3
@@ -42,10 +42,10 @@ Dash.Socket.prototype.open = function(host, port) {
 		});
 	};
 	
-	this.ws.onerror = function(error) {
+	this.ws.onerror = function(message) {
 		self.fire({
 			type: Dash.Socket.Event.ERROR,
-			error: error,
+			message: message,
 			socket: self
 		});
 	};
@@ -76,6 +76,19 @@ Dash.Socket.prototype.getBufferedAmount = function() {
 
 Dash.Socket.prototype.send = function(message) {
 	if (this.ws != null) {
+		var state = this.getState();
+		
+		if (state != Dash.Socket.State.OPEN) {
+			this.fire({
+				type: Dash.Socket.Event.ERROR,
+				message: 'Unable to send message "' + message +
+					'", socket is in invalid state #' + state,
+				socket: this
+			});
+			
+			return;
+		}
+		
 		this.ws.send(message);
 
 		this.fire({
