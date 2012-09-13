@@ -49,11 +49,11 @@ Dash.Renderer.prototype.drawRobot = function(radius, color, x, y, orientation) {
 };
 
 Dash.Renderer.prototype.renderState = function(state) {
-	this.c.clearRect(0, 0, this.width, this.height);
+	this.c.clearRect(-1, -1, this.width + 1, this.height + 1);
 	
 	this.drawRobot(
-		state.radius,
-		state.color,
+		dash.config.robot.radius,
+		dash.config.robot.color,
 		state.x,
 		state.y,
 		state.orientation

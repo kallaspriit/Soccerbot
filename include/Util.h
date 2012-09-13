@@ -21,6 +21,11 @@ class Util
         static size_t strpos(const std::string &haystack, const std::string &needle);
 
         template <class T>
+        static float abs(T num) {
+            return ::abs(num);
+        }
+
+        template <class T>
         static inline std::string toString(const T& t) {
             std::stringstream ss;
             ss << t;

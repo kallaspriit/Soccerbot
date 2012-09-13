@@ -106,7 +106,13 @@ void Wheel::step(double dt) {
             Command cmd = Command::parse(message);
 
             if (cmd.name == "s" && cmd.params.size() == 1) {
-                realOmega = speedToOmega(Util::toInt(cmd.params[0]));
+                float omega = speedToOmega(Util::toInt(cmd.params[0]));
+
+                if (Util::abs(omega) < 60.0f) {
+                    realOmega = omega;
+                } else {
+                    std::cout << "Invalid omega for #" << id << ": " << omega << " - '" << cmd.params[0] << "'" << std::endl;
+                }
 
                 //std::cout << "Read speed #" << id << ": " << realOmega << std::endl;
             }

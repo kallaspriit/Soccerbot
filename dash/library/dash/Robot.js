@@ -7,7 +7,7 @@ Dash.Robot.prototype.kick = function() {
 };
 
 Dash.Robot.prototype.setTargetDir = function(x, y, omega) {
-	dash.dbg.log('! Robot target', x, y, omega);
+	//dash.dbg.log('! Robot target', x, y, omega);
 	
 	this.socket.send('<target-vector:' + x + ',' + y + ',' + omega + '>');
 };

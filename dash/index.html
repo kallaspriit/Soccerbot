@@ -4,14 +4,16 @@
 		<meta charset="utf-8"/>
 		<title>SoccerBot :: Dashboard</title>
 		<script src="library/jquery/jquery-1.8.0.min.js"></script>
+		<script src="library/jquery/jquery.ba-outside-events.min.js"></script>
 		<script src="library/slider/slider.js"></script>
+		<script src="library/dash/Config.js"></script>
 		<script src="library/dash/Bindable.js"></script>
+		<script src="library/dash/Util.js"></script>
 		<script src="library/dash/Debug.js"></script>
 		<script src="library/dash/Bootstrapper.js"></script>
 		<script src="library/dash/Socket.js"></script>
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
-		<script src="library/dash/State.js"></script>
 		<script src="library/dash/Robot.js"></script>
 		<script src="library/dash/KeyboardController.js"></script>
 		<link rel="stylesheet" href="style/screen.css" type="text/css"/>
@@ -22,8 +24,15 @@
 			<div id="controls">
 				<input type="range" id="state-slider" name="state-slider" min="1" max="1" value="1" step="1" />
 				<div id="range-indicator"><input type="number" name="current-state-index" id="current-state-index" value="1"/> / <span id="state-count">1</span></div>
+				<a href="#" id="state-info-btn">View state info</a>
 			</div>
+			<div id="connecting">Trying to connect..</div>
+			<div id="state-info"></div>
 		</div>
 		<div id="log"></div>
+		<div id="rx-tx">
+			<div id="rx"></div>
+			<div id="tx"></div>
+		</div>
 	</body>
 </html>

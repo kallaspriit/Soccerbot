@@ -81,8 +81,7 @@ Dash.Socket.prototype.send = function(message) {
 		if (state != Dash.Socket.State.OPEN) {
 			this.fire({
 				type: Dash.Socket.Event.ERROR,
-				message: 'Unable to send message "' + message +
-					'", socket is in invalid state #' + state,
+				message: 'Unable to send message "' + message.replace('<', '&lt;').replace('>', '&gt;') + '", socket is in invalid state #' + state,
 				socket: this
 			});
 			
