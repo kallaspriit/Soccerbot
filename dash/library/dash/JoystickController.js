@@ -1,39 +1,26 @@
-Sim.JoystickController = function(robot) {
+Dash.JoystickController = function(robot) {
 	this.robot = robot;
-	this.joystick = null;
 	this.gamepad = null;
 	this.useGamepad = false;
+	this.enabled = true;
+	this.fastMode = false;
 	
 	this.init();
 };
 
-Sim.JoystickController.prototype.init = function() {
+Dash.JoystickController.prototype.init = function() {
 	var self = this;
-	
-	this.joystick = new Sim.UI.Joystick(
-		'movement-joystick',
-		this.robot.side
-	);
-	
-	this.joystick.onMove(function(xPos, yPos) {
-		self.robot.setTargetDir(-yPos, xPos);
-	}).onBlur(function() {
-		self.robot.setTargetDir(0, 0);
-	}).onMouseWheel(function(event, delta, deltaX, deltaY) {
-		self.robot.turnBy(Math.PI / 4 * delta, 0.25);
-	}).init();
-	
 	
 	this.gamepad = new Gamepad();
 	
 	this.gamepad.bind(Gamepad.Event.CONNECTED, function(device) {
-		sim.dbg.console('Controller connected', device);
+		dash.dbg.log('! Controller connected', device);
 
 		$('#gamepad').html(device.id);
 	});
 
 	this.gamepad.bind(Gamepad.Event.DISCONNECTED, function(device) {
-		sim.dbg.console('Controller disconnected', device);
+		dash.dbg.log('! Controller disconnected', device);
 		
 		$('#gamepad').html('Gamepad disconnected');
 		
@@ -41,31 +28,13 @@ Sim.JoystickController.prototype.init = function() {
 	});
 
 	this.gamepad.bind(Gamepad.Event.UNSUPPORTED, function(device) {
-		sim.dbg.console('Unsupported controller connected', device);
+		$('#gamepad').html('Unsupported controller connected');
+		
+		dash.dbg.log('- Unsupported controller connected', device);
 	});
 
 	this.gamepad.bind(Gamepad.Event.TICK, function(gamepads) {
-		if (gamepads[0].state.RIGHT_STICK_X != 0) {
-			self.useGamepad = true;
-		}
-		
-		if (!self.useGamepad) {
-			return;
-		}
-		
-		self.robot.setTargetDir(
-			gamepads[0].state.RIGHT_STICK_Y * -2,
-			gamepads[0].state.RIGHT_STICK_X * 2,
-			gamepads[0].state.LEFT_STICK_X * 5
-		);
-			
-		if (gamepads[0].state.LB || gamepads[0].state.RB) {
-			self.robot.kick();
-		}
-			
-		if (gamepads[0].state.Y) {
-			sim.ui.restart();
-		}
+		self.onTick(gamepads);
 	});
 
 	$('#gamepad').html('Your browser supports gamepads, try connecting one');
@@ -75,6 +44,39 @@ Sim.JoystickController.prototype.init = function() {
 	}
 };
 
-Sim.JoystickController.prototype.step = function(dt) {
+Dash.JoystickController.prototype.onTick = function(gamepads) {
+	if (
+		gamepads[0].state.RIGHT_STICK_X != 0
+		|| gamepads[0].state.RIGHT_STICK_Y != 0
+		|| gamepads[0].state.LEFT_STICK_X != 0
+		|| gamepads[0].state.LEFT_STICK_Y != 0
+	) {
+		this.useGamepad = true;
+	}
+
+	if (!this.useGamepad || !this.enabled) {
+		return;
+	}
 	
+	var speed = dash.config.joystick.speed,
+		turnRate = dash.config.joystick.turnRate;
+		
+	if (this.fastMode) {
+		speed *= 2;
+		turnRate *= 2;
+	}
+
+	this.robot.setTargetDir(
+		gamepads[0].state.RIGHT_STICK_Y * -speed,
+		gamepads[0].state.RIGHT_STICK_X * speed,
+		gamepads[0].state.LEFT_STICK_X * turnRate
+	);
+		
+	if (gamepads[0].state.Y) {
+		this.fastMode = !this.fastMode;
+	}
+
+	if (gamepads[0].state.LB || gamepads[0].state.RB) {
+		this.robot.kick();
+	}
 };

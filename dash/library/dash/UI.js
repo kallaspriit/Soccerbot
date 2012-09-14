@@ -7,6 +7,9 @@ Dash.UI = function() {
 	this.stateCountWrap = null;
 	this.keyboardController = null;
 	this.keyboardControllerEnabled = true;
+	this.joystickController = null;
+	this.lastLogMessage = null;
+	this.repeatedLogCount = 0;
 };
 
 Dash.UI.prototype = new Dash.Bindable();
@@ -22,14 +25,9 @@ Dash.UI.prototype.init = function() {
 	this.initSocket();
 	this.initRobot();
 	this.initKeyboardController();
+	this.initJoystickController();
 	this.initKeyListeners();
 	this.initControls();
-	
-	/*this.addState(new Dash.State(0.125, '#CC0', 0.125, 0.125, 0));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 1, 0.125 + 1, Math.PI / 4));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 2, 0.125 + 1, Math.PI / 2));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 2, 0.125 + 2, Math.PI));
-	this.addState(new Dash.State(0.125, '#CC0', 0.125 + 3, 0.125 + 1, Math.PI * 3.0 / 4.0));*/
 };
 
 Dash.UI.prototype.initDebugListener = function() {
@@ -53,7 +51,19 @@ Dash.UI.prototype.initDebugListener = function() {
 	dash.dbg.bind(Dash.Debug.Event.LOG, function(event) {
 		var wrap = $('#log'),
 			msgClass = 'normal',
-			firstChar = event.args[0].substr(0, 1);
+			message = event.args[0],
+			firstChar = message.substr(0, 1);
+			
+		if (message == this.lastLogMessage) {
+			this.repeatedLogCount++;
+			
+			message = message + ' (' + (this.repeatedLogCount + 1) + ')';
+			
+			wrap.find('DIV:last').remove();
+		} else {
+			this.lastLogMessage = message;
+			this.repeatedLogCount = 0;
+		}
 
 		if (firstChar == '+') {
 			msgClass = 'positive';
@@ -67,7 +77,7 @@ Dash.UI.prototype.initDebugListener = function() {
 			wrap.html('');
 		}
 
-		var content = event.args[0],
+		var content = message,
 			arg,
 			args = [],
 			i;
@@ -110,6 +120,18 @@ Dash.UI.prototype.initDebugListener = function() {
 			console.error.apply(console, args);
 		}
 	});
+	
+	$('#log').mousedown(function(e) {
+		if (e.which == 3) {
+			$(this).empty();
+		}
+	});
+	
+	$('#log').bind('contextmenu', function(e) {
+		if (e.which == 3) {
+			return false;
+		}
+	})
 };
 
 Dash.UI.prototype.initSlider = function() {
@@ -196,6 +218,10 @@ Dash.UI.prototype.initKeyboardController = function() {
 	this.keyboardController = new Dash.KeyboardController(this.robot);
 };
 
+Dash.UI.prototype.initJoystickController = function() {
+	this.joystickController = new Dash.JoystickController(this.robot);
+};
+
 Dash.UI.prototype.initKeyListeners = function() {
 	var self = this;
 	
@@ -248,6 +274,30 @@ Dash.UI.prototype.initControls = function() {
 	}).bind('clickoutside', function() {
 		self.hideStateInfo();
 	});
+	
+	$('INPUT[name="keyboard-controller-enabled"]').iphoneStyle({
+		onChange: function(elem, enabled) {
+			self.keyboardControllerEnabled = enabled;
+		}
+	});
+	
+	$('INPUT[name="joystick-controller-enabled"]').iphoneStyle({
+		onChange: function(elem, enabled) {
+			self.joystickController.enabled = enabled;
+			
+			if (enabled) {
+				$('INPUT[name="keyboard-controller-enabled"]')
+					.removeAttr('checked')
+					.iphoneStyle('refresh')
+					.attr('disabled', 'disabled')
+					.iphoneStyle('refresh');
+			} else {
+				$('INPUT[name="keyboard-controller-enabled"]')
+					.removeAttr('disabled')
+					.iphoneStyle('refresh');
+			}
+		}
+	});
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {
@@ -280,7 +330,7 @@ Dash.UI.prototype.handleMessage = function(message) {
 			this.handleStateMessage(message.payload);
 		break;
 		
-		default: 
+		default:
 			dash.dbg.log('- Unsupported message received: ' + message.id);
 		break;
 	}

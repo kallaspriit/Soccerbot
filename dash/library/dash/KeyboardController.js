@@ -1,5 +1,6 @@
 Dash.KeyboardController = function(robot) {
 	this.robot = robot;
+	this.usedKeys = [87, 65, 83, 68, 69, 81, 16];
 };
 
 Dash.KeyboardController.prototype.onKeyDown = function(key) {
@@ -7,11 +8,15 @@ Dash.KeyboardController.prototype.onKeyDown = function(key) {
 		this.robot.kick();
 	}
 	
-	this.updateRobotDir();
+	if (this.usedKeys.indexOf(key) !== -1) {
+		this.updateRobotDir();
+	}
 };
 
 Dash.KeyboardController.prototype.onKeyUp = function(key) {
-	this.updateRobotDir();
+	if (this.usedKeys.indexOf(key) !== -1) {
+		this.updateRobotDir();
+	}
 };
 
 Dash.KeyboardController.prototype.updateRobotDir = function() {
@@ -22,11 +27,16 @@ Dash.KeyboardController.prototype.updateRobotDir = function() {
 		turnRightDown = dash.ui.isKeyDown(69),
 		turnLeftDown = dash.ui.isKeyDown(81),
 		shiftDown = dash.ui.isKeyDown(16),
-		speed = shiftDown ? 2.5 : 1,
-		turnRate = Math.PI * 2,
+		speed = dash.config.keyboard.speed,
+		turnRate = dash.config.keyboard.turnRate,
 		x = 0,
 		y = 0,
 		omega = 0;
+	
+	if (shiftDown) {
+		speed *= 2;
+		turnRate *= 2;
+	}
 	
 	if (forwardDown) {
 		x = speed;

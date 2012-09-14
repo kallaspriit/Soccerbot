@@ -9,5 +9,13 @@ Dash.Config = {
 	robot: {
 		color: '#DD0',
 		radius: 0.125
+	},
+	keyboard: {
+		speed: 1,
+		turnRate: Math.PI * 2
+	},
+	joystick: {
+		speed: 1,
+		turnRate: Math.PI * 2
 	}
 };

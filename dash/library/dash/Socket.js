@@ -66,6 +66,10 @@ Dash.Socket.prototype.getState = function() {
 	}
 };
 
+Dash.Socket.prototype.isOpen = function() {
+	return this.getState() == Dash.Socket.State.OPEN;
+};
+
 Dash.Socket.prototype.getBufferedAmount = function() {
 	if (this.ws == null) {
 		return 0;
