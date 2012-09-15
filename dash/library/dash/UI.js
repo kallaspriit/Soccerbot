@@ -357,6 +357,8 @@ Dash.UI.prototype.addState = function(state) {
 };
 
 Dash.UI.prototype.showState = function(index) {
+	var state = this.states[index];
+	
 	this.currentStateIndexWrap.val(index + 1);
 	
 	this.stateSlider.attr({
@@ -365,7 +367,9 @@ Dash.UI.prototype.showState = function(index) {
 	
 	this.currentStateIndex = index;
 	
-	dash.renderer.renderState(this.states[index]);
+	// @TODO show alive wheels..
+	
+	dash.renderer.renderState(state);
 };
 
 Dash.UI.prototype.showCurrentStateInfo = function() {

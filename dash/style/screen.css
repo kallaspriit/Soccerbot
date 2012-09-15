@@ -198,6 +198,7 @@ A:hover {
 	font-size: 12px;
 	overflow: hidden;
 	z-index: 10;
+	display: none;
 }
 #log > div {
 	padding: 0px 12px;
@@ -214,6 +215,11 @@ A:hover {
 }
 #log > .info {
 	color: #000;
+}
+@media all and (min-width: 1400px) {
+	#log {
+		display: block;
+	}
 }
 
 /* RX / TX */
@@ -250,4 +256,52 @@ A:hover {
 }
 #tx.active {
 	background-color: #F00;
+}
+
+/* Robot status */
+#robot {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	background-color: #CCC;
+	box-shadow: 0 0 5px #333;
+}
+#dir {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 10%;
+	height: 50%;
+	margin-left: -5%;
+	background-color: #BBB;
+}
+.wheel {
+	position: absolute;
+	width: 25%;
+	height: 15%;
+	background-color: #900;
+	border-radius: 4px;
+}
+#wheelFL {
+	left: 12%;
+	top: 12%;
+	-webkit-transform:rotate(-45deg);
+}
+#wheelFR {
+	right: 12%;
+	top: 12%;
+	-webkit-transform:rotate(45deg);
+}
+#wheelRL {
+	left: 12%;
+	bottom: 12%;
+	-webkit-transform:rotate(-135deg);
+}
+#wheelRR {
+	right: 12%;
+	bottom: 12%;
+	-webkit-transform:rotate(135deg);
 }
