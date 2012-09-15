@@ -16,8 +16,10 @@ class WebSocketServer : public websocketpp::server::handler {
         };
 
         WebSocketServer(int port);
+        virtual ~WebSocketServer();
 
         void start();
+        void close();
         void addListener(ListenerInterface* listener);
         void broadcast(std::string message);
 
@@ -29,6 +31,7 @@ class WebSocketServer : public websocketpp::server::handler {
         void on_message(connection_ptr con, message_ptr msg);
 
         int port;
+        bool listening;
         websocketpp::server::handler::ptr handler;
         websocketpp::server server;
         pthread_t thread;

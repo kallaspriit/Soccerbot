@@ -199,7 +199,7 @@ Dash.UI.prototype.initSocket = function() {
 	
 	dash.socket.open(dash.config.socket.host, dash.config.socket.port);
 	
-	window.setInterval(function() {
+	/*window.setInterval(function() {
 		if (dash.socket.getState() != Dash.Socket.State.OPEN) {
 			$('#connecting').show();
 			
@@ -207,7 +207,7 @@ Dash.UI.prototype.initSocket = function() {
 		} else {
 			$('#connecting').hide();
 		}
-	}, 1000);
+	}, 1000);*/
 };
 
 Dash.UI.prototype.initRobot = function() {

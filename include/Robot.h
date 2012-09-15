@@ -56,6 +56,8 @@ class Robot {
         Math::Matrix3x3 omegaMatrixInvD;
         Math::Vector targetDir;
 
+        const double speedInterval;
+
         double lastDt;
         double totalTime;
 };

@@ -7,7 +7,7 @@
 #include <map>
 #include <sstream>
 
-Robot::Robot() {
+Robot::Robot() : speedInterval(1.0d / 60.5d) {
     wheelAngles[0] = Math::degToRad(-135.0f);
     wheelAngles[1] = Math::degToRad(-45.0f);
     wheelAngles[2] = Math::degToRad(45.0f);
@@ -82,15 +82,18 @@ void Robot::step(double dt) {
     lastDt = dt;
     totalTime += dt;
 
+    double t = dt;
+    //double t = speedInterval;
+
     Movement movement = getMovement();
 
-    orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
+    orientation = Math::floatModulus(orientation + movement.omega * t, Math::TWO_PI);
 
     float globalVelocityX = movement.velocityX * Math::cos(orientation) - movement.velocityY * Math::sin(orientation);
     float globalVelocityY = movement.velocityX * Math::sin(orientation) + movement.velocityY * Math::cos(orientation);
 
-    x += globalVelocityX * dt;
-    y += globalVelocityY * dt;
+    x += globalVelocityX * t;
+    y += globalVelocityY * t;
 
     //std::cout << "Vx: " << movement.velocityX << "; Vy: " << movement.velocityY << "; omega: " << movement.omega << std::endl;
 

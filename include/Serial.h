@@ -23,6 +23,7 @@ class Serial {
         static void* _listen(void* context);
         const std::string readDirect(bool& isMore);
 
+        std::string device;
         int fd;
         int speed;
         char delimiter;

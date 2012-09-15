@@ -27,6 +27,7 @@ bool Serial::open(const char* device, int speed, const char delimiter) {
         close();
     }
 
+    this->device = device;
 	this->speed = speed;
 	this->delimiter = delimiter;
 	this->fd = ::open(device, O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -84,9 +85,17 @@ bool Serial::open(const char* device, int speed, const char delimiter) {
 }
 
 void Serial::close() {
+    std::cout << "! Closing serial on '" << device << "'.. ";
+
     ::close(fd);
 
     opened = false;
+
+    if (pthread_join(thread, NULL)) {
+        std::cout << "- Could not join thread for serial '" << device << "'" << std::endl;
+    }
+
+    std::cout << "done!" << std::endl;
 }
 
 void Serial::listen() {
@@ -95,7 +104,7 @@ void Serial::listen() {
     std::string msg;
     bool isMore;
 
-    while (true) {
+    while (opened) {
         msg = readDirect(isMore);
 
         if (msg.length() > 0) {
@@ -144,6 +153,10 @@ const std::string Serial::read() {
 }
 
 const std::string Serial::readDirect(bool& isMore) {
+    if (!opened) {
+        return "";
+    }
+
     char character;
     int i;
 

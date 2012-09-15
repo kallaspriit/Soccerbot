@@ -73,6 +73,8 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
 
 Wheel::~Wheel() {
     if (serial != NULL) {
+        serial->close();
+
         delete serial;
         serial = NULL;
     }

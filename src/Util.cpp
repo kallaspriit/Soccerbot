@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void Util::yuyvToRgb(int width, int height, unsigned char *data, unsigned char *out) {
     int w2 = width / 2;
@@ -130,4 +131,35 @@ size_t Util::strpos(const std::string &haystack, const std::string &needle) {
     }
 
     return std::string::npos;
+}
+
+std::string Util::exec(const std::string& cmd) {
+    FILE* pipe = popen(cmd.c_str(), "r");
+
+    if (!pipe) {
+        return "ERROR";
+    }
+
+    char buffer[128];
+    std::string result = "";
+
+    while (!feof(pipe)) {
+        if (fgets(buffer, 128, pipe) != NULL) {
+            result += buffer;
+        }
+    }
+
+    pclose(pipe);
+
+    return result;
+}
+
+std::string Util::getWorkingDirectory() {
+    char stackBuffer[255];
+
+    if (getcwd(stackBuffer, sizeof(stackBuffer)) != NULL) {
+        return stackBuffer;
+    } else {
+        return "ERROR";
+    }
 }

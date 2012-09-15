@@ -2,6 +2,7 @@ Dash.Socket = function() {
 	this.host = null;
 	this.port = null;
 	this.ws = null;
+	this.opening = false;
 };
 
 Dash.Socket.prototype = new Dash.Bindable();
@@ -27,8 +28,11 @@ Dash.Socket.prototype.open = function(host, port) {
 	this.host = host;
 	this.port = port;
 	this.ws = new WebSocket('ws://' + this.host + ':' + this.port);
+	this.opening = true;
 	
 	this.ws.onopen = function() {
+		this.opening = false;
+		
 		self.fire({
 			type: Dash.Socket.Event.OPEN,
 			socket: self

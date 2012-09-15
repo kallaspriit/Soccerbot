@@ -5,12 +5,18 @@
 int main() {
     std::cout << "-- Starting Up --" << std::endl;
 
-    SoccerBot bot;
+    SoccerBot* bot = new SoccerBot();
 
-    bot.init();
-    bot.run();
+    bot->init();
+    bot->run();
+
+    delete bot;
+
+    /*std::cout << "! Waiting for all threads to exit.. " << std::endl;
+    pthread_exit(NULL);
+    std::cout << "done!" << std::endl;*/
 
     std::cout << "-- Properly Terminated --" << std::endl;
 
-    pthread_exit(NULL);
+    return 0;
 }

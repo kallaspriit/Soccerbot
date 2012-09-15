@@ -18,7 +18,9 @@ class Util
         static float getDistance(int x1, int y1, int x2, int y2);
         static float random(float min, float max);
         static float limit(float num, float min, float max);
-        static size_t strpos(const std::string &haystack, const std::string &needle);
+        static size_t strpos(const std::string& haystack, const std::string &needle);
+        static std::string exec(const std::string& cmd);
+        static std::string getWorkingDirectory();
 
         template <class T>
         static float abs(T num) {
