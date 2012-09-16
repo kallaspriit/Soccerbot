@@ -133,6 +133,18 @@ size_t Util::strpos(const std::string &haystack, const std::string &needle) {
     return std::string::npos;
 }
 
+bool Util::replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+
+    if (start_pos == std::string::npos) {
+        return false;
+    }
+
+    str.replace(start_pos, from.length(), to);
+
+    return true;
+}
+
 std::string Util::exec(const std::string& cmd) {
     FILE* pipe = popen(cmd.c_str(), "r");
 

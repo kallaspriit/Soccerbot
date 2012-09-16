@@ -1,7 +1,5 @@
 #include "WebSocketServer.h"
 
-#include "Util.h"
-
 #include <cstring>
 
 WebSocketServer::WebSocketServer(int port) : port(port), listening(false), handler(this), server(handler) {
@@ -14,20 +12,6 @@ WebSocketServer::~WebSocketServer() {
 
 void WebSocketServer::listen() {
     std::cout << "! Starting socket server on port " << port << std::endl;
-
-    std::string portInfo = Util::exec("fuser -n tcp " + Util::toString(port));
-
-    if (portInfo.length() == 6) {
-        std::cout << "! Port info: '" << portInfo << "'" << std::endl;
-
-        int pid = Util::toInt(portInfo);
-
-        std::cout << "! Killing process on port " << port << " with pid: '" << pid << "'" << std::endl;
-
-        Util::exec("kill -2 " + Util::toString(pid));
-
-        usleep(1000000);
-    }
 
     try {
         listening = true;

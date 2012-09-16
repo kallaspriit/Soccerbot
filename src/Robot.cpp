@@ -75,15 +75,15 @@ void Robot::init() {
     wheelRR = new Wheel(4);
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
-    //setTargetDir(Math::Deg(45.0f), 1.0f, 0.0f);
+    setTargetDir(Math::Deg(0.0f), 0.0f, 0.0f);
 }
 
 void Robot::step(double dt) {
     lastDt = dt;
     totalTime += dt;
 
-    double t = dt;
-    //double t = speedInterval;
+    //double t = dt;
+    double t = speedInterval;
 
     Movement movement = getMovement();
 

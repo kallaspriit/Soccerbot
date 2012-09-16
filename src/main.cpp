@@ -1,4 +1,5 @@
 #include "SoccerBot.h"
+#include "Util.h"
 
 #include <iostream>
 
@@ -10,7 +11,19 @@ int main() {
     bot->init();
     bot->run();
 
+    std::string endCommand = bot->getEndCommand();
+
     delete bot;
+
+    if (endCommand.length() > 0) {
+        usleep(1000000);
+
+        std::cout << "! End command: '" << endCommand << "'" << std::endl;
+
+        std::string endResult = Util::exec(endCommand);
+
+        std::cout << "! Command result: '" << endResult << "'" << std::endl;
+    }
 
     /*std::cout << "! Waiting for all threads to exit.. " << std::endl;
     pthread_exit(NULL);

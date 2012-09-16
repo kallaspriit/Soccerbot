@@ -19,6 +19,7 @@ class Util
         static float random(float min, float max);
         static float limit(float num, float min, float max);
         static size_t strpos(const std::string& haystack, const std::string &needle);
+        static bool replace(std::string& str, const std::string& from, const std::string& to);
         static std::string exec(const std::string& cmd);
         static std::string getWorkingDirectory();
 

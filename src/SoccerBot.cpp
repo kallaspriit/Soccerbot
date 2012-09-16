@@ -8,10 +8,15 @@
 #include "Util.h"
 #include "SignalHandler.h"
 
-SoccerBot::SoccerBot() : lastStepDt(16.666l) {
+SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
     socket = NULL;
     serial = NULL;
+    endCommand = "";
     lastStepTime = Util::now();
+
+    originalCoutStream = std::cout.rdbuf();
+    stringCoutStream = new std::ostringstream();
+    std::cout.rdbuf(stringCoutStream->rdbuf());
 }
 
 SoccerBot::~SoccerBot() {
@@ -25,6 +30,10 @@ SoccerBot::~SoccerBot() {
 
         std::cout << "done!" << std::endl;
     }
+
+    // display latest output and disable special log buffer
+    updateLogs();
+    std::cout.rdbuf(originalCoutStream);
 
     if (socket != NULL) {
         std::cout << "! Killing socket.. ";
@@ -54,12 +63,36 @@ SoccerBot::~SoccerBot() {
 
         std::cout << "done!" << std::endl;
     }
+
+    if (stringCoutStream != NULL) {
+        std::cout << "! Killing string-based cout stream.. ";
+
+        delete stringCoutStream;
+        stringCoutStream = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
 }
 
 void SoccerBot::init() {
+    int port = 8000;
+    std::string portInfo = Util::exec("lsof -i :" + Util::toString(port) + " | tail -n +2 | sed -e 's,[ \t][ \t]*, ,g' | cut -f2 -d' '");
+
+    if (portInfo.length() > 0) {
+        std::cout << "! Killing process on port " << port << " with pid: '" << portInfo << "'.. ";
+
+        Util::exec("kill -2 `lsof -i :" + Util::toString(port) + " | tail -n +2 | sed -e 's,[ \t][ \t]*, ,g' | cut -f2 -d' '`");
+
+        std::cout << "done!" << std::endl << "! Waiting 5 seconds.. ";
+
+        usleep(5000000);
+
+        std::cout << "done!" << std::endl;
+    }
+
     signalHandler = new SignalHandler();
     robot = new Robot();
-    socket = new WebSocketServer(8000);
+    socket = new WebSocketServer(port);
     serial = new Serial();
 
     serial->open("/dev/ttyUSB0", 115200);
@@ -77,7 +110,7 @@ void SoccerBot::run() {
     std::string message;
     double time, dt;
 
-    while (!signalHandler->gotExitSignal()/* && totalTime < 5*/) {
+    while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
         time = Util::now();
         dt = time - lastStepTime;
         lastStepTime = time;
@@ -103,10 +136,38 @@ void SoccerBot::run() {
 
         //std::cout << "Last frame time taken: " << lastStepDuration << ", load: " << lastStepLoad << std::endl;
 
+        updateLogs();
+
         usleep(16000);
     }
 
     std::cout << "! Shutdown requested" << std::endl;
+}
+
+void SoccerBot::updateLogs() {
+    std::cout.rdbuf(originalCoutStream);
+
+    std::string messages = stringCoutStream->str();
+    stringCoutStream->clear();
+    stringCoutStream->str("");
+
+    if (messages.length() > 0) {
+        std::cout << messages;
+
+        bool replaced;
+
+        do {
+            replaced = Util::replace(messages, "\n", "\\n");
+        } while (replaced);
+
+        std::string json = "\"" + messages + "\"";
+
+        JsonResponse stateResponse("log", json);
+
+        socket->broadcast(stateResponse.toJSON());
+    }
+
+    std::cout.rdbuf(stringCoutStream->rdbuf());
 }
 
 void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
@@ -154,7 +215,7 @@ void SoccerBot::handleTargetVectorCommand(const Command& cmd) {
 
     robot->setTargetDir(x, y, omega);
 
-    //std::cout << "Set robot dir by vector: " << x << "x" << y << " with omega " << omega << std::endl;
+    std::cout << "! Set robot dir by vector: " << x << "x" << y << " with omega " << omega << std::endl;
 }
 
 void SoccerBot::handleTargetDirCommand(const Command& cmd) {
@@ -169,11 +230,7 @@ void SoccerBot::handleTargetDirCommand(const Command& cmd) {
 
 void SoccerBot::handleRebuildCommand(const Command& cmd) {
     std::string workingDir = Util::getWorkingDirectory();
-    std::string command = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
+    endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
-    std::string result = Util::exec(command);
-
-    std::cout << "Rebuild command: '" << command << "' result: " << result << std::endl;
-
-    exit(0);
+    stop();
 }

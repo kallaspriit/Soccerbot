@@ -85,7 +85,7 @@ bool Serial::open(const char* device, int speed, const char delimiter) {
 }
 
 void Serial::close() {
-    std::cout << "! Closing serial on '" << device << "'.. ";
+    //std::cout << "! Closing serial on '" << device << "'.. ";
 
     ::close(fd);
 
@@ -95,7 +95,7 @@ void Serial::close() {
         std::cout << "- Could not join thread for serial '" << device << "'" << std::endl;
     }
 
-    std::cout << "done!" << std::endl;
+    //std::cout << "done!" << std::endl;
 }
 
 void Serial::listen() {
