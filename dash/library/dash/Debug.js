@@ -24,7 +24,8 @@ Dash.Debug.prototype = new Dash.Bindable();
 Dash.Debug.Event = {
 	ERROR: 'error',
 	CONSOLE: 'console',
-	LOG: 'log'
+	LOG: 'log',
+	EXTERNAL: 'external'
 };
 
 /**
@@ -72,6 +73,18 @@ Dash.Debug.prototype.console = function() {
 Dash.Debug.prototype.log = function() {
 	this.fire({
 		type: Dash.Debug.Event.LOG,
+		args: arguments
+	});
+};
+
+/**
+ * Logs external data to screen.
+ *
+ * @param {any} ... Variable number of arguments
+ */
+Dash.Debug.prototype.external = function() {
+	this.fire({
+		type: Dash.Debug.Event.EXTERNAL,
 		args: arguments
 	});
 };

@@ -48,7 +48,7 @@ Dash.UI.prototype.initDebugListener = function() {
 		}
 	});
 	
-	dash.dbg.bind(Dash.Debug.Event.LOG, function(event) {
+	dash.dbg.bind([Dash.Debug.Event.LOG, Dash.Debug.Event.EXTERNAL], function(event) {
 		var wrap = $('#log'),
 			msgClass = 'normal',
 			message = event.args[0],
@@ -93,6 +93,10 @@ Dash.UI.prototype.initDebugListener = function() {
 
 			args.push(arg);
 		}
+		
+		if (event.type == Dash.Debug.Event.EXTERNAL) {
+			msgClass += ' external';
+		}
 
 		wrap.append(
 			'<div class="' + msgClass + '">' + content + '</div>'
@@ -131,7 +135,20 @@ Dash.UI.prototype.initDebugListener = function() {
 		if (e.which == 3) {
 			return false;
 		}
-	})
+	});
+	
+	$('#log').hover(
+		function() {
+			$(this).stop(true, false).animate({
+				width: '1200px'
+			}, 300);
+		},
+		function() {
+			$(this).stop(true, false).animate({
+				width: '300px'
+			}, 150);
+		}
+	);
 };
 
 Dash.UI.prototype.initSlider = function() {
@@ -175,6 +192,8 @@ Dash.UI.prototype.initSocket = function() {
 		dash.dbg.log('- Socket server closed');
 		
 		$('#connecting').show();
+		
+		dash.socket.open(dash.config.socket.host, dash.config.socket.port);
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.ERROR, function(e) {
@@ -190,7 +209,7 @@ Dash.UI.prototype.initSocket = function() {
 			var message = JSON.parse(e.message.data);
 			
 			self.handleMessage(message);
-		} catch (e) {
+		} catch (ex) {
 			dash.dbg.log('- Invalid message', e.message.data);
 		}
 		
@@ -220,6 +239,7 @@ Dash.UI.prototype.initKeyboardController = function() {
 
 Dash.UI.prototype.initJoystickController = function() {
 	this.joystickController = new Dash.JoystickController(this.robot);
+	this.joystickController.enabled = false;
 };
 
 Dash.UI.prototype.initKeyListeners = function() {
@@ -330,6 +350,10 @@ Dash.UI.prototype.handleMessage = function(message) {
 			this.handleStateMessage(message.payload);
 		break;
 		
+		case 'log':
+			this.handleLogMessage(message.payload);
+		break;
+		
 		default:
 			dash.dbg.log('- Unsupported message received: ' + message.id);
 		break;
@@ -338,6 +362,17 @@ Dash.UI.prototype.handleMessage = function(message) {
 
 Dash.UI.prototype.handleStateMessage = function(state) {
 	this.addState(state);
+};
+
+Dash.UI.prototype.handleLogMessage = function(messages) {
+	var lines = messages.split(/\n/g),
+		i;
+	
+	for (i = 0; i < lines.length; i++) {
+		if (lines[i].length > 0) {
+			dash.dbg.external(lines[i]);
+		}
+	}
 };
 
 Dash.UI.prototype.addState = function(state) {

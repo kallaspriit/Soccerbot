@@ -45,6 +45,10 @@ Dash.JoystickController.prototype.init = function() {
 };
 
 Dash.JoystickController.prototype.onTick = function(gamepads) {
+	if (!this.enabled) {
+		return;
+	}
+	
 	if (
 		gamepads[0].state.RIGHT_STICK_X != 0
 		|| gamepads[0].state.RIGHT_STICK_Y != 0
@@ -54,7 +58,7 @@ Dash.JoystickController.prototype.onTick = function(gamepads) {
 		this.useGamepad = true;
 	}
 
-	if (!this.useGamepad || !this.enabled) {
+	if (!this.useGamepad) {
 		return;
 	}
 	

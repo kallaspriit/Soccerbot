@@ -13,19 +13,25 @@ Dash.Bindable = function() {
  * @return {function} The added listener
  */
 Dash.Bindable.prototype.bind = function(type, listener) {
-	// first of given type, create array
-	if (typeof(this.listeners[type]) == 'undefined') {
-		this.listeners[type] = [];
+	if (typeof(type) == 'string') {
+		type = [type];
 	}
-
-	// check for an already existing listener for the same type
-	for (var i = 0; i < this.listeners[type].length; i++) {
-		if (this.listeners[type][i] === listener) {
-			return listener;
+	
+	for (var i = 0; i < type.length; i++) {
+		// first of given type, create array
+		if (typeof(this.listeners[type[i]]) == 'undefined') {
+			this.listeners[type[i]] = [];
 		}
-	}
 
-	this.listeners[type].push(listener);
+		// check for an already existing listener for the same type
+		for (var j = 0; j < this.listeners[type[i]].length; j++) {
+			if (this.listeners[type[i]][j] === listener) {
+				return listener;
+			}
+		}
+
+		this.listeners[type[i]].push(listener);
+	}
 
 	return listener;
 };

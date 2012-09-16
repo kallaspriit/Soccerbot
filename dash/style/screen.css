@@ -216,6 +216,9 @@ A:hover {
 #log > .info {
 	color: #000;
 }
+#log > .external {
+	font-style: italic;
+}
 @media all and (min-width: 1400px) {
 	#log {
 		display: block;
