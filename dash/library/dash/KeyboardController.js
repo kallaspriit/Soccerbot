@@ -1,6 +1,12 @@
 Dash.KeyboardController = function(robot) {
+	var self = this;
+	
 	this.robot = robot;
 	this.usedKeys = [87, 65, 83, 68, 69, 81, 16];
+	this.enabled = false;
+	this.updateInterval = window.setInterval(function() {
+		self.updateRobotDir();
+	}, 100);
 };
 
 Dash.KeyboardController.prototype.onKeyDown = function(key) {
@@ -20,6 +26,10 @@ Dash.KeyboardController.prototype.onKeyUp = function(key) {
 };
 
 Dash.KeyboardController.prototype.updateRobotDir = function() {
+	if (!this.enabled) {
+		return;
+	}
+	
 	var forwardDown = dash.ui.isKeyDown(87),
 		leftDown = dash.ui.isKeyDown(65),
 		reverseDown = dash.ui.isKeyDown(83),

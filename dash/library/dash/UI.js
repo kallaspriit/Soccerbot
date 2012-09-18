@@ -6,7 +6,6 @@ Dash.UI = function() {
 	this.currentStateIndexWrap = null;
 	this.stateCountWrap = null;
 	this.keyboardController = null;
-	this.keyboardControllerEnabled = true;
 	this.joystickController = null;
 	this.lastLogMessage = null;
 	this.repeatedLogCount = 0;
@@ -205,13 +204,17 @@ Dash.UI.prototype.initSocket = function() {
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.MESSAGE_RECEIVED, function(e) {
+		var message;
+		
 		try {
-			var message = JSON.parse(e.message.data);
-			
-			self.handleMessage(message);
+			message = JSON.parse(e.message.data);
 		} catch (ex) {
 			dash.dbg.log('- Invalid message', e.message.data);
+			
+			return;
 		}
+		
+		self.handleMessage(message);
 		
 		self.flashClass('#rx', 'active', 100);
 	});
@@ -235,11 +238,11 @@ Dash.UI.prototype.initRobot = function() {
 
 Dash.UI.prototype.initKeyboardController = function() {
 	this.keyboardController = new Dash.KeyboardController(this.robot);
+	this.keyboardController.enabled = true;
 };
 
 Dash.UI.prototype.initJoystickController = function() {
 	this.joystickController = new Dash.JoystickController(this.robot);
-	this.joystickController.enabled = false;
 };
 
 Dash.UI.prototype.initKeyListeners = function() {
@@ -297,7 +300,7 @@ Dash.UI.prototype.initControls = function() {
 	
 	$('INPUT[name="keyboard-controller-enabled"]').iphoneStyle({
 		onChange: function(elem, enabled) {
-			self.keyboardControllerEnabled = enabled;
+			self.keyboardController.enabled = enabled;
 		}
 	});
 	
@@ -318,12 +321,16 @@ Dash.UI.prototype.initControls = function() {
 			}
 		}
 	});
+	
+	$('#reset-position-btn').click(function() {
+		self.robot.resetPosition();
+	});
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {
 	//dash.dbg.log('! Key down: ' + e.keyCode);
 	
-	if (this.keyboardControllerEnabled) {
+	if (this.keyboardController.enabled) {
 		this.keyboardController.onKeyDown(e.keyCode);
 	}
 };
@@ -331,7 +338,7 @@ Dash.UI.prototype.onKeyDown = function(e) {
 Dash.UI.prototype.onKeyUp = function(e) {
 	//dash.dbg.log('! Key up: ' + e.keyCode);
 	
-	if (this.keyboardControllerEnabled) {
+	if (this.keyboardController.enabled) {
 		this.keyboardController.onKeyUp(e.keyCode);
 	}
 };

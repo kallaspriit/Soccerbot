@@ -11,8 +11,8 @@ Dash.Config = {
 		radius: 0.125
 	},
 	keyboard: {
-		speed: 1,
-		turnRate: Math.PI * 2
+		speed: 0.5,
+		turnRate: Math.PI
 	},
 	joystick: {
 		speed: 1,

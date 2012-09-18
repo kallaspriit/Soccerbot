@@ -7,8 +7,6 @@ Dash.Robot.prototype.kick = function() {
 		dash.dbg.log('! Kicking');
 		
 		this.socket.send('<kick:100>');
-	} else {
-		dash.dbg.log('- Unable to kick, socket is not open');
 	}
 };
 
@@ -17,7 +15,11 @@ Dash.Robot.prototype.setTargetDir = function(x, y, omega) {
 	
 	if (this.socket.isOpen()) {
 		this.socket.send('<target-vector:' + x + ',' + y + ',' + omega + '>');
-	} else {
-		dash.dbg.log('- Unable to set dir, socket is not open');
 	}
+};
+
+Dash.Robot.prototype.resetPosition = function() {
+	dash.dbg.log('! Resetting position');
+	
+	dash.socket.send('<reset-position>');
 };

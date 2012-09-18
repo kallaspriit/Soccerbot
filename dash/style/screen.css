@@ -120,16 +120,19 @@ A:hover {
 	font-size: 18px;
 }
 
-/* Options */
-#options {
+/* Options and buttons */
+#options,
+#buttons {
 	position: absolute;
-	left: -220px;
 	top: -10px;
 	width: 200px;
 	height: 200px;
 	/*background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 3px;*/
 	color: #FFF;
+}
+#options {
+	left: -220px;
 }
 #options > TABLE TH,
 #options > TABLE TD {
@@ -143,6 +146,14 @@ A:hover {
 	font-weight: bold;
 	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 	text-shadow: 1px 1px 2px #333;
+}
+#buttons {
+	width: 140px;
+	right: -160px;
+}
+#buttons BUTTON {
+	width: 100%;
+	line-height: 25px;
 }
 
 /* Debugging */

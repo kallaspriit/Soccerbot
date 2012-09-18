@@ -2,7 +2,7 @@ Dash.JoystickController = function(robot) {
 	this.robot = robot;
 	this.gamepad = null;
 	this.useGamepad = false;
-	this.enabled = true;
+	this.enabled = false;
 	this.fastMode = false;
 	
 	this.init();

@@ -48,8 +48,24 @@ Dash.Renderer.prototype.drawRobot = function(radius, color, x, y, orientation) {
 	this.c.restore();
 };
 
+Dash.Renderer.prototype.drawRuler = function() {
+	this.c.save();
+	
+	this.c.beginPath();
+	this.c.lineWidth = 0.3;
+	this.c.strokeStyle = '#090';
+	this.c.moveTo(1.0, 1.0);
+	this.c.lineTo(3.0, 1.0);
+	this.c.closePath();
+	this.c.stroke();
+	
+	this.c.restore();
+};
+
 Dash.Renderer.prototype.renderState = function(state) {
 	this.c.clearRect(-1, -1, this.width + 1, this.height + 1);
+	
+	//this.drawRuler();
 	
 	this.drawRobot(
 		dash.config.robot.radius,
