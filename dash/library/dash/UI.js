@@ -353,6 +353,16 @@ Dash.UI.prototype.initControls = function() {
 			btn.removeAttr('disabled').html('Kill');
 		});
 	});
+	
+	$('#shutdown-btn').click(function() {
+		var btn = $(this);
+		
+		btn.html('Shutting down..').attr('disabled', 'disabled');
+		
+		self.kill(function() {
+			btn.removeAttr('disabled').html('Shutdown');
+		});
+	});
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {

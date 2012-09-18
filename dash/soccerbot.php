@@ -8,6 +8,10 @@ function kill() {
 	echo exec('bash /home/rx/projects/soccerbot/kill.sh');
 }
 
+function shutdown() {
+	echo exec('shutdown -hP now');
+}
+
 if (!isset($_GET['action'])) {
 	echo 'Missing action';
 	
@@ -21,6 +25,10 @@ switch ($_GET['action']) {
 
 	case 'kill':
 		kill();
+	break;
+
+	case 'shutdown':
+		shutdown();
 	break;
 
 	default:
