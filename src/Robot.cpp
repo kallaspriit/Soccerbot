@@ -7,15 +7,23 @@
 #include <map>
 #include <sstream>
 
-Robot::Robot() : speedInterval(1.0d / 60.5d) {
+Robot::Robot() {
     wheelAngles[0] = Math::degToRad(-135.0f);
     wheelAngles[1] = Math::degToRad(-45.0f);
     wheelAngles[2] = Math::degToRad(45.0f);
     wheelAngles[3] = Math::degToRad(135.0f);
 
-    wheelOffset = 0.125f; // @TODO Measure exact!
-    wheelRadius = 0.07f;
+    targetOmega = 0;
+    targetDir = Math::Vector(0, 0);
+    wheelOffset = 0.1170f;
+    wheelRadius = 0.034f;
     wheelRadiusInv = 1.0f / wheelRadius;
+
+    x = 0.125f;
+    y = 0.125f;
+    orientation = 0.0f;
+
+    lastCommandTime = -1;
 }
 
 Robot::~Robot() {
@@ -75,27 +83,32 @@ void Robot::init() {
     wheelRR = new Wheel(4);
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
-    setTargetDir(Math::Deg(0.0f), 0.0f, 0.0f);
+    //setTargetDir(Math::Deg(0.0f), 0.0f, 0.0f);
 }
 
 void Robot::step(double dt) {
     lastDt = dt;
     totalTime += dt;
 
-    //double t = dt;
-    double t = speedInterval;
-
     Movement movement = getMovement();
 
-    orientation = Math::floatModulus(orientation + movement.omega * t, Math::TWO_PI);
+    orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
 
     float globalVelocityX = movement.velocityX * Math::cos(orientation) - movement.velocityY * Math::sin(orientation);
     float globalVelocityY = movement.velocityX * Math::sin(orientation) + movement.velocityY * Math::cos(orientation);
 
-    x += globalVelocityX * t;
-    y += globalVelocityY * t;
+    x += globalVelocityX * dt;
+    y += globalVelocityY * dt;
 
     //std::cout << "Vx: " << movement.velocityX << "; Vy: " << movement.velocityY << "; omega: " << movement.omega << std::endl;
+
+    if (lastCommandTime != -1 && Util::duration(lastCommandTime) > 0.5f) {
+        std::cout << "! No movement command for half a second, stopping for safety" << std::endl;
+
+        stop();
+
+        lastCommandTime = -1;
+    }
 
     updateWheelSpeeds();
 
@@ -108,12 +121,24 @@ void Robot::step(double dt) {
 void Robot::setTargetDir(float x, float y, float omega) {
     targetDir = Math::Vector(x, y);
     targetOmega = omega;
+
+    lastCommandTime = Util::now();
 }
 
 void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega) {
     Math::Vector dirVector = Math::Vector::createForwardVec(dir.rad(), speed);
 
     setTargetDir(dirVector.x, dirVector.y, omega);
+}
+
+void Robot::stop() {
+    setTargetDir(0, 0, 0);
+}
+
+void Robot::setPosition(float x, float y, float orientation) {
+    this->x = x;
+    this->y = y;
+    this->orientation = orientation;
 }
 
 void Robot::updateWheelSpeeds() {

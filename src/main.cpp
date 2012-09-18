@@ -18,11 +18,15 @@ int main() {
     if (endCommand.length() > 0) {
         usleep(1000000);
 
-        std::cout << "! End command: '" << endCommand << "'" << std::endl;
+        int pid = fork();
 
-        std::string endResult = Util::exec(endCommand);
+        if (pid == 0) {
+            std::cout << "! End command: '" << endCommand << "'" << std::endl;
 
-        std::cout << "! Command result: '" << endResult << "'" << std::endl;
+            std::string endResult = Util::exec(endCommand);
+
+            std::cout << "! Command result: '" << endResult << "'" << std::endl;
+        }
     }
 
     /*std::cout << "! Waiting for all threads to exit.. " << std::endl;

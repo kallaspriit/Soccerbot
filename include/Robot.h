@@ -27,6 +27,8 @@ class Robot {
 
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
+        void stop();
+        void setPosition(float x, float y, float orientation);
         Robot::Movement getMovement();
 
         std::string getStateJSON() const;
@@ -56,7 +58,7 @@ class Robot {
         Math::Matrix3x3 omegaMatrixInvD;
         Math::Vector targetDir;
 
-        const double speedInterval;
+        double lastCommandTime;
 
         double lastDt;
         double totalTime;

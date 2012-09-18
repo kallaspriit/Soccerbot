@@ -16,7 +16,7 @@ SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
 
     originalCoutStream = std::cout.rdbuf();
     stringCoutStream = new std::ostringstream();
-    std::cout.rdbuf(stringCoutStream->rdbuf());
+    //std::cout.rdbuf(stringCoutStream->rdbuf());
 }
 
 SoccerBot::~SoccerBot() {
@@ -202,6 +202,8 @@ void SoccerBot::handleRequest(std::string request) {
             handleTargetDirCommand(command);
         } else if (command.name == "rebuild") {
             handleRebuildCommand(command);
+        } else if (command.name == "reset-position") {
+            robot->setPosition(1.0f, 1.0f, 0);
         }
     } else {
         std::cout << "- Not a command: " << request << std::endl;
@@ -215,11 +217,12 @@ void SoccerBot::handleTargetVectorCommand(const Command& cmd) {
 
     robot->setTargetDir(x, y, omega);
 
-    std::cout << "! Set robot dir by vector: " << x << "x" << y << " with omega " << omega << std::endl;
+    //std::cout << "! Set robot dir by vector: " << x << "x" << y << " with omega " << omega << std::endl;
 }
 
 void SoccerBot::handleTargetDirCommand(const Command& cmd) {
     Math::Deg dir = Math::Deg(Util::toFloat(cmd.params[0]));
+
     float speed = Util::toFloat(cmd.params[1]);
     float omega = Util::toFloat(cmd.params[2]);
 
@@ -230,6 +233,7 @@ void SoccerBot::handleTargetDirCommand(const Command& cmd) {
 
 void SoccerBot::handleRebuildCommand(const Command& cmd) {
     std::string workingDir = Util::getWorkingDirectory();
+
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
     stop();
