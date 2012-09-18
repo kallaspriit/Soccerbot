@@ -16,6 +16,7 @@
 		<script src="library/dash/Socket.js"></script>
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
+		<script src="library/dash/FpsCounter.js"></script>
 		<script src="library/dash/Robot.js"></script>
 		<script src="library/dash/KeyboardController.js"></script>
 		<script src="library/dash/JoystickController.js"></script>
@@ -47,11 +48,15 @@
 			</div>
 			<div id="buttons">
 				<button id="reset-position-btn">Reset position</button>
+				<button id="rebuild-btn">Rebuild</button>
+				<button id="kill-btn">Kill</button>
 			</div>
 			<div id="rx-tx">
 				<div id="rx"></div>
 				<div id="tx"></div>
 			</div>
+			<div id="time"><em>No states received yet</em></div>
+			<div id="load"><span></span></div>
 			<!--div id="robot">
 				<div id="dir"></div>
 				<div id="wheelFL" class="wheel"></div>

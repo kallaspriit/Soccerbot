@@ -1,5 +1,9 @@
 Dash.Util = {};
 
+Dash.Util.getMicrotime = function() {
+	return (new Date()).getTime() / 1000.0;
+};
+
 Dash.Util.getTime = function() {
 	var date = new Date();
 
@@ -40,4 +44,12 @@ Dash.Util.highlightJSON = function(json) {
         }
         return '<span class="' + cls + '">' + match + '</span>';
     });
-}
+};
+
+Dash.Util.round = function(number, decimals) {
+	if (typeof(number) != 'number') {
+		return number;
+	}
+	
+	return number.toFixed(decimals);
+};

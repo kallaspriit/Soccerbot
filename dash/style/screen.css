@@ -96,8 +96,8 @@ A:hover {
 #connecting {
 	position: absolute;
 	left: 50%;
-	top: 50%;
-	margin: -40px -175px;
+	top: -120px;
+	margin: 0 -175px;
 	width: 350px;
 	height: 80px;
 	line-height: 80px;
@@ -113,11 +113,35 @@ A:hover {
 #gamepad {
 	position: absolute;
 	left: 0;
-	bottom: 0;
+	bottom: -120px;
 	width: 800px;
 	text-align: center;
 	color: #FFF;
 	font-size: 18px;
+	font-family: Consolas, monospace;
+}
+#time {
+	position: absolute;
+	left: 12px;
+	top: 6px;
+	color: #FFF;
+}
+#load {
+	position: absolute;
+	left: 12px;
+	top: 28px;
+	width: 155px;
+	height: 4px;
+	background-color: #090;
+	border-radius: 2px;
+}
+#load > SPAN {
+	display: block;
+	width: 0%;
+	height: 4px;
+	line-height: 4px;
+	background-color: #060;
+	border-radius: 2px;
 }
 
 /* Options and buttons */

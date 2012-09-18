@@ -8,6 +8,7 @@ Dash.UI = function() {
 	this.keyboardController = null;
 	this.joystickController = null;
 	this.lastLogMessage = null;
+	this.rxCounter = null;
 	this.repeatedLogCount = 0;
 };
 
@@ -23,6 +24,7 @@ Dash.UI.prototype.init = function() {
 	this.initSlider();
 	this.initSocket();
 	this.initRobot();
+	this.initFpsCounter();
 	this.initKeyboardController();
 	this.initJoystickController();
 	this.initKeyListeners();
@@ -59,7 +61,7 @@ Dash.UI.prototype.initDebugListener = function() {
 			message = message + ' (' + (this.repeatedLogCount + 1) + ')';
 			
 			wrap.find('DIV:last').remove();
-		} else {
+		}else {
 			this.lastLogMessage = message;
 			this.repeatedLogCount = 0;
 		}
@@ -236,6 +238,12 @@ Dash.UI.prototype.initRobot = function() {
 	this.robot = new Dash.Robot(dash.socket);
 };
 
+Dash.UI.prototype.initFpsCounter = function() {
+	this.rxCounter = new Dash.FpsCounter(function(fps) {
+		console.log('rx.fps', fps);
+	});
+};
+
 Dash.UI.prototype.initKeyboardController = function() {
 	this.keyboardController = new Dash.KeyboardController(this.robot);
 	this.keyboardController.enabled = true;
@@ -325,6 +333,26 @@ Dash.UI.prototype.initControls = function() {
 	$('#reset-position-btn').click(function() {
 		self.robot.resetPosition();
 	});
+	
+	$('#rebuild-btn').click(function() {
+		var btn = $(this);
+		
+		btn.html('Building..').attr('disabled', 'disabled');
+		
+		self.rebuild(function() {
+			btn.removeAttr('disabled').html('Rebuild');
+		});
+	});
+	
+	$('#kill-btn').click(function() {
+		var btn = $(this);
+		
+		btn.html('Killing it..').attr('disabled', 'disabled');
+		
+		self.kill(function() {
+			btn.removeAttr('disabled').html('Kill');
+		});
+	});
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {
@@ -350,6 +378,8 @@ Dash.UI.prototype.isKeyDown = function(key) {
 Dash.UI.prototype.handleMessage = function(message) {
 	if (typeof(message.id) != 'string') {
 		dash.dbg.log('- Unknown message', message);
+		
+		return;
 	}
 	
 	switch (message.id) {
@@ -365,6 +395,8 @@ Dash.UI.prototype.handleMessage = function(message) {
 			dash.dbg.log('- Unsupported message received: ' + message.id);
 		break;
 	}
+	
+	this.rxCounter.step();
 };
 
 Dash.UI.prototype.handleStateMessage = function(state) {
@@ -412,6 +444,9 @@ Dash.UI.prototype.showState = function(index) {
 	// @TODO show alive wheels..
 	
 	dash.renderer.renderState(state);
+	
+	$('#time').html(Dash.Util.round(state.totalTime, 1) + 's (' + Dash.Util.round(state.dt * 1000, 1) + 'ms / ' + Dash.Util.round(state.duration * 1000, 2) + 'ms)');
+	$('#load > SPAN').css('width', Math.ceil(state.load) + '%');
 };
 
 Dash.UI.prototype.showCurrentStateInfo = function() {
@@ -451,3 +486,28 @@ Dash.UI.prototype.flashClass = function(el, className, duration) {
 		el.removeClass(className);
 	}, duration));
 };
+
+Dash.UI.prototype.rebuild = function(callback) {
+	this.request('rebuild', callback);
+};
+
+Dash.UI.prototype.kill = function(callback) {
+	this.request('kill', callback);
+};
+
+Dash.UI.prototype.request = function(action, callback) {
+	$.ajax({
+		url: 'http://' + dash.config.socket.host + '/dash/soccerbot.php?action=' + action,
+		type: 'GET',
+		datatype: 'html'
+	}).success(function() {
+		if (typeof(callback) == 'function') {
+			callback(true);
+		}
+	}).fail(function() {
+		if (typeof(callback) == 'function') {
+			callback(false);
+		}
+	});
+};
+
