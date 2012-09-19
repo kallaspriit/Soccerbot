@@ -359,7 +359,7 @@ Dash.UI.prototype.initControls = function() {
 		
 		btn.html('Shutting down..').attr('disabled', 'disabled');
 		
-		self.kill(function() {
+		self.shutdown(function() {
 			btn.removeAttr('disabled').html('Shutdown');
 		});
 	});
@@ -503,6 +503,10 @@ Dash.UI.prototype.rebuild = function(callback) {
 
 Dash.UI.prototype.kill = function(callback) {
 	this.request('kill', callback);
+};
+
+Dash.UI.prototype.shutdown = function(callback) {
+	this.request('shutdown', callback);
 };
 
 Dash.UI.prototype.request = function(action, callback) {
