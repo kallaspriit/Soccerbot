@@ -9,7 +9,8 @@ function kill() {
 }
 
 function shutdown() {
-	echo exec('shutdown -hP now');
+	file_put_contents('/var/www/shutdown.txt', 'SHUTTING DOWN'."\n", FILE_APPEND);
+	echo exec('echo "qwerty" | sudo -S shutdown -hP now > /home/rx/projects/soccerbot/test.log');
 }
 
 if (!isset($_GET['action'])) {
@@ -17,6 +18,8 @@ if (!isset($_GET['action'])) {
 	
 	return;
 }
+
+file_put_contents('/var/www/soccerbot.log', 'Action: '.$_GET['action']."\n", FILE_APPEND);
 
 switch ($_GET['action']) {
 	case 'rebuild':

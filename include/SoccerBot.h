@@ -28,6 +28,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void handleTargetDirCommand(const Command& cmd);
         void handleRebuildCommand(const Command& cmd);
 
+        std::string getStateJSON() const;
+
     private:
         Robot* robot;
         WebSocketServer* socket;
