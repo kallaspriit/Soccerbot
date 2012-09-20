@@ -53,6 +53,7 @@
 		<Unit filename="include/Serial.h" />
 		<Unit filename="include/SignalHandler.h" />
 		<Unit filename="include/SoccerBot.h" />
+		<Unit filename="include/Tasks.h" />
 		<Unit filename="include/Util.h" />
 		<Unit filename="include/WebSocketServer.h" />
 		<Unit filename="include/Wheel.h" />
@@ -64,6 +65,7 @@
 		<Unit filename="src/Serial.cpp" />
 		<Unit filename="src/SignalHandler.cpp" />
 		<Unit filename="src/SoccerBot.cpp" />
+		<Unit filename="src/Tasks.cpp" />
 		<Unit filename="src/Util.cpp" />
 		<Unit filename="src/WebSocketServer.cpp" />
 		<Unit filename="src/Wheel.cpp" />

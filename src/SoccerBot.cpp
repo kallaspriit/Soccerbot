@@ -6,6 +6,7 @@
 #include "WebSocketServer.h"
 #include "JsonResponse.h"
 #include "Command.h"
+#include "Tasks.h"
 #include "Util.h"
 #include "SignalHandler.h"
 
@@ -280,7 +281,34 @@ std::string SoccerBot::getStateJSON() const {
     stream << "\"wheelRR\": {";
     stream << "\"targetOmega\":" << robot->getWheelRR().getTargetOmega() << ",";
     stream << "\"realOmega\":" << robot->getWheelRR().getRealOmega();
-    stream << "}";
+    stream << "},";
+
+    // tasks
+    stream << "\"tasks\": [";
+
+    TaskQueue tasks = robot->getTasks();
+    bool first = true;
+
+    for (TaskQueueIt it = tasks.begin(); it != tasks.end(); it++) {
+        Task* task = *it;
+
+        std::string desc = task->toString();
+
+        if (!first) {
+            stream << ",";
+        } else {
+            first = false;
+        }
+
+        stream << "\"" << desc << "\"";
+
+        /*stream << "{";
+        stream << "\"status\": \"" << desc << "\"";
+        stream << "}";*/
+    }
+
+    stream << "]";
+
 
     stream << "}";
 

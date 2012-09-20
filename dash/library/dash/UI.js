@@ -455,8 +455,8 @@ Dash.UI.prototype.showState = function(index) {
 	
 	dash.renderer.renderState(state);
 	
-	$('#time').html(Dash.Util.round(state.totalTime, 1) + 's (' + Dash.Util.round(state.dt * 1000, 1) + 'ms / ' + Dash.Util.round(state.duration * 1000, 2) + 'ms)');
-	$('#load > SPAN').css('width', Math.ceil(state.load) + '%');
+	this.showTasksQueue(state);
+	this.showStateStats(state);
 };
 
 Dash.UI.prototype.showCurrentStateInfo = function() {
@@ -495,6 +495,22 @@ Dash.UI.prototype.flashClass = function(el, className, duration) {
 	el.data('flash-timeout', window.setTimeout(function() {
 		el.removeClass(className);
 	}, duration));
+};
+
+Dash.UI.prototype.showTasksQueue = function(state) {
+	var wrap = $('#tasks'),
+		i;
+	
+	wrap.empty();
+	
+	for (i = 0; i < state.tasks.length; i++) {
+		wrap.append('<li>' + state.tasks[i] + '</li>');
+	}
+};
+
+Dash.UI.prototype.showStateStats = function(state) {
+	$('#time').html(Dash.Util.round(state.totalTime, 1) + 's (' + Dash.Util.round(state.dt * 1000, 1) + 'ms / ' + Dash.Util.round(state.duration * 1000, 2) + 'ms)');
+	$('#load > SPAN').css('width', Math.ceil(state.load) + '%');
 };
 
 Dash.UI.prototype.rebuild = function(callback) {

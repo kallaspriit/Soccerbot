@@ -5,8 +5,13 @@
 #include "Math.h"
 
 #include <string>
+#include <deque>
 
 class Wheel;
+class Task;
+
+typedef std::deque<Task*> TaskQueue;
+typedef std::deque<Task*>::const_iterator TaskQueueIt;
 
 class Robot {
     public:
@@ -34,8 +39,18 @@ class Robot {
 
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
+        void setTargetOmega(float omega);
         void stop();
         void setPosition(float x, float y, float orientation);
+
+        void addTask(Task* task) { tasks.push_back(task); }
+        Task* getCurrentTask();
+        TaskQueue getTasks() { return tasks; }
+        bool hasTasks() { return getCurrentTask() != NULL; }
+        void handleTasks(double dt);
+
+        void turnBy(float angle, float speed = 1.0f);
+
         Robot::Movement getMovement();
 
     private:
@@ -62,6 +77,8 @@ class Robot {
         Math::Matrix3x3 omegaMatrixInvC;
         Math::Matrix3x3 omegaMatrixInvD;
         Math::Vector targetDir;
+
+        TaskQueue tasks;
 
         double lastCommandTime;
 

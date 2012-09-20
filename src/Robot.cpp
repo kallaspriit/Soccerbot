@@ -2,6 +2,7 @@
 #include "JSON.h"
 #include "Wheel.h"
 #include "Util.h"
+#include "Tasks.h"
 
 #include <iostream>
 #include <map>
@@ -45,6 +46,12 @@ Robot::~Robot() {
     if (wheelFL != NULL) {
         delete wheelFL;
         wheelFL = NULL;
+    }
+
+    while (tasks.size() > 0) {
+        delete tasks.front();
+
+        tasks.pop_front();
     }
 }
 
@@ -110,6 +117,7 @@ void Robot::step(double dt) {
         lastCommandTime = -1;
     }
 
+    handleTasks(dt);
     updateWheelSpeeds();
 
     wheelFL->step(dt);
@@ -131,6 +139,12 @@ void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega) {
     setTargetDir(dirVector.x, dirVector.y, omega);
 }
 
+void Robot::setTargetOmega(float omega) {
+    targetOmega = omega;
+
+    lastCommandTime = Util::now();
+}
+
 void Robot::stop() {
     setTargetDir(0, 0, 0);
 }
@@ -139,6 +153,42 @@ void Robot::setPosition(float x, float y, float orientation) {
     this->x = x;
     this->y = y;
     this->orientation = orientation;
+
+    turnBy(Math::PI);
+}
+
+Task* Robot::getCurrentTask() {
+    if (tasks.size() == 0) {
+        return NULL;
+    }
+
+    return tasks.front();
+}
+
+void Robot::turnBy(float angle, float speed) {
+    addTask(new TurnByTask(angle, speed));
+}
+
+void Robot::handleTasks(double dt) {
+    Task* task = getCurrentTask();
+
+    if (task == NULL) {
+        return;
+    }
+
+    if (!task->_ready) {
+        task->onStart(*this, dt);
+
+        task->_ready = true;
+    }
+
+    if (task->onStep(*this, dt) == false) {
+        task->onEnd(*this, dt);
+
+        delete task;
+
+        tasks.pop_front();
+    }
 }
 
 void Robot::updateWheelSpeeds() {

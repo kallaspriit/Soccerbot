@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <vector>
 #include <iterator>
+#include <math.h>
 
 class Util
 {
@@ -22,9 +23,10 @@ class Util
         static bool replace(std::string& str, const std::string& from, const std::string& to);
         static std::string exec(const std::string& cmd);
         static std::string getWorkingDirectory();
+        static inline float abs(float num) { return ::fabs(num); }
 
         template <class T>
-        static float abs(T num) {
+        static inline float abs(T num) {
             return ::abs(num);
         }
 
