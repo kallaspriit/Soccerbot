@@ -187,12 +187,15 @@ Dash.UI.prototype.initSocket = function() {
 		);
 			
 		$('#connecting').hide();
+		$('.live-only').removeAttr('disabled');
+		$('#rebuild-btn').text('Rebuild');
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.CLOSE, function(e) {
 		dash.dbg.log('- Socket server closed');
 		
 		$('#connecting').show();
+		$('.live-only').attr('disabled', 'disabled');
 		
 		dash.socket.open(dash.config.socket.host, dash.config.socket.port);
 	});
@@ -513,7 +516,8 @@ Dash.UI.prototype.request = function(action, callback) {
 	$.ajax({
 		url: 'http://' + dash.config.socket.host + '/dash/soccerbot.php?action=' + action,
 		type: 'GET',
-		datatype: 'html'
+		dataType: 'html',
+		timeout: 5000
 	}).success(function() {
 		if (typeof(callback) == 'function') {
 			callback(true);
@@ -522,6 +526,8 @@ Dash.UI.prototype.request = function(action, callback) {
 		if (typeof(callback) == 'function') {
 			callback(false);
 		}
+		
+		dash.dbg.log('- executing ' + action + ' failed');
 	});
 };
 
