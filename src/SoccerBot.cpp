@@ -2,6 +2,7 @@
 
 #include "Serial.h"
 #include "Robot.h"
+#include "Wheel.h"
 #include "WebSocketServer.h"
 #include "JsonResponse.h"
 #include "Command.h"
@@ -127,12 +128,14 @@ void SoccerBot::run() {
 
         robot->step(dt);
 
-        JsonResponse stateResponse("state", robot->getStateJSON());
+        //usleep(6000); // some long-running thingy test
+
+        JsonResponse stateResponse("state", getStateJSON());
 
         socket->broadcast(stateResponse.toJSON());
 
         lastStepDuration = Util::duration(time);
-        lastStepLoad = lastStepDuration * 100.0f / 16.6666f;
+        lastStepLoad = lastStepDuration * 100.0f / 0.01666f;
 
         //std::cout << "Last frame time taken: " << lastStepDuration << ", load: " << lastStepLoad << std::endl;
 
@@ -203,7 +206,7 @@ void SoccerBot::handleRequest(std::string request) {
         } else if (command.name == "rebuild") {
             handleRebuildCommand(command);
         } else if (command.name == "reset-position") {
-            robot->setPosition(1.0f, 1.0f, 0);
+            robot->setPosition(0.125f, 0.125f, 0);
         }
     } else {
         std::cout << "- Not a command: " << request << std::endl;
@@ -237,4 +240,49 @@ void SoccerBot::handleRebuildCommand(const Command& cmd) {
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
     stop();
+}
+
+std::string SoccerBot::getStateJSON() const {
+    Math::Vector pos = robot->getPosition();
+
+    std::stringstream stream;
+
+    stream << "{";
+
+    // general robot info
+    stream << "\"x\":" << pos.x << ",";
+    stream << "\"y\":" << pos.y << ",";
+    stream << "\"orientation\":" << robot->getOrientation() << ",";
+    stream << "\"dt\":" << lastStepDt << ",";
+    stream << "\"load\":" << lastStepLoad << ",";
+    stream << "\"duration\":" << lastStepDuration << ",";
+    stream << "\"totalTime\":" << totalTime << ",";
+
+    // wheels
+    stream << "\"wheelFL\": {";
+    stream << "\"targetOmega\":" << robot->getWheelFL().getTargetOmega() << ",";
+    stream << "\"realOmega\":" << robot->getWheelFL().getRealOmega();
+    stream << "},";
+
+    // front right wheel
+    stream << "\"wheelFR\": {";
+    stream << "\"targetOmega\":" << robot->getWheelFR().getTargetOmega() << ",";
+    stream << "\"realOmega\":" << robot->getWheelFR().getRealOmega();
+    stream << "},";
+
+    // rear left wheel
+    stream << "\"wheelRL\": {";
+    stream << "\"targetOmega\":" << robot->getWheelRL().getTargetOmega() << ",";
+    stream << "\"realOmega\":" << robot->getWheelRL().getRealOmega();
+    stream << "},";
+
+    // rear right wheel
+    stream << "\"wheelRR\": {";
+    stream << "\"targetOmega\":" << robot->getWheelRR().getTargetOmega() << ",";
+    stream << "\"realOmega\":" << robot->getWheelRR().getRealOmega();
+    stream << "}";
+
+    stream << "}";
+
+    return stream.str();
 }
