@@ -4,34 +4,11 @@ Dash.JoystickController = function(robot) {
 	this.useGamepad = false;
 	this.enabled = false;
 	this.fastMode = false;
-	
-	this.init();
+	this.gamepad = new Gamepad();
 };
 
 Dash.JoystickController.prototype.init = function() {
 	var self = this;
-	
-	this.gamepad = new Gamepad();
-	
-	this.gamepad.bind(Gamepad.Event.CONNECTED, function(device) {
-		dash.dbg.log('! Controller connected', device);
-
-		$('#gamepad').html(device.id);
-	});
-
-	this.gamepad.bind(Gamepad.Event.DISCONNECTED, function(device) {
-		dash.dbg.log('! Controller disconnected', device);
-		
-		$('#gamepad').html('Gamepad disconnected');
-		
-		self.useGamepad = false;
-	});
-
-	this.gamepad.bind(Gamepad.Event.UNSUPPORTED, function(device) {
-		$('#gamepad').html('Unsupported controller connected');
-		
-		dash.dbg.log('- Unsupported controller connected', device);
-	});
 
 	this.gamepad.bind(Gamepad.Event.TICK, function(gamepads) {
 		self.onTick(gamepads);

@@ -270,6 +270,38 @@ Dash.UI.prototype.initKeyboardController = function() {
 
 Dash.UI.prototype.initJoystickController = function() {
 	this.joystickController = new Dash.JoystickController(this.robot);
+	
+	this.joystickController.gamepad.bind(Gamepad.Event.CONNECTED, function(device) {
+		dash.dbg.log('! Controller connected', device);
+
+		/*$('INPUT[name="joystick-controller-enabled"]')
+			.removeAttr('disabled')
+			.iphoneStyle('refresh');*
+
+		$('#gamepad').html(device.id);
+	});
+
+	this.joystickController.gamepad.bind(Gamepad.Event.DISCONNECTED, function(device) {
+		dash.dbg.log('! Controller disconnected', device);
+		
+		/*$('INPUT[name="joystick-controller-enabled"]')
+			.removeAttr('checked')
+			.iphoneStyle('refresh')
+			.attr('disabled', 'disabled')
+			.iphoneStyle('refresh');*/
+		
+		$('#gamepad').html('Gamepad disconnected');
+		
+		self.useGamepad = false;
+	});
+
+	this.joystickController.gamepad.bind(Gamepad.Event.UNSUPPORTED, function(device) {
+		$('#gamepad').html('Unsupported controller connected');
+		
+		dash.dbg.log('- Unsupported controller connected', device);
+	});
+	
+	this.joystickController.init();
 };
 
 Dash.UI.prototype.initKeyListeners = function() {
