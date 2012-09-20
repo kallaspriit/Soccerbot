@@ -420,7 +420,12 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#drive-to-btn').click(function() {
-		self.robot.driveTo(0.125, 0.125, 0, 1);
+		self.robot.driveTo(0.125, 0.125, 0, 0.5);
+	});
+	
+	$('#drive-test-btn').click(function() {
+		self.robot.driveTo(2.0, 0.125, Math.PI, 0.5);
+		self.robot.driveTo(0.125, 0.125, 0, 0.5);
 	});
 };
 
