@@ -198,7 +198,7 @@ void SoccerBot::handleRequest(std::string request) {
     if (Command::isValid(request)) {
         Command command = Command::parse(request);
 
-        //std::cout << "Command: " << command.name << " " << Util::toString(command.params) << std::endl;
+        //std::cout << "! Command: " << command.name << " " << Util::toString(command.params) << std::endl;
 
         if (command.name == "target-vector" && command.params.size() == 3) {
             handleTargetVectorCommand(command);
@@ -207,7 +207,11 @@ void SoccerBot::handleRequest(std::string request) {
         } else if (command.name == "rebuild") {
             handleRebuildCommand(command);
         } else if (command.name == "reset-position") {
-            robot->setPosition(0.125f, 0.125f, 0);
+            handleResetPositionCommand(command);
+        } else if (command.name == "turn-by" && command.params.size() == 2) {
+            handleTurnByCommand(command);
+        } else {
+            std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
         }
     } else {
         std::cout << "- Not a command: " << request << std::endl;
@@ -241,6 +245,17 @@ void SoccerBot::handleRebuildCommand(const Command& cmd) {
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
     stop();
+}
+
+void SoccerBot::handleResetPositionCommand(const Command& cmd) {
+    robot->setPosition(0.125f, 0.125f, 0);
+}
+
+void SoccerBot::handleTurnByCommand(const Command& cmd) {
+    float angle = Util::toFloat(cmd.params[0]);
+    float speed = Util::toFloat(cmd.params[1]);
+
+    robot->turnBy(angle, speed);
 }
 
 std::string SoccerBot::getStateJSON() const {

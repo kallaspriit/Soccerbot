@@ -153,8 +153,6 @@ void Robot::setPosition(float x, float y, float orientation) {
     this->x = x;
     this->y = y;
     this->orientation = orientation;
-
-    turnBy(Math::PI);
 }
 
 Task* Robot::getCurrentTask() {
@@ -188,6 +186,8 @@ void Robot::handleTasks(double dt) {
         delete task;
 
         tasks.pop_front();
+
+        handleTasks(dt);
     }
 }
 

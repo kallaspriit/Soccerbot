@@ -23,3 +23,11 @@ Dash.Robot.prototype.resetPosition = function() {
 	
 	dash.socket.send('<reset-position>');
 };
+
+Dash.Robot.prototype.turnBy = function(angle, speed) {
+	speed = typeof(speed) == 'number' ? speed : 1.0;
+	
+	dash.dbg.log('! Turning by ' + Dash.Util.radToDeg(angle) + ' degrees');
+	
+	dash.socket.send('<turn-by:' + angle + ',' + speed + '>');
+};

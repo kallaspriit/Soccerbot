@@ -144,11 +144,11 @@ A:hover {
 	border-radius: 2px;
 }
 
-/* Commands */
-#commands {
+/* Tasks */
+#tasks {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 20px;
     margin: 0;
     padding: 4px;
     max-height: 90%;
@@ -157,19 +157,19 @@ A:hover {
     border-radius: 5px;
     overflow: hidden;
 }
-#commands > LI {
+#tasks > LI {
     width: 200px;
     padding: 5px 10px;
     margin: 1px 0 0;
     background-color: rgba(0, 0, 0, 0.5);
     color: #FFF;
 }
-#commands > LI:first-child {
+#tasks > LI:first-child {
     margin-top: 0;
     border-radius: 3px 3px 0 0;
     background-color: rgba(0, 255, 0, 0.5);
 }
-#commands > LI:last-child {
+#tasks > LI:last-child {
     border-radius: 0 0 3px 3px;
 }
 
@@ -207,6 +207,9 @@ A:hover {
 #buttons BUTTON {
 	width: 100%;
 	line-height: 25px;
+}
+#buttons .seperated {
+	margin-top: 20px;
 }
 
 /* Debugging */

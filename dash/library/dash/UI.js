@@ -1,15 +1,17 @@
 Dash.UI = function() {
 	this.states = [];
 	this.keystates = {};
+	this.reconnectTimeout = null;
 	this.stateSlider = null;
-	this.currentStateIndex = 0;
 	this.currentStateIndexWrap = null;
 	this.stateCountWrap = null;
 	this.keyboardController = null;
 	this.joystickController = null;
 	this.lastLogMessage = null;
 	this.rxCounter = null;
+	this.currentStateIndex = 0;
 	this.repeatedLogCount = 0;
+	
 };
 
 Dash.UI.prototype = new Dash.Bindable();
@@ -182,6 +184,12 @@ Dash.UI.prototype.initSocket = function() {
 	var self = this;
 	
 	dash.socket.bind(Dash.Socket.Event.OPEN, function(e) {
+		if (self.reconnectTimeout != null) {
+			window.clearTimeout(self.reconnectTimeout);
+			
+			self.reconnectTimeout = null;
+		}
+		
 		dash.dbg.log(
 			'+ Socket server opened on ' + e.socket.host + ':' + e.socket.port
 		);
@@ -197,7 +205,15 @@ Dash.UI.prototype.initSocket = function() {
 		$('#connecting').show();
 		$('.live-only').attr('disabled', 'disabled');
 		
-		dash.socket.open(dash.config.socket.host, dash.config.socket.port);
+		if (self.reconnectTimeout != null) {
+			window.clearTimeout(self.reconnectTimeout);
+			
+			self.reconnectTimeout = null;
+		}
+		
+		self.reconnectTimeout = window.setTimeout(function() {
+			dash.socket.open(dash.config.socket.host, dash.config.socket.port);
+		}, 1000);
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.ERROR, function(e) {
@@ -365,6 +381,10 @@ Dash.UI.prototype.initControls = function() {
 		self.shutdown(function() {
 			btn.removeAttr('disabled').html('Shutdown');
 		});
+	});
+	
+	$('#turn-btn').click(function() {
+		self.robot.turnBy(Math.PI / 2.0, 1);
 	});
 };
 

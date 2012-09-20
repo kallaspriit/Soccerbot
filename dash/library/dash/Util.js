@@ -53,3 +53,11 @@ Dash.Util.round = function(number, decimals) {
 	
 	return number.toFixed(decimals);
 };
+
+Dash.Util.degToRad = function(degrees) {
+	return degrees * Math.PI / 180.0;
+};
+
+Dash.Util.radToDeg = function(radians) {
+	return radians * 180.0 / Math.PI;
+};
