@@ -125,7 +125,37 @@ Matrix4x1::Matrix4x1(
 
 // 2D Vector
 Vector Vector::createForwardVec(float dir, float magnitude) {
-    return Vector(Math::cos(dir) * magnitude, Math::sin(dir) * magnitude);
+    return Vector(
+        Math::cos(dir) * magnitude,
+        Math::sin(dir) * magnitude
+    );
+}
+
+Vector Vector::createDirVec(const Vector& from, const Vector& to) {
+    return Vector(
+        from.x - to.x,
+        from.y - to.y
+    );
+}
+
+float Vector::getLength() const {
+    return sqrt(pow(x, 2) + pow(y, 2));
+}
+
+Vector Vector::getRotated(float angle) const {
+    return Vector(
+        x * Math::cos(angle) - y * Math::sin(angle),
+        x * Math::sin(angle) + y * Math::cos(angle)
+    );
+}
+
+Vector Vector::getNormalized(float magnitude) const {
+    float length = getLength();
+
+    return Vector(
+        x / length * magnitude,
+        y / length * magnitude
+    );
 }
 
 

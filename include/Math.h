@@ -2,11 +2,19 @@
 #define MATH_H
 
 #include <math.h>
+#include <stdlib.h>
 
 namespace Math {
 
 static const float PI = 3.14159265358979f;
 static const float TWO_PI = 6.283185307f;
+
+static inline float abs(float num) { return ::fabs(num); }
+
+template <class T>
+static inline float abs(T num) {
+    return ::abs(num);
+}
 
 static inline float degToRad(float degrees) {
     return degrees * Math::PI / 180.0f;
@@ -26,6 +34,32 @@ static inline float cos(float a) {
 
 static inline float floatModulus(float a, float b) {
     return ::fmod(a, b);
+}
+
+static inline float distanceBetween(float x1, float y1, float x2, float y2) {
+    return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
+static inline float getAngleDir(float from, float to) {
+    float dir = from - to;
+
+	if (dir > 0 && abs(dir) <= Math::PI) {
+	    return -1;
+	} else if (dir > 0 && abs(dir) > Math::PI) {
+	    return 1;
+	} else if (dir < 0 && abs(dir) <= Math::PI) {
+	    return 1;
+	} else {
+	    return -1;
+	}
+}
+
+static inline float getAngleDiff(float source, float target) {
+    float diff = target - source;
+
+    diff += (diff > Math::PI) ? -Math::TWO_PI : (diff < -Math::PI) ? Math::TWO_PI : 0;
+
+    return diff;
 }
 
 class Matrix3x1;
@@ -106,7 +140,12 @@ class Vector {
         Vector() : x(0), y(0) {}
         Vector(float x, float y) : x(x), y(y) {}
 
+        float getLength() const;
+        Vector getRotated(float angle) const;
+        Vector getNormalized(float magnitude = 1.0f) const;
+
         static Vector createForwardVec(float dir, float magnitude = 1.0f);
+        static Vector createDirVec(const Vector& from, const Vector& to);
 
         float x;
         float y;

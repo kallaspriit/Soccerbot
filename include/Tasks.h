@@ -39,4 +39,27 @@ class TurnByTask : public Task {
         float diff;
 };
 
+class DriveToTask : public Task {
+    public:
+        DriveToTask(float x, float y, float orientation, float speed = 1) : Task(), positionThreshold(0.025f), orientationThreshold(Math::PI / 180.0f), targetX(x), targetY(y), targetOrientation(orientation), speed(speed) {}
+
+        void onStart(Robot& robot, double dt);
+        bool onStep(Robot& robot, double dt);
+        void onEnd(Robot& robot, double dt);
+        std::string toString();
+
+    private:
+        const float positionThreshold;
+        const float orientationThreshold;
+        float startX;
+        float startY;
+        float startOrientation;
+        float targetX;
+        float targetY;
+        float targetOrientation;
+        float speed;
+        float startDistance;
+        float currentDistance;
+};
+
 #endif // TASKS_H

@@ -14,21 +14,14 @@ class Util
         static void yuyvToRgb(int width, int height, unsigned char *data, unsigned char *out);
         static double now();
         static double duration(double start);
-        static float round(float r, unsigned places);
+        static float round(float r, int places = 1);
         static float signum(float value);
-        static float getDistance(int x1, int y1, int x2, int y2);
         static float random(float min, float max);
         static float limit(float num, float min, float max);
         static size_t strpos(const std::string& haystack, const std::string &needle);
         static bool replace(std::string& str, const std::string& from, const std::string& to);
         static std::string exec(const std::string& cmd);
         static std::string getWorkingDirectory();
-        static inline float abs(float num) { return ::fabs(num); }
-
-        template <class T>
-        static inline float abs(T num) {
-            return ::abs(num);
-        }
 
         template <class T>
         static inline std::string toString(const T& t) {

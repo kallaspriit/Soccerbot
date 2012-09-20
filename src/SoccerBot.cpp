@@ -210,6 +210,8 @@ void SoccerBot::handleRequest(std::string request) {
             handleResetPositionCommand(command);
         } else if (command.name == "turn-by" && command.params.size() == 2) {
             handleTurnByCommand(command);
+        } else if (command.name == "drive-to" && command.params.size() == 4) {
+            handleDriveToCommand(command);
         } else {
             std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
         }
@@ -256,6 +258,15 @@ void SoccerBot::handleTurnByCommand(const Command& cmd) {
     float speed = Util::toFloat(cmd.params[1]);
 
     robot->turnBy(angle, speed);
+}
+
+void SoccerBot::handleDriveToCommand(const Command& cmd) {
+    float x = Util::toFloat(cmd.params[0]);
+    float y = Util::toFloat(cmd.params[1]);
+    float orientation = Util::toFloat(cmd.params[2]);
+    float speed = Util::toFloat(cmd.params[3]);
+
+    robot->driveTo(x, y, orientation, speed);
 }
 
 std::string SoccerBot::getStateJSON() const {

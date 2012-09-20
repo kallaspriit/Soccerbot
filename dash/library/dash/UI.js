@@ -76,7 +76,7 @@ Dash.UI.prototype.initDebugListener = function() {
 			msgClass = 'info';
 		}
 
-		if (wrap.find('DIV').length >= 200) {
+		if (wrap.find('DIV').length >= 1000) {
 			wrap.html('');
 		}
 
@@ -385,6 +385,10 @@ Dash.UI.prototype.initControls = function() {
 	
 	$('#turn-btn').click(function() {
 		self.robot.turnBy(Math.PI / 2.0, 1);
+	});
+	
+	$('#drive-to-btn').click(function() {
+		self.robot.driveTo(0.125, 0.125, 0, 1);
 	});
 };
 

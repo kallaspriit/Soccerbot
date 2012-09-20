@@ -101,6 +101,10 @@ void Robot::step(double dt) {
 
     orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
 
+    if (orientation < 0.0f) {
+        orientation += Math::TWO_PI;
+    }
+
     float globalVelocityX = movement.velocityX * Math::cos(orientation) - movement.velocityY * Math::sin(orientation);
     float globalVelocityY = movement.velocityX * Math::sin(orientation) + movement.velocityY * Math::cos(orientation);
 
@@ -165,6 +169,10 @@ Task* Robot::getCurrentTask() {
 
 void Robot::turnBy(float angle, float speed) {
     addTask(new TurnByTask(angle, speed));
+}
+
+void Robot::driveTo(float x, float y, float orientation, float speed) {
+    addTask(new DriveToTask(x, y, orientation, speed));
 }
 
 void Robot::handleTasks(double dt) {

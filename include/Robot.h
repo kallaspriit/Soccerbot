@@ -50,6 +50,7 @@ class Robot {
         void handleTasks(double dt);
 
         void turnBy(float angle, float speed = 1.0f);
+        void driveTo(float x, float y, float orientation, float speed = 1.0f);
 
         Robot::Movement getMovement();
 

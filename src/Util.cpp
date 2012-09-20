@@ -77,7 +77,7 @@ double Util::duration(double start) {
     return diff;
 }
 
-float Util::round(float r, unsigned places) {
+float Util::round(float r, int places) {
     float off = pow(10, places);
 
     return (int)(r * off) / off;
@@ -88,13 +88,6 @@ float Util::signum(float value) {
     if (value < 0) return -1;
 
     return 0;
-}
-
-float Util::getDistance(int x1, int y1, int x2, int y2) {
-    int dx = x1 - x2;
-    int dy = y1 - y2;
-
-    return sqrt(dx * dx + dy * dy);
 }
 
 float Util::random(float min, float max) {
