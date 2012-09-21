@@ -34,7 +34,7 @@ void TurnByTask::onEnd(Robot& robot, double dt) {
 std::string TurnByTask::toString() {
     float percent = 100.0f - (diff * 100.0f / Math::abs(turnAngle));
 
-    return "*TurnBy " + Util::toString(Util::round(Math::radToDeg(turnAngle), 1)) + " deg | " + Util::toString(Util::round(percent, 0)) + "%";
+    return "TurnBy " + Util::toString(Util::round(Math::radToDeg(turnAngle), 1)) + " deg | " + Util::toString(Util::round(percent, 0)) + "%";
 }
 
 // DriveTo coordinates task
