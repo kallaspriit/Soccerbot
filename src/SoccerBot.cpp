@@ -270,7 +270,7 @@ void SoccerBot::handleDriveToCommand(const Command& cmd) {
 }
 
 std::string SoccerBot::getStateJSON() const {
-    Math::Vector pos = robot->getPosition();
+    Math::Position pos = robot->getPosition();
 
     std::stringstream stream;
 
@@ -279,7 +279,7 @@ std::string SoccerBot::getStateJSON() const {
     // general robot info
     stream << "\"x\":" << pos.x << ",";
     stream << "\"y\":" << pos.y << ",";
-    stream << "\"orientation\":" << robot->getOrientation() << ",";
+    stream << "\"orientation\":" << pos.orientation << ",";
     stream << "\"dt\":" << lastStepDt << ",";
     stream << "\"load\":" << lastStepLoad << ",";
     stream << "\"duration\":" << lastStepDuration << ",";

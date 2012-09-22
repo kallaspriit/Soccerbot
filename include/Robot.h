@@ -9,6 +9,7 @@
 
 class Wheel;
 class Task;
+class ParticleFilterLocalizer;
 
 typedef std::deque<Task*> TaskQueue;
 typedef std::deque<Task*>::const_iterator TaskQueueIt;
@@ -30,7 +31,7 @@ class Robot {
         void init();
         void step(double dt);
 
-        const Math::Vector getPosition() const { return Math::Vector(x, y);  }
+        const Math::Position getPosition() const { return Math::Position(x, y, orientation);  }
         float getOrientation() const { return orientation; }
         const Wheel& getWheelFL() const { return *wheelFL; }
         const Wheel& getWheelFR() const { return *wheelFR; }
@@ -71,6 +72,8 @@ class Robot {
         Wheel* wheelFR;
         Wheel* wheelRL;
         Wheel* wheelRR;
+
+        ParticleFilterLocalizer* robotLocalizer;
 
         Math::Matrix4x3 omegaMatrix;
         Math::Matrix3x3 omegaMatrixInvA;

@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "JSON.h"
 #include "Wheel.h"
+#include "ParticleFilterLocalizer.h"
 #include "Util.h"
 #include "Tasks.h"
 
@@ -9,6 +10,12 @@
 #include <sstream>
 
 Robot::Robot() {
+    wheelFL = NULL;
+    wheelFR = NULL;
+    wheelRL = NULL;
+    wheelRR = NULL;
+    robotLocalizer = NULL;
+
     wheelAngles[0] = Math::degToRad(-135.0f);
     wheelAngles[1] = Math::degToRad(-45.0f);
     wheelAngles[2] = Math::degToRad(45.0f);
@@ -53,6 +60,11 @@ Robot::~Robot() {
 
         tasks.pop_front();
     }
+
+    if (robotLocalizer != NULL) {
+        delete robotLocalizer;
+        robotLocalizer = NULL;
+    }
 }
 
 void Robot::init() {
@@ -88,6 +100,8 @@ void Robot::init() {
     wheelFR = new Wheel(2);
     wheelRL = new Wheel(3);
     wheelRR = new Wheel(4);
+
+    robotLocalizer = new ParticleFilterLocalizer();
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
     //setTargetDir(Math::Deg(0.0f), 0.0f, 0.0f);

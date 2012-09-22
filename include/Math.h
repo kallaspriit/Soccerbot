@@ -16,6 +16,12 @@ static inline float abs(T num) {
     return ::abs(num);
 }
 
+static inline float round(float r, int places = 1) {
+    float off = pow(10, places);
+
+    return (int)(r * off) / off;
+}
+
 static inline float degToRad(float degrees) {
     return degrees * Math::PI / 180.0f;
 }
@@ -30,6 +36,18 @@ static inline float sin(float a) {
 
 static inline float cos(float a) {
     return ::cos(a);
+}
+
+static inline float exp(float a) {
+    return ::exp(a);
+}
+
+static inline float pow(float a, float b) {
+    return ::pow(a, b);
+}
+
+static inline float sqrt(float a) {
+    return ::sqrt(a);
 }
 
 static inline float floatModulus(float a, float b) {
@@ -60,6 +78,24 @@ static inline float getAngleDiff(float source, float target) {
     diff += (diff > Math::PI) ? -Math::TWO_PI : (diff < -Math::PI) ? Math::TWO_PI : 0;
 
     return diff;
+}
+
+static inline int randomInt(int min = 0, int max = 100) {
+    return min + (rand() % (int)(max - min + 1));
+}
+
+static inline float randomFloat(float min = 0.0f, float max = 1.0f) {
+    float r = (float)rand() / (float)RAND_MAX;
+
+    return min + r * (max - min);
+}
+
+static inline float randomGaussian(float deviation = 0.5f, float mean = 0.0f) {
+    return ((Math::randomFloat() * 2.0f - 1.0f) + (Math::randomFloat() * 2.0f - 1.0f) + (Math::randomFloat() * 2.0f - 1.0f)) * deviation + mean;
+}
+
+static inline float getGaussian(float mu, float sigma, float x) {
+    return Math::exp(-Math::pow(mu - x,  2.0f) / Math::pow(sigma, 2.0f) / 2.0f) / Math::sqrt(2.0f * Math::PI * Math::pow(sigma, 2.0f));
 }
 
 class Matrix3x1;
@@ -177,6 +213,12 @@ class Rad : public Angle {
 
     private:
         float radians;
+};
+
+struct Position : public Vector {
+    inline Position(float x, float y, float orientation = 0.0f) : Vector(x, y), orientation(orientation) {}
+
+    float orientation;
 };
 
 

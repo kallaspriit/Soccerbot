@@ -77,22 +77,11 @@ double Util::duration(double start) {
     return diff;
 }
 
-float Util::round(float r, int places) {
-    float off = pow(10, places);
-
-    return (int)(r * off) / off;
-}
-
 float Util::signum(float value) {
     if (value > 0) return 1;
     if (value < 0) return -1;
 
     return 0;
-}
-
-float Util::random(float min, float max) {
-    float r = (float)rand() / (float)RAND_MAX;
-    return min + r * (max - min);
 }
 
 float Util::limit(float num, float min, float max) {

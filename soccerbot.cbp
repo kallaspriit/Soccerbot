@@ -46,9 +46,11 @@
 			<Add directory="/usr/local/lib" />
 		</Linker>
 		<Unit filename="include/Command.h" />
+		<Unit filename="include/Config.h" />
 		<Unit filename="include/JSON.h" />
 		<Unit filename="include/JsonResponse.h" />
 		<Unit filename="include/Math.h" />
+		<Unit filename="include/ParticleFilterLocalizer.h" />
 		<Unit filename="include/Robot.h" />
 		<Unit filename="include/Serial.h" />
 		<Unit filename="include/SignalHandler.h" />
@@ -61,6 +63,7 @@
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
 		<Unit filename="src/Math.cpp" />
+		<Unit filename="src/ParticleFilterLocalizer.cpp" />
 		<Unit filename="src/Robot.cpp" />
 		<Unit filename="src/Serial.cpp" />
 		<Unit filename="src/SignalHandler.cpp" />

@@ -34,27 +34,27 @@ void TurnByTask::onEnd(Robot& robot, double dt) {
 std::string TurnByTask::toString() {
     float percent = 100.0f - (diff * 100.0f / Math::abs(turnAngle));
 
-    return "TurnBy " + Util::toString(Util::round(Math::radToDeg(turnAngle), 1)) + " deg | " + Util::toString(Util::round(percent, 0)) + "%";
+    return "TurnBy " + Util::toString(Math::round(Math::radToDeg(turnAngle), 1)) + " deg | " + Util::toString(Math::round(percent, 0)) + "%";
 }
 
 // DriveTo coordinates task
 void DriveToTask::onStart(Robot& robot, double dt) {
-    Math::Vector pos = robot.getPosition();
+    Math::Position pos = robot.getPosition();
 
     startX = pos.x;
     startY = pos.y;
-    startOrientation = robot.getOrientation();
+    startOrientation = pos.orientation;
 
     startDistance = Math::distanceBetween(pos.x, pos.y, targetX, targetY);
 }
 
 bool DriveToTask::onStep(Robot& robot, double dt) {
-    Math::Vector pos = robot.getPosition();
+    Math::Position pos = robot.getPosition();
     Math::Vector target(targetX, targetY);
 
     currentDistance = Math::distanceBetween(pos.x, pos.y, targetX, targetY);
 
-    float currentOrientation = robot.getOrientation();
+    float currentOrientation = pos.orientation;
     float orientationDiff = Math::getAngleDiff(currentOrientation, targetOrientation);
 
     if (currentDistance <= positionThreshold && Math::abs(orientationDiff) < orientationThreshold) {
@@ -93,5 +93,5 @@ void DriveToTask::onEnd(Robot& robot, double dt) {
 std::string DriveToTask::toString() {
     float percent = 100.0f - (currentDistance * 100.0f / startDistance);
 
-    return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Util::round(Math::radToDeg(targetOrientation), 1)) + " deg | " + Util::toString(Util::round(percent, 0)) + "%";
+    return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Math::round(Math::radToDeg(targetOrientation), 1)) + " deg | " + Util::toString(Math::round(percent, 0)) + "%";
 }
