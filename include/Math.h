@@ -234,6 +234,7 @@ typedef std::vector<Point> PointList;
 class Polygon {
     public:
         Polygon(const PointList& points);
+        bool containsPoint(float x, float y);
 
     private:
         PointList points;

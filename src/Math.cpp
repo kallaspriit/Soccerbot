@@ -163,4 +163,20 @@ Polygon::Polygon(const PointList& points) {
     this->points = points;
 }
 
+bool Polygon::containsPoint(float x, float y) {
+    for (int i = 0, j = 0; i < 10; i++) {
+
+    }
+
+    /*for(bool c = false, int i = -1, int l = points.size(), int j = l - 1; ++i < l; j = i) {
+		((points[i].y <= y && y < points[j].y) || (points[j].y <= y && y < points[i].y))
+		&& (x < (points[j].x - points[i].x) * (y - points[i].y) / (points[j].y - points[i].y) + points[i].x)
+		&& (c = !c);
+	}
+
+	return c;*/
+
+	return false;
+}
+
 } // namespace Math
