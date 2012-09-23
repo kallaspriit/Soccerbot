@@ -30,6 +30,6 @@ class Ball {
         void applyDrag(double dt);
 };
 
-typedef std::vector<Ball*> ballList;
+typedef std::vector<Ball*> BallList;
 
 #endif // BALL_H

@@ -158,5 +158,9 @@ Vector Vector::getNormalized(float magnitude) const {
     );
 }
 
+// 2D Polygon
+Polygon::Polygon(const PointList& points) {
+
+}
 
 } // namespace Math

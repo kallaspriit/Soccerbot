@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <vector>
 
 namespace Math {
 
@@ -221,6 +222,22 @@ struct Position : public Vector {
     float orientation;
 };
 
+struct Point {
+    Point(float x, float y) : x(x), y(y) {}
+
+    float x;
+    float y;
+};
+
+typedef std::vector<Point> PointList;
+
+class Polygon {
+    public:
+        Polygon(const PointList& points);
+
+    private:
+        PointList points;
+};
 
 } // namespace Math
 
