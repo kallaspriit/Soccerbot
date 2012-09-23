@@ -2,6 +2,7 @@
 #include "Config.h"
 
 #include <vector>
+#include <algorithm>
 
 BallLocalizer::BallLocalizer() {
 
@@ -35,6 +36,14 @@ void BallLocalizer::update(Math::Position robotPosition, const BallList& visible
 
             handledBalls.push_back(newBall->id);
         }
+    }
+
+    for (unsigned int i = 0; i < balls.size(); i++) {
+        if (std::find(handledBalls.begin(), handledBalls.end(), balls[i]->id) != handledBalls.end()) {
+            continue;
+        }
+
+        balls[i]->updateInvisible(dt);
     }
 }
 
