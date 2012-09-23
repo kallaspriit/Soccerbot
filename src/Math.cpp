@@ -165,6 +165,10 @@ Polygon::Polygon(const PointList& points) {
     this->points = points;
 }
 
+void Polygon::addPoint(float x, float y) {
+    points.push_back(Point(x, y));
+}
+
 bool Polygon::containsPoint(float x, float y) {
     bool c = false;
     int i = -1;
@@ -180,6 +184,10 @@ bool Polygon::containsPoint(float x, float y) {
 
 Polygon Polygon::getTranslated(float dx, float dy) {
     Polygon translated;
+
+    for(int i = 0; i < points.size(); i++) {
+        translated.addPoint(points[i].x + dx, points[i].y + dy);
+	}
 
     return translated;
 }

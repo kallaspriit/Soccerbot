@@ -236,6 +236,7 @@ class Polygon {
         Polygon();
         Polygon(const PointList& points);
 
+        void addPoint(float x, float y);
         bool containsPoint(float x, float y);
         Polygon getTranslated(float dx, float dy);
 
