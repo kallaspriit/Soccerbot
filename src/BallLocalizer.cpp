@@ -45,6 +45,8 @@ void BallLocalizer::update(Math::Position robotPosition, const BallList& visible
 
         balls[i]->updateInvisible(dt);
     }
+
+    purge(visibleBalls, cameraFOV);
 }
 
 Ball* BallLocalizer::getBallAround(float x, float y) {
@@ -71,4 +73,8 @@ Ball* BallLocalizer::getBallAround(float x, float y) {
     }
 
     return closestBall;
+}
+
+void BallLocalizer::purge(const BallList& visibleBalls, const Math::Polygon& cameraFOV) {
+
 }
