@@ -238,6 +238,7 @@ class Polygon {
         Polygon(const PointList& points);
 
         void addPoint(float x, float y);
+        void addPoint(Point point);
         bool containsPoint(float x, float y) const;
         Polygon getTranslated(float dx, float dy) const;
         Polygon getScaled(float sx, float sy) const;

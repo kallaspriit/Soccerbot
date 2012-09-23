@@ -177,6 +177,10 @@ void Polygon::addPoint(float x, float y) {
     points.push_back(Point(x, y));
 }
 
+void Polygon::addPoint(Point point) {
+    points.push_back(point);
+}
+
 bool Polygon::containsPoint(float x, float y) const {
     bool c = false;
     int i = -1;
@@ -201,23 +205,23 @@ Polygon Polygon::getTranslated(float dx, float dy) const {
 }
 
 Polygon Polygon::getScaled(float sx, float sy) const {
-    Polygon translated;
+    Polygon scaled;
 
     for(unsigned int i = 0; i < points.size(); i++) {
-        translated.addPoint(points[i].x * sx, points[i].y * sy);
+        scaled.addPoint(points[i].x * sx, points[i].y * sy);
 	}
 
-    return translated;
+    return scaled;
 }
 
 Polygon Polygon::getRotated(float angle) const {
-    Polygon translated;
+    Polygon rotated;
 
     for(unsigned int i = 0; i < points.size(); i++) {
-
+        rotated.addPoint(points[i].getRotated(angle));
 	}
 
-    return translated;
+    return rotated;
 }
 
 } // namespace Math
