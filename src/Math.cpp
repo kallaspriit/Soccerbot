@@ -185,7 +185,7 @@ bool Polygon::containsPoint(float x, float y) {
 Polygon Polygon::getTranslated(float dx, float dy) {
     Polygon translated;
 
-    for(int i = 0; i < points.size(); i++) {
+    for(unsigned int i = 0; i < points.size(); i++) {
         translated.addPoint(points[i].x + dx, points[i].y + dy);
 	}
 
