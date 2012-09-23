@@ -1,6 +1,8 @@
 #include "BallLocalizer.h"
 #include "Config.h"
 
+#include <vector>
+
 BallLocalizer::BallLocalizer() {
 
 }
@@ -11,6 +13,7 @@ BallLocalizer::~BallLocalizer() {
 
 void BallLocalizer::update(Math::Position robotPosition, const BallList& visibleBalls, const Math::Polygon& cameraFOV, double dt) {
     Ball* closestBall;
+    std::vector<int> handledBalls;
     float globalAngle;
 
     for (unsigned int i = 0; i < visibleBalls.size(); i++) {
@@ -20,6 +23,18 @@ void BallLocalizer::update(Math::Position robotPosition, const BallList& visible
         visibleBalls[i]->y = robotPosition.y + Math::sin(globalAngle) * visibleBalls[i]->distance;
 
         closestBall = getBallAround(visibleBalls[i]->x, visibleBalls[i]->y);
+
+        if (closestBall != NULL) {
+            closestBall->updateVisible(visibleBalls[i]->x, visibleBalls[i]->y, visibleBalls[i]->distance, visibleBalls[i]->angle, dt);
+
+            handledBalls.push_back(closestBall->id);
+        } else {
+            Ball* newBall = new Ball(visibleBalls[i]->x, visibleBalls[i]->y, visibleBalls[i]->distance, visibleBalls[i]->angle, dt);
+
+            balls.push_back(newBall);
+
+            handledBalls.push_back(newBall->id);
+        }
     }
 }
 
