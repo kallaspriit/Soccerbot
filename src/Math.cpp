@@ -158,6 +158,14 @@ Vector Vector::getNormalized(float magnitude) const {
     );
 }
 
+// 2D Point
+Point Point::getRotated(float angle) const {
+    return Point(
+        x * Math::cos(angle) - y * Math::sin(angle),
+        x * Math::sin(angle) + y * Math::cos(angle)
+    );
+}
+
 // 2D Polygon
 Polygon::Polygon() {}
 
@@ -169,7 +177,7 @@ void Polygon::addPoint(float x, float y) {
     points.push_back(Point(x, y));
 }
 
-bool Polygon::containsPoint(float x, float y) {
+bool Polygon::containsPoint(float x, float y) const {
     bool c = false;
     int i = -1;
 
@@ -182,11 +190,31 @@ bool Polygon::containsPoint(float x, float y) {
 	return c;
 }
 
-Polygon Polygon::getTranslated(float dx, float dy) {
+Polygon Polygon::getTranslated(float dx, float dy) const {
     Polygon translated;
 
     for(unsigned int i = 0; i < points.size(); i++) {
         translated.addPoint(points[i].x + dx, points[i].y + dy);
+	}
+
+    return translated;
+}
+
+Polygon Polygon::getScaled(float sx, float sy) const {
+    Polygon translated;
+
+    for(unsigned int i = 0; i < points.size(); i++) {
+        translated.addPoint(points[i].x * sx, points[i].y * sy);
+	}
+
+    return translated;
+}
+
+Polygon Polygon::getRotated(float angle) const {
+    Polygon translated;
+
+    for(unsigned int i = 0; i < points.size(); i++) {
+
 	}
 
     return translated;

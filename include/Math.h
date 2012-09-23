@@ -224,6 +224,7 @@ struct Position : public Vector {
 
 struct Point {
     Point(float x, float y) : x(x), y(y) {}
+    Point getRotated(float angle) const;
 
     float x;
     float y;
@@ -237,8 +238,10 @@ class Polygon {
         Polygon(const PointList& points);
 
         void addPoint(float x, float y);
-        bool containsPoint(float x, float y);
-        Polygon getTranslated(float dx, float dy);
+        bool containsPoint(float x, float y) const;
+        Polygon getTranslated(float dx, float dy) const;
+        Polygon getScaled(float sx, float sy) const;
+        Polygon getRotated(float angle) const;
 
     private:
         PointList points;
