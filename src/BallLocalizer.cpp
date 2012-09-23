@@ -29,7 +29,7 @@ Ball* BallLocalizer::getBallAround(float x, float y) {
     Ball* ball;
     Ball* closestBall;
 
-    for (int i = 0; i < balls.size(); i++) {
+    for (unsigned int i = 0; i < balls.size(); i++) {
         ball = balls[i];
 
         distance = Math::distanceBetween(ball->x, ball->y, x, y);
