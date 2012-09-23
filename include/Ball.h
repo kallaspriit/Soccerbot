@@ -1,6 +1,8 @@
 #ifndef BALL_H
 #define BALL_H
 
+#include <vector>
+
 class Ball {
     public:
         Ball(float x, float y, float distance, float angle, double dt);
@@ -27,5 +29,7 @@ class Ball {
 
         void applyDrag(double dt);
 };
+
+typedef std::vector<Ball*> ballList;
 
 #endif // BALL_H
