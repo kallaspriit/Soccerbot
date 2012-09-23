@@ -24,6 +24,14 @@ void Ball::updateInvisible(double dt) {
 
 }
 
+void Ball::markForRemoval(double afterSeconds) {
+
+}
+
+bool Ball::shouldBeRemoved() {
+    return false;
+}
+
 BallLocalizer::BallLocalizer() {
 
 }
