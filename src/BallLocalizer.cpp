@@ -1,4 +1,5 @@
 #include "BallLocalizer.h"
+#include "Config.h"
 
 BallLocalizer::BallLocalizer() {
 
@@ -23,5 +24,27 @@ void BallLocalizer::update(Math::Position robotPosition, const BallList& visible
 }
 
 Ball* BallLocalizer::getBallAround(float x, float y) {
+    float distance;
+    float minDistance = -1;
+    Ball* ball;
+    Ball* closestBall;
+
+    for (int i = 0; i < balls.size(); i++) {
+        ball = balls[i];
+
+        distance = Math::distanceBetween(ball->x, ball->y, x, y);
+
+        if (
+            distance <= Config::maxBallIdentityDistance
+            && (
+                minDistance == -1
+                || distance < minDistance
+            )
+        ) {
+            minDistance = distance;
+            closestBall = ball;
+        }
+    }
+
     return NULL;
 }

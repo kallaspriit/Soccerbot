@@ -13,6 +13,7 @@ class BallLocalizer {
         Ball* getBallAround(float x, float y);
 
     private:
+        BallList balls;
 };
 
 #endif // BALLLOCALIZER_H
