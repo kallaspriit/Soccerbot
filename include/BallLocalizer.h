@@ -24,6 +24,8 @@ class Ball {
         bool visible;
     private:
         static int instances;
+
+        void applyDrag(double dt);
 };
 
 class BallLocalizer {
