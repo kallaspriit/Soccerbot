@@ -27,7 +27,7 @@ Ball* BallLocalizer::getBallAround(float x, float y) {
     float distance;
     float minDistance = -1;
     Ball* ball;
-    Ball* closestBall;
+    Ball* closestBall = NULL;
 
     for (unsigned int i = 0; i < balls.size(); i++) {
         ball = balls[i];
@@ -46,5 +46,5 @@ Ball* BallLocalizer::getBallAround(float x, float y) {
         }
     }
 
-    return NULL;
+    return closestBall;
 }
