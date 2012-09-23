@@ -233,8 +233,11 @@ typedef std::vector<Point> PointList;
 
 class Polygon {
     public:
+        Polygon();
         Polygon(const PointList& points);
+
         bool containsPoint(float x, float y);
+        Polygon getTranslated(float dx, float dy);
 
     private:
         PointList points;

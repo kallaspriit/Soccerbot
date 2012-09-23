@@ -159,6 +159,8 @@ Vector Vector::getNormalized(float magnitude) const {
 }
 
 // 2D Polygon
+Polygon::Polygon() {}
+
 Polygon::Polygon(const PointList& points) {
     this->points = points;
 }
@@ -174,6 +176,12 @@ bool Polygon::containsPoint(float x, float y) {
 	}
 
 	return c;
+}
+
+Polygon Polygon::getTranslated(float dx, float dy) {
+    Polygon translated;
+
+    return translated;
 }
 
 } // namespace Math
