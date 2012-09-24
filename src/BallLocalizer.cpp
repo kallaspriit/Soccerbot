@@ -111,7 +111,7 @@ bool BallLocalizer::isValid(Ball* ball, const BallList& visibleBalls, const Math
         return false;
     }
 
-    // @TODO Remove if in either goal..
+    // @TODO Remove if in either goal or out of bounds..
 
     if (cameraFOV.containsPoint(ball->x, ball->y)) {
         bool ballNear = false;

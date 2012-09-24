@@ -9,15 +9,16 @@ class Robot;
 
 class Task {
     public:
-        Task() : _ready(false) {}
+        Task() : started(false) {}
         virtual void onStart(Robot& robot, double dt) {};
         virtual bool onStep(Robot& robot, double dt) { return false; };
         virtual void onEnd(Robot& robot, double dt) {};
         virtual std::string toString() { return "[Task]"; }
-
-        bool _ready;
+        bool isStarted() { return started; }
+        void setStarted(bool mode) { started = mode; }
 
     private:
+        bool started;
 };
 
 class TurnByTask : public Task {

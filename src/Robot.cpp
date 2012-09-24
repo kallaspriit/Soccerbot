@@ -196,10 +196,10 @@ void Robot::handleTasks(double dt) {
         return;
     }
 
-    if (!task->_ready) {
+    if (!task->isStarted()) {
         task->onStart(*this, dt);
 
-        task->_ready = true;
+        task->setStarted(true);
     }
 
     if (task->onStep(*this, dt) == false) {
