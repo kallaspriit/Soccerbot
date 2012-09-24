@@ -5,6 +5,7 @@
 		<title>SoccerBot :: Dashboard</title>
 		<script src="library/jquery/jquery-1.8.0.min.js"></script>
 		<script src="library/jquery/jquery.ba-outside-events.min.js"></script>
+		<script src="library/jquery/jquery.cookie.js"></script>
 		<script src="library/checkbox/iphone-style-checkboxes.js"></script>
 		<script src="library/gamepad/gamepad.js"></script>
 		<script src="library/slider/slider.js"></script>
@@ -47,14 +48,22 @@
 				</table>
 			</div>
 			<div id="buttons">
+				<button id="host-btn">Host</button>
 				<button id="rebuild-btn">Start</button>
-				<button id="shutdown-btn">Shutdown</button>
 				<button id="kill-btn" class="live-only" disabled="disabled">Kill</button>
+				<button id="shutdown-btn">Shutdown</button>
 				<button id="reset-position-btn" class="live-only seperated" disabled="disabled">Reset position</button>
 				<button id="turn-btn" class="live-only" disabled="disabled">Turn 90°</button>
 				<button id="drive-to-btn" class="live-only" disabled="disabled">Call Home</button>
 				<button id="drive-test-btn" class="live-only" disabled="disabled">Test Drive</button>
 			</div>
+			<ul id="connection">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
 			<div id="rx-tx">
 				<div id="rx"></div>
 				<div id="tx"></div>

@@ -5,6 +5,18 @@ Dash.FpsCounter = function(changeCallback, interval) {
 	this.frames = 0;
 	this.previousFPS = 0;
 	this.lastFPS = 0;
+	
+	if (typeof(this.changeCallback) == 'function') {
+		var self = this;
+		
+		window.setInterval(function() {
+			if (self.lastFPS != self.previousFPS) {
+				self.changeCallback(self.lastFPS, self.previousFPS);
+				
+				self.previousFPS = self.lastFPS;
+			}
+		}, 500);
+	}
 };
 
 Dash.FpsCounter.prototype.step = function() {
@@ -24,15 +36,6 @@ Dash.FpsCounter.prototype.step = function() {
 		this.frames = 0;
 	} else {
 		this.frames++;
-	}
-	
-	if (
-		this.lastFPS != this.previousFPS
-		&& typeof(this.changeCallback) == 'function'
-	) {
-		this.changeCallback(this.lastFPS, this.previousFPS);
-		
-		this.previousFPS = this.lastFPS;
 	}
 };
 

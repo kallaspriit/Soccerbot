@@ -312,12 +312,8 @@ A:hover {
 	right: 4px;
 	top: 4px;
 	width: 16px;
-	height: 16px;
+	height: 15px;
 	z-index: 11;
-	border-left: 1px solid #666;
-	border-top: 1px solid #666;
-	border-right: 1px solid #CCC;
-	border-bottom: 1px solid #CCC;
 	border-radius: 3px;
 }
 #rx, #tx {
@@ -325,7 +321,7 @@ A:hover {
 	left: 0;
 	top: 0;
 	width: 8px;
-	height: 16px;
+	height: 15px;
 	background-color: #888;
 }
 #rx {
@@ -336,10 +332,53 @@ A:hover {
 	border-radius: 0 2px 2px 0;
 }
 #rx.active {
-	background-color: #0F0;
+	background-color: #090;
 }
 #tx.active {
-	background-color: #F00;
+	background-color: #900;
+}
+
+/* Connection */
+#connection {
+	position: absolute;
+	right: 24px;
+	top: 4px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+}
+#connection LI {
+	float: left;
+	margin: 0 1px 0 0;
+	padding: 0;
+	width: 2px;
+	height: 16px;
+	background-color: #888;
+}
+#connection LI.active {
+	background-color: #090;
+}
+#connection LI:nth-child(1) {
+	height: 3px;
+	margin-top: 12px;
+}
+#connection LI:nth-child(2) {
+	height: 6px;
+	margin-top: 9px;
+}
+#connection LI:nth-child(3) {
+	height: 9px;
+	margin-top: 6px;
+}
+#connection LI:nth-child(4) {
+	height: 12px;
+	margin-top: 3px;
+}
+#connection LI:nth-child(5) {
+	height: 15px;
+	margin-top: 0px;
 }
 
 /* Robot status */

@@ -181,7 +181,12 @@ Dash.UI.prototype.initSlider = function() {
 };
 
 Dash.UI.prototype.initSocket = function() {
-	var self = this;
+	var self = this,
+		cookieHost = $.cookie('host');
+		
+	if (cookieHost != null) {
+		dash.config.socket.host = cookieHost;
+	}
 	
 	dash.socket.bind(Dash.Socket.Event.OPEN, function(e) {
 		if (self.reconnectTimeout != null) {
@@ -259,7 +264,15 @@ Dash.UI.prototype.initRobot = function() {
 
 Dash.UI.prototype.initFpsCounter = function() {
 	this.rxCounter = new Dash.FpsCounter(function(fps) {
-		console.log('rx.fps', fps);
+		var wrap = $('#connection'),
+			maxFps = 60.0,
+			current = fps / maxFps;
+		
+		wrap.find('LI:eq(0)').attr('class', current >= 0.2 ? 'active' : '');
+		wrap.find('LI:eq(1)').attr('class', current >= 0.4 ? 'active' : '');
+		wrap.find('LI:eq(2)').attr('class', current >= 0.6 ? 'active' : '');
+		wrap.find('LI:eq(3)').attr('class', current >= 0.8 ? 'active' : '');
+		wrap.find('LI:eq(4)').attr('class', current >= 0.95 ? 'active' : '');
 	});
 };
 
@@ -381,9 +394,19 @@ Dash.UI.prototype.initControls = function() {
 		}
 	});
 	
-	$('#reset-position-btn').click(function() {
-		self.robot.resetPosition();
-	});
+	$('#host-btn').click(function() {
+		var newHost = window.prompt('Enter robot hostname or IP', dash.config.socket.host);
+		
+		if (typeof(newHost) == 'string' && newHost.length> 0) {
+			dash.config.socket.host = newHost;
+			
+			dash.socket.open(dash.config.socket.host, dash.config.socket.port);
+			
+			$.cookie('host', dash.config.socket.host);
+			
+			$(this).html(dash.config.socket.host);
+		}
+	}).html(dash.config.socket.host);
 	
 	$('#rebuild-btn').click(function() {
 		var btn = $(this);
@@ -413,6 +436,10 @@ Dash.UI.prototype.initControls = function() {
 		self.shutdown(function() {
 			btn.removeAttr('disabled').html('Shutdown');
 		});
+	});
+	
+	$('#reset-position-btn').click(function() {
+		self.robot.resetPosition();
 	});
 	
 	$('#turn-btn').click(function() {
