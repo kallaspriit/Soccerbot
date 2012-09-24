@@ -116,7 +116,6 @@ bool BallLocalizer::isValid(Ball* ball, const BallList& visibleBalls, const Math
     if (cameraFOV.containsPoint(ball->x, ball->y)) {
         bool ballNear = false;
         float distance;
-        float nearestDistance = -1;
 
         for (unsigned int i = 0; i < visibleBalls.size(); i++) {
             distance = Math::distanceBetween(ball->x, ball->y, visibleBalls[i]->x, visibleBalls[i]->y);
