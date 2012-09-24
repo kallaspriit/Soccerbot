@@ -32,6 +32,10 @@ void TurnByTask::onEnd(Robot& robot, double dt) {
 }
 
 float TurnByTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
     return 100.0f - (diff * 100.0f / Math::abs(turnAngle));
 }
 
@@ -93,6 +97,10 @@ void DriveToTask::onEnd(Robot& robot, double dt) {
 }
 
 float DriveToTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
     return 100.0f - (currentDistance * 100.0f / startDistance);
 }
 

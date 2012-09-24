@@ -158,19 +158,33 @@ A:hover {
     overflow: hidden;
 }
 #tasks > LI {
+	position: relative;
     width: 240px;
     padding: 5px 10px;
     margin: 1px 0 0;
     background-color: rgba(0, 0, 0, 0.5);
     color: #FFF;
 }
-#tasks > LI:first-child {
+/*#tasks > LI:first-child {
     margin-top: 0;
     border-radius: 3px 3px 0 0;
     background-color: rgba(0, 255, 0, 0.5);
-}
+}*/
 #tasks > LI:last-child {
     border-radius: 0 0 3px 3px;
+}
+#tasks > LI > .percentage {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 0%;
+	background-color: rgba(0, 255, 0, 0.5);
+	z-index: 1;
+}
+#tasks > LI > .status {
+	position: relative;
+	z-index: 2;
 }
 
 /* Options and buttons */

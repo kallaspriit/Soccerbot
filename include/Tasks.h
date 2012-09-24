@@ -18,7 +18,7 @@ class Task {
         bool isStarted() { return started; }
         void setStarted(bool mode) { started = mode; }
 
-    private:
+    protected:
         bool started;
 };
 
