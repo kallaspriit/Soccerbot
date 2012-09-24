@@ -11,6 +11,9 @@ const float ballDrag = 0.2f;
 const float ballLocalizerVelocityUpdateMaxTime = 0.025f;
 const float maxBallIdentityDistance = 0.25f;
 const float ballRemoveTime = 0.3f;
+const float ballPurgeLifetime = 10.0f;
+const float ballMaxVelocity = 8.0f;
+const float ballFovCloseEnough = 0.5f;
 
 } // namespace Config
 

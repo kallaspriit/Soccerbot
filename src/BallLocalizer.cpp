@@ -101,5 +101,37 @@ void BallLocalizer::purge(const BallList& visibleBalls, const Math::Polygon& cam
 bool BallLocalizer::isValid(Ball* ball, const BallList& visibleBalls, const Math::Polygon& cameraFOV) {
     double currentTime = Util::millitime();
 
-    return false;
+    if (currentTime - ball->updatedTime > Config::ballPurgeLifetime) {
+        return false;
+    }
+
+    Math::Vector velocity(ball->velocityX, ball->velocityY);
+
+    if (velocity.getLength() > Config::ballMaxVelocity) {
+        return false;
+    }
+
+    // @TODO Remove if in either goal..
+
+    if (cameraFOV.containsPoint(ball->x, ball->y)) {
+        bool ballNear = false;
+        float distance;
+        float nearestDistance = -1;
+
+        for (unsigned int i = 0; i < visibleBalls.size(); i++) {
+            distance = Math::distanceBetween(ball->x, ball->y, visibleBalls[i]->x, visibleBalls[i]->y);
+
+            if (distance <= Config::ballFovCloseEnough) {
+                ballNear = true;
+
+                break;
+            }
+        }
+
+        if (!ballNear)  {
+            return false;
+        }
+    }
+
+    return true;
 }
