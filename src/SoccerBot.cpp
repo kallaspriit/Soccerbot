@@ -318,7 +318,7 @@ std::string SoccerBot::getStateJSON() const {
     for (TaskQueueIt it = tasks.begin(); it != tasks.end(); it++) {
         Task* task = *it;
 
-        std::string desc = task->toString();
+        std::string status = task->toString();
 
         if (!first) {
             stream << ",";
@@ -326,11 +326,11 @@ std::string SoccerBot::getStateJSON() const {
             first = false;
         }
 
-        stream << "\"" << desc << "\"";
-
-        /*stream << "{";
-        stream << "\"status\": \"" << desc << "\"";
-        stream << "}";*/
+        stream << "{";
+        stream << "\"started\": " << (task->isStarted() ? "true" : "false") << ",";
+        stream << "\"percentage\": " << task->getPercentage() << ",";
+        stream << "\"status\": \"" << status << "\"";
+        stream << "}";
     }
 
     stream << "]";

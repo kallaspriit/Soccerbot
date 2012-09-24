@@ -568,7 +568,7 @@ Dash.UI.prototype.showTasksQueue = function(state) {
 	wrap.empty();
 	
 	for (i = 0; i < state.tasks.length; i++) {
-		wrap.append('<li>' + state.tasks[i] + '</li>');
+		wrap.append('<li>' + state.tasks[i].status + '</li>');
 	}
 };
 
