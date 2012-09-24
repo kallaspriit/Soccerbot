@@ -31,10 +31,12 @@ void TurnByTask::onEnd(Robot& robot, double dt) {
     robot.setTargetOmega(0);
 }
 
-std::string TurnByTask::toString() {
-    float percent = 100.0f - (diff * 100.0f / Math::abs(turnAngle));
+float TurnByTask::getPercentage() {
+    return 100.0f - (diff * 100.0f / Math::abs(turnAngle));
+}
 
-    return "TurnBy " + Util::toString(Math::round(Math::radToDeg(turnAngle), 1)) + " deg | " + Util::toString(Math::round(percent, 0)) + "%";
+std::string TurnByTask::toString() {
+    return "TurnBy " + Util::toString(Math::round(Math::radToDeg(turnAngle), 1)) + " deg";
 }
 
 // DriveTo coordinates task
@@ -90,8 +92,10 @@ void DriveToTask::onEnd(Robot& robot, double dt) {
     robot.setTargetDir(0, 0, 0);
 }
 
-std::string DriveToTask::toString() {
-    float percent = 100.0f - (currentDistance * 100.0f / startDistance);
+float DriveToTask::getPercentage() {
+    return 100.0f - (currentDistance * 100.0f / startDistance);
+}
 
-    return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Math::round(Math::radToDeg(targetOrientation), 1)) + " deg | " + Util::toString(Math::round(percent, 0)) + "%";
+std::string DriveToTask::toString() {
+    return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Math::round(Math::radToDeg(targetOrientation), 1)) + " deg";
 }
