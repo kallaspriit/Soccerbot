@@ -12,6 +12,7 @@ class BallLocalizer {
         void update(Math::Position robotPosition, const BallList& visibleBalls, const Math::Polygon& cameraFOV, double dt);
         Ball* getBallAround(float x, float y);
         void purge(const BallList& visibleBalls, const Math::Polygon& cameraFOV);
+        bool isValid(Ball* ball, const BallList& visibleBalls, const Math::Polygon& cameraFOV);
 
     private:
         BallList balls;

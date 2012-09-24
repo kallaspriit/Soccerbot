@@ -10,7 +10,7 @@
 class Util {
     public:
         static void yuyvToRgb(int width, int height, unsigned char *data, unsigned char *out);
-        static double now();
+        static double millitime();
         static double duration(double start);
         static float signum(float value);
         static float limit(float num, float min, float max);

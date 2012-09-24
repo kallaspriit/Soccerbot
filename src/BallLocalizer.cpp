@@ -1,5 +1,6 @@
 #include "BallLocalizer.h"
 #include "Config.h"
+#include "Util.h"
 
 #include <vector>
 #include <algorithm>
@@ -76,5 +77,29 @@ Ball* BallLocalizer::getBallAround(float x, float y) {
 }
 
 void BallLocalizer::purge(const BallList& visibleBalls, const Math::Polygon& cameraFOV) {
+    BallList remainingBalls;
+    Ball* ball;
 
+    for (unsigned int i = 0; i < balls.size(); i++) {
+        ball = balls[i];
+
+        if (!ball->shouldBeRemoved()) {
+            remainingBalls.push_back(ball);
+
+            if (!isValid(ball, visibleBalls, cameraFOV)) {
+                ball->markForRemoval(Config::ballRemoveTime);
+            }
+        } else {
+            delete ball;
+            ball = NULL;
+        }
+    }
+
+    balls = remainingBalls;
+}
+
+bool BallLocalizer::isValid(Ball* ball, const BallList& visibleBalls, const Math::Polygon& cameraFOV) {
+    double currentTime = Util::millitime();
+
+    return false;
 }

@@ -148,7 +148,7 @@ void Robot::setTargetDir(float x, float y, float omega) {
     targetDir = Math::Vector(x, y);
     targetOmega = omega;
 
-    lastCommandTime = Util::now();
+    lastCommandTime = Util::millitime();
 }
 
 void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega) {
@@ -160,7 +160,7 @@ void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega) {
 void Robot::setTargetOmega(float omega) {
     targetOmega = omega;
 
-    lastCommandTime = Util::now();
+    lastCommandTime = Util::millitime();
 }
 
 void Robot::stop() {

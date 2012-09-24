@@ -7,7 +7,7 @@ int Ball::instances = 0;
 
 Ball::Ball(float x, float y, float distance, float angle, double dt) {
     id = instances++;
-    createdTime = Util::now();
+    createdTime = Util::millitime();
     updatedTime = createdTime;
     removeTime = -1,
     elasticity = Config::ballElasticity;
@@ -18,7 +18,7 @@ Ball::Ball(float x, float y, float distance, float angle, double dt) {
 }
 
 void Ball::updateVisible(float newX, float newY, float newDistance, float newAngle, double dt) {
-    double currentTime = Util::now();
+    double currentTime = Util::millitime();
     double timeSinceLastUpdate = currentTime - updatedTime;
 
     if (timeSinceLastUpdate <= Config::ballLocalizerVelocityUpdateMaxTime) {
@@ -51,11 +51,11 @@ void Ball::markForRemoval(double afterSeconds) {
         return;
     }
 
-    removeTime = Util::now() + afterSeconds;
+    removeTime = Util::millitime() + afterSeconds;
 }
 
 bool Ball::shouldBeRemoved() {
-    return removeTime != -1 && removeTime < Util::now();
+    return removeTime != -1 && removeTime < Util::millitime();
 }
 
 void Ball::applyDrag(double dt) {

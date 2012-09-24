@@ -10,6 +10,7 @@ const float ballElasticity = 0.3f;
 const float ballDrag = 0.2f;
 const float ballLocalizerVelocityUpdateMaxTime = 0.025f;
 const float maxBallIdentityDistance = 0.25f;
+const float ballRemoveTime = 0.3f;
 
 } // namespace Config
 

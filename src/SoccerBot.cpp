@@ -14,7 +14,7 @@ SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
     socket = NULL;
     serial = NULL;
     endCommand = "";
-    lastStepTime = Util::now();
+    lastStepTime = Util::millitime();
 
     originalCoutStream = std::cout.rdbuf();
     stringCoutStream = new std::ostringstream();
@@ -113,7 +113,7 @@ void SoccerBot::run() {
     double time, dt;
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
-        time = Util::now();
+        time = Util::millitime();
         dt = time - lastStepTime;
         lastStepTime = time;
         lastStepDt = dt;

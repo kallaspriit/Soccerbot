@@ -52,7 +52,7 @@ void Util::yuyvToRgb(int width, int height, unsigned char *data, unsigned char *
     }
 }
 
-double Util::now() {
+double Util::millitime() {
     timeval timeOfDay;
 
     gettimeofday(&timeOfDay, 0);
@@ -70,7 +70,7 @@ double Util::now() {
 }
 
 double Util::duration(double start) {
-    double diff = Util::now() - start;
+    double diff = Util::millitime() - start;
 
     //std::cout << "diff:" << diff << "\n";
 
