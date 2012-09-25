@@ -443,7 +443,7 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#turn-btn').click(function() {
-		self.robot.turnBy(Math.PI / 2.0, 1);
+		self.robot.turnBy(Math.PI / 2.0, 2);
 	});
 	
 	$('#drive-to-btn').click(function() {
