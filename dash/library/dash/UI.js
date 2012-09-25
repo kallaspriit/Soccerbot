@@ -458,6 +458,10 @@ Dash.UI.prototype.initControls = function() {
 	$('#run-test-btn').click(function() {
 		self.robot.runTest();
 	});
+	
+	$('#graphs-toggle-btn').click(function() {
+		$('#wheel-graphs').toggleClass('full');
+	});
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {
@@ -520,9 +524,9 @@ Dash.UI.prototype.handleLogMessage = function(messages) {
 };
 
 Dash.UI.prototype.addState = function(state) {
-	if (this.states.length >= 100000) {
+	/*if (this.states.length >= 100000) {
 		this.states = [];
-	}
+	}*/
 	
 	state.index = this.states.length;
 	

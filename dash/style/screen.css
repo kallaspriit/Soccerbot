@@ -436,6 +436,13 @@ A:hover {
 	width: 210px;
 	height: 200px;
 }
+#graphs-toggle-btn {
+	position: absolute;
+	top: 290px;
+	left: -230px;
+	color: #3563a4;
+	text-shadow: 1px 1px 1px #CCC;
+}
 .wheel-graph {
 	position: absolute;
 	width: 100px;
@@ -464,4 +471,26 @@ A:hover {
 #wheel-graph-rr {
 	left: 110px;
 	top: 110px;
+}
+#wheel-graphs.full {
+	left: 0;
+	top: 0;
+	width: 800px;
+	height: 537px;
+	background-color: #FFF;
+}
+#wheel-graphs.full .wheel-graph {
+	width: 49%;
+	height: 49%;
+	border-radius: 0;
+}
+#wheel-graphs.full #wheel-graph-fr {
+	left: 50%;
+}
+#wheel-graphs.full #wheel-graph-rl {
+	top: 50%;
+}
+#wheel-graphs.full #wheel-graph-rr {
+	left: 50%;
+	top: 50%;
 }

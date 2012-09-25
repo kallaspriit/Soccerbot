@@ -38,13 +38,6 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 		y,
 		i;
 		
-	/*this.c.lineWidth = 1;
-	this.c.strokeStyle = '#CCC';
-	this.c.beginPath();
-	this.c.moveTo(0, this.height / 2 + 1);
-	this.c.lineTo(this.width, this.height / 2 + 1);
-	this.c.stroke();*/
-	
 	this.c.lineWidth = 2;
 	
 	// draw target omega
@@ -107,6 +100,22 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 	}
 	
 	this.c.stroke();
+	
+	this.c.lineWidth = 1;
+	this.c.fillStyle = '#FFF';
+	this.c.beginPath();
+	this.c.moveTo(0, this.height / 2 + -3);
+	this.c.lineTo(6, this.height / 2);
+	this.c.lineTo(0, this.height / 2 + 3);
+	this.c.closePath();
+	this.c.fill();
+	
+	this.c.beginPath();
+	this.c.moveTo(this.width, this.height / 2 + -3);
+	this.c.lineTo(this.width - 6, this.height / 2);
+	this.c.lineTo(this.width, this.height / 2 + 3);
+	this.c.closePath();
+	this.c.fill();
 	
 	this.lastState = state;
 	this.lastName = name;
