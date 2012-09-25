@@ -520,7 +520,17 @@ Dash.UI.prototype.handleLogMessage = function(messages) {
 };
 
 Dash.UI.prototype.addState = function(state) {
+	if (this.states.length >= 100000) {
+		this.states = [];
+	}
+	
 	state.index = this.states.length;
+	
+	if (this.states.length > 0) {
+		state.previous = this.states[this.states.length - 1];
+	} else {
+		state.previous = null;
+	}
 	
 	this.states.push(state);
 	
@@ -565,7 +575,10 @@ Dash.UI.prototype.showCurrentStateInfo = function() {
 };
 
 Dash.UI.prototype.showStateInfo = function(state) {
-	$('#state-info').html(Dash.Util.highlightJSON(state)).show();
+	var showState = $.extend({}, state);
+	delete showState.previous;
+	
+	$('#state-info').html(Dash.Util.highlightJSON(showState)).show();
 };
 
 Dash.UI.prototype.hideStateInfo = function() {

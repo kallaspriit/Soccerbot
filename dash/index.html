@@ -15,6 +15,7 @@
 		<script src="library/dash/Debug.js"></script>
 		<script src="library/dash/Bootstrapper.js"></script>
 		<script src="library/dash/Socket.js"></script>
+		<script src="library/dash/WheelGraph.js"></script>
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
 		<script src="library/dash/FpsCounter.js"></script>
@@ -46,6 +47,12 @@
 						<td><input type="checkbox" name="joystick-controller-enabled" value="1"/></td>
 					</tr>
 				</table>
+			</div>
+			<div id="wheel-graphs">
+				<canvas id="wheel-graph-fl" class="wheel-graph"></canvas>
+				<canvas id="wheel-graph-fr" class="wheel-graph"></canvas>
+				<canvas id="wheel-graph-rl" class="wheel-graph"></canvas>
+				<canvas id="wheel-graph-rr" class="wheel-graph"></canvas>
 			</div>
 			<div id="buttons">
 				<button id="host-btn">Host</button>

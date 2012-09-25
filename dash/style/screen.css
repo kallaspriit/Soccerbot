@@ -192,14 +192,13 @@ A:hover {
 #buttons {
 	position: absolute;
 	top: -10px;
-	width: 200px;
-	height: 200px;
 	/*background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 3px;*/
 	color: #FFF;
 }
 #options {
-	left: -220px;
+	width: 210px;
+	left: -230px;
 }
 #options > TABLE TH,
 #options > TABLE TD {
@@ -427,4 +426,36 @@ A:hover {
 	right: 12%;
 	bottom: 12%;
 	-webkit-transform:rotate(135deg);
+}
+
+/* Wheel graphs */
+#wheel-graphs {
+	position: absolute;
+	top: 80px;
+	left: -230px;
+	width: 210px;
+	height: 200px;
+}
+.wheel-graph {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	background-color: rgba(0, 0, 0, 0.75);
+	border-radius: 3px;
+}
+#wheel-graph-fl {
+	left: 0;
+	top: 0;
+}
+#wheel-graph-fr {
+	left: 110px;
+	top: 0;
+}
+#wheel-graph-rl {
+	left: 0;
+	top: 110px;
+}
+#wheel-graph-rr {
+	left: 110px;
+	top: 110px;
 }

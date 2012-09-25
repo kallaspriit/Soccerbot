@@ -2,6 +2,13 @@ Dash.Renderer = function(id) {
 	this.id = id || 'canvas';
 	this.element = null;
 	this.c = null;
+	
+	this.wheelGraphs = {
+		FL: null,
+		FR: null,
+		RL: null,
+		RR: null
+	};
 };
 
 Dash.Renderer.prototype.init = function() {
@@ -26,6 +33,17 @@ Dash.Renderer.prototype.init = function() {
 		
 	this.width = this.element.width;
 	this.height = this.element.height;
+	
+	this.wheelGraphs = {
+		FL: new Dash.WheelGraph('wheel-graph-fl'),
+		FR: new Dash.WheelGraph('wheel-graph-fr'),
+		RL: new Dash.WheelGraph('wheel-graph-rl'),
+		RR: new Dash.WheelGraph('wheel-graph-rr')
+	};
+	
+	for (var name in this.wheelGraphs) {
+		this.wheelGraphs[name].init();
+	}
 };
 
 Dash.Renderer.prototype.drawRobot = function(radius, color, x, y, orientation) {
@@ -74,4 +92,9 @@ Dash.Renderer.prototype.renderState = function(state) {
 		state.y,
 		state.orientation
 	);
+		
+	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
+	this.wheelGraphs.FR.render.apply(this.wheelGraphs.FR, [state, 'wheelFR']);
+	this.wheelGraphs.RL.render.apply(this.wheelGraphs.RL, [state, 'wheelRL']);
+	this.wheelGraphs.RR.render.apply(this.wheelGraphs.RR, [state, 'wheelRR']);
 };
