@@ -277,7 +277,7 @@ void SoccerBot::handleTestCommand(const Command& cmd) {
     positions.push(Math::Position(0.125f, 0.125f, 0.0f));
     positions.push(Math::Position(4.5f - 0.125f, 0.125f, Math::PI / 2));
     positions.push(Math::Position(4.5f - 0.125f, 3.0f - 0.125f, Math::PI));
-    positions.push(Math::Position(0.125f, 3.0f - 0.125f, Math::PI * 3.0f / 4.0f));
+    positions.push(Math::Position(0.125f, 3.0f - 0.125f, Math::TWO_PI * 3.0f / 4.0f));
     positions.push(Math::Position(0.125f, 0.125f, Math::TWO_PI));
 
     robot->drivePath(positions, 1.0f);
