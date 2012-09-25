@@ -51,6 +51,8 @@
 			<Add library="pthread" />
 			<Add directory="/usr/local/lib" />
 		</Linker>
+		<Unit filename="include/Ball.h" />
+		<Unit filename="include/BallLocalizer.h" />
 		<Unit filename="include/Command.h" />
 		<Unit filename="include/Config.h" />
 		<Unit filename="include/JSON.h" />
@@ -65,6 +67,8 @@
 		<Unit filename="include/Util.h" />
 		<Unit filename="include/WebSocketServer.h" />
 		<Unit filename="include/Wheel.h" />
+		<Unit filename="src/Ball.cpp" />
+		<Unit filename="src/BallLocalizer.cpp" />
 		<Unit filename="src/Command.cpp" />
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
