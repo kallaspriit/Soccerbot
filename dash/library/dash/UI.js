@@ -454,6 +454,10 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.driveTo(2.0, 0.125, Math.PI, 0.5);
 		self.robot.driveTo(0.125, 0.125, 0, 0.5);
 	});
+	
+	$('#run-test-btn').click(function() {
+		self.robot.runTest();
+	});
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {

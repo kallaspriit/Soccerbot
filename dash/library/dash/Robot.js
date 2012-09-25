@@ -39,3 +39,9 @@ Dash.Robot.prototype.driveTo = function(x, y, orientation, speed) {
 	
 	dash.socket.send('<drive-to:' + x + ',' + y + ',' + orientation + ',' + speed + '>');
 };
+
+Dash.Robot.prototype.runTest = function() {
+	dash.dbg.log('! Running current test');
+	
+	dash.socket.send('<test>');
+};

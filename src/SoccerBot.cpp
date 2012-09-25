@@ -212,6 +212,8 @@ void SoccerBot::handleRequest(std::string request) {
             handleTurnByCommand(command);
         } else if (command.name == "drive-to" && command.params.size() == 4) {
             handleDriveToCommand(command);
+        } else if (command.name == "test") {
+            handleTestCommand(command);
         } else {
             std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
         }
@@ -267,6 +269,10 @@ void SoccerBot::handleDriveToCommand(const Command& cmd) {
     float speed = Util::toFloat(cmd.params[3]);
 
     robot->driveTo(x, y, orientation, speed);
+}
+
+void SoccerBot::handleTestCommand(const Command& cmd) {
+    std::cout << "! Executed test" << std::endl;
 }
 
 std::string SoccerBot::getStateJSON() const {
