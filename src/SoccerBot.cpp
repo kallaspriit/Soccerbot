@@ -272,7 +272,7 @@ void SoccerBot::handleDriveToCommand(const Command& cmd) {
 }
 
 void SoccerBot::handleTestCommand(const Command& cmd) {
-    Math::PositionStack positions;
+    Math::PositionQueue positions;
 
     positions.push(Math::Position(0.125f, 0.125f));
     positions.push(Math::Position(4.5f - 0.125f, 0.125f));

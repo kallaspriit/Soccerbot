@@ -68,7 +68,7 @@ class DriveToTask : public Task {
 
 class DrivePathTask : public Task {
     public:
-        DrivePathTask(Math::PositionStack positions, float speed = 1.0f) : Task(), positionThreshold(0.025f), orientationThreshold(Math::PI / 180.0f), positions(positions), startPositionCount(positions.size()), speed(speed) {}
+        DrivePathTask(Math::PositionQueue positions, float speed = 1.0f) : Task(), positionThreshold(0.025f), orientationThreshold(Math::PI / 180.0f), positions(positions), startPositionCount(positions.size()), speed(speed) {}
 
         void onStart(Robot& robot, double dt);
         bool onStep(Robot& robot, double dt);
@@ -82,7 +82,7 @@ class DrivePathTask : public Task {
         float startX;
         float startY;
         float startOrientation;
-        Math::PositionStack positions;
+        Math::PositionQueue positions;
         int startPositionCount;
         float speed;
 };

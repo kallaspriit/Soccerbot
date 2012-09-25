@@ -124,7 +124,7 @@ bool DrivePathTask::onStep(Robot& robot, double dt) {
     }
 
     Math::Position currentPos = robot.getPosition();
-    Math::Position targetPos = positions.top();
+    Math::Position targetPos = positions.front();
 
     float currentDistance = Math::distanceBetween(currentPos.x, currentPos.y, targetPos.x, targetPos.y);
     float orientationDiff = Math::getAngleDiff(currentPos.orientation, targetPos.orientation);
@@ -177,7 +177,7 @@ std::string DrivePathTask::toString() {
         return "DrivePath - empty";
     }
 
-    Math::Position targetPos = positions.top();
+    Math::Position targetPos = positions.front();
 
     return "DrivePath " + Util::toString(startPositionCount - positions.size()) + "/" + Util::toString(startPositionCount) + " - " + Util::toString(targetPos.x) + "x" + Util::toString(targetPos.y) + " @ " + Util::toString(Math::round(Math::radToDeg(targetPos.orientation), 1)) + " deg";
 }

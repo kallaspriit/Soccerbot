@@ -4,7 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <vector>
-#include <stack>
+#include <queue>
 
 namespace Math {
 
@@ -189,6 +189,14 @@ class Vector {
         float y;
 };
 
+struct Position : public Vector {
+    inline Position(float x, float y, float orientation = 0.0f) : Vector(x, y), orientation(orientation) {}
+
+    float orientation;
+};
+
+typedef std::queue<Math::Position> PositionQueue;
+
 class Angle {
     public:
         virtual float deg() const = 0;
@@ -216,14 +224,6 @@ class Rad : public Angle {
     private:
         float radians;
 };
-
-struct Position : public Vector {
-    inline Position(float x, float y, float orientation = 0.0f) : Vector(x, y), orientation(orientation) {}
-
-    float orientation;
-};
-
-typedef std::stack<Math::Position> PositionStack;
 
 struct Point {
     Point(float x, float y) : x(x), y(y) {}
