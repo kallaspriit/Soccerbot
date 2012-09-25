@@ -274,7 +274,7 @@ void SoccerBot::handleDriveToCommand(const Command& cmd) {
 void SoccerBot::handleTestCommand(const Command& cmd) {
     Math::PositionQueue positions;
 
-    float padding = 1.125f;
+    float padding = 0.5f;
 
     positions.push(Math::Position(padding, padding, 0.0f));
     positions.push(Math::Position(4.5f - padding, padding, Math::PI / 2));
