@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <vector>
+#include <stack>
 
 namespace Math {
 
@@ -221,6 +222,8 @@ struct Position : public Vector {
 
     float orientation;
 };
+
+typedef std::stack<Math::Position> PositionStack;
 
 struct Point {
     Point(float x, float y) : x(x), y(y) {}

@@ -107,3 +107,77 @@ float DriveToTask::getPercentage() {
 std::string DriveToTask::toString() {
     return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Math::round(Math::radToDeg(targetOrientation), 1)) + " deg";
 }
+
+
+// Follow path of coordinates task
+void DrivePathTask::onStart(Robot& robot, double dt) {
+    Math::Position pos = robot.getPosition();
+
+    startX = pos.x;
+    startY = pos.y;
+    startOrientation = pos.orientation;
+}
+
+bool DrivePathTask::onStep(Robot& robot, double dt) {
+    if (positions.size() == 0) {
+        return false;
+    }
+
+    Math::Position currentPos = robot.getPosition();
+    Math::Position targetPos = positions.top();
+
+    float currentDistance = Math::distanceBetween(currentPos.x, currentPos.y, targetPos.x, targetPos.y);
+    float orientationDiff = Math::getAngleDiff(currentPos.orientation, targetPos.orientation);
+
+    if (currentDistance <= positionThreshold && Math::abs(orientationDiff) < orientationThreshold) {
+        positions.pop();
+
+        if (positions.size() == 0) {
+            return false;
+        } else {
+            return onStep(robot, dt);
+        }
+    }
+
+    float omega = orientationDiff / (currentDistance * 0.5f);
+    float useSpeed = speed;
+
+    if (currentDistance < 0.2f) {
+        useSpeed = speed * currentDistance * 5.0f;
+    }
+
+    Math::Vector globalDir = Math::Vector::createDirVec(targetPos, currentPos).getNormalized(useSpeed);
+    Math::Vector localDir = globalDir.getRotated(-currentPos.orientation);
+
+    if (omega < -3.0f) {
+        omega = -3.0f;
+    } else if (omega > 3.0f) {
+        omega = 3.0f;
+    }
+
+    robot.setTargetDir(localDir.x, localDir.y, omega);
+
+    return true;
+}
+
+void DrivePathTask::onEnd(Robot& robot, double dt) {
+    robot.setTargetDir(0, 0, 0);
+}
+
+float DrivePathTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
+    return 100.0f - (positions.size() * 100.0f / startPositionCount);
+}
+
+std::string DrivePathTask::toString() {
+    if (positions.size() == 0) {
+        return "DrivePath - empty";
+    }
+
+    Math::Position targetPos = positions.top();
+
+    return "DrivePath " + Util::toString(startPositionCount - positions.size()) + "/" + Util::toString(startPositionCount) + " - " + Util::toString(targetPos.x) + "x" + Util::toString(targetPos.y) + " @ " + Util::toString(Math::round(Math::radToDeg(targetPos.orientation), 1)) + " deg";
+}
