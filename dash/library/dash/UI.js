@@ -460,7 +460,20 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#graphs-toggle-btn').click(function() {
-		$('#wheel-graphs').toggleClass('full');
+		if ($('#wheel-graphs').hasClass('full')) {
+			$('#wheel-graphs').removeClass('full');
+			$('#graphs-toggle-btn').show();
+		} else {
+			$('#wheel-graphs').addClass('full');
+			$('#graphs-toggle-btn').hide();
+			
+			window.setTimeout(function() {
+				$('#wheel-graphs').one('clickoutside', function() {
+					$(this).removeClass('full');
+					$('#graphs-toggle-btn').show();
+				});
+			}, 500);
+		}
 	});
 };
 
