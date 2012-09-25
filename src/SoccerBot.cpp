@@ -272,7 +272,9 @@ void SoccerBot::handleDriveToCommand(const Command& cmd) {
 }
 
 void SoccerBot::handleTestCommand(const Command& cmd) {
-    std::cout << "! Executed test" << std::endl;
+    Math::PositionStack positions;
+
+    positions.push(Math::Position(0.125f, 0.125f));
 }
 
 std::string SoccerBot::getStateJSON() const {
