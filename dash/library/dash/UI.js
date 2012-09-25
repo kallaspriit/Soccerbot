@@ -289,7 +289,7 @@ Dash.UI.prototype.initJoystickController = function() {
 
 		/*$('INPUT[name="joystick-controller-enabled"]')
 			.removeAttr('disabled')
-			.iphoneStyle('refresh');*
+			.iphoneStyle('refresh');*/
 
 		$('#gamepad').html(device.id);
 	});

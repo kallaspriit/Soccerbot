@@ -440,8 +440,14 @@ A:hover {
 	position: absolute;
 	width: 100px;
 	height: 100px;
-	background-color: rgba(0, 0, 0, 0.75);
+	background-color: #000;
 	border-radius: 3px;
+	z-index: 1;
+}
+.wheel-graph:hover {
+	width: 600px;
+	height: 400px;
+	z-index: 2;
 }
 #wheel-graph-fl {
 	left: 0;

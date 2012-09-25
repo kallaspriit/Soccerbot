@@ -5,10 +5,23 @@ Dash.WheelGraph = function(id) {
 };
 
 Dash.WheelGraph.prototype.init = function() {
+	var self = this;
+	
 	this.element = document.getElementById(this.id);
 	this.c = this.element.getContext('2d');
 	this.element.width = this.width = $('#' + this.id).width();
 	this.element.height = this.height = $('#' + this.id).height();
+	this.lastState = null;
+	this.lastName = null;
+	
+	$('#' + this.id).bind('resize', function() {
+		self.element.width = self.width = $(this).width();
+		self.element.height = self.height = $(this).height();
+		
+		if (self.lastState != null) {
+			self.render(self.lastState, self.lastName);
+		}
+	});
 };
 
 Dash.WheelGraph.prototype.render = function(state, name) {
@@ -16,7 +29,7 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 	
 	var x = this.width,
 		currentState = state,
-		multiplier = 2.0,
+		multiplier = this.height * 0.015,
 		first = true,
 		skipCount = 1,
 		info,
@@ -24,9 +37,18 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 		realOmega,
 		y,
 		i;
+		
+	/*this.c.lineWidth = 1;
+	this.c.strokeStyle = '#CCC';
+	this.c.beginPath();
+	this.c.moveTo(0, this.height / 2 + 1);
+	this.c.lineTo(this.width, this.height / 2 + 1);
+	this.c.stroke();*/
+	
+	this.c.lineWidth = 2;
 	
 	// draw target omega
-	this.c.strokeStyle = '#F00';
+	this.c.strokeStyle = '#AA0';
 	this.c.beginPath();
 	
 	while (currentState != null && x >= 0) {
@@ -58,7 +80,7 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 	x = this.width;
 	currentState = state;
 		
-	this.c.strokeStyle = '#0F0';
+	this.c.strokeStyle = '#0A0';
 	this.c.beginPath();
 	
 	while (currentState != null && x >= 0) {
@@ -85,4 +107,7 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 	}
 	
 	this.c.stroke();
+	
+	this.lastState = state;
+	this.lastName = name;
 };
