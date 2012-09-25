@@ -189,6 +189,10 @@ void Robot::driveTo(float x, float y, float orientation, float speed) {
     addTask(new DriveToTask(x, y, orientation, speed));
 }
 
+void Robot::drivePath(const Math::PositionStack positions, float speed) {
+    addTask(new DrivePathTask(positions, speed));
+}
+
 void Robot::handleTasks(double dt) {
     Task* task = getCurrentTask();
 

@@ -275,6 +275,12 @@ void SoccerBot::handleTestCommand(const Command& cmd) {
     Math::PositionStack positions;
 
     positions.push(Math::Position(0.125f, 0.125f));
+    positions.push(Math::Position(4.5f - 0.125f, 0.125f));
+    positions.push(Math::Position(4.5f - 0.125f, 3.0f - 0.125f));
+    positions.push(Math::Position(0.125f, 3.0f - 0.125f));
+    positions.push(Math::Position(0.125f, 0.125f));
+
+    robot->drivePath(positions, 1.0f);
 }
 
 std::string SoccerBot::getStateJSON() const {
