@@ -9,10 +9,12 @@
 #include "Tasks.h"
 #include "Util.h"
 #include "SignalHandler.h"
+#include "Controller.h"
 
 SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
     socket = NULL;
     serial = NULL;
+    activeController = NULL;
     endCommand = "";
     lastStepTime = Util::millitime();
 
@@ -146,6 +148,30 @@ void SoccerBot::run() {
     }
 
     std::cout << "! Shutdown requested" << std::endl;
+}
+
+void SoccerBot::addController(std::string name, Controller* controller) {
+    controllers[name] = controller;
+}
+
+Controller* SoccerBot::getController(std::string name) {
+    std::map<std::string, Controller*>::iterator result = controllers.find(name);
+
+    if (result == controllers.end()) {
+        return NULL;
+    }
+
+    return result->second;
+}
+
+bool SoccerBot::setController(std::string name) {
+    std::map<std::string, Controller*>::iterator result = controllers.find(name);
+
+    if (result == controllers.end()) {
+        return false;
+    }
+
+    activeController = result->second;
 }
 
 void SoccerBot::updateLogs() {

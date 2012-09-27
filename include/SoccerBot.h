@@ -3,10 +3,14 @@
 
 #include "WebSocketServer.h"
 
+#include <map>
+#include <string>
+
 class Robot;
 class Serial;
 class Command;
 class SignalHandler;
+class Controller;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
@@ -15,6 +19,10 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         void init();
         void run();
+
+        void addController(std::string name, Controller* controller);
+        Controller* getController(std::string name);
+        bool setController(std::string name);
 
         void onSocketOpen(websocketpp::server::connection_ptr con);
         void onSocketClose(websocketpp::server::connection_ptr con);
@@ -50,6 +58,9 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         double totalTime;
         bool stopRequested;
         std::string endCommand;
+
+        std::map<std::string, Controller*> controllers;
+        Controller* activeController;
 };
 
 #endif // SOCCERBOT_H
