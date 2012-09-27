@@ -217,9 +217,13 @@ A:hover {
 	width: 140px;
 	right: -160px;
 }
-#buttons BUTTON {
+#buttons BUTTON,
+#buttons SELECT {
 	width: 100%;
 	line-height: 25px;
+}
+#buttons SELECT {
+	padding: 5px 0;
 }
 #buttons .seperated {
 	margin-top: 20px;

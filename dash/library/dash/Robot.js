@@ -2,6 +2,14 @@ Dash.Robot = function(socket) {
 	this.socket = socket;
 };
 
+Dash.Robot.prototype.setController = function(name) {
+	if (this.socket.isOpen()) {
+		dash.dbg.log('! Setting controller: ' + name);
+		
+		this.socket.send('<set-controller:' + name + '>');
+	}
+};
+
 Dash.Robot.prototype.kick = function() {
 	if (this.socket.isOpen()) {
 		dash.dbg.log('! Kicking');

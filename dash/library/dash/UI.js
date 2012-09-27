@@ -394,6 +394,12 @@ Dash.UI.prototype.initControls = function() {
 		}
 	});
 	
+	$('#controller-choice').change(function() {
+		var controller = $(this).val();
+		
+		self.setController(controller);
+	}).trigger('change');
+	
 	$('#host-btn').click(function() {
 		var newHost = window.prompt('Enter robot hostname or IP', dash.config.socket.host);
 		
@@ -475,6 +481,18 @@ Dash.UI.prototype.initControls = function() {
 			}, 500);
 		}
 	});
+};
+
+Dash.UI.prototype.setController = function(name) {
+	$('.ctrl').each(function() {
+		if ($(this).hasClass(name + '-ctrl')) {
+			$(this).show();
+		} else {
+			$(this).hide();
+		}
+	});
+	
+	this.robot.setController(name);
 };
 
 Dash.UI.prototype.onKeyDown = function(e) {
