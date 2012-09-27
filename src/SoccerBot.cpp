@@ -10,6 +10,7 @@
 #include "Util.h"
 #include "SignalHandler.h"
 #include "Controller.h"
+#include "ManualController.h"
 
 SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
     socket = NULL;
@@ -113,6 +114,9 @@ void SoccerBot::init() {
 
     robot->init();
     signalHandler->init();
+
+    addController("manual", new ManualController(robot));
+    setController("manual");
 
     std::cout << "! SoccerBot ready" << std::endl;
 }
