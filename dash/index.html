@@ -37,7 +37,7 @@
 			<div id="connecting">Trying to connect..</div>
 			<div id="state-info"></div>
 			<div id="gamepad"></div>
-			<div id="options">
+			<div id="options" class="ctrl manual-ctrl">
 				<table>
 					<tr>
 						<th>Keyboard</th>
@@ -66,11 +66,15 @@
 					<option value="manual">Manual Controller</option>
 					<option value="test">Test Controller</option>
 				</select>
+				
+				<!-- manual controller -->
 				<button id="reset-position-btn" class="live-only ctrl manual-ctrl" disabled="disabled">Reset position</button>
 				<button id="turn-btn" class="live-only ctrl manual-ctrl" disabled="disabled">Turn 90°</button>
 				<button id="drive-to-btn" class="live-only ctrl manual-ctrl" disabled="disabled">Call Home</button>
 				<button id="drive-test-btn" class="live-only ctrl manual-ctrl" disabled="disabled">Test Drive</button>
-				<button id="run-test-btn" class="live-only ctrl test-ctrl" disabled="disabled">Run Current Test</button>
+				
+				<!-- test controller -->
+				<button id="test-rectangle-btn" class="live-only ctrl test-ctrl" disabled="disabled">Drive Rectangle</button>
 			</div>
 			<ul id="connection">
 				<li></li>

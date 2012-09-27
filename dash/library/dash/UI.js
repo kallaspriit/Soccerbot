@@ -461,8 +461,8 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.driveTo(0.125, 0.125, 0, 0.5);
 	});
 	
-	$('#run-test-btn').click(function() {
-		self.robot.runTest();
+	$('#test-rectangle-btn').click(function() {
+		self.robot.testRectangle();
 	});
 	
 	$('#graphs-toggle-btn').click(function() {

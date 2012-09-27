@@ -221,6 +221,10 @@ void SoccerBot::updateLogs() {
 
 void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
     std::cout << "! Socket connection opened" << std::endl;
+
+    JsonResponse helloMsg("hello", "\"controller\":\"test\"");
+
+    con->send(helloMsg.toJSON());
 }
 
 void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {

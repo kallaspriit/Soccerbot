@@ -1,8 +1,11 @@
 Dash.Robot = function(socket) {
 	this.socket = socket;
+	this.controller = 'manual';
 };
 
 Dash.Robot.prototype.setController = function(name) {
+	this.controller = name;
+	
 	if (this.socket.isOpen()) {
 		dash.dbg.log('! Setting controller: ' + name);
 		
@@ -19,6 +22,10 @@ Dash.Robot.prototype.kick = function() {
 };
 
 Dash.Robot.prototype.setTargetDir = function(x, y, omega) {
+	if (this.controller != 'manual') {
+		return;
+	}
+	
 	//dash.dbg.log('! Robot target', x, y, omega);
 	
 	if (this.socket.isOpen()) {
@@ -48,8 +55,8 @@ Dash.Robot.prototype.driveTo = function(x, y, orientation, speed) {
 	dash.socket.send('<drive-to:' + x + ',' + y + ',' + orientation + ',' + speed + '>');
 };
 
-Dash.Robot.prototype.runTest = function() {
-	dash.dbg.log('! Running current test');
+Dash.Robot.prototype.testRectangle = function() {
+	dash.dbg.log('! Running rectangle test');
 	
-	dash.socket.send('<test>');
+	dash.socket.send('<test-rectangle>');
 };
