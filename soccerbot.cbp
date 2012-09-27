@@ -66,6 +66,7 @@
 		<Unit filename="include/SignalHandler.h" />
 		<Unit filename="include/SoccerBot.h" />
 		<Unit filename="include/Tasks.h" />
+		<Unit filename="include/TestController.h" />
 		<Unit filename="include/Util.h" />
 		<Unit filename="include/WebSocketServer.h" />
 		<Unit filename="include/Wheel.h" />
@@ -82,6 +83,7 @@
 		<Unit filename="src/SignalHandler.cpp" />
 		<Unit filename="src/SoccerBot.cpp" />
 		<Unit filename="src/Tasks.cpp" />
+		<Unit filename="src/TestController.cpp" />
 		<Unit filename="src/Util.cpp" />
 		<Unit filename="src/WebSocketServer.cpp" />
 		<Unit filename="src/Wheel.cpp" />
