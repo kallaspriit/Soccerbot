@@ -53,7 +53,7 @@ before_debug:
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
 
 after_debug: 
-	bash commit-push.sh
+#	bash commit-push.sh
 
 debug: before_debug out_debug after_debug
 
@@ -121,7 +121,7 @@ before_release:
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
 
 after_release: 
-	bash commit-push.sh
+#	bash commit-push.sh
 
 release: before_release out_release after_release
 
