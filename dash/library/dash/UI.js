@@ -278,7 +278,6 @@ Dash.UI.prototype.initFpsCounter = function() {
 
 Dash.UI.prototype.initKeyboardController = function() {
 	this.keyboardController = new Dash.KeyboardController(this.robot);
-	this.keyboardController.enabled = true;
 };
 
 Dash.UI.prototype.initJoystickController = function() {
@@ -480,6 +479,8 @@ Dash.UI.prototype.initControls = function() {
 				});
 			}, 500);
 		}
+		
+		return false;
 	});
 };
 
@@ -549,6 +550,8 @@ Dash.UI.prototype.handleControllerMessage = function(controller) {
 	$('#controller-choice')
 		.val(controller)
 		.trigger('change');
+		
+	this.robot.controller = controller;
 };
 
 Dash.UI.prototype.handleStateMessage = function(state) {

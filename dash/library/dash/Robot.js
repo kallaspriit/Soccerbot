@@ -4,12 +4,12 @@ Dash.Robot = function(socket) {
 };
 
 Dash.Robot.prototype.setController = function(name) {
-	this.controller = name;
-	
-	if (this.socket.isOpen()) {
+	if (this.socket.isOpen() && name != this.controller) {
 		dash.dbg.log('! Setting controller: ' + name);
 		
 		this.socket.send('<set-controller:' + name + '>');
+		
+		this.controller = name;
 	}
 };
 
