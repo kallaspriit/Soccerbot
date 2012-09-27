@@ -21,9 +21,11 @@ bool ManualController::handleCommand(const Command& cmd) {
         handleDriveToCommand(cmd);
     } else if (cmd.name == "test") {
         handleTestCommand(cmd);
+    } else {
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 void ManualController::handleTargetVectorCommand(const Command& cmd) {
