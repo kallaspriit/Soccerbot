@@ -32,13 +32,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         std::string getEndCommand() { return endCommand; }
 
         void handleRequest(std::string request);
-        void handleTargetVectorCommand(const Command& cmd);
-        void handleTargetDirCommand(const Command& cmd);
         void handleRebuildCommand(const Command& cmd);
-        void handleResetPositionCommand(const Command& cmd);
-        void handleTurnByCommand(const Command& cmd);
-        void handleDriveToCommand(const Command& cmd);
-        void handleTestCommand(const Command& cmd);
 
         std::string getStateJSON() const;
 

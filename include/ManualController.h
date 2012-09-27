@@ -6,8 +6,16 @@
 class ManualController : public Controller {
     public:
         ManualController(Robot* robot) : Controller(robot) {};
-        void handleRequest(std::string request);
-        void handleCommand(const Command& cmd);
+
+        bool handleRequest(std::string request);
+        bool handleCommand(const Command& cmd);
+
+        void handleTargetVectorCommand(const Command& cmd);
+        void handleTargetDirCommand(const Command& cmd);
+        void handleResetPositionCommand(const Command& cmd);
+        void handleTurnByCommand(const Command& cmd);
+        void handleDriveToCommand(const Command& cmd);
+        void handleTestCommand(const Command& cmd);
 };
 
 #endif // MANUALCONTROLLER_H

@@ -153,6 +153,10 @@ void SoccerBot::run() {
 
         //std::cout << "Last frame time taken: " << lastStepDuration << ", load: " << lastStepLoad << std::endl;
 
+        if (activeController != NULL) {
+
+        }
+
         updateLogs();
 
         usleep(16000);
@@ -237,49 +241,22 @@ void SoccerBot::handleRequest(std::string request) {
     if (Command::isValid(request)) {
         Command command = Command::parse(request);
 
-        //std::cout << "! Command: " << command.name << " " << Util::toString(command.params) << std::endl;
+        if (activeController == NULL || !activeController->handleCommand(command)) {
+            //std::cout << "! Command: " << command.name << " " << Util::toString(command.params) << std::endl;
 
-        if (command.name == "target-vector" && command.params.size() == 3) {
-            handleTargetVectorCommand(command);
-        } else if (command.name == "target-dir" && command.params.size() == 3) {
-            handleTargetDirCommand(command);
-        } else if (command.name == "rebuild") {
-            handleRebuildCommand(command);
-        } else if (command.name == "reset-position") {
-            handleResetPositionCommand(command);
-        } else if (command.name == "turn-by" && command.params.size() == 2) {
-            handleTurnByCommand(command);
-        } else if (command.name == "drive-to" && command.params.size() == 4) {
-            handleDriveToCommand(command);
-        } else if (command.name == "test") {
-            handleTestCommand(command);
-        } else {
-            std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
+            if (command.name == "rebuild") {
+                handleRebuildCommand(command);
+            } else {
+                std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
+            }
         }
     } else {
-        std::cout << "- Not a command: " << request << std::endl;
+        if (activeController != NULL) {
+            if (!activeController->handleRequest(request)) {
+                std::cout << "- Unknown request: " << request << std::endl;
+            }
+        }
     }
-}
-
-void SoccerBot::handleTargetVectorCommand(const Command& cmd) {
-    float x = Util::toFloat(cmd.params[0]);
-    float y = Util::toFloat(cmd.params[1]);
-    float omega = Util::toFloat(cmd.params[2]);
-
-    robot->setTargetDir(x, y, omega);
-
-    //std::cout << "! Set robot dir by vector: " << x << "x" << y << " with omega " << omega << std::endl;
-}
-
-void SoccerBot::handleTargetDirCommand(const Command& cmd) {
-    Math::Deg dir = Math::Deg(Util::toFloat(cmd.params[0]));
-
-    float speed = Util::toFloat(cmd.params[1]);
-    float omega = Util::toFloat(cmd.params[2]);
-
-    robot->setTargetDir(dir, speed, omega);
-
-    //std::cout << "Set robot dir by orientation: " << dir.deg() << ", speed: " << speed << " and omega " << omega << std::endl;
 }
 
 void SoccerBot::handleRebuildCommand(const Command& cmd) {
@@ -288,40 +265,6 @@ void SoccerBot::handleRebuildCommand(const Command& cmd) {
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
     stop();
-}
-
-void SoccerBot::handleResetPositionCommand(const Command& cmd) {
-    robot->setPosition(0.125f, 0.125f, 0);
-}
-
-void SoccerBot::handleTurnByCommand(const Command& cmd) {
-    float angle = Util::toFloat(cmd.params[0]);
-    float speed = Util::toFloat(cmd.params[1]);
-
-    robot->turnBy(angle, speed);
-}
-
-void SoccerBot::handleDriveToCommand(const Command& cmd) {
-    float x = Util::toFloat(cmd.params[0]);
-    float y = Util::toFloat(cmd.params[1]);
-    float orientation = Util::toFloat(cmd.params[2]);
-    float speed = Util::toFloat(cmd.params[3]);
-
-    robot->driveTo(x, y, orientation, speed);
-}
-
-void SoccerBot::handleTestCommand(const Command& cmd) {
-    Math::PositionQueue positions;
-
-    float padding = 0.5f;
-
-    positions.push(Math::Position(padding, padding, 0.0f));
-    positions.push(Math::Position(4.5f - padding, padding, Math::PI / 2));
-    positions.push(Math::Position(4.5f - padding, 3.0f - padding, Math::PI));
-    positions.push(Math::Position(padding, 3.0f - padding, Math::TWO_PI * 3.0f / 4.0f));
-    positions.push(Math::Position(padding, padding, Math::TWO_PI));
-
-    robot->drivePath(positions, 1.0f);
 }
 
 std::string SoccerBot::getStateJSON() const {

@@ -9,8 +9,8 @@ class Command;
 class Controller {
     public:
         Controller(Robot* robot) : robot(robot) {};
-        virtual void handleRequest(std::string request) = 0;
-        virtual void handleCommand(const Command& cmd) = 0;
+        virtual bool handleRequest(std::string request) = 0;
+        virtual bool handleCommand(const Command& cmd) = 0;
 
     protected:
         Robot* robot;
