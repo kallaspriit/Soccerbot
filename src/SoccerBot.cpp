@@ -11,6 +11,7 @@
 #include "SignalHandler.h"
 #include "Controller.h"
 #include "ManualController.h"
+#include "TestController.h"
 
 SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
     socket = NULL;
@@ -116,6 +117,7 @@ void SoccerBot::init() {
     signalHandler->init();
 
     addController("manual", new ManualController(robot));
+    addController("test", new TestController(robot));
     setController("manual");
 
     std::cout << "! SoccerBot ready" << std::endl;
@@ -246,6 +248,8 @@ void SoccerBot::handleRequest(std::string request) {
 
             if (command.name == "rebuild") {
                 handleRebuildCommand(command);
+            } else if (command.name == "set-controller" && command.params.size() == 1) {
+                handleSetControllerCommand(command);
             } else {
                 std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
             }
@@ -265,6 +269,16 @@ void SoccerBot::handleRebuildCommand(const Command& cmd) {
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
     stop();
+}
+
+void SoccerBot::handleSetControllerCommand(const Command& cmd) {
+    std::string controllerName = cmd.params[0];
+
+    if (setController(controllerName)) {
+        std::cout << "! Now using '" << controllerName << "' controller" << std::endl;
+    } else {
+        std::cout << "- Unsupported controller '" << controllerName << "' requested" << std::endl;
+    }
 }
 
 std::string SoccerBot::getStateJSON() const {
