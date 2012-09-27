@@ -55,8 +55,10 @@
 		<Unit filename="include/BallLocalizer.h" />
 		<Unit filename="include/Command.h" />
 		<Unit filename="include/Config.h" />
+		<Unit filename="include/Controller.h" />
 		<Unit filename="include/JSON.h" />
 		<Unit filename="include/JsonResponse.h" />
+		<Unit filename="include/ManualController.h" />
 		<Unit filename="include/Math.h" />
 		<Unit filename="include/ParticleFilterLocalizer.h" />
 		<Unit filename="include/Robot.h" />
@@ -72,6 +74,7 @@
 		<Unit filename="src/Command.cpp" />
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
+		<Unit filename="src/ManualController.cpp" />
 		<Unit filename="src/Math.cpp" />
 		<Unit filename="src/ParticleFilterLocalizer.cpp" />
 		<Unit filename="src/Robot.cpp" />
