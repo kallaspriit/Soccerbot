@@ -544,7 +544,9 @@ Dash.UI.prototype.handleMessage = function(message) {
 };
 
 Dash.UI.prototype.handleControllerMessage = function(controller) {
-	dash.dbg.log('! CONTROLLER: ' + controller);
+	dash.dbg.log('! Received active controller: ' + controller);
+	
+	$('#controller-choice').val(controller).trigger('change');
 };
 
 Dash.UI.prototype.handleStateMessage = function(state) {

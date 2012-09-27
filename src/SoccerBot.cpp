@@ -193,6 +193,20 @@ bool SoccerBot::setController(std::string name) {
     return true;
 }
 
+std::string SoccerBot::getActiveControllerName() {
+    if (activeController == NULL) {
+        return "none";
+    }
+
+    for (std::map<std::string, Controller*>::iterator it = controllers.begin(); it != controllers.end(); it++) {
+        if (it->second == activeController) {
+            return it->first;
+        }
+    }
+
+    return "unknown";
+}
+
 void SoccerBot::updateLogs() {
     std::cout.rdbuf(originalCoutStream);
 
@@ -222,7 +236,7 @@ void SoccerBot::updateLogs() {
 void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
     std::cout << "! Socket connection opened" << std::endl;
 
-    JsonResponse controllerMsg("controller", "\"test\"");
+    JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
     con->send(controllerMsg.toJSON());
 }

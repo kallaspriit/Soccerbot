@@ -23,6 +23,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void addController(std::string name, Controller* controller);
         Controller* getController(std::string name);
         bool setController(std::string name);
+        std::string getActiveControllerName();
 
         void onSocketOpen(websocketpp::server::connection_ptr con);
         void onSocketClose(websocketpp::server::connection_ptr con);
