@@ -76,6 +76,13 @@ SoccerBot::~SoccerBot() {
 
         std::cout << "done!" << std::endl;
     }
+
+    for (std::map<std::string, Controller*>::iterator it = controllers.begin(); it != controllers.end(); it++) {
+        delete it->second;
+    }
+
+    controllers.clear();
+    activeController = NULL;
 }
 
 void SoccerBot::init() {
@@ -172,6 +179,8 @@ bool SoccerBot::setController(std::string name) {
     }
 
     activeController = result->second;
+
+    return true;
 }
 
 void SoccerBot::updateLogs() {
