@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/release
 DEP_RELEASE = 
 OUT_RELEASE = ./soccerbot
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/Robot.o $(OBJDIR_DEBUG)/src/Ball.o $(OBJDIR_DEBUG)/src/BallLocalizer.o $(OBJDIR_DEBUG)/src/Command.o $(OBJDIR_DEBUG)/src/JSON.o $(OBJDIR_DEBUG)/src/JsonResponse.o $(OBJDIR_DEBUG)/src/ManualController.o $(OBJDIR_DEBUG)/src/Math.o $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o $(OBJDIR_DEBUG)/src/Serial.o $(OBJDIR_DEBUG)/src/SignalHandler.o $(OBJDIR_DEBUG)/src/SoccerBot.o $(OBJDIR_DEBUG)/src/Tasks.o $(OBJDIR_DEBUG)/src/Util.o $(OBJDIR_DEBUG)/src/WebSocketServer.o $(OBJDIR_DEBUG)/src/Wheel.o $(OBJDIR_DEBUG)/src/main.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/Serial.o $(OBJDIR_DEBUG)/src/Ball.o $(OBJDIR_DEBUG)/src/BallLocalizer.o $(OBJDIR_DEBUG)/src/Command.o $(OBJDIR_DEBUG)/src/JSON.o $(OBJDIR_DEBUG)/src/JsonResponse.o $(OBJDIR_DEBUG)/src/ManualController.o $(OBJDIR_DEBUG)/src/Math.o $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o $(OBJDIR_DEBUG)/src/Robot.o $(OBJDIR_DEBUG)/src/SignalHandler.o $(OBJDIR_DEBUG)/src/SoccerBot.o $(OBJDIR_DEBUG)/src/Tasks.o $(OBJDIR_DEBUG)/src/TestController.o $(OBJDIR_DEBUG)/src/Util.o $(OBJDIR_DEBUG)/src/WebSocketServer.o $(OBJDIR_DEBUG)/src/Wheel.o $(OBJDIR_DEBUG)/src/main.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/Robot.o $(OBJDIR_RELEASE)/src/Ball.o $(OBJDIR_RELEASE)/src/BallLocalizer.o $(OBJDIR_RELEASE)/src/Command.o $(OBJDIR_RELEASE)/src/JSON.o $(OBJDIR_RELEASE)/src/JsonResponse.o $(OBJDIR_RELEASE)/src/ManualController.o $(OBJDIR_RELEASE)/src/Math.o $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o $(OBJDIR_RELEASE)/src/Serial.o $(OBJDIR_RELEASE)/src/SignalHandler.o $(OBJDIR_RELEASE)/src/SoccerBot.o $(OBJDIR_RELEASE)/src/Tasks.o $(OBJDIR_RELEASE)/src/Util.o $(OBJDIR_RELEASE)/src/WebSocketServer.o $(OBJDIR_RELEASE)/src/Wheel.o $(OBJDIR_RELEASE)/src/main.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/Serial.o $(OBJDIR_RELEASE)/src/Ball.o $(OBJDIR_RELEASE)/src/BallLocalizer.o $(OBJDIR_RELEASE)/src/Command.o $(OBJDIR_RELEASE)/src/JSON.o $(OBJDIR_RELEASE)/src/JsonResponse.o $(OBJDIR_RELEASE)/src/ManualController.o $(OBJDIR_RELEASE)/src/Math.o $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o $(OBJDIR_RELEASE)/src/Robot.o $(OBJDIR_RELEASE)/src/SignalHandler.o $(OBJDIR_RELEASE)/src/SoccerBot.o $(OBJDIR_RELEASE)/src/Tasks.o $(OBJDIR_RELEASE)/src/TestController.o $(OBJDIR_RELEASE)/src/Util.o $(OBJDIR_RELEASE)/src/WebSocketServer.o $(OBJDIR_RELEASE)/src/Wheel.o $(OBJDIR_RELEASE)/src/main.o
 
 all: debug release
 
@@ -60,8 +60,8 @@ debug: before_debug out_debug after_debug
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
 
-$(OBJDIR_DEBUG)/src/Robot.o: src/Robot.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Robot.cpp -o $(OBJDIR_DEBUG)/src/Robot.o
+$(OBJDIR_DEBUG)/src/Serial.o: src/Serial.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Serial.cpp -o $(OBJDIR_DEBUG)/src/Serial.o
 
 $(OBJDIR_DEBUG)/src/Ball.o: src/Ball.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Ball.cpp -o $(OBJDIR_DEBUG)/src/Ball.o
@@ -87,8 +87,8 @@ $(OBJDIR_DEBUG)/src/Math.o: src/Math.cpp
 $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o: src/ParticleFilterLocalizer.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/ParticleFilterLocalizer.cpp -o $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o
 
-$(OBJDIR_DEBUG)/src/Serial.o: src/Serial.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Serial.cpp -o $(OBJDIR_DEBUG)/src/Serial.o
+$(OBJDIR_DEBUG)/src/Robot.o: src/Robot.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Robot.cpp -o $(OBJDIR_DEBUG)/src/Robot.o
 
 $(OBJDIR_DEBUG)/src/SignalHandler.o: src/SignalHandler.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/SignalHandler.cpp -o $(OBJDIR_DEBUG)/src/SignalHandler.o
@@ -98,6 +98,9 @@ $(OBJDIR_DEBUG)/src/SoccerBot.o: src/SoccerBot.cpp
 
 $(OBJDIR_DEBUG)/src/Tasks.o: src/Tasks.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Tasks.cpp -o $(OBJDIR_DEBUG)/src/Tasks.o
+
+$(OBJDIR_DEBUG)/src/TestController.o: src/TestController.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/TestController.cpp -o $(OBJDIR_DEBUG)/src/TestController.o
 
 $(OBJDIR_DEBUG)/src/Util.o: src/Util.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Util.cpp -o $(OBJDIR_DEBUG)/src/Util.o
@@ -128,8 +131,8 @@ release: before_release out_release after_release
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
 
-$(OBJDIR_RELEASE)/src/Robot.o: src/Robot.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Robot.cpp -o $(OBJDIR_RELEASE)/src/Robot.o
+$(OBJDIR_RELEASE)/src/Serial.o: src/Serial.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Serial.cpp -o $(OBJDIR_RELEASE)/src/Serial.o
 
 $(OBJDIR_RELEASE)/src/Ball.o: src/Ball.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Ball.cpp -o $(OBJDIR_RELEASE)/src/Ball.o
@@ -155,8 +158,8 @@ $(OBJDIR_RELEASE)/src/Math.o: src/Math.cpp
 $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o: src/ParticleFilterLocalizer.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/ParticleFilterLocalizer.cpp -o $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o
 
-$(OBJDIR_RELEASE)/src/Serial.o: src/Serial.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Serial.cpp -o $(OBJDIR_RELEASE)/src/Serial.o
+$(OBJDIR_RELEASE)/src/Robot.o: src/Robot.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Robot.cpp -o $(OBJDIR_RELEASE)/src/Robot.o
 
 $(OBJDIR_RELEASE)/src/SignalHandler.o: src/SignalHandler.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/SignalHandler.cpp -o $(OBJDIR_RELEASE)/src/SignalHandler.o
@@ -166,6 +169,9 @@ $(OBJDIR_RELEASE)/src/SoccerBot.o: src/SoccerBot.cpp
 
 $(OBJDIR_RELEASE)/src/Tasks.o: src/Tasks.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Tasks.cpp -o $(OBJDIR_RELEASE)/src/Tasks.o
+
+$(OBJDIR_RELEASE)/src/TestController.o: src/TestController.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/TestController.cpp -o $(OBJDIR_RELEASE)/src/TestController.o
 
 $(OBJDIR_RELEASE)/src/Util.o: src/Util.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Util.cpp -o $(OBJDIR_RELEASE)/src/Util.o
