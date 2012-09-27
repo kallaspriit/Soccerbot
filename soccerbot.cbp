@@ -15,7 +15,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<ExtraCommands>
-					<Add after="bash /soccerbot/commit-push.sh" />
+					<Add after="bash commit-push.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="release">
@@ -30,7 +30,7 @@
 					<Add option="-s" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="bash /soccerbot/commit-push.sh" />
+					<Add after="bash commit-push.sh" />
 				</ExtraCommands>
 			</Target>
 		</Build>
