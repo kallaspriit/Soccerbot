@@ -199,6 +199,7 @@ A:hover {
 #options {
 	width: 210px;
 	left: -230px;
+	top: 240px;
 }
 #options > TABLE TH,
 #options > TABLE TD {
@@ -435,14 +436,14 @@ A:hover {
 /* Wheel graphs */
 #wheel-graphs {
 	position: absolute;
-	top: 80px;
+	top: -10px;
 	left: -230px;
 	width: 210px;
 	height: 200px;
 }
 #graphs-toggle-btn {
 	position: absolute;
-	top: 290px;
+	top: 210px;
 	left: -230px;
 	color: #3563a4;
 	text-shadow: 1px 1px 1px #CCC;
@@ -484,9 +485,10 @@ A:hover {
 	background-color: #FFF;
 }
 #wheel-graphs.full .wheel-graph {
-	width: 49%;
-	height: 49%;
+	width: 50%;
+	height: 50%;
 	border-radius: 0;
+	outline: 4px solid #FFF;
 }
 #wheel-graphs.full #wheel-graph-fr {
 	left: 50%;
@@ -498,3 +500,7 @@ A:hover {
 	left: 50%;
 	top: 50%;
 }
+
+/*.ctrl {
+	display: none;
+}*/

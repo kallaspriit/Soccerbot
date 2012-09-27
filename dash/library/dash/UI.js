@@ -398,7 +398,7 @@ Dash.UI.prototype.initControls = function() {
 		var controller = $(this).val();
 		
 		self.setController(controller);
-	}).trigger('change');
+	});
 	
 	$('#host-btn').click(function() {
 		var newHost = window.prompt('Enter robot hostname or IP', dash.config.socket.host);
@@ -546,7 +546,9 @@ Dash.UI.prototype.handleMessage = function(message) {
 Dash.UI.prototype.handleControllerMessage = function(controller) {
 	dash.dbg.log('! Received active controller: ' + controller);
 	
-	$('#controller-choice').val(controller).trigger('change');
+	$('#controller-choice')
+		.val(controller)
+		.trigger('change');
 };
 
 Dash.UI.prototype.handleStateMessage = function(state) {

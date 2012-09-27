@@ -37,8 +37,8 @@
 			<div id="connecting">Trying to connect..</div>
 			<div id="state-info"></div>
 			<div id="gamepad"></div>
-			<div id="options" class="ctrl manual-ctrl">
-				<table>
+			<div id="options">
+				<table class="ctrl manual-ctrl">
 					<tr>
 						<th>Keyboard</th>
 						<td><input type="checkbox" name="keyboard-controller-enabled" value="1" checked="checked"/></td>
@@ -62,7 +62,7 @@
 				<button id="kill-btn" class="live-only" disabled="disabled">Kill</button>
 				<button id="shutdown-btn">Shutdown</button>
 				
-				<select name="controller-choice" id="controller-choice" class="seperated">
+				<select name="controller-choice" id="controller-choice" class="live-only seperated" disabled="disabled">
 					<option value="manual">Manual Controller</option>
 					<option value="test">Test Controller</option>
 				</select>

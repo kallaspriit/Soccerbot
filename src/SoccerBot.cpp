@@ -294,6 +294,10 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
 
     if (setController(controllerName)) {
         std::cout << "! Now using '" << controllerName << "' controller" << std::endl;
+
+        JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
+
+        socket->broadcast(controllerMsg.toJSON());
     } else {
         std::cout << "- Unsupported controller '" << controllerName << "' requested" << std::endl;
     }
