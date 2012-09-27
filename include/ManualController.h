@@ -9,13 +9,13 @@ class ManualController : public Controller {
 
         bool handleRequest(std::string request);
         bool handleCommand(const Command& cmd);
+        void step(double dt);
 
         void handleTargetVectorCommand(const Command& cmd);
         void handleTargetDirCommand(const Command& cmd);
         void handleResetPositionCommand(const Command& cmd);
         void handleTurnByCommand(const Command& cmd);
         void handleDriveToCommand(const Command& cmd);
-        void handleTestCommand(const Command& cmd);
 };
 
 #endif // MANUALCONTROLLER_H

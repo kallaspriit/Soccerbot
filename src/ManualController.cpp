@@ -4,6 +4,10 @@
 #include "Command.h"
 #include "Util.h"
 
+void ManualController::step(double dt) {
+
+}
+
 bool ManualController::handleRequest(std::string request) {
     return false;
 }
@@ -19,8 +23,6 @@ bool ManualController::handleCommand(const Command& cmd) {
         handleTurnByCommand(cmd);
     } else if (cmd.name == "drive-to" && cmd.params.size() == 4) {
         handleDriveToCommand(cmd);
-    } else if (cmd.name == "test") {
-        handleTestCommand(cmd);
     } else {
         return false;
     }
@@ -67,18 +69,4 @@ void ManualController::handleDriveToCommand(const Command& cmd) {
     float speed = Util::toFloat(cmd.params[3]);
 
     robot->driveTo(x, y, orientation, speed);
-}
-
-void ManualController::handleTestCommand(const Command& cmd) {
-    Math::PositionQueue positions;
-
-    float padding = 0.5f;
-
-    positions.push(Math::Position(padding, padding, 0.0f));
-    positions.push(Math::Position(4.5f - padding, padding, Math::PI / 2));
-    positions.push(Math::Position(4.5f - padding, 3.0f - padding, Math::PI));
-    positions.push(Math::Position(padding, 3.0f - padding, Math::TWO_PI * 3.0f / 4.0f));
-    positions.push(Math::Position(padding, padding, Math::TWO_PI));
-
-    robot->drivePath(positions, 1.0f);
 }

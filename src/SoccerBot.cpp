@@ -154,7 +154,7 @@ void SoccerBot::run() {
         //std::cout << "Last frame time taken: " << lastStepDuration << ", load: " << lastStepLoad << std::endl;
 
         if (activeController != NULL) {
-
+            activeController->step(dt);
         }
 
         updateLogs();
