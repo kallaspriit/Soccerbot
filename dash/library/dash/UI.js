@@ -523,6 +523,10 @@ Dash.UI.prototype.handleMessage = function(message) {
 	}
 	
 	switch (message.id) {
+		case 'controller':
+			this.handleControllerMessage(message.payload);
+		break;
+		
 		case 'state':
 			this.handleStateMessage(message.payload);
 		break;
@@ -537,6 +541,10 @@ Dash.UI.prototype.handleMessage = function(message) {
 	}
 	
 	this.rxCounter.step();
+};
+
+Dash.UI.prototype.handleControllerMessage = function(controller) {
+	dash.dbg.log('! CONTROLLER: ' + controller);
 };
 
 Dash.UI.prototype.handleStateMessage = function(state) {
