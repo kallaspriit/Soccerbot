@@ -179,6 +179,8 @@ class Vector {
         Vector(float x, float y) : x(x), y(y) {}
 
         float getLength() const;
+        float dotProduct(const Vector& b) const;
+        float getAngleBetween(const Vector& b) const;
         Vector getRotated(float angle) const;
         Vector getNormalized(float magnitude = 1.0f) const;
 

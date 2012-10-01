@@ -142,6 +142,14 @@ float Vector::getLength() const {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
+float Vector::dotProduct(const Vector& b) const {
+    return x * b.x + y * b.y;
+}
+
+float Vector::getAngleBetween(const Vector& b) const {
+    return acosf(dotProduct(b) / (getLength() * b.getLength()));
+}
+
 Vector Vector::getRotated(float angle) const {
     return Vector(
         x * Math::cos(angle) - y * Math::sin(angle),
