@@ -31,7 +31,7 @@ class TurnByTask : public Task {
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
-        std::string getType() { return "turn-by"; };
+        //std::string getType() { return "turn-by"; };
         std::string toString();
 
     private:
