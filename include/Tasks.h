@@ -93,7 +93,7 @@ class DrivePathTask : public Task {
 
 class DriveFacingTask : public Task {
     public:
-        DriveFacingTask(float targetX, float targetY, float targetOorientation, float faceX, float faceY, float speed = 1.0f) : Task(), positionThreshold(0.025f), orientationThreshold(Math::PI / 180.0f), targetX(targetX), targetY(targetY), targetOrientation(targetOrientation), faceX(faceX), faceY(faceY), speed(speed) {}
+        DriveFacingTask(float targetX, float targetY, float faceX, float faceY, float speed = 1.0f) : Task(), positionThreshold(0.025f), orientationThreshold(Math::PI / 180.0f), targetX(targetX), targetY(targetY), faceX(faceX), faceY(faceY), speed(speed) {}
 
         void onStart(Robot& robot, double dt);
         bool onStep(Robot& robot, double dt);
@@ -110,7 +110,6 @@ class DriveFacingTask : public Task {
         float startOrientation;
         float targetX;
         float targetY;
-        float targetOrientation;
         float faceX;
         float faceY;
         float speed;

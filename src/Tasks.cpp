@@ -201,6 +201,7 @@ bool DriveFacingTask::onStep(Robot& robot, double dt) {
     currentDistance = Math::distanceBetween(pos.x, pos.y, targetX, targetY);
 
     float currentOrientation = pos.orientation;
+    float targetOrientation = 0.0f; // @TODO
     float orientationDiff = Math::getAngleDiff(currentOrientation, targetOrientation);
 
     if (currentDistance <= positionThreshold && Math::abs(orientationDiff) < orientationThreshold) {
@@ -245,5 +246,5 @@ float DriveFacingTask::getPercentage() {
 }
 
 std::string DriveFacingTask::toString() {
-    return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Math::round(Math::radToDeg(targetOrientation), 1)) + " deg";
+    return "DriveFacing " + Util::toString(targetX) + "x" + Util::toString(targetY) + " facing " + Util::toString(faceX) + "x" + Util::toString(faceY);
 }
