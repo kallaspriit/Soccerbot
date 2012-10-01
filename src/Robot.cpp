@@ -307,8 +307,6 @@ Robot::Movement Robot::getMovement() {
                 avgOmega = -(movementA.a31 + movementB.a31 + movementC.a31) / 3.0;
             break;
         }
-
-        std::cout << "Largest: #" << largestDiffIndex << " - " << largestDiff << std::endl;
     }
 
     return Movement(
