@@ -15,7 +15,7 @@ class Task {
         virtual void onEnd(Robot& robot, double dt) {};
         virtual float getPercentage() { return 0.0f; };
         virtual std::string toString() { return "[Task]"; };
-        //virtual std::string getType() { return "unknown"; };
+        virtual std::string getType() { return "unknown"; };
         bool isStarted() { return started; }
         void setStarted(bool mode) { started = mode; }
 
@@ -31,7 +31,7 @@ class TurnByTask : public Task {
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
-        //std::string getType() { return "turn-by"; };
+        std::string getType() { return "turn-by"; };
         std::string toString();
 
     private:
