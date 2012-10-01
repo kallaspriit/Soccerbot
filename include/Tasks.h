@@ -87,4 +87,30 @@ class DrivePathTask : public Task {
         float speed;
 };
 
+class DriveFacingTask : public Task {
+    public:
+        DriveFacingTask(float targetX, float targetY, float targetOorientation, float faceX, float faceY, float speed = 1.0f) : Task(), positionThreshold(0.025f), orientationThreshold(Math::PI / 180.0f), targetX(targetX), targetY(targetY), targetOrientation(targetOrientation), faceX(faceX), faceY(faceY), speed(speed) {}
+
+        void onStart(Robot& robot, double dt);
+        bool onStep(Robot& robot, double dt);
+        void onEnd(Robot& robot, double dt);
+        float getPercentage();
+        std::string toString();
+
+    private:
+        const float positionThreshold;
+        const float orientationThreshold;
+        float startX;
+        float startY;
+        float startOrientation;
+        float targetX;
+        float targetY;
+        float targetOrientation;
+        float faceX;
+        float faceY;
+        float speed;
+        float startDistance;
+        float currentDistance;
+};
+
 #endif // TASKS_H
