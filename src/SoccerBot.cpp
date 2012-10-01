@@ -344,7 +344,7 @@ std::string SoccerBot::getStateJSON() const {
     stream << "},";
 
     // tasks
-    stream << "\"tasks\": [";
+    stream << "\"tasksx\": [";
 
     TaskQueue tasks = robot->getTasks();
     bool first = true;
