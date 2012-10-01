@@ -14,6 +14,7 @@ class Task {
         virtual bool onStep(Robot& robot, double dt) { return false; };
         virtual void onEnd(Robot& robot, double dt) {};
         virtual float getPercentage() { return 0.0f; }
+        virtual std::string getType() = 0;
         virtual std::string toString() { return "[Task]"; }
         bool isStarted() { return started; }
         void setStarted(bool mode) { started = mode; }
@@ -30,6 +31,7 @@ class TurnByTask : public Task {
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
+        std::string getType() { return "turn-by"; }
         std::string toString();
 
     private:
@@ -50,6 +52,7 @@ class DriveToTask : public Task {
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
+        std::string getType() { return "drive-to"; }
         std::string toString();
 
     private:
@@ -74,6 +77,7 @@ class DrivePathTask : public Task {
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
+        std::string getType() { return "drive-path"; }
         std::string toString();
 
     private:
@@ -95,6 +99,7 @@ class DriveFacingTask : public Task {
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
+        std::string getType() { return "drive-facing"; }
         std::string toString();
 
     private:
