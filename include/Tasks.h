@@ -26,12 +26,12 @@ class Task {
 class TurnByTask : public Task {
     public:
         TurnByTask(float angle, float speed = 1) : Task(), threshold(Math::PI / 180.0f), speed(speed), turnAngle(angle), diff(angle) {}
-std::string getType() { return "turn-by"; };
+
         void onStart(Robot& robot, double dt);
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
         float getPercentage();
-
+        std::string getType() { return "turn-by"; };
         std::string toString();
 
     private:

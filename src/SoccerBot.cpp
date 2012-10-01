@@ -361,12 +361,11 @@ std::string SoccerBot::getStateJSON() const {
         stream << "{";
         stream << "\"started\": " << (task->isStarted() ? "true" : "false") << ",";
         stream << "\"percentage\": " << task->getPercentage() << ",";
-        stream << "\"status\": \"" << task->toString() << " / " << task->getType() << "\"";
+        stream << "\"status\": \"!" << task->getType() << "!\"";
         stream << "}";
     }
 
     stream << "]";
-
 
     stream << "}";
 
