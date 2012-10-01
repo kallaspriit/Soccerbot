@@ -20,6 +20,8 @@ bool TestController::handleCommand(const Command& cmd) {
         handleTurnByCommand(cmd);
     } else if (cmd.name == "drive-to" && cmd.params.size() == 4) {
         handleDriveToCommand(cmd);
+    } else if (cmd.name == "drive-facing" && cmd.params.size() == 5) {
+        handleDriveFacingCommand(cmd);
     } else {
         return false;
     }
@@ -55,4 +57,14 @@ void TestController::handleDriveToCommand(const Command& cmd) {
     float speed = Util::toFloat(cmd.params[3]);
 
     robot->driveTo(x, y, orientation, speed);
+}
+
+void TestController::handleDriveFacingCommand(const Command& cmd) {
+    float targetX = Util::toFloat(cmd.params[0]);
+    float targetY = Util::toFloat(cmd.params[1]);
+    float faceX = Util::toFloat(cmd.params[2]);
+    float faceY = Util::toFloat(cmd.params[3]);
+    float speed = Util::toFloat(cmd.params[4]);
+
+    robot->driveFacing(targetX, targetY, faceX, faceY, speed);
 }

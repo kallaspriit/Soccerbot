@@ -464,8 +464,8 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.testRectangle();
 	});
 	
-	$('test-drive-facing-btn').click(function() {
-		self.robot.driveFacing();
+	$('#test-drive-facing-btn').click(function() {
+		self.robot.driveFacing(3, 2, 4.5, 1.5, 1);
 	});
 	
 	$('#graphs-toggle-btn').click(function() {

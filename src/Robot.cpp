@@ -189,6 +189,10 @@ void Robot::driveTo(float x, float y, float orientation, float speed) {
     addTask(new DriveToTask(x, y, orientation, speed));
 }
 
+void Robot::driveFacing(float targetX, float targetY, float faceX, float faceY, float speed) {
+    addTask(new DriveFacingTask(targetX, targetY, faceX, faceY, speed));
+}
+
 void Robot::drivePath(const Math::PositionQueue positions, float speed) {
     addTask(new DrivePathTask(positions, speed));
 }

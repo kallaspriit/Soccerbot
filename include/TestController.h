@@ -14,6 +14,7 @@ class TestController : public Controller {
         void handleTestRectangleCommand(const Command& cmd);
         void handleTurnByCommand(const Command& cmd);
         void handleDriveToCommand(const Command& cmd);
+        void handleDriveFacingCommand(const Command& cmd);
 };
 
 #endif // TESTCONTROLLER_H

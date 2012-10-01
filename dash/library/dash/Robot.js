@@ -55,6 +55,14 @@ Dash.Robot.prototype.driveTo = function(x, y, orientation, speed) {
 	dash.socket.send('<drive-to:' + x + ',' + y + ',' + orientation + ',' + speed + '>');
 };
 
+Dash.Robot.prototype.driveFacing = function(targetX, targetY, faceX, faceY, speed) {
+	speed = typeof(speed) == 'number' ? speed : 1.0;
+	
+	dash.dbg.log('! Driving to ' + targetX + 'x' + targetY + ' facing ' + faceX + 'x' + faceY);
+	
+	dash.socket.send('<drive-facing:' + targetX + ',' + targetY + ',' + faceX + ',' + faceY + ',' + speed + '>');
+};
+
 Dash.Robot.prototype.testRectangle = function() {
 	dash.dbg.log('! Running rectangle test');
 	
