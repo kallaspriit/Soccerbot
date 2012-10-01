@@ -201,7 +201,7 @@ bool DriveFacingTask::onStep(Robot& robot, double dt) {
     currentDistance = Math::distanceBetween(pos.x, pos.y, targetX, targetY);
 
     Math::Vector targetVec = Math::Vector::createDirVec(pos, Math::Vector(targetX, targetY));
-    float targetOrientation = targetVec.getAngleBetween(Math::Vector(-1.0f, 0.0f));
+    float targetOrientation = Math::floatModulus(targetVec.getAngleBetween(Math::Vector(1.0f, 0.0f)) + Math::PI, Math::TWO_PI);
     float currentOrientation = pos.orientation;
     float orientationDiff = Math::getAngleDiff(currentOrientation, targetOrientation);
 
