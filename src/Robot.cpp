@@ -273,8 +273,8 @@ Robot::Movement Robot::getMovement() {
     std::cout << "A: " << avgDiffA << "; B: " << avgDiffB << "; C: " << avgDiffC << "; D: " << avgDiffD << std::endl;
 
     return Movement(
-        -(movementA.a11 + movementB.a11 + movementC.a11 + movementD.a11) / 4.0,
-        -(movementA.a21 + movementB.a21 + movementC.a21 + movementD.a21) / 4.0,
-        -(movementA.a31 + movementB.a31 + movementC.a31 + movementD.a31) / 4.0
+        avgVelocityX,
+        avgVelocityY,
+        avgOmega
     );
 }
