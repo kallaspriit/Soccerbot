@@ -360,6 +360,8 @@ std::string SoccerBot::getStateJSON() const {
             first = false;
         }
 
+        std::cout << "Status: " << status << std::endl;
+
         stream << "{";
         stream << "\"started\": " << (task->isStarted() ? "true" : "false") << ",";
         stream << "\"percentage\": " << task->getPercentage() << ",";
