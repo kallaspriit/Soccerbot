@@ -261,6 +261,17 @@ Robot::Movement Robot::getMovement() {
     Math::Matrix3x1 movementC = omegaMatrixInvC.getMultiplied(wheelMatrixC).getMultiplied(wheelRadius);
     Math::Matrix3x1 movementD = omegaMatrixInvD.getMultiplied(wheelMatrixD).getMultiplied(wheelRadius);
 
+    float avgVelocityX = -(movementA.a11 + movementB.a11 + movementC.a11 + movementD.a11) / 4.0;
+    float avgVelocityY = -(movementA.a21 + movementB.a21 + movementC.a21 + movementD.a21) / 4.0;
+    float avgOmega = -(movementA.a31 + movementB.a31 + movementC.a31 + movementD.a31) / 4.0;
+
+    float avgDiffA = Math::abs(movementA.a11 - avgVelocityX) + Math::abs(movementA.a21 - avgVelocityY) + Math::abs(movementA.a31 - avgOmega);
+    float avgDiffB = Math::abs(movementB.a11 - avgVelocityX) + Math::abs(movementB.a21 - avgVelocityY) + Math::abs(movementB.a31 - avgOmega);
+    float avgDiffC = Math::abs(movementC.a11 - avgVelocityX) + Math::abs(movementC.a21 - avgVelocityY) + Math::abs(movementC.a31 - avgOmega);
+    float avgDiffD = Math::abs(movementD.a11 - avgVelocityX) + Math::abs(movementD.a21 - avgVelocityY) + Math::abs(movementD.a31 - avgOmega);
+
+    std::cout << "A: " << avgDiffA << "; B: " << avgDiffB << "; C: " << avgDiffC << "; D: " << avgDiffD << std::endl;
+
     return Movement(
         -(movementA.a11 + movementB.a11 + movementC.a11 + movementD.a11) / 4.0,
         -(movementA.a21 + movementB.a21 + movementC.a21 + movementD.a21) / 4.0,
