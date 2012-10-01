@@ -271,6 +271,17 @@ Robot::Movement Robot::getMovement() {
     float avgDiffD = Math::abs(movementD.a11 - avgVelocityX) + Math::abs(movementD.a21 - avgVelocityY) + Math::abs(movementD.a31 - avgOmega);
 
     float diffs[] = {avgDiffA, avgDiffB, avgDiffC, avgDiffD};
+    float largestDiff = 0;
+    int largestDiffIndex = -1;
+
+    for (int i = 0; i < 4; i++) {
+        if (diffs[i] > largestDiff) {
+            largestDiff = diffs[i];
+            largestDiffIndex = i;
+        }
+    }
+
+    std::cout << "Largest: #" << largestDiffIndex << " - " << largestDiff << std::endl;
 
     return Movement(
         avgVelocityX,
