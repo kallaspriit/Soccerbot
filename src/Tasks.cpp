@@ -181,3 +181,69 @@ std::string DrivePathTask::toString() {
 
     return "DrivePath " + Util::toString(startPositionCount - positions.size()) + "/" + Util::toString(startPositionCount) + " - " + Util::toString(targetPos.x) + "x" + Util::toString(targetPos.y) + " @ " + Util::toString(Math::round(Math::radToDeg(targetPos.orientation), 1)) + " deg";
 }
+
+
+// drive to coordinates facing some other coordinates
+void DriveFacingTask::onStart(Robot& robot, double dt) {
+    Math::Position pos = robot.getPosition();
+
+    startX = pos.x;
+    startY = pos.y;
+    startOrientation = pos.orientation;
+
+    startDistance = Math::distanceBetween(pos.x, pos.y, targetX, targetY);
+}
+
+bool DriveFacingTask::onStep(Robot& robot, double dt) {
+    Math::Position pos = robot.getPosition();
+    Math::Vector target(targetX, targetY);
+
+    currentDistance = Math::distanceBetween(pos.x, pos.y, targetX, targetY);
+
+    float currentOrientation = pos.orientation;
+    float orientationDiff = Math::getAngleDiff(currentOrientation, targetOrientation);
+
+    if (currentDistance <= positionThreshold && Math::abs(orientationDiff) < orientationThreshold) {
+        return false;
+    }
+
+    float omega = orientationDiff / (currentDistance * 0.5f);
+    float useSpeed = speed;
+
+    if (currentDistance < 0.2f) {
+        useSpeed = speed * currentDistance * 5.0f;
+    }
+
+    Math::Vector globalDir = Math::Vector::createDirVec(target, pos).getNormalized(useSpeed);
+    Math::Vector localDir = globalDir.getRotated(-currentOrientation);
+
+    //std::cout << "[" << Util::round(Math::radToDeg(currentOrientation)) << "] " << Util::round(globalDir.x, 1) << "x" << Util::round(globalDir.y) << " > " << Util::round(localDir.x, 1) << "x" << Util::round(localDir.y) << std::endl;
+    //std::cout << "diff: " << Math::radToDeg(orientationDiff) << "; current: " << Math::radToDeg(currentOrientation) << "; to: " << Math::radToDeg(targetOrientation) << "; omega: " << omega << std::endl;
+    //std::cout << "omega: " << omega << std::endl;
+
+    if (omega < -3.0f) {
+        omega = -3.0f;
+    } else if (omega > 3.0f) {
+        omega = 3.0f;
+    }
+
+    robot.setTargetDir(localDir.x, localDir.y, omega);
+
+    return true;
+}
+
+void DriveFacingTask::onEnd(Robot& robot, double dt) {
+    robot.setTargetDir(0, 0, 0);
+}
+
+float DriveFacingTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
+    return 100.0f - (currentDistance * 100.0f / startDistance);
+}
+
+std::string DriveFacingTask::toString() {
+    return "DriveTo " + Util::toString(targetX) + "x" + Util::toString(targetY) + " @ " + Util::toString(Math::round(Math::radToDeg(targetOrientation), 1)) + " deg";
+}
