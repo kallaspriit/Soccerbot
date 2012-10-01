@@ -19,10 +19,6 @@ bool ManualController::handleCommand(const Command& cmd) {
         handleTargetDirCommand(cmd);
     } else if (cmd.name == "reset-position") {
         handleResetPositionCommand(cmd);
-    } else if (cmd.name == "turn-by" && cmd.params.size() == 2) {
-        handleTurnByCommand(cmd);
-    } else if (cmd.name == "drive-to" && cmd.params.size() == 4) {
-        handleDriveToCommand(cmd);
     } else {
         return false;
     }
@@ -53,20 +49,4 @@ void ManualController::handleTargetDirCommand(const Command& cmd) {
 
 void ManualController::handleResetPositionCommand(const Command& cmd) {
     robot->setPosition(0.125f, 0.125f, 0);
-}
-
-void ManualController::handleTurnByCommand(const Command& cmd) {
-    float angle = Util::toFloat(cmd.params[0]);
-    float speed = Util::toFloat(cmd.params[1]);
-
-    robot->turnBy(angle, speed);
-}
-
-void ManualController::handleDriveToCommand(const Command& cmd) {
-    float x = Util::toFloat(cmd.params[0]);
-    float y = Util::toFloat(cmd.params[1]);
-    float orientation = Util::toFloat(cmd.params[2]);
-    float speed = Util::toFloat(cmd.params[3]);
-
-    robot->driveTo(x, y, orientation, speed);
 }

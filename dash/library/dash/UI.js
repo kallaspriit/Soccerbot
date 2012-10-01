@@ -447,20 +447,24 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.resetPosition();
 	});
 	
-	$('#turn-btn').click(function() {
+	$('#test-turn-btn').click(function() {
 		self.robot.turnBy(Math.PI / 2.0, 2);
 	});
 	
-	$('#drive-to-btn').click(function() {
+	$('#test-drive-to-btn').click(function() {
 		self.robot.driveTo(0.125, 0.125, 0, 0.5);
 	});
 	
-	$('#drive-test-btn').click(function() {
+	$('#test-drive-back-btn').click(function() {
 		self.robot.driveTo(2.0, 0.125, Math.PI, 0.5);
 		self.robot.driveTo(0.125, 0.125, 0, 0.5);
 	});
 	
 	$('#test-rectangle-btn').click(function() {
+		self.robot.testRectangle();
+	});
+	
+	$('test-drive-facing-btn').click(function() {
 		self.robot.testRectangle();
 	});
 	

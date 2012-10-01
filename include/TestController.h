@@ -12,6 +12,8 @@ class TestController : public Controller {
         void step(double dt);
 
         void handleTestRectangleCommand(const Command& cmd);
+        void handleTurnByCommand(const Command& cmd);
+        void handleDriveToCommand(const Command& cmd);
 };
 
 #endif // TESTCONTROLLER_H

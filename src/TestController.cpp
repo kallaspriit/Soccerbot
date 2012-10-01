@@ -16,6 +16,10 @@ bool TestController::handleRequest(std::string request) {
 bool TestController::handleCommand(const Command& cmd) {
     if (cmd.name == "test-rectangle") {
         handleTestRectangleCommand(cmd);
+    } else if (cmd.name == "turn-by" && cmd.params.size() == 2) {
+        handleTurnByCommand(cmd);
+    } else if (cmd.name == "drive-to" && cmd.params.size() == 4) {
+        handleDriveToCommand(cmd);
     } else {
         return false;
     }
@@ -35,4 +39,20 @@ void TestController::handleTestRectangleCommand(const Command& cmd) {
     positions.push(Math::Position(padding, padding, Math::TWO_PI));
 
     robot->drivePath(positions, 1.0f);
+}
+
+void TestController::handleTurnByCommand(const Command& cmd) {
+    float angle = Util::toFloat(cmd.params[0]);
+    float speed = Util::toFloat(cmd.params[1]);
+
+    robot->turnBy(angle, speed);
+}
+
+void TestController::handleDriveToCommand(const Command& cmd) {
+    float x = Util::toFloat(cmd.params[0]);
+    float y = Util::toFloat(cmd.params[1]);
+    float orientation = Util::toFloat(cmd.params[2]);
+    float speed = Util::toFloat(cmd.params[3]);
+
+    robot->driveTo(x, y, orientation, speed);
 }
