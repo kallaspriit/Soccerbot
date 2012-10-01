@@ -281,7 +281,35 @@ Robot::Movement Robot::getMovement() {
         }
     }
 
-    std::cout << "Largest: #" << largestDiffIndex << " - " << largestDiff << std::endl;
+    if (largestDiffIndex != -1) {
+        switch (largestDiffIndex) {
+            case 0:
+                avgVelocityX = -(movementB.a11 + movementC.a11 + movementD.a11) / 3.0;
+                avgVelocityY = -(movementB.a21 + movementC.a21 + movementD.a21) / 3.0;
+                avgOmega = -(movementB.a31 + movementC.a31 + movementD.a31) / 3.0;
+            break;
+
+            case 1:
+                avgVelocityX = -(movementA.a11 + movementC.a11 + movementD.a11) / 3.0;
+                avgVelocityY = -(movementA.a21 + movementC.a21 + movementD.a21) / 3.0;
+                avgOmega = -(movementA.a31 + movementC.a31 + movementD.a31) / 3.0;
+            break;
+
+            case 2:
+                avgVelocityX = -(movementA.a11 + movementB.a11 + movementD.a11) / 3.0;
+                avgVelocityY = -(movementA.a21 + movementB.a21 + movementD.a21) / 3.0;
+                avgOmega = -(movementA.a31 + movementB.a31 + movementD.a31) / 3.0;
+            break;
+
+            case 3:
+                avgVelocityX = -(movementA.a11 + movementB.a11 + movementC.a11) / 3.0;
+                avgVelocityY = -(movementA.a21 + movementB.a21 + movementC.a21) / 3.0;
+                avgOmega = -(movementA.a31 + movementB.a31 + movementC.a31) / 3.0;
+            break;
+        }
+
+        std::cout << "Largest: #" << largestDiffIndex << " - " << largestDiff << std::endl;
+    }
 
     return Movement(
         avgVelocityX,
