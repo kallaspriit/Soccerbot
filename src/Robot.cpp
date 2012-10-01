@@ -270,7 +270,7 @@ Robot::Movement Robot::getMovement() {
     float avgDiffC = Math::abs(movementC.a11 - avgVelocityX) + Math::abs(movementC.a21 - avgVelocityY) + Math::abs(movementC.a31 - avgOmega);
     float avgDiffD = Math::abs(movementD.a11 - avgVelocityX) + Math::abs(movementD.a21 - avgVelocityY) + Math::abs(movementD.a31 - avgOmega);
 
-    std::cout << "A: " << avgDiffA << "; B: " << avgDiffB << "; C: " << avgDiffC << "; D: " << avgDiffD << std::endl;
+    float diffs[] = {avgDiffA, avgDiffB, avgDiffC, avgDiffD};
 
     return Movement(
         avgVelocityX,
