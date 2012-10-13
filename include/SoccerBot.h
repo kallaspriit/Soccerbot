@@ -46,6 +46,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void handleRequest(std::string request);
         void handleRebuildCommand(const Command& cmd);
         void handleSetControllerCommand(const Command& cmd);
+        void handleCameraCommand(const Command& cmd);
 
         std::string getStateJSON() const;
 

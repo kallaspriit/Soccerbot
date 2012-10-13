@@ -339,6 +339,8 @@ void SoccerBot::handleRequest(std::string request) {
                 handleRebuildCommand(command);
             } else if (command.name == "set-controller" && command.params.size() == 1) {
                 handleSetControllerCommand(command);
+            } else if (command.name.substr(0, 6) == "camera") {
+                handleCameraCommand(command);
             } else if (gui == NULL || !gui->handleCommand(command)) {
                 std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
             }
@@ -371,6 +373,14 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
         socket->broadcast(controllerMsg.toJSON());
     } else {
         std::cout << "- Unsupported controller '" << controllerName << "' requested" << std::endl;
+    }
+}
+
+void SoccerBot::handleCameraCommand(const Command& cmd) {
+    if (cmd.name == "camera-set-exposure") {
+        int exposure = Util::toInt(cmd.params[0]);
+
+        frontCamera->setExposure(exposure);
     }
 }
 
