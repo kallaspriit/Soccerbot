@@ -175,7 +175,7 @@ void SoccerBot::setupCameras() {
     frontCamera->open(Config::frontCameraSerial);
 
     std::cout << "! Front camera" << std::endl;
-    std::cout << "> name: " << frontCamera->name << std::endl;
+    std::cout << "  > name: " << frontCamera->getName() << std::endl;
 }
 
 void SoccerBot::run() {
