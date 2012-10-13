@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 
     if (argc > 0) {
         for (int i = 1; i < argc; i++) {
-            if (argv[i] == "gui") {
+            if (strcmp(argv[i], "gui") == 0) {
                 withGui = true;
 
                 std::cout << "> Displaying the GUI" << std::endl;
