@@ -167,6 +167,12 @@ void SoccerBot::setupGui() {
     gui = new Gui(Config::cameraWidth, Config::cameraHeight);
 }
 
+void SoccerBot::setupCameras() {
+    frontCamera = new Camera();
+
+    frontCamera->open(Config::frontCameraSerial);
+}
+
 void SoccerBot::run() {
     std::string message;
     double time, dt;

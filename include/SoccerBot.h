@@ -29,6 +29,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void setupRobot();
         void setupControllers();
         void setupGui();
+        void setupCameras();
 
         void addController(std::string name, Controller* controller);
         Controller* getController(std::string name);
