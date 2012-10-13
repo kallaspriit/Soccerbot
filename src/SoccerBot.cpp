@@ -176,6 +176,8 @@ void SoccerBot::setupCameras() {
 
     std::cout << "! Front camera" << std::endl;
     std::cout << "  > name: " << frontCamera->getName() << std::endl;
+    std::cout << "  > type: " << frontCamera->getDeviceType() << std::endl;
+    std::cout << "  > api version: " << frontCamera->getApiVersion() << std::endl;
 }
 
 void SoccerBot::run() {
