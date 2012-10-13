@@ -112,6 +112,8 @@ void SoccerBot::init() {
         setupGui();
     }
 
+    setupCameras();
+
     std::cout << "! SoccerBot ready" << std::endl;
 }
 
