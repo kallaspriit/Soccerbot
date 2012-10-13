@@ -12,6 +12,7 @@ class Command;
 class SignalHandler;
 class Controller;
 class Gui;
+class Camera;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
@@ -20,6 +21,14 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         void init();
         void run();
+
+        void setupFreePort();
+        void setupSerial();
+        void setupSignalHandler();
+        void setupSocket();
+        void setupRobot();
+        void setupControllers();
+        void setupGui();
 
         void addController(std::string name, Controller* controller);
         Controller* getController(std::string name);
@@ -45,6 +54,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         Serial* serial;
         SignalHandler* signalHandler;
         Gui* gui;
+
+        Camera* frontCamera;
 
         std::streambuf* originalCoutStream;
         std::ostringstream* stringCoutStream;

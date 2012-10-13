@@ -13,6 +13,7 @@
 #include "ManualController.h"
 #include "TestController.h"
 #include "Gui.h"
+#include "Camera.h"
 #include "Config.h"
 
 SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stopRequested(false) {
@@ -20,6 +21,7 @@ SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stop
     serial = NULL;
     activeController = NULL;
     gui = NULL;
+    frontCamera = NULL;
     endCommand = "";
     lastStepTime = Util::millitime();
 
@@ -100,7 +102,21 @@ SoccerBot::~SoccerBot() {
 }
 
 void SoccerBot::init() {
-    int port = 8000;
+    setupFreePort();
+    setupSocket();
+    setupSerial();
+    setupRobot();
+    setupControllers();
+
+    if (withGui) {
+        setupGui();
+    }
+
+    std::cout << "! SoccerBot ready" << std::endl;
+}
+
+void SoccerBot::setupFreePort() {
+    int port = Config::socketPort;
     std::string portInfo = Util::exec("lsof -i :" + Util::toString(port) + " | tail -n +2 | sed -e 's,[ \t][ \t]*, ,g' | cut -f2 -d' '");
 
     if (portInfo.length() > 0) {
@@ -114,29 +130,41 @@ void SoccerBot::init() {
 
         std::cout << "done!" << std::endl;
     }
+}
 
-    signalHandler = new SignalHandler();
-    robot = new Robot();
-    socket = new WebSocketServer(port);
+void SoccerBot::setupSerial() {
     serial = new Serial();
 
     serial->open("/dev/ttyUSB0", 115200);
+}
+
+void SoccerBot::setupSignalHandler() {
+    signalHandler = new SignalHandler();
+
+    signalHandler->init();
+}
+
+void SoccerBot::setupSocket() {
+    socket = new WebSocketServer(Config::socketPort);
 
     socket->addListener(this);
     socket->start();
+}
+
+void SoccerBot::setupRobot() {
+    robot = new Robot();
 
     robot->init();
-    signalHandler->init();
+}
 
+void SoccerBot::setupControllers() {
     addController("manual", new ManualController(robot));
     addController("test", new TestController(robot));
     setController("manual");
+}
 
-    if (withGui) {
-        gui = new Gui(Config::cameraWidth, Config::cameraHeight);
-    }
-
-    std::cout << "! SoccerBot ready" << std::endl;
+void SoccerBot::setupGui() {
+    gui = new Gui(Config::cameraWidth, Config::cameraHeight);
 }
 
 void SoccerBot::run() {
