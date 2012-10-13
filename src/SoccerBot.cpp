@@ -191,6 +191,8 @@ void SoccerBot::run() {
     double time, dt;
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
+        const XI_IMG& image = frontCamera->getImage();
+
         time = Util::millitime();
         dt = time - lastStepTime;
         lastStepTime = time;
