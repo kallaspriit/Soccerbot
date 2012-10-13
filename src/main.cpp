@@ -6,9 +6,17 @@
 int main(int argc, char* argv[]) {
     std::cout << "-- Starting Up --" << std::endl;
 
+    bool withGui = false;
+
     if (argc > 0) {
         for (int i = 1; i < argc; i++) {
-            std::cout << "> " << argv[i] << std::endl;
+            if (argv[i] == "gui") {
+                withGui = true;
+
+                std::cout << "> Displaying the GUI" << std::endl;
+            } else {
+                std::cout << "> Unknown command line option: " << argv[i] << std::endl;
+            }
         }
     }
 
