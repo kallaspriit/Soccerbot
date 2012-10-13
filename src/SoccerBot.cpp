@@ -227,6 +227,7 @@ void SoccerBot::run() {
         updateLogs();
 
         if (gui != NULL) {
+            gui->setFrontCameraImage((unsigned char*)image.bp);
             gui->update(dt);
         }
 
