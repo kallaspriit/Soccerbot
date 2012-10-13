@@ -378,9 +378,13 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
 
 void SoccerBot::handleCameraCommand(const Command& cmd) {
     if (cmd.name == "camera-set-exposure") {
-        int exposure = Util::toInt(cmd.params[0]);
+        int value = Util::toInt(cmd.params[0]);
 
-        frontCamera->setExposure(exposure);
+        frontCamera->setExposure(value);
+    } else if (cmd.name == "camera-set-gain") {
+        float value = Util::toFloat(cmd.params[0]);
+
+        frontCamera->setGain(value);
     }
 }
 
