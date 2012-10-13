@@ -12,11 +12,14 @@
 #include "Controller.h"
 #include "ManualController.h"
 #include "TestController.h"
+#include "Gui.h"
+#include "Config.h"
 
-SoccerBot::SoccerBot() : lastStepDt(16.666l), stopRequested(false) {
+SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stopRequested(false) {
     socket = NULL;
     serial = NULL;
     activeController = NULL;
+    gui = NULL;
     endCommand = "";
     lastStepTime = Util::millitime();
 
@@ -83,6 +86,15 @@ SoccerBot::~SoccerBot() {
         delete it->second;
     }
 
+    if (gui != NULL) {
+        std::cout << "! Killing gui.. ";
+
+        delete gui;
+        gui = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
     controllers.clear();
     activeController = NULL;
 }
@@ -119,6 +131,10 @@ void SoccerBot::init() {
     addController("manual", new ManualController(robot));
     addController("test", new TestController(robot));
     setController("manual");
+
+    if (withGui) {
+        gui = new Gui(Config::cameraWidth, Config::cameraHeight);
+    }
 
     std::cout << "! SoccerBot ready" << std::endl;
 }

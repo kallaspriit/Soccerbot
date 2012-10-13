@@ -15,7 +15,7 @@ class Gui;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
-        SoccerBot();
+        SoccerBot(bool withGui = false);
         ~SoccerBot();
 
         void init();
@@ -44,6 +44,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         WebSocketServer* socket;
         Serial* serial;
         SignalHandler* signalHandler;
+        Gui* gui;
 
         std::streambuf* originalCoutStream;
         std::ostringstream* stringCoutStream;
@@ -53,6 +54,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         double lastStepDuration; // @TODO Send to browser
         double lastStepLoad;
         double totalTime;
+        bool withGui;
         bool stopRequested;
         std::string endCommand;
 

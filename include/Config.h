@@ -14,6 +14,8 @@ const float ballRemoveTime = 0.3f;
 const float ballPurgeLifetime = 10.0f;
 const float ballMaxVelocity = 8.0f;
 const float ballFovCloseEnough = 0.5f;
+const int cameraWidth = 1280;
+const int cameraHeight = 1024;
 
 } // namespace Config
 

@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    SoccerBot* bot = new SoccerBot();
+    SoccerBot* bot = new SoccerBot(withGui);
 
     bot->init();
     bot->run();
