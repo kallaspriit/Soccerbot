@@ -177,6 +177,10 @@ void SoccerBot::run() {
 
         updateLogs();
 
+        if (gui != NULL) {
+            gui->update(dt);
+        }
+
         usleep(16000);
     }
 
