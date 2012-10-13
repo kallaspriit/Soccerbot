@@ -27,6 +27,10 @@ class Camera {
 
         void setExposure(int microseconds) { setIntParam(XI_PRM_EXPOSURE, microseconds); }
         void setGain(float value) { setIntParam(XI_PRM_GAIN, value); }
+        void setDownsampling(int times) { setIntParam(XI_PRM_DOWNSAMPLING, times); }
+        void setWhiteBalanceRed(float value) { setFloatParam(XI_PRM_WB_KR, value); }
+        void setWhiteBalanceGreen(float value) { setFloatParam(XI_PRM_WB_KG, value); }
+        void setWhiteBalanceBlue(float value) { setFloatParam(XI_PRM_WB_KB, value); }
 
         std::string getStringParam(const char* name);
         int getIntParam(const char* name);

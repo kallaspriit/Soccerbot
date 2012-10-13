@@ -51,7 +51,7 @@ bool Camera::open(int serial) {
     xiSetParamInt(device, XI_PRM_IMAGE_DATA_FORMAT, XI_RGB24);
     //xiSetParamInt(device, XI_PRM_BUFFER_POLICY, XI_BP_UNSAFE);
     //xiSetParamInt(device, XI_PRM_FRAMERATE, 60);
-    xiSetParamInt(device, XI_PRM_DOWNSAMPLING, 2); // @TEMP
+    //xiSetParamInt(device, XI_PRM_DOWNSAMPLING, 2); // @TEMP
     //xiSetParamInt(device, XI_PRM_DOWNSAMPLING_TYPE, XI_BINNING);
     //xiSetParamFloat(device, XI_PRM_GAIN, 5.0f);
     //xiSetParamInt(device, XI_PRM_ACQ_BUFFER_SIZE, 70*1000*1000);

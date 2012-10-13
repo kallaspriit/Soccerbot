@@ -179,6 +179,8 @@ void SoccerBot::setupCameras() {
         return;
     }
 
+    frontCamera->setDownsampling(Config::cameraDownsampling);
+
     std::cout << "! Front camera" << std::endl;
     std::cout << "  > name: " << frontCamera->getName() << std::endl;
     std::cout << "  > type: " << frontCamera->getDeviceType() << std::endl;
@@ -389,6 +391,14 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
         float value = Util::toFloat(cmd.params[0]);
 
         frontCamera->setGain(value);
+    } else if (cmd.name == "camera-set-white-balance") {
+        float red = Util::toFloat(cmd.params[0]);
+        float green = Util::toFloat(cmd.params[1]);
+        float blue = Util::toFloat(cmd.params[2]);
+
+        frontCamera->setWhiteBalanceRed(red);
+        frontCamera->setWhiteBalanceGreen(green);
+        frontCamera->setWhiteBalanceBlue(blue);
     }
 }
 

@@ -493,9 +493,19 @@ Dash.UI.prototype.initControls = function() {
 	
 	// camera calibration
 	$('#camera-exposure').change(function() {
-		dash.dbg.log('! Set exposure: ' + $(this).val());
-
 		dash.socket.send('<camera-set-exposure:' + $(this).val() + '>');
+	});
+	
+	$('#camera-gain').change(function() {
+		dash.socket.send('<camera-set-gain:' + $(this).val() + '>');
+	});
+	
+	$('#camera-red, #camera-green, #camera-blue').change(function() {
+		var red = $('#camera-red').val(),
+			green = $('#camera-green').val(),
+			blue = $('#camera-blue').val();
+		
+		dash.socket.send('<camera-set-white-balance:' + red + ',' + green + ',' + blue + '>');
 	});
 };
 
