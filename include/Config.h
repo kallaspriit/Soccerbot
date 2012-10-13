@@ -15,8 +15,9 @@ const float ballRemoveTime = 0.3f;
 const float ballPurgeLifetime = 10.0f;
 const float ballMaxVelocity = 8.0f;
 const float ballFovCloseEnough = 0.5f;
-const int cameraWidth = 1280;
-const int cameraHeight = 1024;
+const int cameraDownsampling = 2;
+const int cameraWidth = 1280 / cameraDownsampling;
+const int cameraHeight = 1024 / cameraDownsampling;
 const int frontCameraSerial = 857735761;
 
 } // namespace Config

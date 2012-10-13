@@ -65,7 +65,6 @@ A:hover {
 	top: 50%;
 	margin: -150px 0 0 -250px;
 	background-color: #FFF;
-	white-space: pre;
 	border: 4px solid rgba(0, 0, 0, 0.25);
 	border-radius: 3px;
 	/*box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
@@ -81,6 +80,12 @@ A:hover {
 }
 .modal .number {
 	color: #009;
+}
+#state-info {
+	white-space: pre;
+}
+#camera-calibration {
+	display: block;
 }
 #current-state-index {
 	width: 100px;
@@ -499,6 +504,23 @@ A:hover {
 #wheel-graphs.full #wheel-graph-rr {
 	left: 50%;
 	top: 50%;
+}
+
+/* Form table */
+TABLE.form {
+	width: 100%;
+	margin: 0;
+}
+TABLE.form TH,
+TABLE.form TD {
+	padding: 2px 4px;
+}
+TABLE.form TH {
+	width: 30%;
+	text-align: right;
+}
+TABLE.form TD INPUT {
+	width: 100%;
 }
 
 /*.ctrl {

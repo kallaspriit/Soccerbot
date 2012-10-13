@@ -444,7 +444,7 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#calibrate-camera-btn').click(function() {
-		self.showCalibrateCamera();
+		$('#camera-calibration').fadeIn();
 	});
 	
 	$('#reset-position-btn').click(function() {
@@ -489,6 +489,13 @@ Dash.UI.prototype.initControls = function() {
 		}
 		
 		return false;
+	});
+	
+	// camera calibration
+	$('#camera-exposure').change(function() {
+		dash.dbg.log('! Set exposure: ' + $(this).val());
+
+		dash.socket.send('<camera-set-exposure:' + $(this).val() + '>');
 	});
 };
 
@@ -640,9 +647,6 @@ Dash.UI.prototype.showStateInfo = function(state) {
 };
 
 Dash.UI.prototype.showCalibrateCamera = function(state) {
-	var showState = $.extend({}, state);
-	delete showState.previous;
-	
 	$('#camera-calibration').fadeIn();
 };
 

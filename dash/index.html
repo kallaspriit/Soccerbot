@@ -8,6 +8,7 @@
 		<script src="library/jquery/jquery.cookie.js"></script>
 		<script src="library/jquery/jquery.ba-resize.min.js"></script>
 		<script src="library/checkbox/iphone-style-checkboxes.js"></script>
+		<script src="library/slider/html5slider.js.js"></script>
 		<script src="library/gamepad/gamepad.js"></script>
 		<script src="library/slider/slider.js"></script>
 		<script src="library/dash/Config.js"></script>
@@ -37,7 +38,14 @@
 			<div id="connecting">Trying to connect..</div>
 			<div class="modal" id="state-info"></div>
 			<div class="modal" id="camera-calibration">
-				..
+				<table class="form">
+					<tr>
+						<th>Exposure</th>
+						<td>
+							<input type="range" id="camera-exposure" min="0" max="20000" value="10000" step="1" />
+						</td>
+					</tr>
+				</table>
 			</div>
 			<div id="gamepad"></div>
 			<div id="options">
