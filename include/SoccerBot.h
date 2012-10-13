@@ -22,10 +22,10 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void init();
         void run();
 
-        void setupFreePort();
-        void setupSerial();
         void setupSignalHandler();
+        void setupFreePort();
         void setupSocket();
+        void setupSerial();
         void setupRobot();
         void setupControllers();
         void setupGui();

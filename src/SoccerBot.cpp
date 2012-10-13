@@ -102,6 +102,7 @@ SoccerBot::~SoccerBot() {
 }
 
 void SoccerBot::init() {
+    setupSignalHandler();
     setupFreePort();
     setupSocket();
     setupSerial();
