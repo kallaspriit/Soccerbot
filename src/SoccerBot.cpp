@@ -182,6 +182,8 @@ void SoccerBot::setupCameras() {
     std::cout << "  > serial number: " << frontCamera->getSerialNumber() << std::endl;
     std::cout << "  > supports color: " << (frontCamera->supportsColor() ? "yes" : "no") << std::endl;
     std::cout << "  > available bandwidth: " << frontCamera->getAvailableBandwidth() << "MB" << std::endl;
+
+    frontCamera->startAcquisition();
 }
 
 void SoccerBot::run() {
