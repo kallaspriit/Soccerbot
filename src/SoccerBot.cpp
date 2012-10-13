@@ -399,6 +399,14 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
         frontCamera->setWhiteBalanceRed(red);
         frontCamera->setWhiteBalanceGreen(green);
         frontCamera->setWhiteBalanceBlue(blue);
+    } else if (cmd.name == "camera-set-luminosity-gamma") {
+        float value = Util::toFloat(cmd.params[0]);
+
+        frontCamera->setLuminosityGamma(value);
+    } else if (cmd.name == "camera-set-chromaticity-gamma") {
+        float value = Util::toFloat(cmd.params[0]);
+
+        frontCamera->setChromaticityGamma(value);
     }
 }
 

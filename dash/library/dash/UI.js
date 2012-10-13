@@ -501,11 +501,19 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#camera-red, #camera-green, #camera-blue').change(function() {
-		var red = $('#camera-red').val(),
-			green = $('#camera-green').val(),
-			blue = $('#camera-blue').val();
+		var red = $('#camera-red').val() / 10.0,
+			green = $('#camera-green').val() / 10.0,
+			blue = $('#camera-blue').val() / 10.0;
 		
 		dash.socket.send('<camera-set-white-balance:' + red + ',' + green + ',' + blue + '>');
+	});
+	
+	$('#camera-luminosity-gamma').change(function() {
+		dash.socket.send('<camera-set-luminosity-gamma:' + ($(this).val() / 10.0) + '>');
+	});
+	
+	$('#camera-chromaticity-gamma').change(function() {
+		dash.socket.send('<camera-set-chromaticity-gamma:' + ($(this).val() / 10.0) + '>');
 	});
 };
 

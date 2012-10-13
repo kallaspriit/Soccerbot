@@ -31,6 +31,8 @@ class Camera {
         void setWhiteBalanceRed(float value) { setFloatParam(XI_PRM_WB_KR, value); }
         void setWhiteBalanceGreen(float value) { setFloatParam(XI_PRM_WB_KG, value); }
         void setWhiteBalanceBlue(float value) { setFloatParam(XI_PRM_WB_KB, value); }
+        void setLuminosityGamma(float value) { setFloatParam(XI_PRM_GAMMAY, value); }
+        void setChromaticityGamma(float value) { setFloatParam(XI_PRM_GAMMAC, value); }
 
         std::string getStringParam(const char* name);
         int getIntParam(const char* name);
