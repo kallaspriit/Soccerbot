@@ -232,7 +232,7 @@ void SoccerBot::run() {
             gui->update(dt);
         }
 
-        usleep(16000);
+        //usleep(16000);
     }
 
     std::cout << "! Shutdown requested" << std::endl;
