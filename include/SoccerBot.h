@@ -11,6 +11,7 @@ class Serial;
 class Command;
 class SignalHandler;
 class Controller;
+class Gui;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
