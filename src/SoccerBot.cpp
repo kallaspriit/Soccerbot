@@ -339,7 +339,7 @@ void SoccerBot::handleRequest(std::string request) {
                 handleRebuildCommand(command);
             } else if (command.name == "set-controller" && command.params.size() == 1) {
                 handleSetControllerCommand(command);
-            } else {
+            } else if (gui == NULL || !gui->handleCommand(command)) {
                 std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
             }
         }
