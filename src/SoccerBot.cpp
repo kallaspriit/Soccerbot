@@ -173,7 +173,11 @@ void SoccerBot::setupGui() {
 void SoccerBot::setupCameras() {
     frontCamera = new Camera();
 
-    frontCamera->open(Config::frontCameraSerial);
+    if (!frontCamera->open(Config::frontCameraSerial)) {
+        std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
+
+        return;
+    }
 
     std::cout << "! Front camera" << std::endl;
     std::cout << "  > name: " << frontCamera->getName() << std::endl;

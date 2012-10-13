@@ -443,6 +443,10 @@ Dash.UI.prototype.initControls = function() {
 		});
 	});
 	
+	$('#calibrate-camera-btn').click(function() {
+		self.showCalibrateCamera();
+	});
+	
 	$('#reset-position-btn').click(function() {
 		self.robot.resetPosition();
 	});
@@ -632,7 +636,14 @@ Dash.UI.prototype.showStateInfo = function(state) {
 	var showState = $.extend({}, state);
 	delete showState.previous;
 	
-	$('#state-info').html(Dash.Util.highlightJSON(showState)).show();
+	$('#state-info').html(Dash.Util.highlightJSON(showState)).fadeIn();
+};
+
+Dash.UI.prototype.showCalibrateCamera = function(state) {
+	var showState = $.extend({}, state);
+	delete showState.previous;
+	
+	$('#camera-calibration').fadeIn();
 };
 
 Dash.UI.prototype.hideStateInfo = function() {

@@ -56,7 +56,7 @@ A:hover {
 	color: #FFF;
 	font-size: 13px;
 }
-#state-info {
+.modal {
 	position: absolute;
 	width: 460px;
 	height: 270px;
@@ -73,13 +73,13 @@ A:hover {
 	overflow: auto;
 	z-index: 1;
 }
-#state-info .key {
+.modal .key {
 	color: #900;
 }
-#state-info .string {
+.modal .string {
 	color: #090;
 }
-#state-info .number {
+.modal .number {
 	color: #009;
 }
 #current-state-index {

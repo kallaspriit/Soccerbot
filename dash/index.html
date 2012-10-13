@@ -35,7 +35,10 @@
 				<a href="#" id="state-info-btn">View state info</a>
 			</div>
 			<div id="connecting">Trying to connect..</div>
-			<div id="state-info"></div>
+			<div class="modal" id="state-info"></div>
+			<div class="modal" id="camera-calibration">
+				..
+			</div>
 			<div id="gamepad"></div>
 			<div id="options">
 				<table class="ctrl manual-ctrl">
@@ -61,6 +64,7 @@
 				<button id="rebuild-btn">Start</button>
 				<button id="kill-btn" class="live-only" disabled="disabled">Kill</button>
 				<button id="shutdown-btn">Shutdown</button>
+				<button id="calibrate-camera-btn" class="live-only">Calibrate Camera</button>
 				
 				<select name="controller-choice" id="controller-choice" class="live-only seperated" disabled="disabled">
 					<option value="manual">Manual Controller</option>
