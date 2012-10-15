@@ -25,9 +25,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="/opt/XIMEA/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="/opt/XIMEA/lib/libXIMEA_GenTL.so" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="bash commit-push.sh" />
@@ -49,13 +51,17 @@
 			<Add library="boost_thread" />
 			<Add library="boost_regex" />
 			<Add library="pthread" />
+			<Add library="fltk" />
 			<Add directory="/usr/local/lib" />
 		</Linker>
 		<Unit filename="include/Ball.h" />
 		<Unit filename="include/BallLocalizer.h" />
+		<Unit filename="include/Camera.h" />
+		<Unit filename="include/Canvas.h" />
 		<Unit filename="include/Command.h" />
 		<Unit filename="include/Config.h" />
 		<Unit filename="include/Controller.h" />
+		<Unit filename="include/Gui.h" />
 		<Unit filename="include/JSON.h" />
 		<Unit filename="include/JsonResponse.h" />
 		<Unit filename="include/ManualController.h" />
@@ -72,7 +78,10 @@
 		<Unit filename="include/Wheel.h" />
 		<Unit filename="src/Ball.cpp" />
 		<Unit filename="src/BallLocalizer.cpp" />
+		<Unit filename="src/Camera.cpp" />
+		<Unit filename="src/Canvas.cpp" />
 		<Unit filename="src/Command.cpp" />
+		<Unit filename="src/Gui.cpp" />
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
 		<Unit filename="src/ManualController.cpp" />
