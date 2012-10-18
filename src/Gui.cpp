@@ -9,7 +9,7 @@
 
 Gui::Gui(int width, int height) : width(width), height(height), window(NULL), canvas(NULL) {
     window = new Fl_Double_Window(width, height);
-    canvas = new Canvas(width, height);
+    canvas = new Canvas(width, height, 2);
     window->end();
     window->show();
 
