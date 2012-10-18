@@ -24,6 +24,7 @@ class Camera {
         int getSerialNumber() { return getIntParam(XI_PRM_DEVICE_SN); }
         bool supportsColor() { return getIntParam(XI_PRM_IMAGE_IS_COLOR) == 1; }
         int getAvailableBandwidth() { return getIntParam(XI_PRM_AVAILABLE_BANDWIDTH); }
+        int getGain() { return getIntParam(XI_PRM_GAIN); }
 
         void setExposure(int microseconds) { setIntParam(XI_PRM_EXPOSURE, microseconds); }
         void setGain(float value) { setIntParam(XI_PRM_GAIN, value); }

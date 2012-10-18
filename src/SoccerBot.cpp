@@ -8,6 +8,7 @@
 #include "Command.h"
 #include "Tasks.h"
 #include "Util.h"
+#include "JSON.h"
 #include "SignalHandler.h"
 #include "Controller.h"
 #include "ManualController.h"
@@ -386,7 +387,12 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
 void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
     std::cout << "! Sending camera calibration" << std::endl;
 
-    con->send("calibration");
+    Properties cal;
+    cal["gain"] = Util::toString(frontCamera->getGain());
+
+    JsonResponse calibrationResponse("camera-calibration", JSON::stringify(cal));
+
+    con->send(calibrationResponse.toJSON());
 }
 
 void SoccerBot::handleCameraCommand(const Command& cmd) {

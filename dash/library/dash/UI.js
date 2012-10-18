@@ -209,8 +209,6 @@ Dash.UI.prototype.initSocket = function() {
 		$('#connecting').hide();
 		$('.live-only').removeAttr('disabled');
 		$('#rebuild-btn').text('Rebuild');
-		
-		dash.socket.send('<get-camera-calibration>');
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.CLOSE, function(e) {
@@ -454,6 +452,8 @@ Dash.UI.prototype.initControls = function() {
 	
 	$('#calibrate-camera-btn').click(function() {
 		$('#camera-calibration').fadeIn();
+		
+		dash.socket.send('<get-camera-calibration>');
 	});
 	
 	$('#reset-position-btn').click(function() {
