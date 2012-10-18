@@ -384,7 +384,7 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
     }
 }
 void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
-
+    con->send("calibration");
 }
 
 void SoccerBot::handleCameraCommand(const Command& cmd) {
