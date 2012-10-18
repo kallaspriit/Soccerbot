@@ -6,13 +6,16 @@ const std::string JSON::stringify(const Properties& properties) {
     std::stringstream stream;
 
     stream << "{";
+    bool first = true;
 
     for (PropertiesIterator it = properties.begin(); it != properties.end(); it++) {
-        stream << "\"" << it->first << "\":\"" << it->second.c_str();
-
-        if (it != properties.end()) {
-            stream << "\",";
+        if (first != true) {
+            stream << ",";
+        } else {
+            first = false;
         }
+
+        stream << "\"" << it->first << "\":\"" << it->second.c_str() << "\"";
     }
 
     stream << "}";
