@@ -451,8 +451,6 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#calibrate-camera-btn').click(function() {
-		$('#camera-calibration').fadeIn();
-		
 		dash.socket.send('<get-camera-calibration>');
 	});
 	
@@ -619,6 +617,12 @@ Dash.UI.prototype.handleCameraCalibrationMessage = function(calibration) {
 	dash.dbg.console('camera calibration', calibration);
 	
 	$('#camera-gain').slider('val', parseInt(calibration.gain));
+	
+	$('#camera-calibration').fadeIn(150, function() {
+		$(this).one('clickoutside', function() {
+			$(this).fadeOut();
+		});
+	});
 };
 
 Dash.UI.prototype.addState = function(state) {
