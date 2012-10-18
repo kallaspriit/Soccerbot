@@ -499,15 +499,15 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	// camera calibration
-	$('#camera-exposure').change(function() {
-		dash.socket.send('<camera-set-exposure:' + $(this).val() + '>');
+	$('#camera-exposure').slider('end', function(value) {
+		dash.socket.send('<camera-set-exposure:' + value + '>');
 	});
 	
-	$('#camera-gain').change(function() {
-		dash.socket.send('<camera-set-gain:' + $(this).val() + '>');
+	$('#camera-gain').slider('end', function(value) {
+		dash.socket.send('<camera-set-gain:' + value + '>');
 	});
 	
-	$('#camera-red, #camera-green, #camera-blue').change(function() {
+	$('#camera-red, #camera-green, #camera-blue').slider('end', function() {
 		var red = $('#camera-red').val() / 10.0,
 			green = $('#camera-green').val() / 10.0,
 			blue = $('#camera-blue').val() / 10.0;
@@ -515,12 +515,12 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<camera-set-white-balance:' + red + ',' + green + ',' + blue + '>');
 	});
 	
-	$('#camera-luminosity-gamma').change(function() {
-		dash.socket.send('<camera-set-luminosity-gamma:' + ($(this).val() / 10.0) + '>');
+	$('#camera-luminosity-gamma').slider('end', function(value) {
+		dash.socket.send('<camera-set-luminosity-gamma:' + (value / 10.0) + '>');
 	});
 	
-	$('#camera-chromaticity-gamma').change(function() {
-		dash.socket.send('<camera-set-chromaticity-gamma:' + ($(this).val() / 10.0) + '>');
+	$('#camera-chromaticity-gamma').slider('end', function(value) {
+		dash.socket.send('<camera-set-chromaticity-gamma:' + (value / 10.0) + '>');
 	});
 };
 

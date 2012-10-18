@@ -325,7 +325,7 @@ void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {
 void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websocketpp::server::handler::message_ptr msg) {
     std::string request = msg->get_payload();
 
-    handleRequest(request);
+    handleRequest(request, con);
 
     /*char response[50];
     sprintf(response, "You said: '%s'", msg->get_payload().c_str());
@@ -334,7 +334,7 @@ void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websock
     //serial->write(msg->get_payload());
 }
 
-void SoccerBot::handleRequest(std::string request) {
+void SoccerBot::handleRequest(std::string request, websocketpp::server::connection_ptr con) {
     if (Command::isValid(request)) {
         Command command = Command::parse(request);
 
@@ -345,6 +345,8 @@ void SoccerBot::handleRequest(std::string request) {
                 handleRebuildCommand(command);
             } else if (command.name == "set-controller" && command.params.size() == 1) {
                 handleSetControllerCommand(command);
+            } else if (command.name == "get-camera-calibration") {
+                handleGetCameraCalibration(command, con);
             } else if (command.name.substr(0, 6) == "camera") {
                 handleCameraCommand(command);
             } else if (gui == NULL || !gui->handleCommand(command)) {
@@ -380,6 +382,9 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
     } else {
         std::cout << "- Unsupported controller '" << controllerName << "' requested" << std::endl;
     }
+}
+void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
+
 }
 
 void SoccerBot::handleCameraCommand(const Command& cmd) {
