@@ -82,7 +82,12 @@ A:hover {
 	white-space: pre;
 }
 #camera-calibration {
-	display: none;
+	
+}
+#blobber-calibration {
+	height: 110px;
+	width: 360px;
+	margin: -55px 0 0 -200px;
 }
 #current-state-index {
 	width: 100px;
@@ -492,6 +497,10 @@ TABLE.form TD {
 TABLE.form TH {
 	width: 30%;
 	text-align: right;
+}
+TABLE.form.tight TH {
+	width: 1%;
+	padding-right: 10px;
 }
 
 /* Slider */

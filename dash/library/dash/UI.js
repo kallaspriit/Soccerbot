@@ -183,7 +183,8 @@ Dash.UI.prototype.initSlider = function() {
 	
 	$('.slider').slider({
 		showRange: true,
-		showValue: true
+		showValue: true,
+		width: 300
 	});
 };
 
@@ -454,6 +455,10 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<get-camera-calibration>');
 	});
 	
+	$('#calibrate-blobber-btn').click(function() {
+		dash.socket.send('<get-blobber-calibration>');
+	});
+	
 	$('#reset-position-btn').click(function() {
 		self.robot.resetPosition();
 	});
@@ -580,6 +585,10 @@ Dash.UI.prototype.handleMessage = function(message) {
 			this.handleCameraCalibrationMessage(message.payload);
 		break;
 		
+		case 'blobber-calibration':
+			this.handleBlobberCalibrationMessage(message.payload);
+		break;
+		
 		default:
 			dash.dbg.log('- Unsupported message received: ' + message.id);
 		break;
@@ -618,7 +627,23 @@ Dash.UI.prototype.handleCameraCalibrationMessage = function(calibration) {
 	
 	$('#camera-gain').slider('val', parseInt(calibration.gain));
 	
-	$('#camera-calibration').fadeIn(150, function() {
+	this.showModal('camera-calibration');
+};
+
+Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
+	dash.dbg.console('blobber calibration', calibration);
+	
+	$('#blobber-y').slider('val', calibration.yLow, calibration.yHigh);
+	$('#blobber-u').slider('val', calibration.uLow, calibration.uHigh);
+	$('#blobber-v').slider('val', calibration.vLow, calibration.vHigh);
+	
+	this.showModal('blobber-calibration');
+};
+
+Dash.UI.prototype.showModal = function(id) {
+	$('.modal').fadeOut(100);
+	
+	$('#' + id).fadeIn(150, function() {
 		$(this).one('clickoutside', function() {
 			$(this).fadeOut();
 		});

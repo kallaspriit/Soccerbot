@@ -82,6 +82,28 @@
 					</tr>
 				</table>
 			</div>
+			<div class="modal" id="blobber-calibration">
+				<table class="form tight">
+					<tr>
+						<th>Y</th>
+						<td>
+							<input type="text" class="slider" id="blobber-y" data-min="0" data-max="255" value="0 255" />
+						</td>
+					</tr>
+					<tr>
+						<th>U</th>
+						<td>
+							<input type="text" class="slider" id="blobber-u" data-min="0" data-max="255" value="0 255" />
+						</td>
+					</tr>
+					<tr>
+						<th>V</th>
+						<td>
+							<input type="text" class="slider" id="blobber-v" data-min="0" data-max="255" value="0 255" />
+						</td>
+					</tr>
+				</table>
+			</div>
 			<div id="gamepad"></div>
 			<div id="options">
 				<table class="ctrl manual-ctrl">
@@ -108,6 +130,7 @@
 				<button id="kill-btn" class="live-only" disabled="disabled">Kill</button>
 				<button id="shutdown-btn">Shutdown</button>
 				<button id="calibrate-camera-btn" class="live-only">Calibrate Camera</button>
+				<button id="calibrate-blobber-btn" class="live-only">Calibrate Blobber</button>
 				
 				<select name="controller-choice" id="controller-choice" class="live-only seperated" disabled="disabled">
 					<option value="manual">Manual Controller</option>

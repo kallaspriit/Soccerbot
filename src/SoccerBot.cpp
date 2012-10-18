@@ -348,6 +348,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleSetControllerCommand(command);
             } else if (command.name == "get-camera-calibration") {
                 handleGetCameraCalibration(command, con);
+            } else if (command.name == "get-blobber-calibration") {
+                handleGetBlobberCalibration(command, con);
             } else if (command.name.substr(0, 6) == "camera") {
                 handleCameraCommand(command);
             } else if (gui == NULL || !gui->handleCommand(command)) {
@@ -384,13 +386,28 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
         std::cout << "- Unsupported controller '" << controllerName << "' requested" << std::endl;
     }
 }
-void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
-    std::cout << "! Sending camera calibration" << std::endl;
 
+void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
     Properties cal;
     cal["gain"] = Util::toString(frontCamera->getGain());
 
     JsonResponse calibrationResponse("camera-calibration", JSON::stringify(cal));
+
+    con->send(calibrationResponse.toJSON());
+}
+void SoccerBot::handleGetBlobberCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
+    Properties cal;
+
+    int i = 32;
+
+    cal["yLow"] = Util::toString(i += 32);
+    cal["yHigh"] = Util::toString(i += 32);
+    cal["uLow"] = Util::toString(i += 32);
+    cal["uHigh"] = Util::toString(i += 32);
+    cal["vLow"] = Util::toString(i += 32);
+    cal["vHigh"] = Util::toString(i += 32);
+
+    JsonResponse calibrationResponse("blobber-calibration", JSON::stringify(cal));
 
     con->send(calibrationResponse.toJSON());
 }
