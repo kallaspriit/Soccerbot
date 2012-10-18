@@ -82,7 +82,7 @@ A:hover {
 	white-space: pre;
 }
 #camera-calibration {
-	display: block;
+	display: none;
 }
 #current-state-index {
 	width: 100px;

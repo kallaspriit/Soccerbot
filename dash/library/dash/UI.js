@@ -578,6 +578,10 @@ Dash.UI.prototype.handleMessage = function(message) {
 			this.handleLogMessage(message.payload);
 		break;
 		
+		case 'camera-calibration':
+			this.handleCameraCalibrationMessage(message.payload);
+		break;
+		
 		default:
 			dash.dbg.log('- Unsupported message received: ' + message.id);
 		break;
@@ -609,6 +613,12 @@ Dash.UI.prototype.handleLogMessage = function(messages) {
 			dash.dbg.external(lines[i]);
 		}
 	}
+};
+
+Dash.UI.prototype.handleCameraCalibrationMessage = function(calibration) {
+	dash.dbg.console('camera calibration', calibration);
+	
+	$('#camera-gain').slider('val', parseInt(calibration.gain));
 };
 
 Dash.UI.prototype.addState = function(state) {
