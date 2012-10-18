@@ -161,8 +161,10 @@ Dash.UI.prototype.initSlider = function() {
 	this.currentStateIndexWrap = $('#current-state-index');
 	this.stateCountWrap = $('#state-count');
 	
-	this.stateSlider.change(function() {
-		self.showState(self.stateSlider.val() - 1);
+	this.stateSlider.slider({
+		onChange: function(value) {
+			self.showState(value - 1);
+		}
 	});
 	
 	this.currentStateIndexWrap.bind('change keyup click', function(e) {
@@ -177,6 +179,11 @@ Dash.UI.prototype.initSlider = function() {
 		self.currentStateIndexWrap.html(newIndex + 1);
 		
 		self.showState(newIndex);
+	});
+	
+	$('.slider').slider({
+		showRange: true,
+		showValue: true
 	});
 };
 
@@ -617,9 +624,7 @@ Dash.UI.prototype.addState = function(state) {
 	
 	this.states.push(state);
 	
-	this.stateSlider.attr({
-		max: this.states.length
-	});
+	this.stateSlider.slider('max', this.states.length);
 	
 	this.stateCountWrap.html(this.states.length);
 	
@@ -633,9 +638,7 @@ Dash.UI.prototype.showState = function(index) {
 	
 	this.currentStateIndexWrap.val(index + 1);
 	
-	this.stateSlider.attr({
-		value: index + 1
-	});
+	this.stateSlider.slider('val',index + 1);
 	
 	this.currentStateIndex = index;
 	

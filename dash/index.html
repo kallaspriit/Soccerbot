@@ -7,10 +7,9 @@
 		<script src="library/jquery/jquery.ba-outside-events.min.js"></script>
 		<script src="library/jquery/jquery.cookie.js"></script>
 		<script src="library/jquery/jquery.ba-resize.min.js"></script>
+		<script src="library/jquery/jquery.slider-1.0.js"></script>
 		<script src="library/checkbox/iphone-style-checkboxes.js"></script>
-		<script src="library/slider/html5slider.js.js"></script>
 		<script src="library/gamepad/gamepad.js"></script>
-		<script src="library/slider/slider.js"></script>
 		<script src="library/dash/Config.js"></script>
 		<script src="library/dash/Bindable.js"></script>
 		<script src="library/dash/Util.js"></script>
@@ -31,7 +30,7 @@
 		<div id="contents">
 			<canvas id="canvas" width="800" height="537"></canvas>
 			<div id="controls">
-				<input type="range" id="state-slider" name="state-slider" min="1" max="1" value="1" step="1" />
+				<input type="text" id="state-slider" name="state-slider" value="1" data-min="1" data-max="1" data-step="1" />
 				<div id="range-indicator"><input type="number" name="current-state-index" id="current-state-index" value="1"/> / <span id="state-count">1</span></div>
 				<a href="#" id="state-info-btn">View state info</a>
 			</div>
@@ -42,43 +41,43 @@
 					<tr>
 						<th>Exposure</th>
 						<td>
-							<input type="range" id="camera-exposure" min="0" max="20000" value="10000" step="1" />
+							<input type="text" class="slider" id="camera-exposure" data-min="0" data-max="20000" value="10000" data-step="100" />
 						</td>
 					</tr>
 					<tr>
 						<th>Gain</th>
 						<td>
-							<input type="range" id="camera-gain" min="0" max="100" value="20" step="1" />
+							<input type="text" class="slider" id="camera-gain" data-min="0" data-max="50" value="10" data-step="1" />
 						</td>
 					</tr>
 					<tr>
 						<th>WB Red</th>
 						<td>
-							<input type="range" id="camera-red" min="0" max="20" value="10" step="1" />
+							<input type="text" class="slider" id="camera-red" data-min="0" data-max="2" value="1" data-step="0.1" />
 						</td>
 					</tr>
 					<tr>
 						<th>WB Green</th>
 						<td>
-							<input type="range" id="camera-green" min="0" max="20" value="10" step="1" />
+							<input type="text" class="slider" id="camera-green" data-min="0" data-max="2" value="1" data-step="0.1" />
 						</td>
 					</tr>
 					<tr>
 						<th>WB Blue</th>
 						<td>
-							<input type="range" id="camera-blue" min="0" max="20" value="10" step="1" />
+							<input type="text" class="slider" id="camera-blue" data-min="0" data-max="2" value="1" data-step="0.1" />
 						</td>
 					</tr>
 					<tr>
 						<th>Luminosity</th>
 						<td>
-							<input type="range" id="camera-luminosity-gamma" min="0" max="20" value="10" step="1" />
+							<input type="text" class="slider" id="camera-luminosity-gamma" data-min="0" data-max="2" value="1" data-step="0.1" />
 						</td>
 					</tr>
 					<tr>
 						<th>Chromaticity</th>
 						<td>
-							<input type="range" id="camera-chromaticity-gamma" min="0" max="20" value="10" step="1" />
+							<input type="text" class="slider" id="camera-chromaticity-gamma" data-min="0" data-max="2" value="1" data-step="0.1" />
 						</td>
 					</tr>
 				</table>

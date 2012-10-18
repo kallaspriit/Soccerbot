@@ -36,9 +36,6 @@ A:hover {
 	width: 800px;
 	height: 30px;
 }
-#state-slider {
-	width: 800px;
-}
 #range-indicator {
 	position: absolute;
 	top: 24px;
@@ -220,8 +217,8 @@ A:hover {
 	text-shadow: 1px 1px 2px #333;
 }
 #buttons {
-	width: 140px;
-	right: -160px;
+	width: 160px;
+	right: -180px;
 }
 #buttons BUTTON,
 #buttons SELECT {
@@ -252,29 +249,6 @@ A:hover {
     padding: 5px 10px;
     margin: 0 0 10px;
     color: #FFF;
-}
-
-/* Slider */
-.slider {
-    background:#CCC;
-    height:4px;
-    position:relative;
-    cursor:pointer;
-    border:1px solid #333;
-    width:800px;
-    border-radius:3px;
-}
-.handle {
-    background:#666;
-    height:20px;
-    width:20px;
-    top:-8px;
-    position:absolute;
-    display:block;
-	border-radius: 10px;
-}
-.range {
-
 }
 
 /* Debugging */
@@ -519,8 +493,72 @@ TABLE.form TH {
 	width: 30%;
 	text-align: right;
 }
-TABLE.form TD INPUT {
+
+/* Slider */
+.slider-wrap {
+	position: relative;
+	box-sizing: border-box;
 	width: 100%;
+	height: 4px;
+	margin: 4px 0;
+	background-color: #CCC;
+	border-radius: 2px;
+}
+.slider-wrap.with-value,
+.slider-wrap.with-range {
+	margin: 4px 0 24px;
+}
+.slider-connector-left {
+	position: absolute;
+	width: 0;
+	height: 4px;
+	left: 0;
+	top: 0;
+	background-color: #AAA;
+	border-radius: 2px 0 0 2px;
+}
+.slider-handle-left,
+.slider-handle-right {
+	position: absolute;
+	width: 6px;
+	height: 12px;
+	left: 0;
+	top: -4px;
+	margin-left: -4px;
+	background-color: #666;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-radius: 2px;
+	box-shadow: 0 0 10px #666;
+}
+.slider-value {
+	position: absolute;
+	width: 60px;
+	text-align: center;
+	left: 50%;
+	margin-left: -20px;
+	top: 8px;
+	font-size: 12px;
+	color: #666;
+}
+.slider-range-min,
+.slider-range-max {
+	position: absolute;
+	top: 8px;
+	font-size: 12px;
+	color: #666;
+}
+.slider-range-min {
+	left: 0;
+}
+.slider-range-max {
+	right: 0;
+}
+.slider-unselectable {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 /*.ctrl {
