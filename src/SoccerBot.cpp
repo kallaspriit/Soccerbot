@@ -199,7 +199,7 @@ void SoccerBot::run() {
     double time, dt;
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
-        const XI_IMG& image = frontCamera->getImage();
+        const Camera::FrameYUYV* image = frontCamera->getFrameYUYV();
 
         time = Util::millitime();
         dt = time - lastStepTime;
@@ -235,7 +235,7 @@ void SoccerBot::run() {
         updateLogs();
 
         if (gui != NULL) {
-            gui->setFrontCameraImage((unsigned char*)image.bp);
+            gui->setFrontCameraImage(image->dataYUYV);
             gui->update(dt);
         }
 

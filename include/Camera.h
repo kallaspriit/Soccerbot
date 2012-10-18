@@ -3,18 +3,57 @@
 
 #include "xiApi.h"
 #include "xiExt.h"
+#include "libyuv.h"
 
 #include <string>
 
 class Camera {
     public:
+        struct YUYV {
+            int y1, u, y2, v;
+        };
+
+        struct FrameRaw {
+            unsigned char* data;
+            int size;
+            int width;
+            int height;
+            int number;
+            bool fresh;
+            double timestamp;
+        };
+
+        struct FrameYUYV : public FrameRaw {
+            int strideY;
+            int strideU;
+            int strideV;
+            unsigned char* dataY;
+            unsigned char* dataU;
+            unsigned char* dataV;
+            unsigned char* dataYUYV;
+
+            YUYV getPixelAt(int x, int y) const {
+                int pos = y * strideY + x;
+                YUYV pixel;
+
+                pixel.y1 = dataYUYV[pos];
+                pixel.u = dataYUYV[pos + 1];
+                pixel.y2 = dataYUYV[pos + 2];
+                pixel.v = dataYUYV[pos + 3];
+
+                return pixel;
+            }
+        };
+
         Camera();
         ~Camera();
 
         bool open(int serial = 0);
         void startAcquisition();
         void stopAcquisition();
-        const XI_IMG& getImage();
+        const FrameRaw* getFrame();
+        //const FrameYUV& getFrameYUV();
+        const FrameYUYV* getFrameYUYV();
         void close();
 
         std::string getName() { return getStringParam(XI_PRM_DEVICE_NAME); }
@@ -26,6 +65,7 @@ class Camera {
         int getAvailableBandwidth() { return getIntParam(XI_PRM_AVAILABLE_BANDWIDTH); }
         int getGain() { return getIntParam(XI_PRM_GAIN); }
 
+        void setFormat(int format) { setIntParam(XI_PRM_IMAGE_DATA_FORMAT, format); }
         void setExposure(int microseconds) { setIntParam(XI_PRM_EXPOSURE, microseconds); }
         void setGain(float value) { setIntParam(XI_PRM_GAIN, value); }
         void setDownsampling(int times) { setIntParam(XI_PRM_DOWNSAMPLING, times); }
@@ -45,8 +85,12 @@ class Camera {
 
     private:
         XI_IMG image;
+        FrameRaw frameRaw;
+        FrameYUYV frameYUV;
         HANDLE device;
         bool opened;
+        bool yuvInitialized;
+        int lastFrameNumber;
 };
 
 #endif // CAMERA_H

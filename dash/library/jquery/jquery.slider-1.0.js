@@ -441,8 +441,10 @@
 		},
 		
 		val: function(value, right) {
-			if (typeof(right) == 'number') {
-				value = value + ' ' + right;
+			if (typeof(right) != 'undefined') {
+				value = parseInt(value) + ' ' + parseInt(right);
+			} else if (parseInt(value) == value) {
+				value = parseInt(value);
 			}
 			
 			this.setValue(value);

@@ -1,12 +1,19 @@
 #include "Camera.h"
+#include "Util.h"
 
 #include <iostream>
 
-Camera::Camera() : opened(false) {
+Camera::Camera() : opened(false), yuvInitialized(false) {
     image.size = sizeof(XI_IMG);
     image.bp = NULL;
     image.bp_size = 0;
     device = NULL;
+
+    frameRaw.data = NULL;
+    frameYUV.data = NULL;
+    frameYUV.dataY = NULL;
+    frameYUV.dataU = NULL;
+    frameYUV.dataV = NULL;
 }
 
 Camera::~Camera() {
@@ -81,10 +88,158 @@ void Camera::startAcquisition() {
     xiStartAcquisition(device);
 }
 
-const XI_IMG& Camera::getImage() {
-    xiGetImage(device, 5000, &image);
+const Camera::FrameRaw* Camera::getFrame() {
+    xiGetImage(device, 100, &image);
 
-    return image;
+    if (image.bp == NULL) {
+        return NULL;
+    }
+
+    frameRaw.data = (unsigned char*)image.bp;
+    frameRaw.size = image.bp_size;
+    frameRaw.number = image.nframe;
+    frameRaw.width = image.width;
+    frameRaw.height = image.height;
+    frameRaw.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0d;
+    frameRaw.fresh = frameRaw.number != lastFrameNumber;
+
+    lastFrameNumber = frameRaw.number;
+
+    return &frameRaw;
+}
+
+/*
+const Camera::FrameYUV& Camera::getFrameYUV() {
+    xiGetImage(device, 100, &image);
+
+    frameYUV.data = (unsigned char*)image.bp;
+    frameYUV.size = image.bp_size;
+    frameYUV.number = image.nframe;
+    frameYUV.width = image.width;
+    frameYUV.height = image.height;
+    frameYUV.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0d;
+    frameYUV.fresh = frameYUV.number != lastFrameNumber;
+
+    if (!yuvInitialized) {
+        frameYUV.strideY = frameYUV.width;
+        frameYUV.strideU = (frameYUV.width + 1) / 2;
+        frameYUV.strideV = (frameYUV.width + 1) / 2;
+
+        frameYUV.dataY = new uint8[frameYUV.width * frameYUV.height];
+        frameYUV.dataU = new uint8[(frameYUV.width / 2) * (frameYUV.height / 2)];
+        frameYUV.dataV = new uint8[(frameYUV.width / 2) * (frameYUV.height / 2)];
+        frameYUV.dataYUV = new uint8[frameYUV.width * frameYUV.height * 3];
+
+        yuvInitialized = true;
+    }
+
+    lastFrameNumber = frameYUV.number;
+
+    libyuv::BayerRGGBToI420(
+        frameYUV.data,
+        frameYUV.width,
+        frameYUV.dataY,
+        frameYUV.strideY,
+        frameYUV.dataU,
+        frameYUV.strideU,
+        frameYUV.dataV,
+        frameYUV.strideV,
+        frameYUV.width,
+        frameYUV.height
+    );
+
+    int row;
+    int col;
+    int indexUV;
+
+    for (int i = 0; i < frameYUV.width * frameYUV.height; i++) {
+        row = i / frameYUV.width;
+        col = i - row * frameYUV.width;
+        indexUV = (row / 2) * (frameYUV.width / 2) + (col / 2);
+
+        frameYUV.dataYUV[i * 3] = frameYUV.dataY[i];
+        frameYUV.dataYUV[i * 3 + 1] = frameYUV.dataU[indexUV];
+        frameYUV.dataYUV[i * 3 + 2] = frameYUV.dataV[indexUV];
+    }
+
+    return frameYUV;
+}
+*/
+
+const Camera::FrameYUYV* Camera::getFrameYUYV() {
+    //double s = Util::millitime();
+
+    xiGetImage(device, 100, &image);
+
+    if (image.bp == NULL) {
+        return NULL;
+    }
+
+    //std::cout << "Get: " << (Util::millitime() - s) << std::endl;
+
+    frameYUV.data = (unsigned char*)image.bp;
+    frameYUV.size = image.bp_size;
+    frameYUV.number = image.nframe;
+    frameYUV.width = image.width;
+    frameYUV.height = image.height;
+    frameYUV.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0d;
+    frameYUV.fresh = frameYUV.number != lastFrameNumber;
+
+    if (!yuvInitialized) {
+        frameYUV.strideY = frameYUV.width;
+        frameYUV.strideU = (frameYUV.width + 1) / 2;
+        frameYUV.strideV = (frameYUV.width + 1) / 2;
+
+        frameYUV.dataY = new uint8[frameYUV.width * frameYUV.height];
+        frameYUV.dataU = new uint8[(frameYUV.width / 2) * (frameYUV.height / 2)];
+        frameYUV.dataV = new uint8[(frameYUV.width / 2) * (frameYUV.height / 2)];
+        frameYUV.dataYUYV = new uint8[frameYUV.width * frameYUV.height * 3];
+
+        yuvInitialized = true;
+    }
+
+    lastFrameNumber = frameYUV.number;
+
+    //s = Util::millitime();
+
+    libyuv::BayerRGGBToI420(
+        frameYUV.data,
+        frameYUV.width,
+        frameYUV.dataY,
+        frameYUV.strideY,
+        frameYUV.dataU,
+        frameYUV.strideU,
+        frameYUV.dataV,
+        frameYUV.strideV,
+        frameYUV.width,
+        frameYUV.height
+    );
+
+    //std::cout << "RGGB > I420: " << (Util::millitime() - s) << std::endl;
+
+    //s = Util::millitime();
+
+    int row;
+    int col;
+    int indexUV;
+    int elements = frameYUV.width * frameYUV.height;
+    int halfWidth = frameYUV.width / 2;
+    bool alt = false;
+
+    for (int i = 0; i < elements; i++) {
+        row = i / frameYUV.width;
+        col = i - row * frameYUV.width;
+        indexUV = (row >> 1) * halfWidth + (col >> 1);
+
+        frameYUV.dataYUYV[i << 1] = frameYUV.dataY[i];
+        frameYUV.dataYUYV[(i << 1) + 1] = alt ? frameYUV.dataV[indexUV] : frameYUV.dataU[indexUV];
+
+        alt = !alt;
+    }
+
+    //std::cout << "I420 > YUYV: " << (Util::millitime() - s) << std::endl;
+
+    return &frameYUV;
 }
 
 void Camera::stopAcquisition() {
