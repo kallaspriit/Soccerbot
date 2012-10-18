@@ -18,7 +18,8 @@ const float ballFovCloseEnough = 0.5f;
 const int cameraDownsampling = 2;
 const int cameraWidth = 1280 / cameraDownsampling;
 const int cameraHeight = 1024 / cameraDownsampling;
-const int frontCameraSerial = 857735761;
+const int frontCameraSerial = 857769553;
+const int rearCameraSerial = 857735761;
 
 } // namespace Config
 
