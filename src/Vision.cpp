@@ -86,6 +86,14 @@ unsigned char* Vision::classify() {
     img.height = height;
     img.data = classification;
 
+    Blobber::Blob* blob = blobber->getBlobs("ball");
+
+    while (blob != NULL) {
+        img.drawBoxCentered(blob->centerX, blob->centerY, blob->x2 - blob->x1, blob->y2 - blob->y1);
+
+        blob = blob->next;
+    }
+
     img.drawBox(100, 50, 200, 50);
 
     return classification;
