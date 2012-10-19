@@ -36,7 +36,7 @@ SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stop
 }
 
 SoccerBot::~SoccerBot() {
-    std::cout << "! Killing SoccerBot" << std::endl;
+    std::cout << "-- Killing SoccerBot --" << std::endl;
 
     if (gui != NULL) {
         std::cout << "! Killing gui.. ";
