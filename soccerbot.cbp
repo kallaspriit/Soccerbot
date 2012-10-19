@@ -67,6 +67,7 @@
 		<Unit filename="include/DisplayWindow.h" />
 		<Unit filename="include/FpsCounter.h" />
 		<Unit filename="include/Gui.h" />
+		<Unit filename="include/ImageBuffer.h" />
 		<Unit filename="include/JSON.h" />
 		<Unit filename="include/JsonResponse.h" />
 		<Unit filename="include/ManualController.h" />
@@ -130,6 +131,7 @@
 		<Unit filename="src/DisplayWindow.cpp" />
 		<Unit filename="src/FpsCounter.cpp" />
 		<Unit filename="src/Gui.cpp" />
+		<Unit filename="src/ImageBuffer.cpp" />
 		<Unit filename="src/JSON.cpp" />
 		<Unit filename="src/JsonResponse.cpp" />
 		<Unit filename="src/ManualController.cpp" />

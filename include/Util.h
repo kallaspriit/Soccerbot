@@ -19,6 +19,20 @@ class Util {
         static std::string exec(const std::string& cmd);
         static std::string getWorkingDirectory();
 
+        static inline int rgbToInt(int red, int green, int blue) {
+            int rgb = red;
+            rgb = (rgb << 8) + green;
+            rgb = (rgb << 8) + blue;
+
+            return rgb;
+        }
+
+        static inline void intToRgb(int rgb, int& red, int& green, int& blue) {
+            red = (rgb >> 16) & 0xFF;
+            green = (rgb >> 8) & 0xFF;
+            blue = rgb & 0xFF;
+        }
+
         template <class T>
         static inline std::string toString(const T& t) {
             std::stringstream ss;
