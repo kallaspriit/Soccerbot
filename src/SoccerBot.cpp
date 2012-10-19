@@ -449,15 +449,14 @@ void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::serv
 }
 void SoccerBot::handleGetBlobberCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
     Properties cal;
+    Blobber::Color* color = vision->getBlobber()->getColor("ball");
 
-    int i = 32;
-
-    cal["yLow"] = Util::toString(i += 32);
-    cal["yHigh"] = Util::toString(i += 32);
-    cal["uLow"] = Util::toString(i += 32);
-    cal["uHigh"] = Util::toString(i += 32);
-    cal["vLow"] = Util::toString(i += 32);
-    cal["vHigh"] = Util::toString(i += 32);
+    cal["yLow"] = Util::toString(color->yLow);
+    cal["yHigh"] = Util::toString(color->yHigh);
+    cal["uLow"] = Util::toString(color->uLow);
+    cal["uHigh"] = Util::toString(color->uHigh);
+    cal["vLow"] = Util::toString(color->vLow);
+    cal["vHigh"] = Util::toString(color->vHigh);
 
     JsonResponse calibrationResponse("blobber-calibration", JSON::stringify(cal));
 
