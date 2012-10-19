@@ -78,5 +78,11 @@ unsigned char* Vision::classify() {
 
     blobber->classify((Blobber::Rgb*)classification, (Blobber::Pixel*)image);
 
+    img.width = width;
+    img.height = height;
+    img.data = classification;
+
+    img.setPixelAt(10, 10, 255, 0, 0);
+
     return classification;
 }

@@ -2,6 +2,7 @@
 #define VISION_H
 
 #include "Blobber.h"
+#include "ImageBuffer.h"
 
 class Vision : public Blobber::MapFilter {
     public:
@@ -16,6 +17,7 @@ class Vision : public Blobber::MapFilter {
 
     private:
         Blobber* blobber;
+        ImageBuffer img;
         int width;
         int height;
         unsigned char* image;
