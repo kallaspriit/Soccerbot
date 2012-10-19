@@ -14,6 +14,7 @@
 #include "ManualController.h"
 #include "TestController.h"
 #include "Gui.h"
+#include "FpsCounter.h"
 #include "Camera.h"
 #include "Config.h"
 
@@ -22,6 +23,7 @@ SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stop
     serial = NULL;
     activeController = NULL;
     gui = NULL;
+    fpsCounter = NULL;
     frontCamera = NULL;
     endCommand = "";
     lastStepTime = Util::millitime();
@@ -89,6 +91,15 @@ SoccerBot::~SoccerBot() {
         delete it->second;
     }
 
+    if (fpsCounter != NULL) {
+        std::cout << "! Killing fps counter.. ";
+
+        delete fpsCounter;
+        fpsCounter = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
     if (gui != NULL) {
         std::cout << "! Killing gui.. ";
 
@@ -115,6 +126,7 @@ void SoccerBot::init() {
     }
 
     setupCameras();
+    setupFpsCounter();
 
     std::cout << "! SoccerBot ready" << std::endl;
 }
@@ -195,6 +207,10 @@ void SoccerBot::setupCameras() {
     frontCamera->startAcquisition();
 }
 
+void SoccerBot::setupFpsCounter() {
+    fpsCounter = new FpsCounter();
+}
+
 void SoccerBot::run() {
     std::string message;
     double time, dt;
@@ -231,6 +247,12 @@ void SoccerBot::run() {
 
         if (activeController != NULL) {
             activeController->step(dt);
+        }
+
+        fpsCounter->step();
+
+        if (fpsCounter->isChanged()) {
+            std::cout << "! FPS: " << fpsCounter->getFps() << std::endl;
         }
 
         updateLogs();
