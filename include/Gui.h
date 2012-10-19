@@ -2,7 +2,7 @@
 #define GUI_H
 
 class Fl_Double_Window;
-class Canvas;
+class DisplayWindow;
 class Command;
 
 class Gui {
@@ -17,8 +17,7 @@ class Gui {
     private:
         int width;
         int height;
-        Fl_Double_Window* window;
-        Canvas* canvas;
+        DisplayWindow* window;
 };
 
 #endif // GUI_H
