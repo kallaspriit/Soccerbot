@@ -16,6 +16,7 @@
 #include "Gui.h"
 #include "FpsCounter.h"
 #include "Camera.h"
+#include "Vision.h"
 #include "Config.h"
 
 SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stopRequested(false) {
@@ -25,6 +26,7 @@ SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stop
     gui = NULL;
     fpsCounter = NULL;
     frontCamera = NULL;
+    vision = NULL;
     endCommand = "";
     lastStepTime = Util::millitime();
 
@@ -35,6 +37,58 @@ SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stop
 
 SoccerBot::~SoccerBot() {
     std::cout << "! Killing SoccerBot" << std::endl;
+
+    if (gui != NULL) {
+        std::cout << "! Killing gui.. ";
+
+        delete gui;
+        gui = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
+    if (fpsCounter != NULL) {
+        std::cout << "! Killing fps counter.. ";
+
+        delete fpsCounter;
+        fpsCounter = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
+    if (vision != NULL) {
+        std::cout << "! Killing vision.. ";
+
+        delete vision;
+        vision = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
+    if (frontCamera != NULL) {
+        std::cout << "! Killing front camera.. ";
+
+        delete frontCamera;
+        frontCamera = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
+    for (std::map<std::string, Controller*>::iterator it = controllers.begin(); it != controllers.end(); it++) {
+        delete it->second;
+    }
+
+    controllers.clear();
+    activeController = NULL;
+
+    if (robot != NULL) {
+        std::cout << "! Killing robot.. " << std::endl;
+
+        delete robot;
+        robot = NULL;
+
+        std::cout << "! Robot killed!" << std::endl;
+    }
 
     if (serial != NULL) {
         std::cout << "! Killing serial.. ";
@@ -60,15 +114,6 @@ SoccerBot::~SoccerBot() {
         std::cout << "done!" << std::endl;
     }
 
-    if (robot != NULL) {
-        std::cout << "! Killing robot.. " << std::endl;
-
-        delete robot;
-        robot = NULL;
-
-        std::cout << "! Robot killed!" << std::endl;
-    }
-
     if (signalHandler != NULL) {
         std::cout << "! Killing signal handler.. ";
 
@@ -86,31 +131,6 @@ SoccerBot::~SoccerBot() {
 
         std::cout << "done!" << std::endl;
     }
-
-    for (std::map<std::string, Controller*>::iterator it = controllers.begin(); it != controllers.end(); it++) {
-        delete it->second;
-    }
-
-    if (fpsCounter != NULL) {
-        std::cout << "! Killing fps counter.. ";
-
-        delete fpsCounter;
-        fpsCounter = NULL;
-
-        std::cout << "done!" << std::endl;
-    }
-
-    if (gui != NULL) {
-        std::cout << "! Killing gui.. ";
-
-        delete gui;
-        gui = NULL;
-
-        std::cout << "done!" << std::endl;
-    }
-
-    controllers.clear();
-    activeController = NULL;
 }
 
 void SoccerBot::init() {
@@ -120,13 +140,13 @@ void SoccerBot::init() {
     setupSerial();
     setupRobot();
     setupControllers();
+    setupCameras();
+    setupVision();
+    setupFpsCounter();
 
     if (withGui) {
         setupGui();
     }
-
-    setupCameras();
-    setupFpsCounter();
 
     std::cout << "! SoccerBot ready" << std::endl;
 }
@@ -205,6 +225,10 @@ void SoccerBot::setupCameras() {
     std::cout << "  > available bandwidth: " << frontCamera->getAvailableBandwidth() << "MB" << std::endl;
 
     frontCamera->startAcquisition();
+}
+
+void SoccerBot::setupVision() {
+    vision = new Vision(Config::cameraWidth, Config::cameraHeight);
 }
 
 void SoccerBot::setupFpsCounter() {

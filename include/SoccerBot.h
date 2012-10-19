@@ -14,6 +14,7 @@ class Controller;
 class Gui;
 class FpsCounter;
 class Camera;
+class Vision;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
@@ -31,6 +32,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void setupControllers();
         void setupGui();
         void setupCameras();
+        void setupVision();
         void setupFpsCounter();
 
         void addController(std::string name, Controller* controller);
@@ -61,8 +63,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         SignalHandler* signalHandler;
         Gui* gui;
         FpsCounter* fpsCounter;
-
         Camera* frontCamera;
+        Vision* vision;
 
         std::streambuf* originalCoutStream;
         std::ostringstream* stringCoutStream;
