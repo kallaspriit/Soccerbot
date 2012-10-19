@@ -400,7 +400,7 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleSetControllerCommand(command);
             } else if (command.name == "get-camera-calibration") {
                 handleGetCameraCalibration(command, con);
-            } else if (command.name == "get-blobber-calibration") {
+            } else if (command.name == "get-blobber-calibration" && command.params.size() == 1) {
                 handleGetBlobberCalibration(command, con);
             } else if (command.name == "set-blobber-calibration" && command.params.size() == 7) {
                 handleSetBlobberCalibration(command);
@@ -451,8 +451,16 @@ void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::serv
 }
 
 void SoccerBot::handleGetBlobberCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
+    std::string className = cmd.params[0];
+
     Properties cal;
-    Blobber::Color* color = vision->getBlobber()->getColor("ball");
+    Blobber::Color* color = vision->getBlobber()->getColor(className);
+
+    if (color == NULL) {
+        std::cout << "- Invalid blobber color requested: " << className << std::endl;
+
+        return;
+    }
 
     cal["yLow"] = Util::toString(color->yLow);
     cal["yHigh"] = Util::toString(color->yHigh);

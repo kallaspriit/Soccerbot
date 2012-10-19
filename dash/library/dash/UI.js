@@ -456,7 +456,15 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#calibrate-blobber-btn').click(function() {
-		dash.socket.send('<get-blobber-calibration>');
+		var selectedClass = $('#blobber-class').val();
+		
+		dash.socket.send('<get-blobber-calibration:' + selectedClass + '>');
+	});
+	
+	$('#blobber-class').change(function() {
+		var selectedClass = $('#blobber-class').val();
+		
+		dash.socket.send('<get-blobber-calibration:' + selectedClass + '>');
 	});
 	
 	$('#reset-position-btn').click(function() {
@@ -530,11 +538,12 @@ Dash.UI.prototype.initControls = function() {
 	
 	// blobber
 	$('#blobber-y, #blobber-u, #blobber-v').slider('end', function() {
-		var y = $('#blobber-y').val().replace(' ', ','),
+		var selectedClass = $('#blobber-class').val(),
+			y = $('#blobber-y').val().replace(' ', ','),
 			u = $('#blobber-u').val().replace(' ', ','),
 			v = $('#blobber-v').val().replace(' ', ',');
 		
-		dash.socket.send('<set-blobber-calibration:ball,' + y + ',' + u + ',' + v + '>');
+		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + '>');
 	});
 };
 
