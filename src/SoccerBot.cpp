@@ -240,13 +240,15 @@ void SoccerBot::run() {
     double time, dt;
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
-        const Camera::FrameYUYV* image = frontCamera->getFrameYUYV();
-
         time = Util::millitime();
         dt = time - lastStepTime;
         lastStepTime = time;
         lastStepDt = dt;
         totalTime += dt;
+
+        const Camera::FrameYUYV* image = frontCamera->getFrameYUYV();
+
+        vision->onFrameReceived(image->dataYUYV);
 
         while (serial->available() > 0) {
             message = serial->read();
@@ -264,15 +266,6 @@ void SoccerBot::run() {
 
         socket->broadcast(stateResponse.toJSON());
 
-        lastStepDuration = Util::duration(time);
-        lastStepLoad = lastStepDuration * 100.0f / 0.01666f;
-
-        //std::cout << "Last frame time taken: " << lastStepDuration << ", load: " << lastStepLoad << std::endl;
-
-        if (activeController != NULL) {
-            activeController->step(dt);
-        }
-
         fpsCounter->step();
 
         if (fpsCounter->isChanged()) {
@@ -284,6 +277,15 @@ void SoccerBot::run() {
         if (gui != NULL) {
             gui->setFrontCameraYUV(image->dataYUYV);
             gui->update(dt);
+        }
+
+        lastStepDuration = Util::duration(time);
+        lastStepLoad = lastStepDuration * 100.0f / 0.01666f;
+
+        //std::cout << "Last frame time taken: " << lastStepDuration << ", load: " << lastStepLoad << std::endl;
+
+        if (activeController != NULL) {
+            activeController->step(dt);
         }
 
         //usleep(16000);
