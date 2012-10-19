@@ -47,17 +47,17 @@ void WebSocketServer::close() {
         return;
     }
 
-    std::cout << "! Stopping the socket server" << std::endl;
+    //std::cout << "! Stopping the socket server" << std::endl;
 
     server.stop();
 
-    std::cout << "! Waiting for socket thread to join.. ";
+    //std::cout << "! Waiting for socket thread to join.. ";
 
     if (pthread_join(thread, NULL)) {
         std::cout << "- Could not join thread for socket" << std::endl;
     }
 
-    std::cout << "done!" << std::endl;
+    //std::cout << "done!" << std::endl;
 
     listening = false;
 }

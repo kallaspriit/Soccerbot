@@ -82,12 +82,12 @@ SoccerBot::~SoccerBot() {
     activeController = NULL;
 
     if (robot != NULL) {
-        std::cout << "! Killing robot.. " << std::endl;
+        std::cout << "! Killing robot.. ";
 
         delete robot;
         robot = NULL;
 
-        std::cout << "! Robot killed!" << std::endl;
+        std::cout << "done!" << std::endl;
     }
 
     if (serial != NULL) {
