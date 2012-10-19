@@ -282,7 +282,7 @@ void SoccerBot::run() {
         updateLogs();
 
         if (gui != NULL) {
-            gui->setFrontCameraImage(image->dataYUYV);
+            gui->setFrontCameraYUV(image->dataYUYV);
             gui->update(dt);
         }
 
