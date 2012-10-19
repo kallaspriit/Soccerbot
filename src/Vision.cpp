@@ -94,7 +94,5 @@ unsigned char* Vision::classify() {
         blob = blob->next;
     }
 
-    img.drawBox(100, 50, 200, 50);
-
     return classification;
 }
