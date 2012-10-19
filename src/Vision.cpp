@@ -29,9 +29,9 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     blobber->addColor(
         "ball",
         255, 128, 0,
-        30, 35,
-        110, 130,
-        110, 130
+        130, 185,
+        60, 85,
+        160, 195
     );
     blobber->addColor(
         "white",

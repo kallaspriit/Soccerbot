@@ -20,6 +20,8 @@ class Vision : public Blobber::MapFilter {
         int height;
         unsigned char* image;
         unsigned char* classification;
+
+        void highlightBalls();
 };
 
 #endif // VISION_H

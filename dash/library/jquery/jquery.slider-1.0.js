@@ -180,7 +180,7 @@
 		};
 
 		this.onDragStart = function(e) {
-			$(document.body).addClass('slider-unselectable');
+			this.disableTextSelect();
 		};
 
 		this.onDragStartLeft = function(e) {
@@ -315,7 +315,7 @@
 
 			this.dragging = 0;
 
-			$(document.body).removeClass('slider-unselectable');
+			this.enableTextSelect();
 		};
 		
 		this.setValue = function(value) {
@@ -407,6 +407,22 @@
 					this.value.html(Math.round(singleValue * 10) / 10);
 				}
 			}
+		};
+		
+		this.disableTextSelect = function() {
+			$(document.body)
+				.attr('unselectable', 'on')
+				.css('user-select', 'none')
+				.on('selectstart', false)
+				.addClass('slider-unselectable');
+		};
+		
+		this.enableTextSelect = function() {
+			$(document.body)
+				.removeAttr('unselectable')
+				.css('user-select', '')
+				.unbind('selectstart')
+				.removeClass('slider-unselectable');
 		};
 	};
 
