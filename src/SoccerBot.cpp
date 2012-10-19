@@ -475,7 +475,7 @@ void SoccerBot::handleGetBlobberCalibration(const Command& cmd, websocketpp::ser
 }
 
 void SoccerBot::handleSetBlobberCalibration(const Command& cmd) {
-    std::string name = cmd.params[0];
+    std::string className = cmd.params[0];
     int yLow = Util::toInt(cmd.params[1]);
     int yHigh = Util::toInt(cmd.params[2]);
     int uLow = Util::toInt(cmd.params[3]);
@@ -483,10 +483,10 @@ void SoccerBot::handleSetBlobberCalibration(const Command& cmd) {
     int vLow = Util::toInt(cmd.params[5]);
     int vHigh = Util::toInt(cmd.params[6]);
 
-    Blobber::Color* color = vision->getBlobber()->getColor("ball");
+    Blobber::Color* color = vision->getBlobber()->getColor(className);
 
     if (color == NULL) {
-        std::cout << "- Requested invalid color: " << name << std::endl;
+        std::cout << "- Requested invalid color: " << className << std::endl;
     }
 
     color->setThreshold(
