@@ -181,6 +181,7 @@ void SoccerBot::setupCameras() {
     }
 
     frontCamera->setDownsampling(Config::cameraDownsampling);
+    frontCamera->setFormat(XI_RAW8);
 
     std::cout << "! Front camera" << std::endl;
     std::cout << "  > name: " << frontCamera->getName() << std::endl;
