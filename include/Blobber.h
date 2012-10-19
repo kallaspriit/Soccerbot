@@ -105,14 +105,27 @@ class Blobber {
             int parent;      // run's parent in the connected components tree
         };
 
-        struct Color {
-            Rgb color;              // example color (such as used in test output)
-            char* name;             // color's meaninful name (e.g. ball, goal)
-            double mergeThreshold;  // merge density threshold
-            int expectedBlobs;      // expected number of blobs (used for merge)
-            int yLow, yHigh;        // Y,U,V component thresholds
-            int uLow, uHigh;
-            int vLow, vHigh;
+        class Color {
+            public:
+                Color() : blobber(NULL), id(0) {}
+                Color(Blobber* blobber, int id) : blobber(blobber), id(id) {}
+
+                Blobber* blobber;
+                int id;
+
+                Rgb color;              // example color (such as used in test output)
+                char* name;             // color's meaninful name (e.g. ball, goal)
+                double mergeThreshold;  // merge density threshold
+                int expectedBlobs;      // expected number of blobs (used for merge)
+                int yLow, yHigh;        // Y,U,V component thresholds
+                int uLow, uHigh;
+                int vLow, vHigh;
+
+                bool setThreshold(
+                    int yLow, int yHigh,
+                    int uLow, int uHigh,
+                    int vLow, int vHigh
+                );
         };
 
         class MapFilter {

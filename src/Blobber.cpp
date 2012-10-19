@@ -33,10 +33,24 @@ Revision History:
 
 int Blobber::log2modp[] = {0, 1, 2,27, 3,24,28, 0, 4,17,25,31,29,12, 0,14, 5, 8,18, 0,26,23,32,16,30,11,13, 7, 0,22,15,10, 6,21, 9,20,19};
 
+bool Blobber::Color::setThreshold(
+    int yLow, int yHigh,
+    int uLow, int uHigh,
+    int vLow, int vHigh
+) {
+    return blobber->setThreshold(
+        id,
+        yLow, yHigh,
+        uLow, uHigh,
+        vLow, vHigh
+    );
+}
+
 Blobber::Blobber() {
     clear();
     mapFilter = NULL;
 }
+
 Blobber::~Blobber() {
     close();
 }

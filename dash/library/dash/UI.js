@@ -513,19 +513,28 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#camera-red, #camera-green, #camera-blue').slider('end', function() {
-		var red = $('#camera-red').val() / 10.0,
-			green = $('#camera-green').val() / 10.0,
-			blue = $('#camera-blue').val() / 10.0;
+		var red = $('#camera-red').val(),
+			green = $('#camera-green').val(),
+			blue = $('#camera-blue').val();
 		
 		dash.socket.send('<camera-set-white-balance:' + red + ',' + green + ',' + blue + '>');
 	});
 	
 	$('#camera-luminosity-gamma').slider('end', function(value) {
-		dash.socket.send('<camera-set-luminosity-gamma:' + (value / 10.0) + '>');
+		dash.socket.send('<camera-set-luminosity-gamma:' + (value) + '>');
 	});
 	
 	$('#camera-chromaticity-gamma').slider('end', function(value) {
-		dash.socket.send('<camera-set-chromaticity-gamma:' + (value / 10.0) + '>');
+		dash.socket.send('<camera-set-chromaticity-gamma:' + (value) + '>');
+	});
+	
+	// blobber
+	$('#blobber-y, #blobber-u, #blobber-v').slider('end', function() {
+		var y = $('#blobber-y').val().replace(' ', ','),
+			u = $('#blobber-u').val().replace(' ', ','),
+			v = $('#blobber-v').val().replace(' ', ',');
+		
+		dash.socket.send('<set-blobber-calibration:ball,' + y + ',' + u + ',' + v + '>');
 	});
 };
 

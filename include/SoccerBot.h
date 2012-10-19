@@ -51,6 +51,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void handleRebuildCommand(const Command& cmd);
         void handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con);
         void handleGetBlobberCalibration(const Command& cmd, websocketpp::server::connection_ptr con);
+        void handleSetBlobberCalibration(const Command& cmd);
         void handleSetControllerCommand(const Command& cmd);
         void handleCameraCommand(const Command& cmd);
 
