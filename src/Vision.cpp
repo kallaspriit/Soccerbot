@@ -86,9 +86,7 @@ unsigned char* Vision::classify() {
     img.height = height;
     img.data = classification;
 
-    for (int i = 0; i < 100; i++) {
-        img.setPixelAt(100 + i, 100, 255, 0, 0);
-    }
+    img.drawBox(100, 50, 200, 50);
 
     return classification;
 }
