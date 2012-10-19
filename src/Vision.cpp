@@ -55,6 +55,10 @@ Vision::~Vision() {
 
         blobber = NULL;
     }
+
+    if (classification != NULL) {
+        delete classification;
+    }
 }
 
 void Vision::onFrameReceived(unsigned char* content) {
@@ -82,7 +86,9 @@ unsigned char* Vision::classify() {
     img.height = height;
     img.data = classification;
 
-    img.setPixelAt(10, 10, 255, 0, 0);
+    for (int i = 0; i < 100; i++) {
+        img.setPixelAt(10 + i, 10, 255, 0, 0);
+    }
 
     return classification;
 }
