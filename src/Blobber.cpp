@@ -606,6 +606,9 @@ bool Blobber::initialize(int width, int height) {
             delete(colors[i].name);
             colors[i].name = NULL;
         }
+
+        colors[i].blobber = this;
+        colors[i].id = i;
     }
 
     colorCount = 0;
