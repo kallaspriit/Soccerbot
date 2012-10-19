@@ -87,6 +87,10 @@ bool Serial::open(const char* device, int speed, const char delimiter) {
 void Serial::close() {
     //std::cout << "! Closing serial on '" << device << "'.. ";
 
+    if (!opened) {
+        return;
+    }
+
     ::close(fd);
 
     opened = false;
