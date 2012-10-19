@@ -20,7 +20,7 @@ void WebSocketServer::listen() {
 
         listening = false;
 
-        std::cout << "! Stopped socket server on port " << port << std::endl;
+        //std::cout << "! Stopped socket server on port " << port << std::endl;
     } catch (const std::exception& e) {
         listening = false;
 
