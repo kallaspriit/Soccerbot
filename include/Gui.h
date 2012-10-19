@@ -1,7 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
 
-class DisplayWindow;
+#include "DisplayWindow.h"
+
 class Command;
 
 class Gui {
@@ -16,7 +17,7 @@ class Gui {
     private:
         int width;
         int height;
-        DisplayWindow* frontCameraYUV;
+        DisplayWindow frontCameraYUV;
 };
 
 #endif // GUI_H
