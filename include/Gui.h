@@ -11,6 +11,7 @@ class Gui {
         ~Gui();
 
         void setFrontCameraYUV(unsigned char* image);
+        void setFrontCameraClassification(unsigned char* image);
         void update(double dt);
         bool handleCommand(const Command& cmd);
 
@@ -18,6 +19,7 @@ class Gui {
         int width;
         int height;
         DisplayWindow frontCameraYUV;
+        DisplayWindow frontCameraClassification;
 };
 
 #endif // GUI_H

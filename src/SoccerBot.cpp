@@ -275,7 +275,10 @@ void SoccerBot::run() {
         updateLogs();
 
         if (gui != NULL) {
+            unsigned char* classification = vision->classify();
+
             gui->setFrontCameraYUV(image->dataYUYV);
+            gui->setFrontCameraClassification(classification);
             gui->update(dt);
         }
 
