@@ -252,7 +252,7 @@ void SoccerBot::run() {
 
         const Camera::FrameYUYV* image = frontCamera->getFrameYUYV();
 
-        vision->processFrame(image->dataYUYV);
+        vision->processFrame(Vision::FRONT, image->dataYUYV);
 
         while (serial->available() > 0) {
             message = serial->read();

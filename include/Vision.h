@@ -12,7 +12,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         Vision(int width, int height);
         ~Vision();
 
-        void processFrame(unsigned char* frame);
+        void processFrame(Side side, unsigned char* frame);
         //void filterMap(unsigned int* map);
         unsigned int* getColorMap() { return blobber->getMap(); }
         unsigned char* classify();
@@ -25,10 +25,13 @@ class Vision/* : public Blobber::MapFilter*/ {
     private:
         Blobber* blobber;
         ImageBuffer img;
+        ObjectList balls;
         int width;
         int height;
         unsigned char* lastFrame;
         unsigned char* classification;
+
+        void processBalls(Side side);
 };
 
 #endif // VISION_H

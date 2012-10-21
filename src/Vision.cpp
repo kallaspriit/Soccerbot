@@ -45,10 +45,30 @@ Vision::~Vision() {
     }
 }
 
-void Vision::processFrame(unsigned char* frame) {
+void Vision::processFrame(Side side, unsigned char* frame) {
     blobber->processFrame((Blobber::Pixel*)frame);
 
+    processBalls(side);
+
     lastFrame = frame;
+}
+
+void Vision::processBalls(Side side) {
+    balls.clear();
+
+    Blobber::Blob* blob = blobber->getBlobs("ball");
+
+    float distance;
+    float angle;
+
+    while (blob != NULL) {
+        distance = getDistance(side, blob->y2);
+        angle = getAngle(side, blob->centerX, blob->centerY);
+
+        balls.push_back(Object(distance, angle));
+
+        blob = blob->next;
+    }
 }
 
 /*void Vision::filterMap(unsigned int* map) {
