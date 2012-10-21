@@ -1,4 +1,5 @@
 #include "Vision.h"
+#include "Config.h"
 
 #include <iostream>
 
@@ -6,51 +7,33 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     blobber = new Blobber();
 
     blobber->initialize(width, height);
-    //blobber->loadOptions(const_cast<char* >("options.txt"));
-    //blobber->enable(BLOBBER_DENSITY_MERGE);
+    blobber->loadOptions(Config::blobberConfigFilename);
+    blobber->enable(BLOBBER_DENSITY_MERGE);
     blobber->setMapFilter(this);
 
     /*
     [Colors]
-    (255,128,  0) 0.5000 11 Ball
-    (255,255,  0) 0.4000 1 YellowGoal
-    (  0,  0,255) 0.4000 1 BlueGoal
-    (255,255,255) 0.5000 10 White
-    (  0,255,  0) 0.5000 1 Green
+    (255,128,  0) 0.5000 5 ball
+    (255,255,  0) 0.5000 5 yellow-goal
+    (  0,  0,255) 0.5000 5 blue-goal
+    (255,255,255) 0.5000 5 white
+    (  0,255,  0) 0.5000 5 green
+    ( 32, 32, 32) 0.5000 5 black
 
     [Thresholds]
-    ( 32:125, 34: 88,174:255)
-    ( 76:150,  8: 73,115:157)
-    (  0: 37,145:171,110:144)
-    (106:213, 74:189,101:137)
-    ( 49:155, 81:140, 25: 96)
+    ( 50:133, 88:128,154:196)
+    (  0:  0,  0:255,  0:255)
+    (  0:  0,  0:255,  0:255)
+    (  0:  0,  0:255,  0:255)
+    (  0:  0,  0:255,  0:255)
+    (  0:  0,  0:255,  0:255)
     */
-
-    blobber->addColor(
-        "ball",
-        255, 128, 0,
-        130, 185,
-        60, 85,
-        160, 195
-    );
-    blobber->addColor(
-        "white",
-        255, 255, 255,
-        106, 213,
-        74, 189,
-        101, 137
-    );
-    /*blobber->getColor("ball")->updateThresholds(
-        106, 213,
-        74, 189,
-        101, 137
-    );*/
-
-    std::cout << "Color count: " << blobber->getColorCount() << std::endl;
 }
 
 Vision::~Vision() {
     if (blobber != NULL) {
+        blobber->saveOptions(Config::blobberConfigFilename);
+
         delete blobber;
 
         blobber = NULL;

@@ -27,6 +27,8 @@ SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stop
     fpsCounter = NULL;
     frontCamera = NULL;
     vision = NULL;
+    jpegBuffer = NULL;
+    rgbBuffer = NULL;
     endCommand = "";
     lastStepTime = Util::millitime();
 
@@ -214,6 +216,8 @@ void SoccerBot::setupCameras() {
 
     frontCamera->setDownsampling(Config::cameraDownsampling);
     frontCamera->setFormat(XI_RAW8);
+    frontCamera->setGain(10);
+    frontCamera->setExposure(16000);
 
     std::cout << "! Front camera" << std::endl;
     std::cout << "  > name: " << frontCamera->getName() << std::endl;
@@ -404,6 +408,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleGetBlobberCalibration(command, con);
             } else if (command.name == "set-blobber-calibration" && command.params.size() == 7) {
                 handleSetBlobberCalibration(command);
+            } else if (command.name == "get-frame") {
+                handleGetFrameCommand(command, con);
             } else if (command.name.substr(0, 6) == "camera") {
                 handleCameraCommand(command);
             } else if (gui == NULL || !gui->handleCommand(command)) {
@@ -474,8 +480,38 @@ void SoccerBot::handleGetBlobberCalibration(const Command& cmd, websocketpp::ser
     con->send(calibrationResponse.toJSON());
 }
 
+void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con) {
+    unsigned char* frame = vision->getLastFrame();
+
+    if (frame == NULL) {
+        std::cout << "- Unable to send frame, none captured" << std::endl;
+
+        return;
+    }
+
+    int jpegBufferSize = 1024 * 100;
+
+    if (jpegBuffer == NULL) {
+        jpegBuffer = new unsigned char[jpegBufferSize];
+    }
+
+    if (rgbBuffer == NULL) {
+        rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
+    }
+
+    Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, frame, rgbBuffer);
+
+    Util::jpegEncode(rgbBuffer, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
+    std::string base64img = Util::base64Encode(jpegBuffer, jpegBufferSize);
+
+    JsonResponse frameResponse("frame", "\"" + base64img + "\"");
+
+    con->send(frameResponse.toJSON());
+}
+
 void SoccerBot::handleSetBlobberCalibration(const Command& cmd) {
     std::string className = cmd.params[0];
+
     int yLow = Util::toInt(cmd.params[1]);
     int yHigh = Util::toInt(cmd.params[2]);
     int uLow = Util::toInt(cmd.params[3]);

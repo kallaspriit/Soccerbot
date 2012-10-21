@@ -31,6 +31,27 @@ Dash.UI.prototype.init = function() {
 	this.initJoystickController();
 	this.initKeyListeners();
 	this.initControls();
+	
+	/*function disableSelection(target){
+		if (typeof target.onselectstart!="undefined") //IE route
+			target.onselectstart=function(){return false}
+		else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
+			target.style.MozUserSelect="none"
+		else //All other route (ie: Opera)
+			target.onmousedown=function(){return false}
+		target.style.cursor = "default"
+	}
+
+	disableSelection(document.body);*/
+
+	$('#contents')
+		.attr('unselectable', 'on')
+		.css('user-select', 'none')
+		.on('selectstart', function(e) {
+				e.preventDefault();
+
+				return false;
+			});
 };
 
 Dash.UI.prototype.initDebugListener = function() {
@@ -461,6 +482,10 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<get-blobber-calibration:' + selectedClass + '>');
 	});
 	
+	$('#fetch-frame-btn, #frame-img').click(function() {
+		dash.socket.send('<get-frame>');
+	});
+	
 	$('#blobber-class').change(function() {
 		var selectedClass = $('#blobber-class').val();
 		
@@ -607,6 +632,10 @@ Dash.UI.prototype.handleMessage = function(message) {
 			this.handleBlobberCalibrationMessage(message.payload);
 		break;
 		
+		case 'frame':
+			this.handleFrameMessage(message.payload);
+		break;
+		
 		default:
 			dash.dbg.log('- Unsupported message received: ' + message.id);
 		break;
@@ -656,6 +685,12 @@ Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
 	$('#blobber-v').slider('val', calibration.vLow, calibration.vHigh);
 	
 	this.showModal('blobber-calibration');
+};
+
+Dash.UI.prototype.handleFrameMessage = function(base64Image) {
+	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + base64Image);
+
+	this.showModal('camera-view');
 };
 
 Dash.UI.prototype.showModal = function(id) {

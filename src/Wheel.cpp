@@ -20,7 +20,7 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
         }
 
         if (!serial->open(port.c_str())) {
-            std::cout << "! Port '" << port << "' already in use, skip it" << std::endl;
+            //std::cout << "! Port '" << port << "' already in use, skip it" << std::endl;
 
             continue;
         }

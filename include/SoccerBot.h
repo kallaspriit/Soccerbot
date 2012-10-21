@@ -40,6 +40,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         bool setController(std::string name);
         std::string getActiveControllerName();
 
+        inline Gui* getGui() const { return gui; }
+
         void onSocketOpen(websocketpp::server::connection_ptr con);
         void onSocketClose(websocketpp::server::connection_ptr con);
         void onSocketMessage(websocketpp::server::connection_ptr con, websocketpp::server::handler::message_ptr msg);
@@ -51,6 +53,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void handleRebuildCommand(const Command& cmd);
         void handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con);
         void handleGetBlobberCalibration(const Command& cmd, websocketpp::server::connection_ptr con);
+        void handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con);
         void handleSetBlobberCalibration(const Command& cmd);
         void handleSetControllerCommand(const Command& cmd);
         void handleCameraCommand(const Command& cmd);
@@ -69,6 +72,9 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         std::streambuf* originalCoutStream;
         std::ostringstream* stringCoutStream;
+
+        unsigned char* jpegBuffer;
+        unsigned char* rgbBuffer;
 
         double lastStepTime;
         double lastStepDt;

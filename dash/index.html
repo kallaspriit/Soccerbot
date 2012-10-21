@@ -117,6 +117,9 @@
 					</tr>
 				</table>
 			</div>
+			<div class="modal" id="camera-view">
+				<img id="frame-img" src="" width="640" height="512"/>
+			</div>
 			<div id="gamepad"></div>
 			<div id="options">
 				<table class="ctrl manual-ctrl">
@@ -144,6 +147,7 @@
 				<button id="shutdown-btn">Shutdown</button>
 				<button id="calibrate-camera-btn" class="live-only">Calibrate Camera</button>
 				<button id="calibrate-blobber-btn" class="live-only">Calibrate Blobber</button>
+				<button id="fetch-frame-btn" class="live-only">Fetch Frame</button>
 				
 				<select name="controller-choice" id="controller-choice" class="live-only seperated" disabled="disabled">
 					<option value="manual">Manual Controller</option>

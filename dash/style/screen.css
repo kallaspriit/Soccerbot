@@ -85,9 +85,16 @@ A:hover {
 	
 }
 #blobber-calibration {
-	height: 145px;
 	width: 380px;
+	height: 145px;
 	margin: -75px 0 0 -210px;
+}
+#camera-view {
+	width: 640px;
+	height: 512px;
+	margin: -256px 0 0 -320px;
+	padding: 0;
+	overflow: hidden;
 }
 #current-state-index {
 	width: 100px;
@@ -529,11 +536,11 @@ TABLE.form.tight TH {
 .slider-handle-left,
 .slider-handle-right {
 	position: absolute;
-	width: 6px;
-	height: 12px;
+	width: 10px;
+	height: 16px;
 	left: 0;
-	top: -4px;
-	margin-left: -4px;
+	top: -6px;
+	margin-left: -2px;
 	background-color: #666;
 	border-left: 1px solid #CCC;
 	border-right: 1px solid #CCC;

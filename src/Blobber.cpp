@@ -31,6 +31,9 @@ Revision History:
   2000-07-20:  Added dual threshold capability (JRB)
 =========================================================================*/
 
+#define BLOBBER_NONE ((unsigned)(-1))
+#define BLOBBER_VALID_OPTIONS  0x0F
+
 int Blobber::log2modp[] = {0, 1, 2,27, 3,24,28, 0, 4,17,25,31,29,12, 0,14, 5, 8,18, 0,26,23,32,16,30,11,13, 7, 0,22,15,10, 6,21, 9,20,19};
 
 bool Blobber::Color::setThreshold(
@@ -215,7 +218,7 @@ int Blobber::extractBlobs(Blob* restrict reg,ColorRun* restrict runMap,int num)
 // Takes the list of runs and formats them into a blob table,
 // gathering the various statistics we want along the way.
 // num is the number of runs in the runMap array, and the number of
-// unique blobs in reg[] (< BLOBBER_MAX_REGIONS) is returned.
+// unique blobs in reg[] (< BLOBBER_MAX_BLOBS) is returned.
 // Implemented as a single pass over the array of runs.
 {
     int x,y,i;
@@ -242,7 +245,7 @@ int Blobber::extractBlobs(Blob* restrict reg,ColorRun* restrict runMap,int num)
                 reg[b].average = black;
                 // reg[b].area_check = 0; // DEBUG ONLY
                 n++;
-                if(n >= BLOBBER_MAX_REGIONS) return(BLOBBER_MAX_REGIONS);
+                if(n >= BLOBBER_MAX_BLOBS) return(BLOBBER_MAX_BLOBS);
             } else {
                 // Otherwise update blob stats incrementally
                 b = runMap[r.parent].parent;
@@ -283,7 +286,7 @@ void Blobber::calculateAverageColors(Blob* restrict reg,int blobCount,
                                 ColorRun* restrict runMap,int runCount)
 // calculates the average color for each blob.
 // num is the number of runs in the runMap array, and the number of
-// unique blobs in reg[] (< BLOBBER_MAX_REGIONS) is returned.
+// unique blobs in reg[] (< BLOBBER_MAX_BLOBS) is returned.
 // Implemented as a single pass over the image, and a second pass over
 // the blobs.
 {

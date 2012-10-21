@@ -55,7 +55,7 @@ bool Camera::open(int serial) {
 
     xiSetParamInt(device, XI_PRM_EXPOSURE, 16000);
     //xiSetParamInt(device, XI_PRM_IMAGE_DATA_FORMAT, XI_MONO8);
-    xiSetParamInt(device, XI_PRM_IMAGE_DATA_FORMAT, XI_RGB24);
+    //xiSetParamInt(device, XI_PRM_IMAGE_DATA_FORMAT, XI_RGB24);
     //xiSetParamInt(device, XI_PRM_BUFFER_POLICY, XI_BP_UNSAFE);
     //xiSetParamInt(device, XI_PRM_FRAMERATE, 60);
     //xiSetParamInt(device, XI_PRM_DOWNSAMPLING, 2); // @TEMP
@@ -70,7 +70,7 @@ bool Camera::open(int serial) {
     //xiSetParamFloat(device, XI_PRM_WB_KB, 1.0f);
     //xiSetParamFloat(device, XI_PRM_GAMMAY, 1.0f);
     //xiSetParamFloat(device, XI_PRM_GAMMAC, 1.0f);
-    xiSetParamFloat(device, XI_PRM_SHARPNESS, 0.0f);
+    //xiSetParamFloat(device, XI_PRM_SHARPNESS, 0.0f);
     xiSetParamInt(device, XI_PRM_AEAG, 0);
     //xiSetParamInt(device, XI_PRM_BPC, 1); // fixes bad pixel
     //xiSetParamInt(device, XI_PRM_HDR, 1);

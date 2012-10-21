@@ -10,6 +10,8 @@
 class Util {
     public:
         static void yuyvToRgb(int width, int height, unsigned char *data, unsigned char *out);
+        static std::string base64Encode(const unsigned char* data, unsigned int len);
+        static void jpegEncode(const unsigned char* input, void* output, int &bufferSize, int width, int height, int channelCount = 3);
         static double millitime();
         static double duration(double start);
         static float signum(float value);
@@ -58,6 +60,9 @@ class Util {
         static inline float toFloat(const std::string str) {
             return atof(str.c_str());
         }
+
+    private:
+        static const std::string base64Chars;
 };
 
 #endif // UTIL_H

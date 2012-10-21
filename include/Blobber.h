@@ -53,10 +53,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 // values may need tweaked, although these seem to work usually
 #define BLOBBER_MAX_RUNS     (BLOBBER_DEFAULT_WIDTH * BLOBBER_DEFAULT_HEIGHT) / 4
-#define BLOBBER_MAX_REGIONS  BLOBBER_MAX_RUNS / 4
-#define BLOBBER_MIN_AREA     1
-
-#define BLOBBER_NONE ((unsigned)(-1))
+#define BLOBBER_MAX_BLOBS    BLOBBER_MAX_RUNS / 4
+#define BLOBBER_MIN_AREA     4
 
 // Options for level of processing, use enable()/disable() to change
 #define BLOBBER_THRESHOLD      0x01
@@ -230,7 +228,7 @@ class Blobber {
         unsigned uClass[BLOBBER_COLOR_LEVELS];
         unsigned vClass[BLOBBER_COLOR_LEVELS];
 
-        Blob blobTable[BLOBBER_MAX_REGIONS];
+        Blob blobTable[BLOBBER_MAX_BLOBS];
         Blob* blobList[BLOBBER_MAX_COLORS];
         int blobCount[BLOBBER_MAX_COLORS];
 

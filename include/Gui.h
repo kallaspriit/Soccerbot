@@ -14,11 +14,15 @@ class Gui {
         void setFrontCameraClassification(unsigned char* image);
         void update(double dt);
         bool handleCommand(const Command& cmd);
+        void setShowRgb(bool mode) { showRgb = mode; }
 
     private:
         int width;
         int height;
+        bool showRgb;
+        unsigned char* rgb;
         DisplayWindow frontCameraYUV;
+        DisplayWindow frontCameraRGB;
         DisplayWindow frontCameraClassification;
 };
 
