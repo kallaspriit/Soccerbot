@@ -31,27 +31,6 @@ Dash.UI.prototype.init = function() {
 	this.initJoystickController();
 	this.initKeyListeners();
 	this.initControls();
-	
-	/*function disableSelection(target){
-		if (typeof target.onselectstart!="undefined") //IE route
-			target.onselectstart=function(){return false}
-		else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
-			target.style.MozUserSelect="none"
-		else //All other route (ie: Opera)
-			target.onmousedown=function(){return false}
-		target.style.cursor = "default"
-	}
-
-	disableSelection(document.body);*/
-
-	$('#contents')
-		.attr('unselectable', 'on')
-		.css('user-select', 'none')
-		.on('selectstart', function(e) {
-				e.preventDefault();
-
-				return false;
-			});
 };
 
 Dash.UI.prototype.initDebugListener = function() {
@@ -562,13 +541,14 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	// blobber
-	$('#blobber-y, #blobber-u, #blobber-v').slider('end', function() {
+	$('#blobber-y, #blobber-u, #blobber-v, #blobber-merge-threshold').slider('end', function() {
 		var selectedClass = $('#blobber-class').val(),
 			y = $('#blobber-y').val().replace(' ', ','),
 			u = $('#blobber-u').val().replace(' ', ','),
-			v = $('#blobber-v').val().replace(' ', ',');
+			v = $('#blobber-v').val().replace(' ', ','),
+			mergeThreshold = $('#blobber-merge-threshold').val();
 		
-		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + '>');
+		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + ',' + mergeThreshold + '>');
 	});
 };
 
@@ -683,6 +663,7 @@ Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
 	$('#blobber-y').slider('val', calibration.yLow, calibration.yHigh);
 	$('#blobber-u').slider('val', calibration.uLow, calibration.uHigh);
 	$('#blobber-v').slider('val', calibration.vLow, calibration.vHigh);
+	$('#blobber-merge-threshold').slider('val', calibration.mergeThreshold);
 	
 	this.showModal('blobber-calibration');
 };

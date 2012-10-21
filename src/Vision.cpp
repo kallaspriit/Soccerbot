@@ -3,13 +3,14 @@
 
 #include <iostream>
 
-Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), image(NULL), classification(NULL) {
+Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrame(NULL), classification(NULL) {
     blobber = new Blobber();
 
     blobber->initialize(width, height);
     blobber->loadOptions(Config::blobberConfigFilename);
     blobber->enable(BLOBBER_DENSITY_MERGE);
-    blobber->setMapFilter(this);
+    //blobber->enable(BLOBBER_DUAL_THRESHOLD);
+    //blobber->setMapFilter(this);
 
     /*
     [Colors]
@@ -44,18 +45,18 @@ Vision::~Vision() {
     }
 }
 
-void Vision::onFrameReceived(unsigned char* content) {
-    image = content;
+void Vision::processFrame(unsigned char* frame) {
+    blobber->processFrame((Blobber::Pixel*)frame);
 
-    blobber->processFrame((Blobber::Pixel*)content);
+    lastFrame = frame;
 }
 
-void Vision::filterMap(unsigned int* map) {
+/*void Vision::filterMap(unsigned int* map) {
 
-}
+}*/
 
 unsigned char* Vision::classify() {
-    if (image == NULL) {
+    if (lastFrame == NULL) {
         return NULL;
     }
 
@@ -63,7 +64,7 @@ unsigned char* Vision::classify() {
         classification = new unsigned char[width * height * 3];
     }
 
-    blobber->classify((Blobber::Rgb*)classification, (Blobber::Pixel*)image);
+    blobber->classify((Blobber::Rgb*)classification, (Blobber::Pixel*)lastFrame);
 
     img.width = width;
     img.height = height;
@@ -78,4 +79,12 @@ unsigned char* Vision::classify() {
     }
 
     return classification;
+}
+
+float Vision::getDistance(Side side, int y) {
+    return 0;
+}
+
+float Vision::getAngle(Side side, int x, int y) {
+    return 0;
 }

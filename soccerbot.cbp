@@ -71,6 +71,7 @@
 		<Unit filename="include/JsonResponse.h" />
 		<Unit filename="include/ManualController.h" />
 		<Unit filename="include/Math.h" />
+		<Unit filename="include/Object.h" />
 		<Unit filename="include/ParticleFilterLocalizer.h" />
 		<Unit filename="include/Robot.h" />
 		<Unit filename="include/Serial.h" />
@@ -137,6 +138,7 @@
 		<Unit filename="src/JsonResponse.cpp" />
 		<Unit filename="src/ManualController.cpp" />
 		<Unit filename="src/Math.cpp" />
+		<Unit filename="src/Object.cpp" />
 		<Unit filename="src/ParticleFilterLocalizer.cpp" />
 		<Unit filename="src/Robot.cpp" />
 		<Unit filename="src/Serial.cpp" />

@@ -410,7 +410,7 @@
 		};
 		
 		this.disableTextSelect = function() {
-			$(document.body)
+			$('*')
 				.attr('unselectable', 'on')
 				.css('user-select', 'none')
 				.on('selectstart', false)
@@ -418,7 +418,7 @@
 		};
 		
 		this.enableTextSelect = function() {
-			$(document.body)
+			$('*')
 				.removeAttr('unselectable')
 				.css('user-select', '')
 				.unbind('selectstart')
