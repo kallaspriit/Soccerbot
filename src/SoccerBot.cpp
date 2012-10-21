@@ -254,6 +254,8 @@ void SoccerBot::run() {
 
         vision->processFrame(Vision::FRONT, image->dataYUYV);
 
+        //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
+
         while (serial->available() > 0) {
             message = serial->read();
 

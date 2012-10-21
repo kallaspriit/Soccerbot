@@ -54,6 +54,10 @@ void Vision::processFrame(Side side, unsigned char* frame) {
 }
 
 void Vision::processBalls(Side side) {
+    for (ObjectListIt it = balls.begin(); it != balls.end(); it++) {
+        delete *it;
+    }
+
     balls.clear();
 
     Blobber::Blob* blob = blobber->getBlobs("ball");
@@ -62,10 +66,23 @@ void Vision::processBalls(Side side) {
     float angle;
 
     while (blob != NULL) {
+        if (blob->area < 9) {
+            blob = blob->next;
+
+            continue;
+        }
+
         distance = getDistance(side, blob->y2);
         angle = getAngle(side, blob->centerX, blob->centerY);
 
-        balls.push_back(Object(distance, angle));
+        balls.push_back(new Object(
+            blob->centerX,
+            blob->centerY,
+            blob->x2 - blob->x1,
+            blob->y2 - blob->y1,
+            distance,
+            angle
+        ));
 
         blob = blob->next;
     }
@@ -90,13 +107,23 @@ unsigned char* Vision::classify() {
     img.height = height;
     img.data = classification;
 
-    Blobber::Blob* blob = blobber->getBlobs("ball");
+    img.drawText(20, 20, "FPS: 60");
+
+    Object* ball = NULL;
+
+    for (ObjectListIt it = balls.begin(); it != balls.end(); it++) {
+        ball = *it;
+
+        img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
+    }
+
+    /*Blobber::Blob* blob = blobber->getBlobs("ball");
 
     while (blob != NULL) {
         img.drawBoxCentered(blob->centerX, blob->centerY, blob->x2 - blob->x1, blob->y2 - blob->y1);
 
         blob = blob->next;
-    }
+    }*/
 
     return classification;
 }

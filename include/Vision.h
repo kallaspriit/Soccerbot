@@ -19,6 +19,8 @@ class Vision/* : public Blobber::MapFilter*/ {
         unsigned char* getLastFrame() { return lastFrame; }
         Blobber* getBlobber() { return blobber; }
 
+        const ObjectList& getBalls() { return balls; }
+
         static float getDistance(Side side, int y);
         static float getAngle(Side side, int x, int y);
 

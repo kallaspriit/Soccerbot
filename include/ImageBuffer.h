@@ -2,6 +2,7 @@
 #define IMAGEBUFFER_H
 
 #include <cstddef>
+#include <string>
 
 class ImageBuffer {
     public:
@@ -13,6 +14,7 @@ class ImageBuffer {
         void drawBoxCentered(int x, int y, int width, int height, int red = 255, int green = 0, int blue = 0) {
             drawBox(x - width / 2, y - height / 2, width, height, red, green, blue);
         }
+        void drawText(int imageX, int imageY, std::string text);
 
         unsigned char* data;
         int width;
