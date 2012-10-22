@@ -242,6 +242,7 @@ void SoccerBot::setupFpsCounter() {
 void SoccerBot::run() {
     std::string message;
     double time, dt;
+    ImageBuffer* classification = NULL;
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
         time = Util::millitime();
@@ -252,7 +253,27 @@ void SoccerBot::run() {
 
         const Camera::FrameYUYV* image = frontCamera->getFrameYUYV();
 
-        vision->processFrame(Vision::FRONT, image->dataYUYV);
+        vision->setFrame(image->dataYUYV);
+
+        classification = NULL;
+
+        if (gui != NULL) {
+            classification = vision->classify();
+        }
+
+        vision->process(Vision::FRONT);
+
+        if (gui != NULL && classification != NULL) {
+            vision->renderDebugInfo();
+
+            char buf[16];
+            sprintf(buf, "FPS: %d", fpsCounter->getFps());
+            classification->drawText(10, 10, buf);
+
+            gui->setFrontCameraYUV(image->dataYUYV);
+            gui->setFrontCameraClassification(classification->data);
+            gui->update(dt);
+        }
 
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
 
@@ -279,14 +300,6 @@ void SoccerBot::run() {
         }
 
         updateLogs();
-
-        if (gui != NULL) {
-            unsigned char* classification = vision->classify();
-
-            gui->setFrontCameraYUV(image->dataYUYV);
-            gui->setFrontCameraClassification(classification);
-            gui->update(dt);
-        }
 
         lastStepDuration = Util::duration(time);
         lastStepLoad = lastStepDuration * 100.0f / 0.01666f;

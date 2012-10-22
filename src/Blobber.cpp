@@ -58,7 +58,24 @@ Blobber::~Blobber() {
     close();
 }
 
-void Blobber::classifyFrame(Pixel* restrict img,unsigned* restrict map)
+Blobber::Color* Blobber::getColorAt(int x, int y) {
+    if (x < 0) x = 0;
+    if (x > width - 1) x = width - 1;
+    if (y < 0) y = 0;
+    if (y > height - 1) y = height - 1;
+
+    int colorVal = map[y * width + x];
+
+    if (colorVal == 0) {
+        return NULL;
+    }
+
+    int realColor = bottomBit(colorVal) - 1;
+
+    return getColor(realColor);
+}
+
+void Blobber::classifyFrame(Pixel* restrict img,unsigned int* restrict map)
 // Classifies an image passed in as img, saving bits in the entries
 // of map representing which thresholds that pixel satisfies.
 {
@@ -66,9 +83,9 @@ void Blobber::classifyFrame(Pixel* restrict img,unsigned* restrict map)
     int m1,m2;
     Pixel p;
 
-    unsigned* uclas = uClass; // Ahh, the joys of a compiler that
-    unsigned* vclas = vClass; //   has to consider pointer aliasing
-    unsigned* yclas = yClass;
+    unsigned int* uclas = uClass; // Ahh, the joys of a compiler that
+    unsigned int* vclas = vClass; //   has to consider pointer aliasing
+    unsigned int* yclas = yClass;
 
     s = width * height;
 
@@ -95,14 +112,14 @@ void Blobber::classifyFrame(Pixel* restrict img,unsigned* restrict map)
     }
 }
 
-int Blobber::encodeRuns(ColorRun* restrict out,unsigned* restrict map)
+int Blobber::encodeRuns(ColorRun* restrict out,unsigned int* restrict map)
 // Changes the flat array version of the threshold satisfaction map
 // into a run length encoded version, which speeds up later processing
 // since we only have to look at the points where values change.
 {
     int x,y,j,l;
     unsigned m,save;
-    unsigned* row;
+    unsigned int* row;
     ColorRun r;
 
     // initialize terminator restore
@@ -949,7 +966,7 @@ bool Blobber::processFrame(Pixel* image) {
     return(true);
 }
 
-bool Blobber::processFrame(unsigned* map) {
+bool Blobber::processFrame(unsigned int* map) {
     int runs;
     int blobs;
     int maxArea;

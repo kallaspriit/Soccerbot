@@ -126,7 +126,7 @@ class Blobber {
 
         class MapFilter {
             public:
-                virtual void filterMap(unsigned* map) = 0;
+                virtual void filterMap(unsigned int* map) = 0;
         };
 
         Blobber();
@@ -173,7 +173,7 @@ class Blobber {
             int vLow, int vHigh
         );
 
-        unsigned* getMap() const {
+        unsigned int* getMap() const {
             return map;
         }
 
@@ -201,16 +201,18 @@ class Blobber {
             return NULL;
         }
 
+        Color* getColorAt(int x, int y);
+
         void setColor(int color, Color& info) {
             colors[color] = info;
         }
 
-        inline int getColorCount() {
+        inline int getColorCount() const {
             return colorCount;
         }
 
         bool processFrame(Pixel* image);
-        bool processFrame(unsigned* map);
+        bool processFrame(unsigned int* map);
 
         int getBlobCount(int colorId);
         Blob* getBlobs(int colorId);
@@ -237,14 +239,14 @@ class Blobber {
         Color colors[BLOBBER_MAX_COLORS];
         int colorCount;
         int width, height;
-        unsigned* map;
+        unsigned int* map;
 
         MapFilter* mapFilter;
 
         unsigned options;
 
-        void classifyFrame(Pixel* restrict img, unsigned* restrict map);
-        int encodeRuns(ColorRun* restrict out, unsigned* restrict map);
+        void classifyFrame(Pixel* restrict img, unsigned int* restrict map);
+        int encodeRuns(ColorRun* restrict out, unsigned int* restrict map);
         void connectComponents(ColorRun* restrict map, int num);
         int extractBlobs(Blob* restrict reg, ColorRun* restrict runMap, int num);
 
@@ -264,7 +266,7 @@ class Blobber {
         int mergeBlobs(Blob* p, int num, double densityThreshold);
         int mergeBlobs();
 
-        void filterAbove(unsigned* map, int* edges);
+        void filterAbove(unsigned int* map, int* edges);
 
         void clear();
 

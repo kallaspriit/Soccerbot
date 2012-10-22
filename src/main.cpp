@@ -7,7 +7,7 @@
 int main(int argc, char* argv[]) {
     std::cout << "-- Starting Up --" << std::endl;
 
-    bool withGui = false;
+    bool withGui = true;
     bool showRGB = false;
 
     if (argc > 0) {
@@ -36,7 +36,9 @@ int main(int argc, char* argv[]) {
 
     bot->init();
 
-    bot->getGui()->setShowRgb(showRGB);
+    if (withGui) {
+        bot->getGui()->setShowRgb(showRGB);
+    }
 
     bot->run();
 

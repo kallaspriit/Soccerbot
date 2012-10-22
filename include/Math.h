@@ -18,6 +18,11 @@ static inline float abs(T num) {
     return ::abs(num);
 }
 
+template <class T>
+static inline float max(T num1, T num2) {
+    return std::max(num1, num2);
+}
+
 static inline float round(float r, int places = 1) {
     float off = pow(10, places);
 
@@ -38,6 +43,9 @@ static inline float sin(float a) {
 
 static inline float cos(float a) {
     return ::cos(a);
+}
+static inline float tan(float a) {
+    return ::tan(a);
 }
 
 static inline float exp(float a) {
