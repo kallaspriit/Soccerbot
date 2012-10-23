@@ -11,11 +11,11 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-INC =  -I/usr/local/include/websocketpp -Iinclude -Ilibraries
-CFLAGS =  -Wall -fexceptions
+INC =  -I/usr/local/include/websocketpp -Iinclude -Ilibraries -I/opt/XIMEA/include -Ilib/libyuv/include -Ilib/jpeg
+CFLAGS =  -O3 -Wall -fexceptions
 RESINC = 
 LIBDIR =  -L/usr/local/lib
-LIB =  -lwebsocketpp -lboost_system -lboost_date_time -lboost_program_options -lboost_thread -lboost_regex -lpthread
+LIB =  -lwebsocketpp -lboost_system -lboost_date_time -lboost_program_options -lboost_thread -lboost_regex -lpthread -lfltk /opt/XIMEA/lib/libXIMEA_GenTL.so
 LDFLAGS = 
 
 INC_DEBUG =  $(INC)
@@ -40,155 +40,362 @@ OBJDIR_RELEASE = obj/release
 DEP_RELEASE = 
 OUT_RELEASE = ./soccerbot
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/Serial.o $(OBJDIR_DEBUG)/src/Ball.o $(OBJDIR_DEBUG)/src/BallLocalizer.o $(OBJDIR_DEBUG)/src/Command.o $(OBJDIR_DEBUG)/src/JSON.o $(OBJDIR_DEBUG)/src/JsonResponse.o $(OBJDIR_DEBUG)/src/ManualController.o $(OBJDIR_DEBUG)/src/Math.o $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o $(OBJDIR_DEBUG)/src/Robot.o $(OBJDIR_DEBUG)/src/SignalHandler.o $(OBJDIR_DEBUG)/src/SoccerBot.o $(OBJDIR_DEBUG)/src/Tasks.o $(OBJDIR_DEBUG)/src/TestController.o $(OBJDIR_DEBUG)/src/Util.o $(OBJDIR_DEBUG)/src/WebSocketServer.o $(OBJDIR_DEBUG)/src/Wheel.o $(OBJDIR_DEBUG)/src/main.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/lib/libyuv/source/rotate_neon.o $(OBJDIR_DEBUG)/src/Camera.o $(OBJDIR_DEBUG)/src/Blobber.o $(OBJDIR_DEBUG)/src/BallLocalizer.o $(OBJDIR_DEBUG)/src/Ball.o $(OBJDIR_DEBUG)/lib/libyuv/source/video_common.o $(OBJDIR_DEBUG)/lib/libyuv/source/scale_neon.o $(OBJDIR_DEBUG)/lib/libyuv/source/scale_argb.o $(OBJDIR_DEBUG)/lib/libyuv/source/scale.o $(OBJDIR_DEBUG)/lib/libyuv/source/row_win.o $(OBJDIR_DEBUG)/lib/libyuv/source/row_posix.o $(OBJDIR_DEBUG)/lib/libyuv/source/row_neon.o $(OBJDIR_DEBUG)/lib/libyuv/source/row_common.o $(OBJDIR_DEBUG)/src/Canvas.o $(OBJDIR_DEBUG)/lib/libyuv/source/rotate_argb.o $(OBJDIR_DEBUG)/lib/libyuv/source/rotate.o $(OBJDIR_DEBUG)/lib/libyuv/source/planar_functions.o $(OBJDIR_DEBUG)/lib/libyuv/source/mjpeg_decoder.o $(OBJDIR_DEBUG)/lib/libyuv/source/format_conversion.o $(OBJDIR_DEBUG)/lib/libyuv/source/cpu_id.o $(OBJDIR_DEBUG)/lib/libyuv/source/convert_from_argb.o $(OBJDIR_DEBUG)/lib/libyuv/source/convert_from.o $(OBJDIR_DEBUG)/lib/libyuv/source/convert_argb.o $(OBJDIR_DEBUG)/lib/libyuv/source/convert.o $(OBJDIR_DEBUG)/lib/libyuv/source/compare_neon.o $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o $(OBJDIR_DEBUG)/src/main.o $(OBJDIR_DEBUG)/src/Wheel.o $(OBJDIR_DEBUG)/src/WebSocketServer.o $(OBJDIR_DEBUG)/src/Vision.o $(OBJDIR_DEBUG)/src/Util.o $(OBJDIR_DEBUG)/src/TestController.o $(OBJDIR_DEBUG)/src/Tasks.o $(OBJDIR_DEBUG)/src/SoccerBot.o $(OBJDIR_DEBUG)/src/SignalHandler.o $(OBJDIR_DEBUG)/src/Serial.o $(OBJDIR_DEBUG)/src/Robot.o $(OBJDIR_DEBUG)/lib/libyuv/source/compare.o $(OBJDIR_DEBUG)/src/Object.o $(OBJDIR_DEBUG)/src/Math.o $(OBJDIR_DEBUG)/src/ManualController.o $(OBJDIR_DEBUG)/src/LookupTable.o $(OBJDIR_DEBUG)/src/JsonResponse.o $(OBJDIR_DEBUG)/src/JSON.o $(OBJDIR_DEBUG)/src/ImageBuffer.o $(OBJDIR_DEBUG)/src/Gui.o $(OBJDIR_DEBUG)/src/FpsCounter.o $(OBJDIR_DEBUG)/src/DisplayWindow.o $(OBJDIR_DEBUG)/src/Command.o $(OBJDIR_DEBUG)/lib/jpeg/jpge.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/Serial.o $(OBJDIR_RELEASE)/src/Ball.o $(OBJDIR_RELEASE)/src/BallLocalizer.o $(OBJDIR_RELEASE)/src/Command.o $(OBJDIR_RELEASE)/src/JSON.o $(OBJDIR_RELEASE)/src/JsonResponse.o $(OBJDIR_RELEASE)/src/ManualController.o $(OBJDIR_RELEASE)/src/Math.o $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o $(OBJDIR_RELEASE)/src/Robot.o $(OBJDIR_RELEASE)/src/SignalHandler.o $(OBJDIR_RELEASE)/src/SoccerBot.o $(OBJDIR_RELEASE)/src/Tasks.o $(OBJDIR_RELEASE)/src/TestController.o $(OBJDIR_RELEASE)/src/Util.o $(OBJDIR_RELEASE)/src/WebSocketServer.o $(OBJDIR_RELEASE)/src/Wheel.o $(OBJDIR_RELEASE)/src/main.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/lib/libyuv/source/rotate_neon.o $(OBJDIR_RELEASE)/src/Camera.o $(OBJDIR_RELEASE)/src/Blobber.o $(OBJDIR_RELEASE)/src/BallLocalizer.o $(OBJDIR_RELEASE)/src/Ball.o $(OBJDIR_RELEASE)/lib/libyuv/source/video_common.o $(OBJDIR_RELEASE)/lib/libyuv/source/scale_neon.o $(OBJDIR_RELEASE)/lib/libyuv/source/scale_argb.o $(OBJDIR_RELEASE)/lib/libyuv/source/scale.o $(OBJDIR_RELEASE)/lib/libyuv/source/row_win.o $(OBJDIR_RELEASE)/lib/libyuv/source/row_posix.o $(OBJDIR_RELEASE)/lib/libyuv/source/row_neon.o $(OBJDIR_RELEASE)/lib/libyuv/source/row_common.o $(OBJDIR_RELEASE)/src/Canvas.o $(OBJDIR_RELEASE)/lib/libyuv/source/rotate_argb.o $(OBJDIR_RELEASE)/lib/libyuv/source/rotate.o $(OBJDIR_RELEASE)/lib/libyuv/source/planar_functions.o $(OBJDIR_RELEASE)/lib/libyuv/source/mjpeg_decoder.o $(OBJDIR_RELEASE)/lib/libyuv/source/format_conversion.o $(OBJDIR_RELEASE)/lib/libyuv/source/cpu_id.o $(OBJDIR_RELEASE)/lib/libyuv/source/convert_from_argb.o $(OBJDIR_RELEASE)/lib/libyuv/source/convert_from.o $(OBJDIR_RELEASE)/lib/libyuv/source/convert_argb.o $(OBJDIR_RELEASE)/lib/libyuv/source/convert.o $(OBJDIR_RELEASE)/lib/libyuv/source/compare_neon.o $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o $(OBJDIR_RELEASE)/src/main.o $(OBJDIR_RELEASE)/src/Wheel.o $(OBJDIR_RELEASE)/src/WebSocketServer.o $(OBJDIR_RELEASE)/src/Vision.o $(OBJDIR_RELEASE)/src/Util.o $(OBJDIR_RELEASE)/src/TestController.o $(OBJDIR_RELEASE)/src/Tasks.o $(OBJDIR_RELEASE)/src/SoccerBot.o $(OBJDIR_RELEASE)/src/SignalHandler.o $(OBJDIR_RELEASE)/src/Serial.o $(OBJDIR_RELEASE)/src/Robot.o $(OBJDIR_RELEASE)/lib/libyuv/source/compare.o $(OBJDIR_RELEASE)/src/Object.o $(OBJDIR_RELEASE)/src/Math.o $(OBJDIR_RELEASE)/src/ManualController.o $(OBJDIR_RELEASE)/src/LookupTable.o $(OBJDIR_RELEASE)/src/JsonResponse.o $(OBJDIR_RELEASE)/src/JSON.o $(OBJDIR_RELEASE)/src/ImageBuffer.o $(OBJDIR_RELEASE)/src/Gui.o $(OBJDIR_RELEASE)/src/FpsCounter.o $(OBJDIR_RELEASE)/src/DisplayWindow.o $(OBJDIR_RELEASE)/src/Command.o $(OBJDIR_RELEASE)/lib/jpeg/jpge.o
 
-all: debug release
+all: before_build build_debug build_release after_build
 
 clean: clean_debug clean_release
 
+before_build: 
+
+after_build: 
+	#bash commit-push.sh
+
 before_debug: 
 	test -d . || mkdir -p .
+	test -d $(OBJDIR_DEBUG)/lib/libyuv/source || mkdir -p $(OBJDIR_DEBUG)/lib/libyuv/source
 	test -d $(OBJDIR_DEBUG)/src || mkdir -p $(OBJDIR_DEBUG)/src
+	test -d $(OBJDIR_DEBUG)/lib/jpeg || mkdir -p $(OBJDIR_DEBUG)/lib/jpeg
 
 after_debug: 
-#	bash commit-push.sh
 
-debug: before_debug out_debug after_debug
+build_debug: before_debug out_debug after_debug
+
+debug: before_build build_debug after_build
 
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
 
-$(OBJDIR_DEBUG)/src/Serial.o: src/Serial.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Serial.cpp -o $(OBJDIR_DEBUG)/src/Serial.o
+$(OBJDIR_DEBUG)/lib/libyuv/source/rotate_neon.o: lib/libyuv/source/rotate_neon.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/rotate_neon.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/rotate_neon.o
 
-$(OBJDIR_DEBUG)/src/Ball.o: src/Ball.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Ball.cpp -o $(OBJDIR_DEBUG)/src/Ball.o
+$(OBJDIR_DEBUG)/src/Camera.o: src/Camera.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Camera.cpp -o $(OBJDIR_DEBUG)/src/Camera.o
+
+$(OBJDIR_DEBUG)/src/Blobber.o: src/Blobber.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Blobber.cpp -o $(OBJDIR_DEBUG)/src/Blobber.o
 
 $(OBJDIR_DEBUG)/src/BallLocalizer.o: src/BallLocalizer.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/BallLocalizer.cpp -o $(OBJDIR_DEBUG)/src/BallLocalizer.o
 
-$(OBJDIR_DEBUG)/src/Command.o: src/Command.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Command.cpp -o $(OBJDIR_DEBUG)/src/Command.o
+$(OBJDIR_DEBUG)/src/Ball.o: src/Ball.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Ball.cpp -o $(OBJDIR_DEBUG)/src/Ball.o
 
-$(OBJDIR_DEBUG)/src/JSON.o: src/JSON.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/JSON.cpp -o $(OBJDIR_DEBUG)/src/JSON.o
+$(OBJDIR_DEBUG)/lib/libyuv/source/video_common.o: lib/libyuv/source/video_common.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/video_common.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/video_common.o
 
-$(OBJDIR_DEBUG)/src/JsonResponse.o: src/JsonResponse.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/JsonResponse.cpp -o $(OBJDIR_DEBUG)/src/JsonResponse.o
+$(OBJDIR_DEBUG)/lib/libyuv/source/scale_neon.o: lib/libyuv/source/scale_neon.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/scale_neon.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/scale_neon.o
 
-$(OBJDIR_DEBUG)/src/ManualController.o: src/ManualController.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/ManualController.cpp -o $(OBJDIR_DEBUG)/src/ManualController.o
+$(OBJDIR_DEBUG)/lib/libyuv/source/scale_argb.o: lib/libyuv/source/scale_argb.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/scale_argb.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/scale_argb.o
 
-$(OBJDIR_DEBUG)/src/Math.o: src/Math.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Math.cpp -o $(OBJDIR_DEBUG)/src/Math.o
+$(OBJDIR_DEBUG)/lib/libyuv/source/scale.o: lib/libyuv/source/scale.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/scale.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/scale.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/row_win.o: lib/libyuv/source/row_win.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/row_win.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/row_win.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/row_posix.o: lib/libyuv/source/row_posix.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/row_posix.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/row_posix.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/row_neon.o: lib/libyuv/source/row_neon.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/row_neon.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/row_neon.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/row_common.o: lib/libyuv/source/row_common.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/row_common.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/row_common.o
+
+$(OBJDIR_DEBUG)/src/Canvas.o: src/Canvas.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Canvas.cpp -o $(OBJDIR_DEBUG)/src/Canvas.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/rotate_argb.o: lib/libyuv/source/rotate_argb.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/rotate_argb.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/rotate_argb.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/rotate.o: lib/libyuv/source/rotate.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/rotate.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/rotate.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/planar_functions.o: lib/libyuv/source/planar_functions.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/planar_functions.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/planar_functions.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/mjpeg_decoder.o: lib/libyuv/source/mjpeg_decoder.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/mjpeg_decoder.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/mjpeg_decoder.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/format_conversion.o: lib/libyuv/source/format_conversion.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/format_conversion.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/format_conversion.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/cpu_id.o: lib/libyuv/source/cpu_id.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/cpu_id.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/cpu_id.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/convert_from_argb.o: lib/libyuv/source/convert_from_argb.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/convert_from_argb.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/convert_from_argb.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/convert_from.o: lib/libyuv/source/convert_from.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/convert_from.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/convert_from.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/convert_argb.o: lib/libyuv/source/convert_argb.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/convert_argb.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/convert_argb.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/convert.o: lib/libyuv/source/convert.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/convert.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/convert.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/compare_neon.o: lib/libyuv/source/compare_neon.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/compare_neon.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/compare_neon.o
 
 $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o: src/ParticleFilterLocalizer.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/ParticleFilterLocalizer.cpp -o $(OBJDIR_DEBUG)/src/ParticleFilterLocalizer.o
 
-$(OBJDIR_DEBUG)/src/Robot.o: src/Robot.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Robot.cpp -o $(OBJDIR_DEBUG)/src/Robot.o
-
-$(OBJDIR_DEBUG)/src/SignalHandler.o: src/SignalHandler.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/SignalHandler.cpp -o $(OBJDIR_DEBUG)/src/SignalHandler.o
-
-$(OBJDIR_DEBUG)/src/SoccerBot.o: src/SoccerBot.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/SoccerBot.cpp -o $(OBJDIR_DEBUG)/src/SoccerBot.o
-
-$(OBJDIR_DEBUG)/src/Tasks.o: src/Tasks.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Tasks.cpp -o $(OBJDIR_DEBUG)/src/Tasks.o
-
-$(OBJDIR_DEBUG)/src/TestController.o: src/TestController.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/TestController.cpp -o $(OBJDIR_DEBUG)/src/TestController.o
-
-$(OBJDIR_DEBUG)/src/Util.o: src/Util.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Util.cpp -o $(OBJDIR_DEBUG)/src/Util.o
-
-$(OBJDIR_DEBUG)/src/WebSocketServer.o: src/WebSocketServer.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/WebSocketServer.cpp -o $(OBJDIR_DEBUG)/src/WebSocketServer.o
+$(OBJDIR_DEBUG)/src/main.o: src/main.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/main.cpp -o $(OBJDIR_DEBUG)/src/main.o
 
 $(OBJDIR_DEBUG)/src/Wheel.o: src/Wheel.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Wheel.cpp -o $(OBJDIR_DEBUG)/src/Wheel.o
 
-$(OBJDIR_DEBUG)/src/main.o: src/main.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/main.cpp -o $(OBJDIR_DEBUG)/src/main.o
+$(OBJDIR_DEBUG)/src/WebSocketServer.o: src/WebSocketServer.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/WebSocketServer.cpp -o $(OBJDIR_DEBUG)/src/WebSocketServer.o
+
+$(OBJDIR_DEBUG)/src/Vision.o: src/Vision.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Vision.cpp -o $(OBJDIR_DEBUG)/src/Vision.o
+
+$(OBJDIR_DEBUG)/src/Util.o: src/Util.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Util.cpp -o $(OBJDIR_DEBUG)/src/Util.o
+
+$(OBJDIR_DEBUG)/src/TestController.o: src/TestController.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/TestController.cpp -o $(OBJDIR_DEBUG)/src/TestController.o
+
+$(OBJDIR_DEBUG)/src/Tasks.o: src/Tasks.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Tasks.cpp -o $(OBJDIR_DEBUG)/src/Tasks.o
+
+$(OBJDIR_DEBUG)/src/SoccerBot.o: src/SoccerBot.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/SoccerBot.cpp -o $(OBJDIR_DEBUG)/src/SoccerBot.o
+
+$(OBJDIR_DEBUG)/src/SignalHandler.o: src/SignalHandler.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/SignalHandler.cpp -o $(OBJDIR_DEBUG)/src/SignalHandler.o
+
+$(OBJDIR_DEBUG)/src/Serial.o: src/Serial.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Serial.cpp -o $(OBJDIR_DEBUG)/src/Serial.o
+
+$(OBJDIR_DEBUG)/src/Robot.o: src/Robot.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Robot.cpp -o $(OBJDIR_DEBUG)/src/Robot.o
+
+$(OBJDIR_DEBUG)/lib/libyuv/source/compare.o: lib/libyuv/source/compare.cc
+	$(CC) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/libyuv/source/compare.cc -o $(OBJDIR_DEBUG)/lib/libyuv/source/compare.o
+
+$(OBJDIR_DEBUG)/src/Object.o: src/Object.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Object.cpp -o $(OBJDIR_DEBUG)/src/Object.o
+
+$(OBJDIR_DEBUG)/src/Math.o: src/Math.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Math.cpp -o $(OBJDIR_DEBUG)/src/Math.o
+
+$(OBJDIR_DEBUG)/src/ManualController.o: src/ManualController.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/ManualController.cpp -o $(OBJDIR_DEBUG)/src/ManualController.o
+
+$(OBJDIR_DEBUG)/src/LookupTable.o: src/LookupTable.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/LookupTable.cpp -o $(OBJDIR_DEBUG)/src/LookupTable.o
+
+$(OBJDIR_DEBUG)/src/JsonResponse.o: src/JsonResponse.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/JsonResponse.cpp -o $(OBJDIR_DEBUG)/src/JsonResponse.o
+
+$(OBJDIR_DEBUG)/src/JSON.o: src/JSON.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/JSON.cpp -o $(OBJDIR_DEBUG)/src/JSON.o
+
+$(OBJDIR_DEBUG)/src/ImageBuffer.o: src/ImageBuffer.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/ImageBuffer.cpp -o $(OBJDIR_DEBUG)/src/ImageBuffer.o
+
+$(OBJDIR_DEBUG)/src/Gui.o: src/Gui.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Gui.cpp -o $(OBJDIR_DEBUG)/src/Gui.o
+
+$(OBJDIR_DEBUG)/src/FpsCounter.o: src/FpsCounter.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/FpsCounter.cpp -o $(OBJDIR_DEBUG)/src/FpsCounter.o
+
+$(OBJDIR_DEBUG)/src/DisplayWindow.o: src/DisplayWindow.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/DisplayWindow.cpp -o $(OBJDIR_DEBUG)/src/DisplayWindow.o
+
+$(OBJDIR_DEBUG)/src/Command.o: src/Command.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Command.cpp -o $(OBJDIR_DEBUG)/src/Command.o
+
+$(OBJDIR_DEBUG)/lib/jpeg/jpge.o: lib/jpeg/jpge.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c lib/jpeg/jpge.cpp -o $(OBJDIR_DEBUG)/lib/jpeg/jpge.o
 
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
 	rm -rf .
+	rm -rf $(OBJDIR_DEBUG)/lib/libyuv/source
 	rm -rf $(OBJDIR_DEBUG)/src
+	rm -rf $(OBJDIR_DEBUG)/lib/jpeg
 
 before_release: 
 	test -d . || mkdir -p .
+	test -d $(OBJDIR_RELEASE)/lib/libyuv/source || mkdir -p $(OBJDIR_RELEASE)/lib/libyuv/source
 	test -d $(OBJDIR_RELEASE)/src || mkdir -p $(OBJDIR_RELEASE)/src
+	test -d $(OBJDIR_RELEASE)/lib/jpeg || mkdir -p $(OBJDIR_RELEASE)/lib/jpeg
 
 after_release: 
-#	bash commit-push.sh
 
-release: before_release out_release after_release
+build_release: before_release out_release after_release
+
+release: before_build build_release after_build
 
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
 
-$(OBJDIR_RELEASE)/src/Serial.o: src/Serial.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Serial.cpp -o $(OBJDIR_RELEASE)/src/Serial.o
+$(OBJDIR_RELEASE)/lib/libyuv/source/rotate_neon.o: lib/libyuv/source/rotate_neon.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/rotate_neon.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/rotate_neon.o
 
-$(OBJDIR_RELEASE)/src/Ball.o: src/Ball.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Ball.cpp -o $(OBJDIR_RELEASE)/src/Ball.o
+$(OBJDIR_RELEASE)/src/Camera.o: src/Camera.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Camera.cpp -o $(OBJDIR_RELEASE)/src/Camera.o
+
+$(OBJDIR_RELEASE)/src/Blobber.o: src/Blobber.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Blobber.cpp -o $(OBJDIR_RELEASE)/src/Blobber.o
 
 $(OBJDIR_RELEASE)/src/BallLocalizer.o: src/BallLocalizer.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/BallLocalizer.cpp -o $(OBJDIR_RELEASE)/src/BallLocalizer.o
 
-$(OBJDIR_RELEASE)/src/Command.o: src/Command.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Command.cpp -o $(OBJDIR_RELEASE)/src/Command.o
+$(OBJDIR_RELEASE)/src/Ball.o: src/Ball.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Ball.cpp -o $(OBJDIR_RELEASE)/src/Ball.o
 
-$(OBJDIR_RELEASE)/src/JSON.o: src/JSON.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/JSON.cpp -o $(OBJDIR_RELEASE)/src/JSON.o
+$(OBJDIR_RELEASE)/lib/libyuv/source/video_common.o: lib/libyuv/source/video_common.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/video_common.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/video_common.o
 
-$(OBJDIR_RELEASE)/src/JsonResponse.o: src/JsonResponse.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/JsonResponse.cpp -o $(OBJDIR_RELEASE)/src/JsonResponse.o
+$(OBJDIR_RELEASE)/lib/libyuv/source/scale_neon.o: lib/libyuv/source/scale_neon.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/scale_neon.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/scale_neon.o
 
-$(OBJDIR_RELEASE)/src/ManualController.o: src/ManualController.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/ManualController.cpp -o $(OBJDIR_RELEASE)/src/ManualController.o
+$(OBJDIR_RELEASE)/lib/libyuv/source/scale_argb.o: lib/libyuv/source/scale_argb.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/scale_argb.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/scale_argb.o
 
-$(OBJDIR_RELEASE)/src/Math.o: src/Math.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Math.cpp -o $(OBJDIR_RELEASE)/src/Math.o
+$(OBJDIR_RELEASE)/lib/libyuv/source/scale.o: lib/libyuv/source/scale.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/scale.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/scale.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/row_win.o: lib/libyuv/source/row_win.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/row_win.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/row_win.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/row_posix.o: lib/libyuv/source/row_posix.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/row_posix.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/row_posix.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/row_neon.o: lib/libyuv/source/row_neon.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/row_neon.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/row_neon.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/row_common.o: lib/libyuv/source/row_common.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/row_common.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/row_common.o
+
+$(OBJDIR_RELEASE)/src/Canvas.o: src/Canvas.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Canvas.cpp -o $(OBJDIR_RELEASE)/src/Canvas.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/rotate_argb.o: lib/libyuv/source/rotate_argb.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/rotate_argb.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/rotate_argb.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/rotate.o: lib/libyuv/source/rotate.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/rotate.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/rotate.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/planar_functions.o: lib/libyuv/source/planar_functions.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/planar_functions.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/planar_functions.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/mjpeg_decoder.o: lib/libyuv/source/mjpeg_decoder.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/mjpeg_decoder.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/mjpeg_decoder.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/format_conversion.o: lib/libyuv/source/format_conversion.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/format_conversion.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/format_conversion.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/cpu_id.o: lib/libyuv/source/cpu_id.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/cpu_id.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/cpu_id.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/convert_from_argb.o: lib/libyuv/source/convert_from_argb.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/convert_from_argb.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/convert_from_argb.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/convert_from.o: lib/libyuv/source/convert_from.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/convert_from.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/convert_from.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/convert_argb.o: lib/libyuv/source/convert_argb.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/convert_argb.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/convert_argb.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/convert.o: lib/libyuv/source/convert.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/convert.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/convert.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/compare_neon.o: lib/libyuv/source/compare_neon.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/compare_neon.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/compare_neon.o
 
 $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o: src/ParticleFilterLocalizer.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/ParticleFilterLocalizer.cpp -o $(OBJDIR_RELEASE)/src/ParticleFilterLocalizer.o
 
-$(OBJDIR_RELEASE)/src/Robot.o: src/Robot.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Robot.cpp -o $(OBJDIR_RELEASE)/src/Robot.o
-
-$(OBJDIR_RELEASE)/src/SignalHandler.o: src/SignalHandler.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/SignalHandler.cpp -o $(OBJDIR_RELEASE)/src/SignalHandler.o
-
-$(OBJDIR_RELEASE)/src/SoccerBot.o: src/SoccerBot.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/SoccerBot.cpp -o $(OBJDIR_RELEASE)/src/SoccerBot.o
-
-$(OBJDIR_RELEASE)/src/Tasks.o: src/Tasks.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Tasks.cpp -o $(OBJDIR_RELEASE)/src/Tasks.o
-
-$(OBJDIR_RELEASE)/src/TestController.o: src/TestController.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/TestController.cpp -o $(OBJDIR_RELEASE)/src/TestController.o
-
-$(OBJDIR_RELEASE)/src/Util.o: src/Util.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Util.cpp -o $(OBJDIR_RELEASE)/src/Util.o
-
-$(OBJDIR_RELEASE)/src/WebSocketServer.o: src/WebSocketServer.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/WebSocketServer.cpp -o $(OBJDIR_RELEASE)/src/WebSocketServer.o
+$(OBJDIR_RELEASE)/src/main.o: src/main.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/main.cpp -o $(OBJDIR_RELEASE)/src/main.o
 
 $(OBJDIR_RELEASE)/src/Wheel.o: src/Wheel.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Wheel.cpp -o $(OBJDIR_RELEASE)/src/Wheel.o
 
-$(OBJDIR_RELEASE)/src/main.o: src/main.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/main.cpp -o $(OBJDIR_RELEASE)/src/main.o
+$(OBJDIR_RELEASE)/src/WebSocketServer.o: src/WebSocketServer.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/WebSocketServer.cpp -o $(OBJDIR_RELEASE)/src/WebSocketServer.o
+
+$(OBJDIR_RELEASE)/src/Vision.o: src/Vision.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Vision.cpp -o $(OBJDIR_RELEASE)/src/Vision.o
+
+$(OBJDIR_RELEASE)/src/Util.o: src/Util.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Util.cpp -o $(OBJDIR_RELEASE)/src/Util.o
+
+$(OBJDIR_RELEASE)/src/TestController.o: src/TestController.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/TestController.cpp -o $(OBJDIR_RELEASE)/src/TestController.o
+
+$(OBJDIR_RELEASE)/src/Tasks.o: src/Tasks.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Tasks.cpp -o $(OBJDIR_RELEASE)/src/Tasks.o
+
+$(OBJDIR_RELEASE)/src/SoccerBot.o: src/SoccerBot.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/SoccerBot.cpp -o $(OBJDIR_RELEASE)/src/SoccerBot.o
+
+$(OBJDIR_RELEASE)/src/SignalHandler.o: src/SignalHandler.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/SignalHandler.cpp -o $(OBJDIR_RELEASE)/src/SignalHandler.o
+
+$(OBJDIR_RELEASE)/src/Serial.o: src/Serial.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Serial.cpp -o $(OBJDIR_RELEASE)/src/Serial.o
+
+$(OBJDIR_RELEASE)/src/Robot.o: src/Robot.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Robot.cpp -o $(OBJDIR_RELEASE)/src/Robot.o
+
+$(OBJDIR_RELEASE)/lib/libyuv/source/compare.o: lib/libyuv/source/compare.cc
+	$(CC) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/libyuv/source/compare.cc -o $(OBJDIR_RELEASE)/lib/libyuv/source/compare.o
+
+$(OBJDIR_RELEASE)/src/Object.o: src/Object.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Object.cpp -o $(OBJDIR_RELEASE)/src/Object.o
+
+$(OBJDIR_RELEASE)/src/Math.o: src/Math.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Math.cpp -o $(OBJDIR_RELEASE)/src/Math.o
+
+$(OBJDIR_RELEASE)/src/ManualController.o: src/ManualController.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/ManualController.cpp -o $(OBJDIR_RELEASE)/src/ManualController.o
+
+$(OBJDIR_RELEASE)/src/LookupTable.o: src/LookupTable.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/LookupTable.cpp -o $(OBJDIR_RELEASE)/src/LookupTable.o
+
+$(OBJDIR_RELEASE)/src/JsonResponse.o: src/JsonResponse.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/JsonResponse.cpp -o $(OBJDIR_RELEASE)/src/JsonResponse.o
+
+$(OBJDIR_RELEASE)/src/JSON.o: src/JSON.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/JSON.cpp -o $(OBJDIR_RELEASE)/src/JSON.o
+
+$(OBJDIR_RELEASE)/src/ImageBuffer.o: src/ImageBuffer.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/ImageBuffer.cpp -o $(OBJDIR_RELEASE)/src/ImageBuffer.o
+
+$(OBJDIR_RELEASE)/src/Gui.o: src/Gui.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Gui.cpp -o $(OBJDIR_RELEASE)/src/Gui.o
+
+$(OBJDIR_RELEASE)/src/FpsCounter.o: src/FpsCounter.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/FpsCounter.cpp -o $(OBJDIR_RELEASE)/src/FpsCounter.o
+
+$(OBJDIR_RELEASE)/src/DisplayWindow.o: src/DisplayWindow.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/DisplayWindow.cpp -o $(OBJDIR_RELEASE)/src/DisplayWindow.o
+
+$(OBJDIR_RELEASE)/src/Command.o: src/Command.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Command.cpp -o $(OBJDIR_RELEASE)/src/Command.o
+
+$(OBJDIR_RELEASE)/lib/jpeg/jpge.o: lib/jpeg/jpge.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c lib/jpeg/jpge.cpp -o $(OBJDIR_RELEASE)/lib/jpeg/jpge.o
 
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
 	rm -rf .
+	rm -rf $(OBJDIR_RELEASE)/lib/libyuv/source
 	rm -rf $(OBJDIR_RELEASE)/src
+	rm -rf $(OBJDIR_RELEASE)/lib/jpeg
 
-.PHONY: before_debug after_debug clean_debug before_release after_release clean_release
+.PHONY: before_build after_build before_debug after_debug clean_debug before_release after_release clean_release
 

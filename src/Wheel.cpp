@@ -7,6 +7,9 @@
 
 #include <iostream>
 
+const float Wheel::pidFrequency = 62.5f;
+const float Wheel::ticksPerRevolution = 64.0f * 18.75f;
+
 Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
     serial = new Serial();
 

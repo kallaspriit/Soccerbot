@@ -7,7 +7,7 @@
 int main(int argc, char* argv[]) {
     std::cout << "-- Starting Up --" << std::endl;
 
-    bool withGui = true;
+    bool withGui = false;
     bool showRGB = false;
 
     if (argc > 0) {

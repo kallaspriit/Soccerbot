@@ -29,8 +29,8 @@ class Wheel
         float realOmega;
         bool ready;
 
-        static const float pidFrequency = 62.5f;
-        static const float ticksPerRevolution = 64.0f * 18.75f;
+        static const float pidFrequency;
+        static const float ticksPerRevolution;
 };
 
 #endif // WHEEL_H
