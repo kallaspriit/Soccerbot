@@ -261,7 +261,7 @@ void SoccerBot::run() {
             classification = vision->classify();
         }
 
-        vision->process(Vision::FRONT);
+        vision->process(Vision::DIR_FRONT);
 
         if (gui != NULL && classification != NULL) {
             vision->renderDebugInfo();

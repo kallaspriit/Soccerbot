@@ -24,6 +24,20 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     validBallBgColors.push_back("yellow-goal");
     validBallBgColors.push_back("blue-goal");
 
+    validBallPathColors.push_back("green");
+    validBallPathColors.push_back("white");
+    validBallPathColors.push_back("black");
+    validBallPathColors.push_back("ball");
+    validBallPathColors.push_back("yellow-goal");
+    validBallPathColors.push_back("blue-goal");
+
+    validGoalPathColors.push_back("green");
+    validGoalPathColors.push_back("white");
+    validGoalPathColors.push_back("black");
+    validGoalPathColors.push_back("ball");
+    validGoalPathColors.push_back("yellow-goal");
+    validGoalPathColors.push_back("blue-goal");
+
     //blobber->enable(BLOBBER_DUAL_THRESHOLD);
     //blobber->setMapFilter(this);
 
@@ -95,25 +109,26 @@ void Vision::setFrame(unsigned char* frame) {
 
     lastFrame = frame;
 }
-void Vision::process(Side side) {
-    processBalls(side);
+
+void Vision::process(Dir dir) {
+    processBalls(dir);
 }
 
-void Vision::processBalls(Side side) {
+void Vision::processBalls(Dir dir) {
     for (ObjectListIt it = balls.begin(); it != balls.end(); it++) {
         delete *it;
     }
 
     balls.clear();
 
-    Blobber::Blob* blob = blobber->getBlobs("ball");
-
     float distance;
     float angle;
 
+    Blobber::Blob* blob = blobber->getBlobs("ball");
+
     while (blob != NULL) {
-        distance = getDistance(side, blob->y2);
-        angle = getAngle(side, blob->centerX, blob->y2);
+        distance = getDistance(dir, blob->y2);
+        angle = getAngle(dir, blob->centerX, blob->y2);
 
         Object* ball = new Object(
             blob->centerX,
@@ -133,6 +148,43 @@ void Vision::processBalls(Side side) {
     }
 }
 
+void Vision::processGoals(Dir dir) {
+    for (ObjectListIt it = goals.begin(); it != goals.end(); it++) {
+        delete *it;
+    }
+
+    goals.clear();
+
+    float distance;
+    float angle;
+
+    for (int i = 0; i < 2; i++) {
+        Blobber::Blob* blob = blobber->getBlobs(i == 0 ? "yellow-gloat" : "blue-goal");
+
+        while (blob != NULL) {
+            distance = getDistance(dir, blob->y2);
+            angle = getAngle(dir, blob->centerX, blob->y2);
+
+            Object* goal = new Object(
+                blob->centerX,
+                blob->centerY,
+                blob->x2 - blob->x1,
+                blob->y2 - blob->y1,
+                blob->area,
+                distance,
+                angle,
+                i == 0 ? Side::YELLOW : Side::BLUE
+            );
+
+            if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {
+                goals.push_back(goal);
+            }
+
+            blob = blob->next;
+        }
+    }
+}
+
 bool Vision::isValidBall(Object* ball) {
     if (ball->area < Config::ballMinArea) {
         return false;
@@ -141,16 +193,52 @@ bool Vision::isValidBall(Object* ball) {
     int ballRadius = Math::max(ball->width, ball->height) / 2;
     int senseRadius = ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f;
 
-    float surroundIndex = getRadiusSurroundIndex(
+    float surroundMetric = getSurroundMetric(
         ball->x,
         ball->y,
         senseRadius,
-        validBallBgColors,
-        "green"
+        validBallBgColors
+        //,"green"
     );
 
-    // @TODO Continue..
-    std::cout << "Surround: " << surroundIndex << std::endl;
+    //std::cout << "Surround: " << surroundMetric << std::endl;
+
+    if (surroundMetric < Config::validBallSurroundThreshold) {
+        return false;
+    }
+
+    float pathMetric = getPathMetric(
+        Config::cameraPathStartX,
+        Config::cameraPathStartY,
+        ball->x,
+        ball->y,
+        validBallPathColors
+        //,"green"
+    );
+
+    //std::cout << "Ball path: " << pathMetric << std::endl;
+
+    if (pathMetric < Config::validBallPathThreshold) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Vision::isValidGoal(Object* goal, int side) {
+    float pathMetric = getPathMetric(
+        Config::cameraPathStartX,
+        Config::cameraPathStartY,
+        goal->x,
+        goal->y,
+        validGoalPathColors
+    );
+
+    std::cout << "Goal path: " << pathMetric << std::endl;
+
+    if (pathMetric < Config::validGoalPathThreshold) {
+        return false;
+    }
 
     return true;
 }
@@ -158,6 +246,260 @@ bool Vision::isValidBall(Object* ball) {
 /*void Vision::filterMap(unsigned int* map) {
 
 }*/
+
+float Vision::getDistance(Dir dir, int y) {
+    if (dir == DIR_FRONT) {
+        return frontDistanceLookup.getValue(y);
+    } else {
+        return rearDistanceLookup.getValue(y);
+    }
+}
+
+float Vision::getAngle(Dir dir, int x, int y) {
+    float centerOffset = (float)(x - (Config::cameraWidth / 2));
+    float distance = getDistance(dir, y);
+    float pixelsPerCm = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
+    float horizontalDistance = (double)centerOffset / pixelsPerCm;
+
+    return Math::tan(horizontalDistance / distance) * 180.0d / Math::PI;
+}
+
+Blobber::Color* Vision::getColorAt(int x, int y) {
+    return blobber->getColorAt(x, y);
+}
+
+float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor) {
+    int matches = 0;
+    int points = radius;
+    bool requiredColorFound = false;
+    bool debug = img.data != NULL;
+
+    for (int i = 0; i < points; i++) {
+        double t = 2 * Math::PI * i / points + Math::PI;
+
+        int senseX = x + radius * cos(t);
+        int senseY = y + radius * sin(t);
+
+        Blobber::Color* color = getColorAt(senseX, senseY);
+
+        if (color != NULL) {
+            if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+                matches++;
+
+                if (debug) {
+                    img.drawMarker(senseX, senseY, 0, 200, 0);
+                }
+            }
+
+            if (requiredColor != "" && color->name == requiredColor) {
+                requiredColorFound = true;
+            }
+        } else {
+            if (debug) {
+                img.drawMarker(senseX, senseY, 200, 0, 0);
+            }
+        }
+    }
+
+    if (requiredColor != "" && !requiredColorFound) {
+        return 0.0f;
+    } else {
+        return (float)matches / (float)points;
+    }
+}
+
+float Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor) {
+    int F, x, y;
+    int pixelCounter = 0;
+    int senseCounter = 0;
+    int senseStep = 10;
+    int maxSensePoints = 255;
+    int senseX[maxSensePoints];
+    int senseY[maxSensePoints];
+
+    if (x1 > x2) {
+        std::swap(x1, x2);
+        std::swap(y1, y2);
+    }
+
+    if (x1 == x2) {
+        if (y1 > y2) {
+            std::swap(y1, y2);
+        }
+
+        x = x1;
+        y = y1;
+
+        while (y <= y2) {
+            if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                senseX[senseCounter] = x;
+                senseY[senseCounter] = y;
+                senseCounter++;
+            }
+
+            pixelCounter++;
+
+            y++;
+        }
+    } else if (y1 == y2) {
+        x = x1;
+        y = y1;
+
+        while (x <= x2) {
+            if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                senseX[senseCounter] = x;
+                senseY[senseCounter] = y;
+                senseCounter++;
+            }
+
+            pixelCounter++;
+
+            x++;
+        }
+    } else {
+        int dy = y2 - y1;
+        int dx = x2 - x1;
+        int dy2 = (dy << 1);
+        int dx2 = (dx << 1);
+        int sub = dy2 - dx2;
+        int sum = dy2 + dx2;
+
+        if (dy >= 0) {
+            if (dy <= dx) {
+                F = dy2 - dx;
+                x = x1;
+                y = y1;
+
+                while (x <= x2) {
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F += dy2;
+                    } else {
+                        y++;
+                        F += sub;
+                    }
+
+                    x++;
+                }
+            } else {
+                F = dx2 - dy;
+                y = y1;
+                x = x1;
+
+                while (y <= y2) {
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F += dx2;
+                    } else {
+                        x++;
+                        F -= sub;
+                    }
+
+                    y++;
+                }
+            }
+        } else {
+            if (dx >= -dy) {
+                F = -dy2 - dx;
+                x = x1;
+                y = y1;
+
+                while (x <= x2) {
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F -= dy2;
+                    } else {
+                        y--;
+                        F -= sum;
+                    }
+
+                    x++;
+                }
+            } else {
+                F = dx2 + dy;
+                y = y1;
+                x = x1;
+
+                while (y >= y2) {
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F += dx2;
+                    } else {
+                        x++;
+                        F += sum;
+                    }
+
+                    y--;
+                }
+            }
+        }
+    }
+
+    int matches = 0;
+    bool debug = img.data != NULL;
+    bool requiredColorFound = false;
+
+    for (int i = 0; i < senseCounter; i++) {
+        x = senseX[i];
+        y = senseY[i];
+
+        Blobber::Color* color = getColorAt(x, y);
+
+        if (color != NULL) {
+            if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+                matches++;
+
+                if (debug) {
+                    img.drawMarker(x, y, 0, 200, 0);
+                }
+            }
+
+            if (requiredColor != "" && color->name == requiredColor) {
+                requiredColorFound = true;
+            }
+        } else {
+            if (debug) {
+                img.drawMarker(x, y, 200, 0, 0);
+            }
+        }
+    }
+
+    if (requiredColor != "" && !requiredColorFound) {
+        return 0.0f;
+    } else {
+        return (float)matches / (float)senseCounter;
+    }
+
+    return 1.0f;
+}
 
 ImageBuffer* Vision::classify() {
     if (lastFrame == NULL) {
@@ -209,65 +551,4 @@ void Vision::renderDebugInfo() {
 
         blob = blob->next;
     }*/
-}
-
-float Vision::getDistance(Side side, int y) {
-    if (side == FRONT) {
-        return frontDistanceLookup.getValue(y);
-    } else {
-        return rearDistanceLookup.getValue(y);
-    }
-}
-
-float Vision::getAngle(Side side, int x, int y) {
-    float centerOffset = (float)(x - (Config::cameraWidth / 2));
-    float distance = getDistance(side, y);
-    float pixelsPerCm = side == FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
-    float horizontalDistance = (double)centerOffset / pixelsPerCm;
-
-    return Math::tan(horizontalDistance / distance) * 180.0d / Math::PI;
-}
-
-Blobber::Color* Vision::getColorAt(int x, int y) {
-    return blobber->getColorAt(x, y);
-}
-
-float Vision::getRadiusSurroundIndex(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor) {
-    int matches = 0;
-    int points = radius;
-    bool requiredColorFound = false;
-    bool debug = img.data != NULL;
-
-    for (int i = 0; i < points; i++) {
-        double t = 2 * Math::PI * i / points + Math::PI;
-
-        int senseX = x + radius * cos(t);
-        int senseY = y + radius * sin(t);
-
-        Blobber::Color* color = getColorAt(senseX, senseY);
-
-        if (color != NULL) {
-            if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
-                matches++;
-
-                if (debug) {
-                    img.drawMarker(senseX, senseY, 0, 200, 0);
-                }
-            }
-
-            if (requiredColor != "" && color->name == requiredColor) {
-                requiredColorFound = true;
-            }
-        } else {
-            if (debug) {
-                img.drawMarker(senseX, senseY, 200, 0, 0);
-            }
-        }
-    }
-
-    if (requiredColor != "" && !requiredColorFound) {
-        return 0.0f;
-    } else {
-        return (float)matches / (float)points;
-    }
 }

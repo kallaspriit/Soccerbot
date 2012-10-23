@@ -5,7 +5,7 @@
 
 class Object {
     public:
-        Object(int x, int y, int width, int height, int area, float distance, float angle) : x(x), y(y), width(width), height(height), area(area), distance(distance), angle(angle) {}
+        Object(int x, int y, int width, int height, int area, float distance, float angle, int type = -1) : x(x), y(y), width(width), height(height), area(area), distance(distance), angle(angle), type(type) {}
 
         int x;
         int y;
@@ -14,6 +14,7 @@ class Object {
         int area;
         float distance;
         float angle;
+        int type;
 };
 
 typedef std::vector<Object*> ObjectList;

@@ -327,114 +327,115 @@ void ImageBuffer::drawText(int imageX, int imageY, std::string text) {
 void ImageBuffer::drawLine(int x1, int y1, int x2, int y2, int red, int green, int blue) {
     int F, x, y;
 
-    if (x1 > x2) { // Swap points if p1 is on the right of p2
+    if (x1 > x2) {
         std::swap(x1, x2);
         std::swap(y1, y2);
     }
 
-    // Handle trivial cases separately for algorithm speed up.
-    // Trivial case 1: m = +/-INF (Vertical line)
     if (x1 == x2) {
-        if (y1 > y2) { // Swap y-coordinates if p1 is above p2
+        if (y1 > y2) {
             std::swap(y1, y2);
         }
 
         x = x1;
         y = y1;
+
         while (y <= y2) {
             setPixelAt(x, y, red, green, blue);
+
             y++;
         }
+
         return;
-    }
-    // Trivial case 2: m = 0 (Horizontal line)
-    else if (y1 == y2) {
+    } else if (y1 == y2) {
         x = x1;
         y = y1;
 
         while (x <= x2) {
             setPixelAt(x, y, red, green, blue);
+
             x++;
         }
+
         return;
     }
 
-    int dy            = y2 - y1;  // y-increment from p1 to p2
-    int dx            = x2 - x1;  // x-increment from p1 to p2
-    int dy2           = (dy << 1);  // dy << 1 == 2*dy
-    int dx2           = (dx << 1);
-    int dy2_minus_dx2 = dy2 - dx2;  // precompute constant for speed up
-    int dy2_plus_dx2  = dy2 + dx2;
+    int dy = y2 - y1;
+    int dx = x2 - x1;
+    int dy2 = (dy << 1);
+    int dx2 = (dx << 1);
+    int sub = dy2 - dx2;
+    int sum = dy2 + dx2;
 
-    if (dy >= 0) {  // m >= 0
-        // Case 1: 0 <= m <= 1 (Original case)
+    if (dy >= 0) {
         if (dy <= dx) {
-            F = dy2 - dx;    // initial F
-
+            F = dy2 - dx;
             x = x1;
             y = y1;
+
             while (x <= x2) {
                 setPixelAt(x, y, red, green, blue);
+
                 if (F <= 0) {
                     F += dy2;
                 } else {
                     y++;
-                    F += dy2_minus_dx2;
+                    F += sub;
                 }
+
                 x++;
             }
-        }
-        // Case 2: 1 < m < INF (Mirror about y=x line
-        // replace all dy by dx and dx by dy)
-        else {
-            F = dx2 - dy;    // initial F
-
+        } else {
+            F = dx2 - dy;
             y = y1;
             x = x1;
+
             while (y <= y2) {
                 setPixelAt(x, y, red, green, blue);
+
                 if (F <= 0) {
                     F += dx2;
                 } else {
                     x++;
-                    F -= dy2_minus_dx2;
+                    F -= sub;
                 }
+
                 y++;
             }
         }
-    } else { // m < 0
-        // Case 3: -1 <= m < 0 (Mirror about x-axis, replace all dy by -dy)
+    } else {
         if (dx >= -dy) {
-            F = -dy2 - dx;    // initial F
-
+            F = -dy2 - dx;
             x = x1;
             y = y1;
+
             while (x <= x2) {
                 setPixelAt(x, y, red, green, blue);
+
                 if (F <= 0) {
                     F -= dy2;
                 } else {
                     y--;
-                    F -= dy2_plus_dx2;
+                    F -= sum;
                 }
+
                 x++;
             }
-        }
-        // Case 4: -INF < m < -1 (Mirror about x-axis and mirror
-        // about y=x line, replace all dx by -dy and dy by dx)
-        else {
-            F = dx2 + dy;    // initial F
-
+        } else {
+            F = dx2 + dy;
             y = y1;
             x = x1;
+
             while (y >= y2) {
                 setPixelAt(x, y, red, green, blue);
+
                 if (F <= 0) {
                     F += dx2;
                 } else {
                     x++;
-                    F += dy2_plus_dx2;
+                    F += sum;
                 }
+
                 y--;
             }
         }

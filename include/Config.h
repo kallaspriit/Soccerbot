@@ -24,12 +24,22 @@ const float ballFovCloseEnough = 0.5f;
 const int cameraDownsampling = 2;
 const int cameraWidth = 1280 / cameraDownsampling;
 const int cameraHeight = 1024 / cameraDownsampling;
+const int cameraPathStartX = cameraWidth / 2;
+const int cameraPathStartY = cameraHeight;
 const int frontCameraSerial = 857769553;
 const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const int ballMinArea = 16;
+const float validBallSurroundThreshold = 0.45f;
+const float validBallPathThreshold = 0.75f;
+const float validGoalPathThreshold = 0.75f;
 
 } // namespace Config
+
+namespace Side {
+    const int YELLOW = 1;
+    const int BLUE = 2;
+}
 
 #endif // CONFIG_H
