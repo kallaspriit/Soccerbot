@@ -1,29 +1,31 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <windows.h>
+
 #include "DisplayWindow.h"
 
 class Command;
 
 class Gui {
     public:
-        Gui(int width, int height);
+        Gui(HINSTANCE instance, int width, int height);
         ~Gui();
 
-        void setFrontCameraYUV(unsigned char* image);
-        void setFrontCameraClassification(unsigned char* image);
-        void update(double dt);
+        void setFrontCamera(unsigned char* rgb);
+        void setRearCamera(unsigned char* image);
+        bool update();
         bool handleCommand(const Command& cmd);
-        void setShowRgb(bool mode) { showRgb = mode; }
+
+		DisplayWindow* createWindow(int width, int height, std::string name);
 
     private:
         int width;
         int height;
-        bool showRgb;
-        unsigned char* rgb;
-        DisplayWindow frontCameraYUV;
-        DisplayWindow frontCameraRGB;
-        DisplayWindow frontCameraClassification;
+		HINSTANCE instance;
+		MSG msg;
+        DisplayWindow* frontCamera;
+        DisplayWindow* rearCamera;
 };
 
 #endif // GUI_H

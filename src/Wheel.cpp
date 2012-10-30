@@ -1,7 +1,7 @@
 #include "Wheel.h"
 
 #include "Serial.h"
-#include "Math.h"
+#include "Maths.h"
 #include "Command.h"
 #include "Util.h"
 
@@ -15,14 +15,14 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
 
     bool found = false;
 
-    for (int i = 0; i < 7; i++) {
-        std::string port = "/dev/ttyACM" + Util::toString(i);
+    for (int i = 0; i < 9; i++) {
+        std::string port = "COM" + Util::toString(i);
 
         if (serial->isOpen()) {
             serial->close();
         }
 
-        if (!serial->open(port.c_str())) {
+        if (serial->open(port) != Serial::OK) {
             //std::cout << "! Port '" << port << "' already in use, skip it" << std::endl;
 
             continue;
@@ -54,7 +54,7 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
                 }
             }
 
-            usleep(10000);
+            Util::sleep(10);
         }
 
         if (found) {

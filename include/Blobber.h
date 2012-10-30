@@ -35,10 +35,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #define BLOBBER_H
 
 // uncomment if your compiler supports the "restrict" keyword
-#define restrict __restrict__
-//#define restrict
+//#define restrict __restrict__
+#define restrict
 
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <string.h>
 #include <string>
 #include <stdio.h>
@@ -63,6 +63,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #define BLOBBER_DENSITY_MERGE  0x08
 
 #define BLOBBER_VALID_OPTIONS  0x0F
+
+#undef min
+#undef max
 
 class Blobber {
     public:
@@ -155,7 +158,7 @@ class Blobber {
             int yLow, int yHigh,
             int uLow, int uHigh,
             int vLow, int vHigh,
-            double mergeThreshold = 0.5d,
+            double mergeThreshold = 0.5,
             int expectedBlobs = 5
         );
 

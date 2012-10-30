@@ -19,17 +19,22 @@
 #include "Vision.h"
 #include "Config.h"
 
-SoccerBot::SoccerBot(bool withGui) : lastStepDt(16.666l), withGui(withGui), stopRequested(false) {
+SoccerBot::SoccerBot() {
+	robot = NULL;
     socket = NULL;
     serial = NULL;
-    activeController = NULL;
+	signalHandler = NULL;
     gui = NULL;
     fpsCounter = NULL;
     frontCamera = NULL;
+	rearCamera = NULL;
     vision = NULL;
+	activeController = NULL;
     jpegBuffer = NULL;
     rgbBuffer = NULL;
     endCommand = "";
+	lastStepDt = 0.01666;
+	stopRequested = false;
     lastStepTime = Util::millitime();
 
     originalCoutStream = std::cout.rdbuf();
@@ -72,6 +77,15 @@ SoccerBot::~SoccerBot() {
 
         delete frontCamera;
         frontCamera = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
+	if (rearCamera != NULL) {
+        std::cout << "! Killing rear camera.. ";
+
+        delete rearCamera;
+        rearCamera = NULL;
 
         std::cout << "done!" << std::endl;
     }
@@ -137,7 +151,7 @@ SoccerBot::~SoccerBot() {
 
 void SoccerBot::init() {
     setupSignalHandler();
-    setupFreePort();
+    //setupFreePort();
     setupSocket();
     setupSerial();
     setupRobot();
@@ -146,15 +160,11 @@ void SoccerBot::init() {
     setupVision();
     setupFpsCounter();
 
-    if (withGui) {
-        setupGui();
-    }
-
     std::cout << "! SoccerBot ready" << std::endl;
 }
 
 void SoccerBot::setupFreePort() {
-    int port = Config::socketPort;
+    /*int port = Config::socketPort;
     std::string portInfo = Util::exec("lsof -i :" + Util::toString(port) + " | tail -n +2 | sed -e 's,[ \t][ \t]*, ,g' | cut -f2 -d' '");
 
     if (portInfo.length() > 0) {
@@ -167,82 +177,147 @@ void SoccerBot::setupFreePort() {
         usleep(5000000);
 
         std::cout << "done!" << std::endl;
-    }
+    }*/
 }
 
 void SoccerBot::setupSerial() {
-    serial = new Serial();
+	std::cout << "! Opening utility serial.. ";
 
-    serial->open("/dev/ttyUSB0", 115200);
+    serial = new Serial();
+	Serial::Result result = serial->open(Config::utilitySerialPort, 115200);
+
+    if (result == Serial::OK) {
+		std::cout << "done!" << std::endl;
+	} else {
+		std::cout << "FAILED!" << std::endl;
+
+		std::cout << "- Failed to open utility serial on port " << Config::utilitySerialPort << " (error: " << result << ")" << std::endl;
+	}
 }
 
 void SoccerBot::setupSignalHandler() {
+	std::cout << "! Setting up signal handler.. ";
+
     signalHandler = new SignalHandler();
 
     signalHandler->init();
+
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::setupSocket() {
+	std::cout << "! Setting up socket server.. ";
+
     socket = new WebSocketServer(Config::socketPort);
 
     socket->addListener(this);
-    socket->start();
+    socket->listen();
+
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::setupRobot() {
+	std::cout << "! Setting up robot.. " << std::endl;
+
     robot = new Robot();
 
     robot->init();
 }
 
 void SoccerBot::setupControllers() {
+	std::cout << "! Setting up controllers.. ";
+
     addController("manual", new ManualController(robot));
     addController("test", new TestController(robot));
     setController("manual");
+
+	std::cout << "done!" << std::endl;
 }
 
-void SoccerBot::setupGui() {
-    gui = new Gui(Config::cameraWidth, Config::cameraHeight);
+void SoccerBot::setupGui(HINSTANCE instance) {
+	std::cout << "! Setting up GUI.. ";
+
+    gui = new Gui(instance, Config::cameraWidth, Config::cameraHeight);
+
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::setupCameras() {
+	std::cout << "! Setting up cameras" << std::endl;
+
     frontCamera = new Camera();
+	rearCamera = new Camera();
 
-    if (!frontCamera->open(Config::frontCameraSerial)) {
-        std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
+    if (frontCamera->open(Config::frontCameraSerial)) {
+		configureCamera(frontCamera);
+		showCameraInfo(frontCamera, "! Front camera");
+        
+		frontCamera->startAcquisition();
+    } else {
+		std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
 
-        return;
-    }
+		delete frontCamera;
 
-    frontCamera->setDownsampling(Config::cameraDownsampling);
-    frontCamera->setFormat(XI_RAW8);
-    frontCamera->setGain(10);
-    frontCamera->setExposure(16000);
+		frontCamera = NULL;
+	}
 
-    std::cout << "! Front camera" << std::endl;
-    std::cout << "  > name: " << frontCamera->getName() << std::endl;
-    std::cout << "  > type: " << frontCamera->getDeviceType() << std::endl;
-    std::cout << "  > api version: " << frontCamera->getApiVersion() << std::endl;
-    std::cout << "  > driver version: " << frontCamera->getDriverVersion() << std::endl;
-    std::cout << "  > serial number: " << frontCamera->getSerialNumber() << std::endl;
-    std::cout << "  > supports color: " << (frontCamera->supportsColor() ? "yes" : "no") << std::endl;
-    std::cout << "  > available bandwidth: " << frontCamera->getAvailableBandwidth() << "MB" << std::endl;
+	if (rearCamera->open(Config::rearCameraSerial)) {
+        configureCamera(rearCamera);
+		showCameraInfo(rearCamera, "! Rear camera");
 
-    frontCamera->startAcquisition();
+		rearCamera->startAcquisition();
+    } else {
+		std::cout << "- Failed to find rear camera with serial: " << Config::rearCameraSerial << std::endl;
+
+		delete rearCamera;
+
+		rearCamera = NULL;
+	}
+
+	std::cout << "! Cameras ready" << std::endl;
 }
 
 void SoccerBot::setupVision() {
+	std::cout << "! Setting up vision.. ";
+
     vision = new Vision(Config::cameraWidth, Config::cameraHeight);
+
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::setupFpsCounter() {
+	std::cout << "! Setting FPS counter.. ";
+
     fpsCounter = new FpsCounter();
+
+	std::cout << "done!" << std::endl;
+}
+
+void SoccerBot::configureCamera(Camera* camera) {
+	camera->setDownsampling(Config::cameraDownsampling);
+	camera->setFormat(Config::cameraFormat);
+	camera->setGain(Config::cameraGain);
+	camera->setExposure(Config::cameraExposure);
+}
+
+void SoccerBot::showCameraInfo(Camera* camera, std::string name) {
+	std::cout << name << std::endl;
+	std::cout << "  > name: " << camera->getName() << std::endl;
+    std::cout << "  > type: " << camera->getDeviceType() << std::endl;
+    std::cout << "  > api version: " << camera->getApiVersion() << std::endl;
+    std::cout << "  > driver version: " << camera->getDriverVersion() << std::endl;
+    std::cout << "  > serial number: " << camera->getSerialNumber() << std::endl;
+    std::cout << "  > supports color: " << (camera->supportsColor() ? "yes" : "no") << std::endl;
+    std::cout << "  > available bandwidth: " << camera->getAvailableBandwidth() << "MB" << std::endl;
 }
 
 void SoccerBot::run() {
+	std::cout << "! Running the SoccerBot" << std::endl;
+
     std::string message;
     double time, dt;
-    ImageBuffer* classification = NULL;
+    
+	rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
         time = Util::millitime();
@@ -251,28 +326,14 @@ void SoccerBot::run() {
         lastStepDt = dt;
         totalTime += dt;
 
-        const Camera::FrameYUYV* image = frontCamera->getFrameYUYV();
+		if (updateCameras(dt) == 0) {
+			std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
-        vision->setFrame(image->dataYUYV);
-
-        classification = NULL;
+			Util::sleep(100);
+		}
 
         if (gui != NULL) {
-            classification = vision->classify();
-        }
-
-        vision->process(Vision::DIR_FRONT);
-
-        if (gui != NULL && classification != NULL) {
-            vision->renderDebugInfo();
-
-            char buf[16];
-            sprintf(buf, "FPS: %d", fpsCounter->getFps());
-            classification->drawText(10, 10, buf);
-
-            gui->setFrontCameraYUV(image->dataYUYV);
-            gui->setFrontCameraClassification(classification->data);
-            gui->update(dt);
+            gui->update();
         }
 
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
@@ -282,16 +343,21 @@ void SoccerBot::run() {
 
             /*std::cout << "Arduino serial: " << message.c_str() << "!" << std::endl;
 
-            socket->broadcast(message);*/
+			if (socket != NULL) {
+				socket->broadcast(message);
+			}
+			*/
         }
 
         robot->step(dt);
 
         //usleep(6000); // some long-running thingy test
 
-        JsonResponse stateResponse("state", getStateJSON());
+		if (socket != NULL) {
+			JsonResponse stateResponse("state", getStateJSON());
 
-        socket->broadcast(stateResponse.toJSON());
+			socket->broadcast(stateResponse.toJSON());
+		}
 
         fpsCounter->step();
 
@@ -314,6 +380,69 @@ void SoccerBot::run() {
     }
 
     std::cout << "! Shutdown requested" << std::endl;
+}
+
+int SoccerBot::updateCameras(double dt) {
+	ImageBuffer* classification = NULL;
+	Camera::FrameYUYV* image = NULL;
+	int captures = 0;
+
+	if (frontCamera != NULL) {
+		image = frontCamera->getFrameYUYV();
+		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
+		//gui->setFrontCamera(rgbBuffer);
+
+		if (image != NULL) {
+			vision->setFrame(image->dataYUYV);
+
+			if (gui != NULL) {
+				classification = vision->classify();
+			}
+
+			vision->process(Vision::DIR_FRONT);
+
+			if (gui != NULL) {
+				char buf[16];
+				sprintf(buf, "FPS: %d", fpsCounter->getFps());
+				classification->drawText(10, 10, buf);
+				vision->renderDebugInfo(classification);
+
+				gui->setFrontCamera(classification->data);
+			}
+
+			captures++;
+		} else {
+			std::cout << "- Failed to get image from the front camera" << std::endl;
+		}
+	}
+
+	if (rearCamera != NULL) {
+		image = rearCamera->getFrameYUYV();
+		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
+		//gui->setFrontCamera(rgbBuffer);
+
+		if (image != NULL) {
+			vision->setFrame(image->dataYUYV);
+
+			if (gui != NULL) {
+				classification = vision->classify();
+			}
+
+			vision->process(Vision::DIR_REAR);
+
+			if (gui != NULL) {
+				vision->renderDebugInfo(classification);
+
+				gui->setRearCamera(classification->data);
+			}
+
+			captures++;
+		} else {
+			std::cout << "- Failed to get image from the rear camera" << std::endl;
+		}
+	}
+
+	return captures;
 }
 
 void SoccerBot::addController(std::string name, Controller* controller) {
@@ -372,11 +501,13 @@ void SoccerBot::updateLogs() {
             replaced = Util::replace(messages, "\n", "\\n");
         } while (replaced);
 
-        std::string json = "\"" + messages + "\"";
+		if (socket != NULL) {
+			std::string json = "\"" + messages + "\"";
 
-        JsonResponse stateResponse("log", json);
+			JsonResponse stateResponse("log", json);
 
-        socket->broadcast(stateResponse.toJSON());
+			socket->broadcast(stateResponse.toJSON());
+		}
     }
 
     std::cout.rdbuf(stringCoutStream->rdbuf());
@@ -441,11 +572,11 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
 }
 
 void SoccerBot::handleRebuildCommand(const Command& cmd) {
-    std::string workingDir = Util::getWorkingDirectory();
+    /*std::string workingDir = Util::getWorkingDirectory();
 
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
-    stop();
+    stop();*/
 }
 
 void SoccerBot::handleSetControllerCommand(const Command& cmd) {
@@ -456,7 +587,9 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
 
         JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
-        socket->broadcast(controllerMsg.toJSON());
+		if (socket != NULL) {
+			socket->broadcast(controllerMsg.toJSON());
+		}
     } else {
         std::cout << "- Unsupported controller '" << controllerName << "' requested" << std::endl;
     }

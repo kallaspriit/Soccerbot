@@ -1,6 +1,6 @@
 #include "Ball.h"
 #include "Util.h"
-#include "Math.h"
+#include "Maths.h"
 #include "Config.h"
 
 int Ball::instances = 0;

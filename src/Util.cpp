@@ -1,11 +1,13 @@
 #include "Util.h"
 #include "jpge.h"
 
-#include <math.h>
+//#include <math.h>
 #include <iostream>
-#include <sys/time.h>
-#include <stdlib.h>
+//#include <sys/time.h>
+#include <ctime>
+//#include <stdlib.h>
 #include <stdio.h>
+#include <Windows.h>
 
 void Util::yuyvToRgb(int width, int height, unsigned char *data, unsigned char *out) {
     int w2 = width / 2;
@@ -104,14 +106,19 @@ void Util::jpegEncode(const unsigned char* input, void* output, int &bufferSize,
 }
 
 double Util::millitime() {
-    timeval timeOfDay;
+	//return (double)GetTickCount() / 1000.0;
+	return ((double)clock() / (double)CLOCKS_PER_SEC);
+
+	//return time(0) * 1000.0;
+
+    /*timeval timeOfDay;
 
     gettimeofday(&timeOfDay, 0);
 
     long seconds  = timeOfDay.tv_sec;
     long useconds = timeOfDay.tv_usec;
 
-    return (double)seconds + (double)useconds / 1000000.0d;
+    return (double)seconds + (double)useconds / 1000000.0d;*/
 
     //long mtime = (seconds * 1000 + useconds / 1000.0) + 0.5;
 
@@ -178,7 +185,7 @@ bool Util::replace(std::string& str, const std::string& from, const std::string&
     return true;
 }
 
-std::string Util::exec(const std::string& cmd) {
+/*std::string Util::exec(const std::string& cmd) {
     FILE* pipe = popen(cmd.c_str(), "r");
 
     if (!pipe) {
@@ -197,9 +204,9 @@ std::string Util::exec(const std::string& cmd) {
     pclose(pipe);
 
     return result;
-}
+}*/
 
-std::string Util::getWorkingDirectory() {
+/*std::string Util::getWorkingDirectory() {
     char stackBuffer[255];
 
     if (getcwd(stackBuffer, sizeof(stackBuffer)) != NULL) {
@@ -208,3 +215,4 @@ std::string Util::getWorkingDirectory() {
         return "ERROR";
     }
 }
+*/

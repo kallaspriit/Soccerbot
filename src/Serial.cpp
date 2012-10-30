@@ -1,17 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
-#include <termios.h>
+//#include <unistd.h>
+//#include <termios.h>
 #include <string.h>
 #include <iostream>
 
 #include "Serial.h"
 
-Serial::Serial() : fd(-1), opened(false) {
-	pthread_mutex_init(&messagesMutex, NULL);
+Serial::Serial() : opened(false) {
+	InitializeCriticalSection(&messagesMutex);
 }
 
 Serial::~Serial() {
@@ -19,91 +19,108 @@ Serial::~Serial() {
         close();
     }
 
-    pthread_mutex_destroy(&messagesMutex);
+	DeleteCriticalSection(&messagesMutex);
 }
 
-bool Serial::open(const char* device, int speed, const char delimiter) {
+Serial::Result Serial::open(std::string device, int speed, const char delimiter) {
     if (isOpen()) {
         close();
     }
 
+	//std::cout << "! Opening serial " << device << " @ " << speed << " bauds" << std::endl;
+
     this->device = device;
 	this->speed = speed;
 	this->delimiter = delimiter;
-	this->fd = ::open(device, O_RDWR | O_NOCTTY | O_NONBLOCK);
 	this->message = "";
 	this->messages = std::stack<std::string>();
 
-	//std::cout << "Open result for " << device << ": " << fd << std::endl;
+	hSerial = CreateFileA(device.c_str(), GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
-	if (fd == -1) {
-	    return false;
+    if (hSerial == INVALID_HANDLE_VALUE) {
+        if (GetLastError()==ERROR_FILE_NOT_FOUND) {
+            return Result::ERROR_DEVICE_NOT_FOUND; 
+		} else {
+			return Result::ERROR_OPENING_FAILED;
+		}
+    }
+
+	DCB dcbSerialParams = {0};
+    dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
+
+    if (!GetCommState(hSerial, &dcbSerialParams)) {
+        return Result::ERROR_PORT_PARAMS_FAILED;
 	}
 
-	struct termios options;
-
-	fcntl(fd, F_SETFL, FNDELAY);
-	tcgetattr(fd, &options);
-    bzero(&options, sizeof(options));
-
-    speed_t bauds;
+    int baudRate;
 
     switch (speed) {
-        case 110:    bauds=B110;    break;
-        case 300:    bauds=B300;    break;
-        case 600:    bauds=B600;    break;
-        case 1200:   bauds=B1200;   break;
-        case 2400:   bauds=B2400;   break;
-        case 4800:   bauds=B4800;   break;
-        case 9600:   bauds=B9600;   break;
-        case 19200:  bauds=B19200;  break;
-        case 38400:  bauds=B38400;  break;
-        case 57600:  bauds=B57600;  break;
-        case 115200: bauds=B115200; break;
+        case 110:    baudRate = CBR_110;    break;
+        case 300:    baudRate = CBR_300;    break;
+        case 600:    baudRate = CBR_600;    break;
+        case 1200:   baudRate = CBR_1200;   break;
+        case 2400:   baudRate = CBR_2400;   break;
+        case 4800:   baudRate = CBR_4800;   break;
+        case 9600:   baudRate = CBR_9600;   break;
+        case 19200:  baudRate = CBR_19200;  break;
+        case 38400:  baudRate = CBR_38400;  break;
+        case 57600:  baudRate = CBR_57600;  break;
+        case 115200: baudRate = CBR_115200; break;
         default:
-            printf("Requested invalid speed of %d, using 9600\n", speed);
-
-            bauds=B9600;
+            return Result::ERROR_INVALID_SPEED_REQUESTED;
         break;
     }
 
-    cfsetispeed(&options, bauds);
-    cfsetospeed(&options, bauds);
+	dcbSerialParams.BaudRate = baudRate;
+	dcbSerialParams.ByteSize = 8;
+    dcbSerialParams.StopBits = ONESTOPBIT;
+    dcbSerialParams.Parity = NOPARITY;
+    
+	if (!SetCommState(hSerial, &dcbSerialParams)) {
+        return Result::ERROR_SET_STATE_FAILED;
+	}
 
-    options.c_cflag |= (CLOCAL | CREAD | CS8);
-    options.c_iflag |= (IGNPAR | IGNBRK);
-    options.c_cc[VTIME]=0;
-    options.c_cc[VMIN]=0;
-
-    tcsetattr(fd, TCSANOW, &options);
+	timeouts.ReadIntervalTimeout = MAXDWORD;
+    timeouts.ReadTotalTimeoutConstant = 0;
+    timeouts.ReadTotalTimeoutMultiplier = 0;
+    timeouts.WriteTotalTimeoutConstant = MAXDWORD;
+    timeouts.WriteTotalTimeoutMultiplier = 0;
+    
+	if (!SetCommTimeouts(hSerial, &timeouts)) {
+        return Result::ERROR_TIMEOUTS_FAILED;
+	}
 
     opened = true;
 
-    pthread_create(&thread, NULL, &Serial::_listen, this);
-
-	return true;
+	start();
+	
+	return Result::OK;
 }
 
 void Serial::close() {
-    //std::cout << "! Closing serial on '" << device << "'.. ";
-
     if (!opened) {
         return;
     }
 
-    ::close(fd);
+	//std::cout << "! Closing serial on '" << device << "'" << std::endl;
 
-    opened = false;
+	CloseHandle(hSerial);
 
-    if (pthread_join(thread, NULL)) {
-        std::cout << "- Could not join thread for serial '" << device << "'" << std::endl;
-    }
+	opened = false;
+
+	//std::cout << "Waiting for serial thread to join.. " << std::endl;
+
+	join();
 
     //std::cout << "done!" << std::endl;
 }
 
-void Serial::listen() {
-    //std::cout << "! Serial is now listening" << std::endl;
+void* Serial::run() {
+	if (!opened) {
+        return 0;
+    }
+
+    //std::cout << "! Serial is now listening " << device << std::endl;
 
     std::string msg;
     bool isMore;
@@ -114,36 +131,43 @@ void Serial::listen() {
         if (msg.length() > 0) {
             //std::cout << "Add '" << msg.c_str() << "' - " << msg.length() << std::endl;
 
-            pthread_mutex_lock(&messagesMutex);
+            EnterCriticalSection(&messagesMutex);
             messages.push(msg);
-            pthread_mutex_unlock(&messagesMutex);
+            LeaveCriticalSection(&messagesMutex);
         }
 
         if (!isMore) {
-            usleep(16000);
+            Sleep(10);
         }
     }
+
+	std::cout << "serial thread stopped.. " << std::endl;
+
+	return 0;
 }
 
-void* Serial::_listen(void* context)  {
-    ((Serial*)context)->listen();
-
-    return 0;
-}
 
 int Serial::available() {
-    pthread_mutex_lock(&messagesMutex);
+	if (!opened) {
+        return 0;
+    }
+
+    EnterCriticalSection(&messagesMutex);
     int messageCount = messages.size();
-    pthread_mutex_unlock(&messagesMutex);
+    LeaveCriticalSection(&messagesMutex);
 
     return messageCount;
 }
 
 const std::string Serial::read() {
-    pthread_mutex_lock(&messagesMutex);
+	if (!opened) {
+        return "";
+    }
+
+    EnterCriticalSection(&messagesMutex);
 
     if (messages.empty()) {
-        pthread_mutex_unlock(&messagesMutex);
+        LeaveCriticalSection(&messagesMutex);
 
         return "";
     }
@@ -151,7 +175,7 @@ const std::string Serial::read() {
     std::string message = messages.top();
     messages.pop();
 
-    pthread_mutex_unlock(&messagesMutex);
+    LeaveCriticalSection(&messagesMutex);
 
     return message;
 }
@@ -162,24 +186,26 @@ const std::string Serial::readDirect(bool& isMore) {
     }
 
     char character;
-    int i;
+    DWORD bytesRead = 0;
 
     while (true) {
-        i = ::read(fd, &character, 1);
+		if (!ReadFile(hSerial, &character, 1, &bytesRead, NULL)) {
+			isMore = false;
 
-        if (i <= 0) {
+			break;
+		}
+
+        if (bytesRead == 0) {
             isMore = false;
-
-            return "";
 
             break;
         }
 
         if (character == delimiter) {
-            pthread_mutex_lock(&messagesMutex);
+            EnterCriticalSection(&messagesMutex);
             std::string result = message;
             message = "";
-            pthread_mutex_unlock(&messagesMutex);
+            LeaveCriticalSection(&messagesMutex);
 
             isMore = true;
 
@@ -188,16 +214,28 @@ const std::string Serial::readDirect(bool& isMore) {
             return result;
         } else {
             if (character != '\n' && character != '\r') {
-                pthread_mutex_lock(&messagesMutex);
+                EnterCriticalSection(&messagesMutex);
                 message += character;
-                pthread_mutex_unlock(&messagesMutex);
+                LeaveCriticalSection(&messagesMutex);
             }
         }
     };
+
+	isMore = false;
 
     return "";
 }
 
 int Serial::write(std::string message) {
-  return ::write(fd, message.c_str(), message.length());
+	if (!opened) {
+        return 0;
+    }
+
+	DWORD bytesWritten;   
+
+    if (!WriteFile(hSerial, message.c_str(), message.length(), &bytesWritten, NULL)) {
+        return 0;
+	}
+
+    return bytesWritten;
 }

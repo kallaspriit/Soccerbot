@@ -5,6 +5,15 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
+//int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nShowCmd) {
+	/*AllocConsole();
+	freopen("conin$", "r", stdin);
+	freopen("conout$", "w", stdout);
+	freopen("conout$", "w", stderr);*/
+
+	HWND consoleWindow = GetConsoleWindow();
+	HINSTANCE instance = GetModuleHandle(0);
+
     std::cout << "-- Starting Up --" << std::endl;
 
     bool withGui = false;
@@ -32,21 +41,21 @@ int main(int argc, char* argv[]) {
         std::cout << "! Start with gui option to show GUI" << std::endl;
     }
 
-    SoccerBot* bot = new SoccerBot(withGui);
+    SoccerBot* bot = new SoccerBot();
 
     bot->init();
 
     if (withGui) {
-        bot->getGui()->setShowRgb(showRGB);
+		bot->setupGui(instance);
     }
 
     bot->run();
 
-    std::string endCommand = bot->getEndCommand();
+    //std::string endCommand = bot->getEndCommand();
 
     delete bot;
 
-    if (endCommand.length() > 0) {
+    /*if (endCommand.length() > 0) {
         usleep(1000000);
 
         int pid = fork();
@@ -58,7 +67,7 @@ int main(int argc, char* argv[]) {
 
             std::cout << "! Command result: '" << endResult << "'" << std::endl;
         }
-    }
+    }*/
 
     /*std::cout << "! Waiting for all threads to exit.. " << std::endl;
     pthread_exit(NULL);

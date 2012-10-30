@@ -18,7 +18,7 @@ class Vision;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
-        SoccerBot(bool withGui = false);
+        SoccerBot();
         ~SoccerBot();
 
         void init();
@@ -30,7 +30,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void setupSerial();
         void setupRobot();
         void setupControllers();
-        void setupGui();
+        void setupGui(HINSTANCE instance);
         void setupCameras();
         void setupVision();
         void setupFpsCounter();
@@ -61,6 +61,10 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         std::string getStateJSON() const;
 
     private:
+		void configureCamera(Camera* camera);
+		void showCameraInfo(Camera* camera, std::string name);
+		int updateCameras(double dt);
+
         Robot* robot;
         WebSocketServer* socket;
         Serial* serial;
@@ -68,6 +72,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         Gui* gui;
         FpsCounter* fpsCounter;
         Camera* frontCamera;
+		Camera* rearCamera;
         Vision* vision;
 
         std::streambuf* originalCoutStream;
@@ -81,7 +86,6 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         double lastStepDuration; // @TODO Send to browser
         double lastStepLoad;
         double totalTime;
-        bool withGui;
         bool stopRequested;
         std::string endCommand;
 

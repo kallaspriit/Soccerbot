@@ -21,6 +21,8 @@ Camera::~Camera() {
 }
 
 bool Camera::open(int serial) {
+	std::cout << "! Searching for a camera with serial: " << serial << std::endl;
+
     DWORD deviceCount = 0;
     xiGetNumberDevices(&deviceCount);
 
@@ -30,19 +32,31 @@ bool Camera::open(int serial) {
         return false;
     }
 
+	if (serial != 0) {
+		std::cout << "  > found " << deviceCount << " available devices" << std::endl;
+	}
+
     int sn = 0;
 
     bool found = false;
 
     for (unsigned int i = 0; i < deviceCount; i++) {
+		std::cout << "  > opening camera #" << i << ".. ";
         xiOpenDevice(i, &device);
+		std::cout << "done!" << std::endl;
 
         xiGetParamInt(device, XI_PRM_DEVICE_SN, &sn);
-        std::cout << "! Found camera with serial number: " << sn << std::endl;
+        std::cout << "  > found camera with serial number: " << sn << ".. ";
 
         if (serial == 0 || serial == sn) {
             found = true;
+
+			std::cout << "match found!" << std::endl;
+
+			break;
         } else {
+			std::cout << "not the right one, closing it" << std::endl;
+
             xiCloseDevice(device);
         }
     }
@@ -63,7 +77,7 @@ bool Camera::open(int serial) {
     //xiSetParamFloat(device, XI_PRM_GAIN, 5.0f);
     //xiSetParamInt(device, XI_PRM_ACQ_BUFFER_SIZE, 70*1000*1000);
     xiSetParamInt(device, XI_PRM_BUFFERS_QUEUE_SIZE, 1);
-    xiSetParamInt(device, XI_PRM_RECENT_FRAME, 1);
+    //xiSetParamInt(device, XI_PRM_RECENT_FRAME, 1);
     xiSetParamInt(device, XI_PRM_AUTO_WB, 0);
     //xiSetParamFloat(device, XI_PRM_WB_KR, 1.0f);
     //xiSetParamFloat(device, XI_PRM_WB_KG, 1.0f);
@@ -100,7 +114,7 @@ const Camera::FrameRaw* Camera::getFrame() {
     frameRaw.number = image.nframe;
     frameRaw.width = image.width;
     frameRaw.height = image.height;
-    frameRaw.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0d;
+    frameRaw.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0;
     frameRaw.fresh = frameRaw.number != lastFrameNumber;
 
     lastFrameNumber = frameRaw.number;
@@ -166,7 +180,7 @@ const Camera::FrameYUV& Camera::getFrameYUV() {
 }
 */
 
-const Camera::FrameYUYV* Camera::getFrameYUYV() {
+Camera::FrameYUYV* Camera::getFrameYUYV() {
     //double s = Util::millitime();
 
     xiGetImage(device, 100, &image);
@@ -182,7 +196,7 @@ const Camera::FrameYUYV* Camera::getFrameYUYV() {
     frameYUV.number = image.nframe;
     frameYUV.width = image.width;
     frameYUV.height = image.height;
-    frameYUV.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0d;
+    frameYUV.timestamp = (double)image.tsSec + (double)image.tsUSec / 1000000.0;
     frameYUV.fresh = frameYUV.number != lastFrameNumber;
 
     if (!yuvInitialized) {
@@ -200,9 +214,9 @@ const Camera::FrameYUYV* Camera::getFrameYUYV() {
 
     lastFrameNumber = frameYUV.number;
 
-    //s = Util::millitime();
+    //double s = Util::millitime();
 
-    libyuv::BayerRGGBToI420(
+    libyuv::BayerToI420(
         frameYUV.data,
         frameYUV.width,
         frameYUV.dataY,
@@ -212,14 +226,16 @@ const Camera::FrameYUYV* Camera::getFrameYUYV() {
         frameYUV.dataV,
         frameYUV.strideV,
         frameYUV.width,
-        frameYUV.height
+        frameYUV.height,
+		FOURCC('R', 'G', 'G', 'B')
     );
 
     //std::cout << "RGGB > I420: " << (Util::millitime() - s) << std::endl;
 
-    //s = Util::millitime();
+    //double s = Util::millitime();
 
-    int row;
+	
+    /*int row;
     int col;
     int indexUV;
     int elements = frameYUV.width * frameYUV.height;
@@ -235,7 +251,68 @@ const Camera::FrameYUYV* Camera::getFrameYUYV() {
         frameYUV.dataYUYV[(i << 1) + 1] = alt ? frameYUV.dataV[indexUV] : frameYUV.dataU[indexUV];
 
         alt = !alt;
-    }
+    }*/
+	
+	/*
+	//bool alt = false;
+	int index = 0;
+	int uvIndex = 0;
+	//int uvCounter = 0;
+
+	int dstStride = frameYUV.width * 2;
+	int uvStride = frameYUV.width / 2;
+
+	for (int i = 0; i < frameYUV.width * frameYUV.height; i += 4) {
+		frameYUV.dataYUYV[index] = frameYUV.dataY[i];
+		frameYUV.dataYUYV[index + 1] = frameYUV.dataU[uvIndex];
+		frameYUV.dataYUYV[index + dstStride] = frameYUV.dataY[i + 1];
+		frameYUV.dataYUYV[index + dstStride + 1] = frameYUV.dataV[uvIndex];
+		
+		frameYUV.dataYUYV[index + 4] = frameYUV.dataY[i + 2];
+		frameYUV.dataYUYV[index + 5] = frameYUV.dataU[uvIndex];
+		frameYUV.dataYUYV[index + 6] = frameYUV.dataY[i + 3];
+		frameYUV.dataYUYV[index + 7] = frameYUV.dataV[uvIndex];
+
+		//alt = !alt;
+		index += 8;
+		uvIndex++;
+	}
+	*/
+
+	// for each U,V pixel create four destination pixels
+	// most time i've ever spent figuring out an algorithm..
+	int dstIndex = 0;
+	int yIndex = 0;
+	int dstStride = frameYUV.width * 2;
+	int yStride = frameYUV.width;
+	int uvStride = frameYUV.width / 2;
+	int row = 0;
+	int pixelsInRow = 0;
+	int elementCount = (frameYUV.width / 2) * (frameYUV.height / 2);
+
+	for (int uvIndex = 0; uvIndex < elementCount; uvIndex++) {
+		frameYUV.dataYUYV[dstIndex]     = frameYUV.dataY[yIndex];
+		frameYUV.dataYUYV[dstIndex + 1] = frameYUV.dataU[uvIndex];
+		frameYUV.dataYUYV[dstIndex + 2] = frameYUV.dataY[yIndex + 1];
+		frameYUV.dataYUYV[dstIndex + 3] = frameYUV.dataV[uvIndex];
+
+		frameYUV.dataYUYV[dstIndex + dstStride]     = frameYUV.dataY[yIndex + yStride];
+		frameYUV.dataYUYV[dstIndex + dstStride + 1] = frameYUV.dataU[uvIndex];
+		frameYUV.dataYUYV[dstIndex + dstStride + 2] = frameYUV.dataY[yIndex + yStride + 1];
+		frameYUV.dataYUYV[dstIndex + dstStride + 3] = frameYUV.dataV[uvIndex];
+
+		dstIndex += 4;
+		yIndex += 2;
+		pixelsInRow += 2;
+
+		if (pixelsInRow == frameYUV.width) {
+			row += 2;
+			yIndex = row * yStride;
+			dstIndex = row * dstStride;
+			pixelsInRow = 0;
+		}
+	}
+
 
     //std::cout << "I420 > YUYV: " << (Util::millitime() - s) << std::endl;
 
@@ -255,6 +332,8 @@ void Camera::close() {
         xiCloseDevice(device);
 
         device = NULL;
+
+		opened = false;
     }
 }
 

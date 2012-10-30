@@ -1,6 +1,6 @@
 #include "Vision.h"
 #include "Config.h"
-#include "Math.h"
+#include "Maths.h"
 
 #include <iostream>
 #include <algorithm>
@@ -261,7 +261,7 @@ float Vision::getAngle(Dir dir, int x, int y) {
     float pixelsPerCm = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
     float horizontalDistance = (double)centerOffset / pixelsPerCm;
 
-    return Math::tan(horizontalDistance / distance) * 180.0d / Math::PI;
+    return Math::tan(horizontalDistance / distance) * 180.0 / Math::PI;
 }
 
 Blobber::Color* Vision::getColorAt(int x, int y) {
@@ -313,7 +313,7 @@ float Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::str
     int pixelCounter = 0;
     int senseCounter = 0;
     int senseStep = 10;
-    int maxSensePoints = 255;
+    const int maxSensePoints = 255;
     int senseX[maxSensePoints];
     int senseY[maxSensePoints];
 
@@ -519,35 +519,40 @@ ImageBuffer* Vision::classify() {
     return &img;
 }
 
-void Vision::renderDebugInfo() {
+void Vision::renderDebugInfo(ImageBuffer* image) {
     Object* ball = NULL;
     char buf[256];
 
     for (ObjectListIt it = balls.begin(); it != balls.end(); it++) {
         ball = *it;
 
-        img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
+        image->drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
 
         sprintf(buf, "%.1fm %.1f deg", ball->distance, ball->angle);
-        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 29, buf);
+        image->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 29, buf);
 
         sprintf(buf, "%d x %d", ball->x, ball->y);
-        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
+        image->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
 
         int boxArea = ball->width * ball->height;
+
+		if (boxArea == 0) {
+			continue;
+		}
+
         int density = ball->area * 100 / boxArea;
 
         sprintf(buf, "%d - %d%%", ball->area, density);
-        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
+        image->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
 
-        img.drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
-        img.drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
+        image->drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
+        image->drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
     }
 
     /*Blobber::Blob* blob = blobber->getBlobs("ball");
 
     while (blob != NULL) {
-        img.drawBoxCentered(blob->centerX, blob->centerY, blob->x2 - blob->x1, blob->y2 - blob->y1);
+        image->drawBoxCentered(blob->centerX, blob->centerY, blob->x2 - blob->x1, blob->y2 - blob->y1);
 
         blob = blob->next;
     }*/

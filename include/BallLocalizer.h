@@ -2,7 +2,7 @@
 #define BALLLOCALIZER_H
 
 #include "Ball.h"
-#include "Math.h"
+#include "Maths.h"
 
 class BallLocalizer {
     public:

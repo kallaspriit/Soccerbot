@@ -66,7 +66,7 @@ bool LookupTable::load(std::string filename) {
         return(false);
     }
 
-    int lineBufferSize = 256;
+    const int lineBufferSize = 256;
     char buf[lineBufferSize];
     int key;
     float value;

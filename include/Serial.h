@@ -1,15 +1,27 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
+#include "Thread.h"
+
+#include <Windows.h>
 #include <string>
 #include <stack>
-#include <pthread.h>
 
-class Serial {
+class Serial : private Thread {
     public:
+		enum Result {
+			OK = 1,
+			ERROR_DEVICE_NOT_FOUND,
+			ERROR_OPENING_FAILED,
+			ERROR_PORT_PARAMS_FAILED,
+			ERROR_INVALID_SPEED_REQUESTED,
+			ERROR_SET_STATE_FAILED,
+			ERROR_TIMEOUTS_FAILED
+		};
+
         Serial();
         ~Serial();
-        bool open(const char* device, int speed = 9600, const char delimiter = '\n');
+        Result open(std::string device, int speed = 9600, const char delimiter = '\n');
         void close();
         int available();
         const std::string read();
@@ -19,19 +31,19 @@ class Serial {
         int writeln(std::string message) { return write(message + "\n"); }
 
     private:
-        void listen();
-        static void* _listen(void* context);
-        const std::string readDirect(bool& isMore);
+		virtual void* run();
+		const std::string readDirect(bool& isMore);
+
 
         std::string device;
-        int fd;
         int speed;
         char delimiter;
         bool opened;
         std::string message;
         std::stack<std::string> messages;
-        pthread_t thread;
-        pthread_mutex_t messagesMutex;
+		HANDLE hSerial;
+		COMMTIMEOUTS timeouts;
+        CRITICAL_SECTION messagesMutex;
 };
 
 #endif

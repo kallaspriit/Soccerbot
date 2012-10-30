@@ -18,7 +18,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 
         void setFrame(unsigned char* frame);
         void process(Dir dir);
-        void renderDebugInfo();
+        void renderDebugInfo(ImageBuffer* image);
         //void filterMap(unsigned int* map);
         unsigned int* getColorMap() { return blobber->getMap(); }
         ImageBuffer* classify();

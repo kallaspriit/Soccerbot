@@ -1,6 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <Windows.h>
 #include "xiApi.h"
 #include "xiExt.h"
 #include "libyuv.h"
@@ -53,7 +54,7 @@ class Camera {
         void stopAcquisition();
         const FrameRaw* getFrame();
         //const FrameYUV& getFrameYUV();
-        const FrameYUYV* getFrameYUYV();
+        FrameYUYV* getFrameYUYV();
         void close();
 
         std::string getName() { return getStringParam(XI_PRM_DEVICE_NAME); }

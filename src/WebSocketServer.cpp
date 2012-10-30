@@ -10,7 +10,7 @@ WebSocketServer::~WebSocketServer() {
     close();
 }
 
-void WebSocketServer::listen() {
+void* WebSocketServer::run() {
     std::cout << "! Starting socket server on port " << port << std::endl;
 
     try {
@@ -28,16 +28,12 @@ void WebSocketServer::listen() {
 
         abort();
     }
+
+	return 0;
 }
 
-void* WebSocketServer::_listen(void* context)  {
-    ((WebSocketServer*)context)->listen();
-
-    return 0;
-}
-
-void WebSocketServer::start() {
-    pthread_create(&thread, NULL, &WebSocketServer::_listen, this);
+void WebSocketServer::listen() {
+    start();
 }
 
 void WebSocketServer::close() {
@@ -53,9 +49,9 @@ void WebSocketServer::close() {
 
     //std::cout << "! Waiting for socket thread to join.. ";
 
-    if (pthread_join(thread, NULL)) {
+    /*if (pthread_join(thread, NULL)) {
         std::cout << "- Could not join thread for socket" << std::endl;
-    }
+    }*/
 
     //std::cout << "done!" << std::endl;
 

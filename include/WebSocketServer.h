@@ -3,10 +3,11 @@
 
 #include "websocketpp.hpp"
 
-#include <pthread.h>
+#include "Thread.h"
+
 #include <set>
 
-class WebSocketServer : public websocketpp::server::handler {
+class WebSocketServer : public websocketpp::server::handler, private Thread {
     public:
         class ListenerInterface {
             public:
@@ -18,14 +19,14 @@ class WebSocketServer : public websocketpp::server::handler {
         WebSocketServer(int port);
         virtual ~WebSocketServer();
 
-        void start();
+        void listen();
         void close();
         void addListener(ListenerInterface* listener);
         void broadcast(std::string message);
 
     private:
-        void listen();
-        static void* _listen(void* context);
+        virtual void* run();
+
         void on_open(connection_ptr con);
         void on_close(connection_ptr con);
         void on_message(connection_ptr con, message_ptr msg);
@@ -34,7 +35,6 @@ class WebSocketServer : public websocketpp::server::handler {
         bool listening;
         websocketpp::server::handler::ptr handler;
         websocketpp::server server;
-        pthread_t thread;
         std::set<ListenerInterface*> listeners;
         std::set<connection_ptr> connections;
 };

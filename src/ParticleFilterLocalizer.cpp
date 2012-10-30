@@ -1,6 +1,6 @@
 #include "ParticleFilterLocalizer.h"
 #include "Util.h"
-#include "Math.h"
+#include "Maths.h"
 #include "Config.h"
 
 #include <iostream>
@@ -74,7 +74,7 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
 
 void ParticleFilterLocalizer::update(const Measurements& measurements) {
     Particle* particle;
-    float probabilities[particles.size()];
+    float* probabilities = new float[particles.size()];
     float maxProbability = -1;
 
     for (unsigned int i = 0; i < particles.size(); i++) {

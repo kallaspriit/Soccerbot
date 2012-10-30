@@ -1,26 +1,73 @@
 #include "DisplayWindow.h"
 
-#include <FL/Fl_Double_Window.H>
+DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::string name) : instance(instance), width(width), height(height), name(name) {
+    hWnd = CreateWindowEx(
+		NULL,
+		"Window Class",
+		name.c_str(),
+		WS_OVERLAPPEDWINDOW,
+		200,
+		200,
+		width,
+		height,
+		NULL,
+		NULL,
+		instance,
+		NULL
+	);
 
-DisplayWindow::DisplayWindow(int width, int height, int delta, std::string name) : width(width), height(height), window(NULL), canvas(NULL) {
-    window = new Fl_Double_Window(width, height, name.c_str());
-    canvas = new Canvas(width, height, delta);
-    window->end();
-    window->show();
+	if (!hWnd) {
+		int nResult = GetLastError();
+
+		MessageBox(NULL,
+			"Window creation failed",
+			"Window Creation Failed",
+			MB_ICONERROR);
+	}
+
+	ShowWindow(hWnd, SW_SHOWNORMAL);
+
+	info.bmiHeader.biSize = sizeof(info.bmiHeader);
+	info.bmiHeader.biWidth = width;
+	info.bmiHeader.biHeight = height;
+	info.bmiHeader.biPlanes = 1;
+	info.bmiHeader.biBitCount = 24;
+	info.bmiHeader.biCompression = BI_RGB;
+	info.bmiHeader.biSizeImage = 0;
+	info.bmiHeader.biClrUsed = 0;
+	info.bmiHeader.biClrImportant = 0;
+
+	hdc = GetDC(hWnd);
+	cDC = CreateCompatibleDC(hdc);
+	hBitmap = CreateCompatibleBitmap(hdc, width, height);
 }
 
 DisplayWindow::~DisplayWindow() {
-    if (canvas != NULL) {
-        delete canvas;
-        canvas = NULL;
-    }
-
-    if (window != NULL) {
-        delete window;
-        window = NULL;
-    }
+	DeleteObject(SelectObject(cDC, hBitmap));
+	DeleteDC(cDC);
+	DeleteObject(hBitmap);
 }
 
 void DisplayWindow::setImage(unsigned char* image) {
-    canvas->setImage(image);
+	/*for (int i = width * height * 3; i >=3; i -= 3)
+	{
+		image[i] = image[i-2];
+		image[i+1] = image[i-3];
+	}*/
+
+	// BGR to RGB..
+	unsigned char blue;
+
+	for (int i = 0; i < width * height * 3 - 3; i += 3) {
+		blue = image[i];
+		image[i] = image[i + 2];
+		image[i + 2] = blue;
+	}
+
+    SetDIBits (hdc, hBitmap, 0, height, image, &info, DIB_RGB_COLORS);
+	hBitmap = (HBITMAP) SelectObject (cDC, hBitmap);
+	//BitBlt (hdc, 0, 0, width, height, cDC, 0, 0, SRCCOPY);
+	StretchBlt(hdc, 0, height, width, -height, cDC, 0, 0, width, height, SRCCOPY);
+
+	//RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE);
 }

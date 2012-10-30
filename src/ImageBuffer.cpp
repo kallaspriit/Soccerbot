@@ -301,15 +301,12 @@ void ImageBuffer::drawChar(int imageX, int imageY, int index) {
     int rows = 8;
     const unsigned char* character = font[index];
     unsigned char row;
-    bool render;
 
     for (int x = 0; x < cols; x++) {
         for (int y = 0; y < rows; y++) {
             row = character[x];
 
-            render = row & (1 << y);
-
-            if (render) {
+            if (row & (1 << y)) {
                 setPixelAt(imageX + x, imageY - y + 8);
             }
         }

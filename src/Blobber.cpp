@@ -681,10 +681,10 @@ bool Blobber::loadOptions(std::string filename)
         case BLOBBER_STATE_SCAN:
             n = sscanf(buf,"[%s",str);
             if(n == 1) {
-                if(!strncasecmp(str,"colors]",BLOBBER_MAX_BUF)) {
+                if(!_strnicmp(str,"colors]",BLOBBER_MAX_BUF)) {
                     state = BLOBBER_STATE_COLORS;
                     i = 0;
-                } else if(!strncasecmp(str,"thresholds]",BLOBBER_MAX_BUF)) {
+                } else if(!_strnicmp(str,"thresholds]",BLOBBER_MAX_BUF)) {
                     state = BLOBBER_STATE_THRESH;
                     i = 0;
                 } else {

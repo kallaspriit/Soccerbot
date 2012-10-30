@@ -1,7 +1,7 @@
 #ifndef TASKS_H
 #define TASKS_H
 
-#include "Math.h"
+#include "Maths.h"
 
 #include <string>
 
