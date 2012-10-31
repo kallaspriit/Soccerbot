@@ -141,7 +141,7 @@ void* Serial::run() {
         }
     }
 
-	std::cout << "serial thread stopped.. " << std::endl;
+	//std::cout << "serial thread stopped.. " << std::endl;
 
 	return 0;
 }

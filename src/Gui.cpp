@@ -10,8 +10,10 @@ Gui::Gui(HINSTANCE instance, int width, int height) :
 	instance(instance),
     width(width),
     height(height),
-    frontCamera(NULL),
-    rearCamera(NULL)
+    frontCameraClassification(NULL),
+    rearCameraClassification(NULL),
+	frontCameraRGB(NULL),
+    rearCameraRGB(NULL)
 {
 	WNDCLASSEX wClass;
 	ZeroMemory(&wClass, sizeof(WNDCLASSEX));
@@ -19,9 +21,9 @@ Gui::Gui(HINSTANCE instance, int width, int height) :
 	wClass.cbSize = sizeof(WNDCLASSEX);
 	wClass.cbWndExtra = NULL;
 	wClass.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wClass.hCursor = LoadCursor(NULL,IDC_ARROW);
-	wClass.hIcon = NULL;
-	wClass.hIconSm = NULL;
+	wClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	wClass.hInstance = instance;
 	wClass.lpfnWndProc = (WNDPROC)WinProc;
 	wClass.lpszClassName = "Window Class";
@@ -39,22 +41,34 @@ Gui::Gui(HINSTANCE instance, int width, int height) :
 		);
 	}
 
-	frontCamera = createWindow(width, height, "Front Camera");
-    rearCamera = createWindow(width, height, "Rear Camera");
+	frontCameraClassification = createWindow(width, height, "Front Camera Classification");
+    rearCameraClassification = createWindow(width, height, "Rear Camera Classification");
+	frontCameraRGB = createWindow(width, height, "Front Camera RGB");
+    rearCameraRGB = createWindow(width, height, "Rear Camera RGB");
 
 	ZeroMemory(&msg, sizeof(MSG));
 
 }
 
 Gui::~Gui() {
-	if (frontCamera != NULL) {
-		delete frontCamera;
-		frontCamera = NULL;
+	if (frontCameraClassification != NULL) {
+		delete frontCameraClassification;
+		frontCameraClassification = NULL;
 	}
 
-	if (rearCamera != NULL) {
-		delete rearCamera;
-		rearCamera = NULL;
+	if (rearCameraClassification != NULL) {
+		delete rearCameraClassification;
+		rearCameraClassification = NULL;
+	}
+
+	if (frontCameraRGB != NULL) {
+		delete frontCameraRGB;
+		frontCameraRGB = NULL;
+	}
+
+	if (rearCameraRGB != NULL) {
+		delete rearCameraRGB;
+		rearCameraRGB = NULL;
 	}
 }
 
@@ -62,12 +76,14 @@ DisplayWindow* Gui::createWindow(int width, int height, std::string name) {
 	return new DisplayWindow(instance, width, height, name);
 }
 
-void Gui::setFrontCamera(unsigned char* rgb) {
-    frontCamera->setImage(rgb);
+void Gui::setFrontCamera(unsigned char* rgb, unsigned char* classification) {
+    frontCameraRGB->setImage(rgb, false);
+    frontCameraClassification->setImage(classification);
 }
 
-void Gui::setRearCamera(unsigned char* image) {
-    rearCamera->setImage(image);
+void Gui::setRearCamera(unsigned char* rgb, unsigned char* classification) {
+	rearCameraRGB->setImage(rgb, false);
+    rearCameraClassification->setImage(classification);
 }
 
 bool Gui::update() {

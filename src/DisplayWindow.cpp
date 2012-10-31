@@ -1,6 +1,8 @@
 #include "DisplayWindow.h"
 
-DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::string name) : instance(instance), width(width), height(height), name(name) {
+#include <iostream>
+
+DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::string name) : instance(instance), width(width), height(height), name(name), firstDraw(true) {
     hWnd = CreateWindowEx(
 		NULL,
 		"Window Class",
@@ -25,8 +27,6 @@ DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::str
 			MB_ICONERROR);
 	}
 
-	ShowWindow(hWnd, SW_SHOWNORMAL);
-
 	info.bmiHeader.biSize = sizeof(info.bmiHeader);
 	info.bmiHeader.biWidth = width;
 	info.bmiHeader.biHeight = height;
@@ -48,20 +48,28 @@ DisplayWindow::~DisplayWindow() {
 	DeleteObject(hBitmap);
 }
 
-void DisplayWindow::setImage(unsigned char* image) {
-	/*for (int i = width * height * 3; i >=3; i -= 3)
-	{
-		image[i] = image[i-2];
-		image[i+1] = image[i-3];
+void DisplayWindow::setImage(unsigned char* image, bool rgb2bgr) {
+	if (firstDraw) {
+		ShowWindow(hWnd, SW_SHOWNORMAL);
+
+		firstDraw = false;
+	}
+
+	/*if (!IsWindowVisible(hWnd)) {
+		std::cout << "! Window not visible" << std::endl;
+
+		return;
 	}*/
 
-	// BGR to RGB..
-	unsigned char blue;
+	if (rgb2bgr) {
+		// BGR to RGB..
+		unsigned char blue;
 
-	for (int i = 0; i < width * height * 3 - 3; i += 3) {
-		blue = image[i];
-		image[i] = image[i + 2];
-		image[i + 2] = blue;
+		for (int i = 0; i < width * height * 3 - 3; i += 3) {
+			blue = image[i];
+			image[i] = image[i + 2];
+			image[i + 2] = blue;
+		}
 	}
 
     SetDIBits (hdc, hBitmap, 0, height, image, &info, DIB_RGB_COLORS);

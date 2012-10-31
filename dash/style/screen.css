@@ -153,6 +153,7 @@ A:hover {
 	display: block;
 	width: 0%;
 	height: 4px;
+	max-width: 155px;
 	line-height: 4px;
 	background-color: #060;
 	border-radius: 2px;

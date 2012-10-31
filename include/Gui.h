@@ -12,8 +12,8 @@ class Gui {
         Gui(HINSTANCE instance, int width, int height);
         ~Gui();
 
-        void setFrontCamera(unsigned char* rgb);
-        void setRearCamera(unsigned char* image);
+        void setFrontCamera(unsigned char* rgb, unsigned char* classification);
+        void setRearCamera(unsigned char* rgb, unsigned char* classification);
         bool update();
         bool handleCommand(const Command& cmd);
 
@@ -24,8 +24,10 @@ class Gui {
         int height;
 		HINSTANCE instance;
 		MSG msg;
-        DisplayWindow* frontCamera;
-        DisplayWindow* rearCamera;
+        DisplayWindow* frontCameraClassification;
+        DisplayWindow* rearCameraClassification;
+		DisplayWindow* frontCameraRGB;
+        DisplayWindow* rearCameraRGB;
 };
 
 #endif // GUI_H

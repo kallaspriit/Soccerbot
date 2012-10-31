@@ -12,7 +12,7 @@ class DisplayWindow {
         DisplayWindow(HINSTANCE instance, int width, int height, std::string name = "Window");
         ~DisplayWindow();
 
-        void setImage(unsigned char* image);
+        void setImage(unsigned char* image, bool rgb2bgr = true);
         static bool windowsVisible() { return 0; /* TODO! */ }
 
     private:
@@ -25,6 +25,7 @@ class DisplayWindow {
         int width;
         int height;
 		std::string name;
+		bool firstDraw;
 };
 
 #endif // DISPLAY_H

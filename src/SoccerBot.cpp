@@ -31,6 +31,7 @@ SoccerBot::SoccerBot() {
     vision = NULL;
 	activeController = NULL;
     jpegBuffer = NULL;
+	rgbaBuffer = NULL;
     rgbBuffer = NULL;
     endCommand = "";
 	lastStepDt = 0.01666;
@@ -206,14 +207,12 @@ void SoccerBot::setupSignalHandler() {
 }
 
 void SoccerBot::setupSocket() {
-	std::cout << "! Setting up socket server.. ";
-
     socket = new WebSocketServer(Config::socketPort);
 
     socket->addListener(this);
     socket->listen();
 
-	std::cout << "done!" << std::endl;
+	Util::sleep(500);
 }
 
 void SoccerBot::setupRobot() {
@@ -317,6 +316,7 @@ void SoccerBot::run() {
     std::string message;
     double time, dt;
     
+	rgbaBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 4];
 	rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
 
     while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
@@ -407,7 +407,21 @@ int SoccerBot::updateCameras(double dt) {
 				classification->drawText(10, 10, buf);
 				vision->renderDebugInfo(classification);
 
-				gui->setFrontCamera(classification->data);
+				libyuv::I420ToARGB(
+					image->dataY, image->strideY,
+					image->dataU, image->strideU,
+					image->dataV, image->strideV,
+					rgbaBuffer, image->width * 4,
+					image->width, image->height
+				);
+
+				libyuv::ARGBToRGB24(
+					rgbaBuffer, image->width * 4,
+					rgbBuffer, image->width * 3,
+					image->width, image->height
+				);
+
+				gui->setFrontCamera(rgbBuffer, classification->data);
 			}
 
 			captures++;
@@ -433,7 +447,21 @@ int SoccerBot::updateCameras(double dt) {
 			if (gui != NULL) {
 				vision->renderDebugInfo(classification);
 
-				gui->setRearCamera(classification->data);
+				libyuv::I420ToARGB(
+					image->dataY, image->strideY,
+					image->dataU, image->strideU,
+					image->dataV, image->strideV,
+					rgbaBuffer, image->width * 4,
+					image->width, image->height
+				);
+
+				libyuv::ARGBToRGB24(
+					rgbaBuffer, image->width * 4,
+					rgbBuffer, image->width * 3,
+					image->width, image->height
+				);
+
+				gui->setRearCamera(rgbBuffer, classification->data);
 			}
 
 			captures++;

@@ -9,7 +9,8 @@
 			showRange: false,
 			onStart: null,
 			onChange: null,
-			onEnd: null
+			onEnd: null,
+			minChangeInterval: 0
 		};
 
 		this.options = $.extend({}, this.defaults, options);
@@ -33,6 +34,7 @@
 		this.value = null;
 		this.rangeMin = null;
 		this.rangeMax = null;
+		this.lastChangeTime = null;
 
 		this.setupDom = function() {
 			instances++;
@@ -234,7 +236,9 @@
 				normalizedValue = pos / wrapWidth,
 				value = Math.round(
 					(range * normalizedValue + minValue) / step
-				) * step;
+				) * step,
+				currentTime,
+				sinceLast;
 
 			normalizedValue = (value - minValue) / range;
 			pos = wrapWidth * normalizedValue;
@@ -255,7 +259,20 @@
 				}
 
 				if (typeof(this.options.onChange) == 'function') {
-					this.options.onChange(value, this.input[0]);
+					if (this.options.minChangeInterval == 0) {
+						this.options.onChange(value, this.input[0]);
+					} else {
+						currentTime = this.getMillitime();
+						sinceLast = currentTime - this.lastChangeTime;
+						
+						if (
+							this.options.minChangeInterval == null
+							|| sinceLast >= this.options.minChangeInterval
+						) {
+							this.options.onChange(value, this.input[0]);
+							this.lastChangeTime = currentTime;
+						}
+					}
 				}
 			} else {
 				var handle = this.dragging == 1
@@ -293,7 +310,36 @@
 				}
 
 				if (typeof(this.options.onChange) == 'function') {
-					this.options.onChange(valueLeft, valueRight, this.input[0]);
+					this.options.onChange(
+						valueLeft,
+						valueRight,
+						this.input[0]
+					);
+				}
+				
+				if (typeof(this.options.onChange) == 'function') {
+					if (this.options.minChangeInterval == 0) {
+						this.options.onChange(
+							valueLeft,
+							valueRight,
+							this.input[0]
+						);
+					} else {
+						currentTime = this.getMillitime();
+						sinceLast = currentTime - this.lastChangeTime;
+						
+						if (
+							this.options.minChangeInterval == null
+							|| sinceLast >= this.options.minChangeInterval
+						) {
+							this.options.onChange(
+								valueLeft,
+								valueRight,
+								this.input[0]
+							);
+							this.lastChangeTime = currentTime;
+						}
+					}
 				}
 			}
 
@@ -423,6 +469,10 @@
 				.css('user-select', '')
 				.unbind('selectstart')
 				.removeClass('slider-unselectable');
+		};
+		
+		this.getMillitime = function() {
+			return (new Date()).getTime();
 		};
 	};
 

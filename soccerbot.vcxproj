@@ -199,6 +199,14 @@
     <ClInclude Include="lib\libyuv\include\libyuv\scale_argb.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\version.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\video_common.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="soccerbot.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\socceerbot.png" />
+    <Image Include="resources\soccerbot.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

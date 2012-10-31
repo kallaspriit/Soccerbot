@@ -184,7 +184,8 @@ Dash.UI.prototype.initSlider = function() {
 	$('.slider').slider({
 		showRange: true,
 		showValue: true,
-		width: 300
+		width: 300,
+		minChangeInterval: 500
 	});
 };
 
@@ -516,15 +517,15 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	// camera calibration
-	$('#camera-exposure').slider('end', function(value) {
+	$('#camera-exposure').slider('change', function(value) {
 		dash.socket.send('<camera-set-exposure:' + value + '>');
 	});
 	
-	$('#camera-gain').slider('end', function(value) {
+	$('#camera-gain').slider('change', function(value) {
 		dash.socket.send('<camera-set-gain:' + value + '>');
 	});
 	
-	$('#camera-red, #camera-green, #camera-blue').slider('end', function() {
+	$('#camera-red, #camera-green, #camera-blue').slider('change', function() {
 		var red = $('#camera-red').val(),
 			green = $('#camera-green').val(),
 			blue = $('#camera-blue').val();
@@ -532,16 +533,16 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<camera-set-white-balance:' + red + ',' + green + ',' + blue + '>');
 	});
 	
-	$('#camera-luminosity-gamma').slider('end', function(value) {
+	$('#camera-luminosity-gamma').slider('change', function(value) {
 		dash.socket.send('<camera-set-luminosity-gamma:' + (value) + '>');
 	});
 	
-	$('#camera-chromaticity-gamma').slider('end', function(value) {
+	$('#camera-chromaticity-gamma').slider('change', function(value) {
 		dash.socket.send('<camera-set-chromaticity-gamma:' + (value) + '>');
 	});
 	
 	// blobber
-	$('#blobber-y, #blobber-u, #blobber-v, #blobber-merge-threshold').slider('end', function() {
+	$('#blobber-y, #blobber-u, #blobber-v, #blobber-merge-threshold').slider('change', function() {
 		var selectedClass = $('#blobber-class').val(),
 			y = $('#blobber-y').val().replace(' ', ','),
 			u = $('#blobber-u').val().replace(' ', ','),

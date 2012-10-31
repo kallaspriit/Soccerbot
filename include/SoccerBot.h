@@ -79,6 +79,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         std::ostringstream* stringCoutStream;
 
         unsigned char* jpegBuffer;
+		unsigned char* rgbaBuffer;
         unsigned char* rgbBuffer;
 
         double lastStepTime;
