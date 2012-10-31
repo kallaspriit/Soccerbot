@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     std::cout << "-- Starting Up --" << std::endl;
 
     bool withGui = false;
-    bool showRGB = false;
+	std::string controller = "";
 
     if (argc > 0) {
         std::cout << "! Parsing command line options" << std::endl;
@@ -27,10 +27,10 @@ int main(int argc, char* argv[]) {
                 withGui = true;
 
                 std::cout << "  > Showing the GUI" << std::endl;
-            } else if (strcmp(argv[i], "rgb") == 0) {
-                showRGB = true;
+            } else if (strcmp(argv[i], "ball-follower") == 0) {
+                controller = "ball-follower";
 
-                std::cout << "  > Showing RGB image in GUI" << std::endl;
+                std::cout << "  > Using the ball-follower controller" << std::endl;
             } else {
                 std::cout << "  > Unknown command line option: " << argv[i] << std::endl;
             }
@@ -41,19 +41,21 @@ int main(int argc, char* argv[]) {
         std::cout << "! Start with gui option to show GUI" << std::endl;
     }
 
-    SoccerBot* bot = new SoccerBot();
+    SoccerBot bot;
 
-    bot->init();
+    bot.init();
 
     if (withGui) {
-		bot->setupGui(instance);
+		bot.setupGui(instance);
     }
 
-    bot->run();
+	if (controller != "") {
+		bot.setController(controller);
+	}
 
-    //std::string endCommand = bot->getEndCommand();
+    bot.run();
 
-    delete bot;
+    //std::string endCommand = bot.getEndCommand();
 
     /*if (endCommand.length() > 0) {
         usleep(1000000);

@@ -5,7 +5,7 @@
 
 class TestController : public Controller {
     public:
-        TestController(Robot* robot) : Controller(robot) {};
+        TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {};
 
         bool handleRequest(std::string request);
         bool handleCommand(const Command& cmd);

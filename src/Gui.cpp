@@ -1,6 +1,7 @@
 #include "Gui.h"
 #include "Command.h"
 #include "Util.h"
+#include "Vision.h"
 
 #include <iostream>
 
@@ -15,6 +16,10 @@ Gui::Gui(HINSTANCE instance, int width, int height) :
 	frontCameraRGB(NULL),
     rearCameraRGB(NULL)
 {
+	img.width = width;
+	img.height = height;
+	img.swapRB = true;
+
 	WNDCLASSEX wClass;
 	ZeroMemory(&wClass, sizeof(WNDCLASSEX));
 	wClass.cbClsExtra = NULL;
@@ -76,12 +81,18 @@ DisplayWindow* Gui::createWindow(int width, int height, std::string name) {
 	return new DisplayWindow(instance, width, height, name);
 }
 
-void Gui::setFrontCamera(unsigned char* rgb, unsigned char* classification) {
+void Gui::setFrontCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision) {
+	renderDebugBalls(rgb, vision.getFrontBalls());
+	renderDebugGoals(rgb, vision.getFrontGoals());
+
     frontCameraRGB->setImage(rgb, false);
     frontCameraClassification->setImage(classification);
 }
 
-void Gui::setRearCamera(unsigned char* rgb, unsigned char* classification) {
+void Gui::setRearCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision) {
+	renderDebugBalls(rgb, vision.getRearBalls());
+	renderDebugGoals(rgb, vision.getRearGoals());
+
 	rearCameraRGB->setImage(rgb, false);
     rearCameraClassification->setImage(classification);
 }
@@ -147,4 +158,49 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
+	img.data = image;
+
+	Object* ball = NULL;
+    char buf[256];
+
+    for (ObjectListItc it = balls.begin(); it != balls.end(); it++) {
+        ball = *it;
+
+        img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
+
+        sprintf(buf, "%.1fm %.1f deg", ball->distance, ball->angle);
+        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 29, buf);
+
+        sprintf(buf, "%d x %d", ball->x, ball->y);
+        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
+
+        int boxArea = ball->width * ball->height;
+
+		if (boxArea == 0) {
+			continue;
+		}
+
+        int density = ball->area * 100 / boxArea;
+
+        sprintf(buf, "%d - %d%%", ball->area, density);
+        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
+
+        img.drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
+        img.drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
+    }
+
+    /*Blobber::Blob* blob = blobber->getBlobs("ball");
+
+    while (blob != NULL) {
+        image->drawBoxCentered(blob->centerX, blob->centerY, blob->x2 - blob->x1, blob->y2 - blob->y1);
+
+        blob = blob->next;
+    }*/
+}
+
+void Gui::renderDebugGoals(unsigned char* image, const ObjectList& goals) {
+
 }

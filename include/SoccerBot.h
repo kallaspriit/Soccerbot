@@ -29,10 +29,10 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void setupSocket();
         void setupSerial();
         void setupRobot();
-        void setupControllers();
         void setupGui(HINSTANCE instance);
         void setupCameras();
         void setupVision();
+		void setupControllers();
         void setupFpsCounter();
 
         void addController(std::string name, Controller* controller);
@@ -84,7 +84,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         double lastStepTime;
         double lastStepDt;
-        double lastStepDuration; // @TODO Send to browser
+        double lastStepDuration;
         double lastStepLoad;
         double totalTime;
         bool stopRequested;
@@ -92,6 +92,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         std::map<std::string, Controller*> controllers;
         Controller* activeController;
+		std::string activeControllerName;
 };
 
 #endif // SOCCERBOT_H

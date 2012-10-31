@@ -13,6 +13,7 @@
 #include "Controller.h"
 #include "ManualController.h"
 #include "TestController.h"
+#include "BallFollowerController.h"
 #include "Gui.h"
 #include "FpsCounter.h"
 #include "Camera.h"
@@ -35,6 +36,7 @@ SoccerBot::SoccerBot() {
     rgbBuffer = NULL;
     endCommand = "";
 	lastStepDt = 0.01666;
+	totalTime = 0;
 	stopRequested = false;
     lastStepTime = Util::millitime();
 
@@ -156,9 +158,9 @@ void SoccerBot::init() {
     setupSocket();
     setupSerial();
     setupRobot();
-    setupControllers();
     setupCameras();
     setupVision();
+	setupControllers();
     setupFpsCounter();
 
     std::cout << "! SoccerBot ready" << std::endl;
@@ -223,16 +225,6 @@ void SoccerBot::setupRobot() {
     robot->init();
 }
 
-void SoccerBot::setupControllers() {
-	std::cout << "! Setting up controllers.. ";
-
-    addController("manual", new ManualController(robot));
-    addController("test", new TestController(robot));
-    setController("manual");
-
-	std::cout << "done!" << std::endl;
-}
-
 void SoccerBot::setupGui(HINSTANCE instance) {
 	std::cout << "! Setting up GUI.. ";
 
@@ -280,6 +272,18 @@ void SoccerBot::setupVision() {
 	std::cout << "! Setting up vision.. ";
 
     vision = new Vision(Config::cameraWidth, Config::cameraHeight);
+
+	std::cout << "done!" << std::endl;
+}
+
+void SoccerBot::setupControllers() {
+	std::cout << "! Setting up controllers.. ";
+
+    addController("manual", new ManualController(robot, vision));
+    addController("test", new TestController(robot, vision));
+    addController("ball-follower", new BallFollowerController(robot, vision));
+
+    setController("manual");
 
 	std::cout << "done!" << std::endl;
 }
@@ -402,10 +406,12 @@ int SoccerBot::updateCameras(double dt) {
 			vision->process(Vision::DIR_FRONT);
 
 			if (gui != NULL) {
-				char buf[16];
+				char buf[64];
 				sprintf(buf, "FPS: %d", fpsCounter->getFps());
 				classification->drawText(10, 10, buf);
-				vision->renderDebugInfo(classification);
+
+				sprintf(buf, "Controller: %s", activeControllerName.c_str());
+				classification->drawText(10, 20, buf);
 
 				libyuv::I420ToARGB(
 					image->dataY, image->strideY,
@@ -421,7 +427,7 @@ int SoccerBot::updateCameras(double dt) {
 					image->width, image->height
 				);
 
-				gui->setFrontCamera(rgbBuffer, classification->data);
+				gui->setFrontCamera(rgbBuffer, classification->data, *vision);
 			}
 
 			captures++;
@@ -445,8 +451,6 @@ int SoccerBot::updateCameras(double dt) {
 			vision->process(Vision::DIR_REAR);
 
 			if (gui != NULL) {
-				vision->renderDebugInfo(classification);
-
 				libyuv::I420ToARGB(
 					image->dataY, image->strideY,
 					image->dataU, image->strideU,
@@ -461,7 +465,7 @@ int SoccerBot::updateCameras(double dt) {
 					image->width, image->height
 				);
 
-				gui->setRearCamera(rgbBuffer, classification->data);
+				gui->setRearCamera(rgbBuffer, classification->data, *vision);
 			}
 
 			captures++;
@@ -495,22 +499,13 @@ bool SoccerBot::setController(std::string name) {
     }
 
     activeController = result->second;
+	activeControllerName = name;
 
     return true;
 }
 
 std::string SoccerBot::getActiveControllerName() {
-    if (activeController == NULL) {
-        return "none";
-    }
-
-    for (std::map<std::string, Controller*>::iterator it = controllers.begin(); it != controllers.end(); it++) {
-        if (it->second == activeController) {
-            return it->first;
-        }
-    }
-
-    return "unknown";
+	return activeControllerName;
 }
 
 void SoccerBot::updateLogs() {

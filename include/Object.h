@@ -19,5 +19,6 @@ class Object {
 
 typedef std::vector<Object*> ObjectList;
 typedef ObjectList::iterator ObjectListIt;
+typedef ObjectList::const_iterator ObjectListItc;
 
 #endif // OBJECT_H

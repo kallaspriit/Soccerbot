@@ -18,7 +18,6 @@ class Vision/* : public Blobber::MapFilter*/ {
 
         void setFrame(unsigned char* frame);
         void process(Dir dir);
-        void renderDebugInfo(ImageBuffer* image);
         //void filterMap(unsigned int* map);
         unsigned int* getColorMap() { return blobber->getMap(); }
         ImageBuffer* classify();
@@ -29,7 +28,10 @@ class Vision/* : public Blobber::MapFilter*/ {
         float getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor = "");
         float getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
 
-        const ObjectList& getBalls() { return balls; }
+        const ObjectList& getFrontBalls() const { return frontBalls; }
+        const ObjectList& getFrontGoals() const { return frontGoals; }
+		const ObjectList& getRearBalls() const { return rearBalls; }
+        const ObjectList& getRearGoals() const { return rearGoals; }
 
         float getDistance(Dir dir, int y);
         float getAngle(Dir dir, int x, int y);
@@ -37,8 +39,10 @@ class Vision/* : public Blobber::MapFilter*/ {
     private:
         Blobber* blobber;
         ImageBuffer img;
-        ObjectList balls;
-        ObjectList goals;
+        ObjectList frontBalls;
+        ObjectList frontGoals;
+		ObjectList rearBalls;
+        ObjectList rearGoals;
         LookupTable frontDistanceLookup;
         LookupTable rearDistanceLookup;
         LookupTable frontAngleLookup;

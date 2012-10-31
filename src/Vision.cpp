@@ -112,14 +112,17 @@ void Vision::setFrame(unsigned char* frame) {
 
 void Vision::process(Dir dir) {
     processBalls(dir);
+	processGoals(dir);
 }
 
 void Vision::processBalls(Dir dir) {
-    for (ObjectListIt it = balls.begin(); it != balls.end(); it++) {
+	ObjectList* balls = dir == Dir::DIR_FRONT ? &frontBalls : &rearBalls;
+
+    for (ObjectListIt it = balls->begin(); it != balls->end(); it++) {
         delete *it;
     }
 
-    balls.clear();
+    balls->clear();
 
     float distance;
     float angle;
@@ -141,7 +144,7 @@ void Vision::processBalls(Dir dir) {
         );
 
         if (isValidBall(ball)) {
-            balls.push_back(ball);
+            balls->push_back(ball);
         }
 
         blob = blob->next;
@@ -149,11 +152,13 @@ void Vision::processBalls(Dir dir) {
 }
 
 void Vision::processGoals(Dir dir) {
-    for (ObjectListIt it = goals.begin(); it != goals.end(); it++) {
+	ObjectList* goals = dir == Dir::DIR_FRONT ? &frontGoals : &rearGoals;
+
+    for (ObjectListIt it = goals->begin(); it != goals->end(); it++) {
         delete *it;
     }
 
-    goals.clear();
+    goals->clear();
 
     float distance;
     float angle;
@@ -177,7 +182,7 @@ void Vision::processGoals(Dir dir) {
             );
 
             if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {
-                goals.push_back(goal);
+                goals->push_back(goal);
             }
 
             blob = blob->next;
@@ -517,43 +522,4 @@ ImageBuffer* Vision::classify() {
     img.data = classification;
 
     return &img;
-}
-
-void Vision::renderDebugInfo(ImageBuffer* image) {
-    Object* ball = NULL;
-    char buf[256];
-
-    for (ObjectListIt it = balls.begin(); it != balls.end(); it++) {
-        ball = *it;
-
-        image->drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
-
-        sprintf(buf, "%.1fm %.1f deg", ball->distance, ball->angle);
-        image->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 29, buf);
-
-        sprintf(buf, "%d x %d", ball->x, ball->y);
-        image->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
-
-        int boxArea = ball->width * ball->height;
-
-		if (boxArea == 0) {
-			continue;
-		}
-
-        int density = ball->area * 100 / boxArea;
-
-        sprintf(buf, "%d - %d%%", ball->area, density);
-        image->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
-
-        image->drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
-        image->drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
-    }
-
-    /*Blobber::Blob* blob = blobber->getBlobs("ball");
-
-    while (blob != NULL) {
-        image->drawBoxCentered(blob->centerX, blob->centerY, blob->x2 - blob->x1, blob->y2 - blob->y1);
-
-        blob = blob->next;
-    }*/
 }

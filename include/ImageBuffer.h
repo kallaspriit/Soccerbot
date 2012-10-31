@@ -6,8 +6,8 @@
 
 class ImageBuffer {
     public:
-        ImageBuffer() : data(NULL), width(-1), height(-1) {}
-        ImageBuffer(unsigned char* data, int width, int height) : data(data), width(width), height(height) {}
+        ImageBuffer() : data(NULL), width(-1), height(-1), swapRB(false) {}
+        ImageBuffer(unsigned char* data, int width, int height) : data(data), width(width), height(height), swapRB(false) {}
 
         void setPixelAt(int x, int y, int red = 255, int green = 0, int blue = 0);
         void drawBox(int x, int y, int width, int height, int red = 255, int green = 0, int blue = 0);
@@ -22,6 +22,7 @@ class ImageBuffer {
         unsigned char* data;
         int width;
         int height;
+		bool swapRB;
 
     private:
         static const unsigned char font[256][8];
