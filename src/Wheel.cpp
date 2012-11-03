@@ -13,57 +13,8 @@ const float Wheel::ticksPerRevolution = 64.0f * 18.75f;
 Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
     serial = new Serial();
 
-    bool found = false;
-
-    for (int i = 0; i < 9; i++) {
-        std::string port = "COM" + Util::toString(i);
-
-        if (serial->isOpen()) {
-            serial->close();
-        }
-
-        if (serial->open(port) != Serial::OK) {
-            //std::cout << "! Port '" << port << "' already in use, skip it" << std::endl;
-
-            continue;
-        }
-
-        serial->writeln("gs0");
-        serial->writeln("?");
-
-        int attempts = 10;
-        int attemptsLeft = attempts;
-
-        while (attemptsLeft-- > 0) {
-            while (serial->available() > 0) {
-                std::string message = serial->read();
-
-                if (Command::isValid(message)) {
-                    Command cmd = Command::parse(message);
-
-                    if (cmd.name == "id" && cmd.params.size() == 1) {
-                        int wheelId = Util::toInt(cmd.params[0]);
-
-                        if (wheelId == id) {
-                            found = true;
-                            serialPortName = port;
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            Util::sleep(10);
-        }
-
-        if (found) {
-            break;
-        }
-    }
-
-    if (found) {
-        std::cout << "+ Wheel #" << id << " found on port '" << serialPortName << "'" << std::endl;
+    if (serial->open(id) == Serial::OK) {
+		std::cout << "+ Wheel #" << id << " found on port '" << serial->getPortName() << "'" << std::endl;
 
         // request sending speed automatically
         //serial->writeln("gs1");

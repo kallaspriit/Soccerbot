@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "JSON.h"
 #include "Wheel.h"
+#include "Dribbler.h"
 #include "ParticleFilterLocalizer.h"
 #include "Util.h"
 #include "Tasks.h"
@@ -14,6 +15,7 @@ Robot::Robot() {
     wheelFR = NULL;
     wheelRL = NULL;
     wheelRR = NULL;
+	dribbler = NULL;
     robotLocalizer = NULL;
 
     wheelAngles[0] = Math::degToRad(-135.0f);
@@ -35,6 +37,11 @@ Robot::Robot() {
 }
 
 Robot::~Robot() {
+	if (dribbler != NULL) {
+        delete dribbler;
+        dribbler = NULL;
+    }
+
     if (wheelRR != NULL) {
         delete wheelRR;
         wheelRR = NULL;
@@ -101,6 +108,10 @@ void Robot::init() {
     wheelRL = new Wheel(3);
     wheelRR = new Wheel(4);
 
+	dribbler = new Dribbler(5);
+
+	dribbler->start(100);
+
     robotLocalizer = new ParticleFilterLocalizer();
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
@@ -142,6 +153,18 @@ void Robot::step(double dt) {
     wheelFR->step(dt);
     wheelRL->step(dt);
     wheelRR->step(dt);
+
+	static int ds = 0;
+	static int dd = 1;
+
+	ds += dd * 1;
+
+	if (Math::abs(ds) > 255) {
+		dd *= -1;
+	}
+
+	dribbler->start(ds);
+	dribbler->step(dt);
 }
 
 void Robot::setTargetDir(float x, float y, float omega) {

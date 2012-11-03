@@ -17,6 +17,7 @@
 #include "Gui.h"
 #include "FpsCounter.h"
 #include "Camera.h"
+#include "Dribbler.h"
 #include "Vision.h"
 #include "Config.h"
 
@@ -752,6 +753,7 @@ std::string SoccerBot::getStateJSON() const {
     stream << "\"load\":" << lastStepLoad << ",";
     stream << "\"duration\":" << lastStepDuration << ",";
     stream << "\"totalTime\":" << totalTime << ",";
+	stream << "\"gotBall\":" << robot->getDribbler().gotBall() << ",";
 
     // wheels
     stream << "\"wheelFL\": {";

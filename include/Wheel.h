@@ -23,7 +23,6 @@ class Wheel
 
     private:
         int id;
-        std::string serialPortName;
         Serial* serial;
         float targetOmega;
         float realOmega;

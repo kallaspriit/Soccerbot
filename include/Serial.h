@@ -22,10 +22,12 @@ class Serial : private Thread {
         Serial();
         ~Serial();
         Result open(std::string device, int speed = 9600, const char delimiter = '\n');
+		Result open(int id, int speed = 9600, const char delimiter = '\n');
         void close();
         int available();
         const std::string read();
         bool isOpen() { return opened; }
+		std::string getPortName() { return portName; }
 
         int write(std::string message);
         int writeln(std::string message) { return write(message + "\n"); }
@@ -34,11 +36,11 @@ class Serial : private Thread {
 		virtual void* run();
 		const std::string readDirect(bool& isMore);
 
-
         std::string device;
         int speed;
         char delimiter;
         bool opened;
+		std::string portName;
         std::string message;
         std::stack<std::string> messages;
 		HANDLE hSerial;

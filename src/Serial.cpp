@@ -9,6 +9,8 @@
 #include <iostream>
 
 #include "Serial.h"
+#include "Util.h"
+#include "Command.h"
 
 Serial::Serial() : opened(false) {
 	InitializeCriticalSection(&messagesMutex);
@@ -95,6 +97,67 @@ Serial::Result Serial::open(std::string device, int speed, const char delimiter)
 	start();
 	
 	return Result::OK;
+}
+
+Serial::Result Serial::open(int id, int speed, const char delimiter) {
+	bool found = false;
+
+    for (int i = 0; i < 9; i++) {
+        std::string port = "COM" + Util::toString(i);
+
+        if (isOpen()) {
+            close();
+        }
+
+        if (open(port) != Serial::OK) {
+            //std::cout << "! Port '" << port << "' already in use, skip it" << std::endl;
+
+            continue;
+        }
+
+        writeln("gs0");
+        writeln("?");
+
+        int attempts = 10;
+        int attemptsLeft = attempts;
+
+        while (attemptsLeft-- > 0) {
+            while (available() > 0) {
+                std::string message = read();
+
+                if (Command::isValid(message)) {
+                    Command cmd = Command::parse(message);
+
+                    if (cmd.name == "id" && cmd.params.size() == 1) {
+                        int deviceId = Util::toInt(cmd.params[0]);
+
+                        if (deviceId == id) {
+                            found = true;
+                            portName = port;
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            Util::sleep(10);
+        }
+
+        if (found) {
+            break;
+        }
+    }
+
+    if (found) {
+        //std::cout << "+ Serial device #" << id << " found on port '" << portName << "'" << std::endl;
+    
+		return Result::OK;
+	} else {
+        //std::cout << "- Failed to find serial device #" << id << " on any of the serial ports" << std::endl;
+    
+		return Result::ERROR_DEVICE_NOT_FOUND;
+	}
 }
 
 void Serial::close() {
