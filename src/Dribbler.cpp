@@ -5,10 +5,12 @@
 
 #include <iostream>
 
-Dribbler::Dribbler(int serialId) : serialId(serialId), speed(0), ballDeteted(false), serial(NULL) {
+Dribbler::Dribbler(int serialId) : serialId(serialId), speed(0), ballDetected(false), serial(NULL) {
 	serial = new Serial();
 
-	if (serial->open(serialId) != Serial::OK) {
+	if (serial->open(serialId) == Serial::OK) {
+		std::cout << "+ Dribbler found on port '" << serial->getPortName() << "'" << std::endl;
+	} else {
 		std::cout << "- Failed to open dribbler serial #" << serialId << " on any of the serial ports" << std::endl;
 	}
 };
@@ -45,7 +47,7 @@ void Dribbler::step(double dt) {
             Command cmd = Command::parse(message);
 
             if (cmd.name == "b") {
-                ballDeteted = Util::toInt(cmd.params[0]) == 1 ? true : false;
+                ballDetected = cmd.params[0] == "1" ? true : false;
 			}
 		}
 	}

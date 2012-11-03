@@ -2,6 +2,7 @@
 
 #include "Robot.h"
 #include "Command.h"
+#include "Coilgun.h"
 #include "Util.h"
 
 void ManualController::step(double dt) {
@@ -19,6 +20,8 @@ bool ManualController::handleCommand(const Command& cmd) {
         handleTargetDirCommand(cmd);
     } else if (cmd.name == "reset-position") {
         handleResetPositionCommand(cmd);
+    } else if (cmd.name == "kick" && cmd.params.size() == 1) {
+        handleKickCommand(cmd);
     } else {
         return false;
     }
@@ -49,4 +52,10 @@ void ManualController::handleTargetDirCommand(const Command& cmd) {
 
 void ManualController::handleResetPositionCommand(const Command& cmd) {
     robot->setPosition(0.125f, 0.125f, 0);
+}
+
+void ManualController::handleKickCommand(const Command& cmd) {
+    int strength = Util::toInt(cmd.params[0]);
+
+	robot->getCoilgun().kick(strength);
 }

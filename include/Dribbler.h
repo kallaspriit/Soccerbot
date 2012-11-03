@@ -11,13 +11,13 @@ class Dribbler {
 		void start(int speed = 255);
 		void stop();
 		bool isActive() const { return speed > 0; }
-		bool gotBall() const { return ballDeteted; }
+		bool gotBall() const { return ballDetected; }
 		void step(double dt);
 
 	private:
 		int serialId;
 		int speed;
-		bool ballDeteted;
+		bool ballDetected;
 		Serial* serial;
 };
 

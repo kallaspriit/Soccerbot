@@ -312,7 +312,7 @@ void SoccerBot::showCameraInfo(Camera* camera, std::string name) {
     std::cout << "  > driver version: " << camera->getDriverVersion() << std::endl;
     std::cout << "  > serial number: " << camera->getSerialNumber() << std::endl;
     std::cout << "  > supports color: " << (camera->supportsColor() ? "yes" : "no") << std::endl;
-    std::cout << "  > available bandwidth: " << camera->getAvailableBandwidth() << "MB" << std::endl;
+    //std::cout << "  > available bandwidth: " << camera->getAvailableBandwidth() << "MB" << std::endl;
 }
 
 void SoccerBot::run() {

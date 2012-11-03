@@ -40,6 +40,7 @@ class Serial : private Thread {
         int speed;
         char delimiter;
         bool opened;
+		bool threadStarted;
 		std::string portName;
         std::string message;
         std::stack<std::string> messages;

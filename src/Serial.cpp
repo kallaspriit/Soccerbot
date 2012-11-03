@@ -12,7 +12,7 @@
 #include "Util.h"
 #include "Command.h"
 
-Serial::Serial() : opened(false) {
+Serial::Serial() : opened(false), threadStarted(false) {
 	InitializeCriticalSection(&messagesMutex);
 }
 
@@ -26,7 +26,10 @@ Serial::~Serial() {
 
 Serial::Result Serial::open(std::string device, int speed, const char delimiter) {
     if (isOpen()) {
-        close();
+		CloseHandle(hSerial);
+
+		opened = false;
+        //close();
     }
 
 	//std::cout << "! Opening serial " << device << " @ " << speed << " bauds" << std::endl;
@@ -94,7 +97,11 @@ Serial::Result Serial::open(std::string device, int speed, const char delimiter)
 
     opened = true;
 
-	start();
+	if (!threadStarted) {
+		start();
+
+		threadStarted = true;
+	}
 	
 	return Result::OK;
 }
@@ -102,34 +109,43 @@ Serial::Result Serial::open(std::string device, int speed, const char delimiter)
 Serial::Result Serial::open(int id, int speed, const char delimiter) {
 	bool found = false;
 
-    for (int i = 0; i < 9; i++) {
-        std::string port = "COM" + Util::toString(i);
+    for (int i = 0; i <= 20; i++) {
+        std::string port = "\\\\.\\COM" + Util::toString(i);
 
         if (isOpen()) {
             close();
         }
 
         if (open(port) != Serial::OK) {
-            //std::cout << "! Port '" << port << "' already in use, skip it" << std::endl;
+            //std::cout << "! Failed to open port '" << port << "'" << std::endl;
 
             continue;
         }
 
-        writeln("gs0");
-        writeln("?");
+		//std::cout << "! Opened port " << port << std::endl;
+
+		opened = true;
+
+        //writeln("gs0");
 
         int attempts = 10;
         int attemptsLeft = attempts;
 
         while (attemptsLeft-- > 0) {
+			writeln("?");
+
             while (available() > 0) {
                 std::string message = read();
+				
+				//std::cout << "@ Received: '" << message << "'" << std::endl;
 
                 if (Command::isValid(message)) {
                     Command cmd = Command::parse(message);
 
                     if (cmd.name == "id" && cmd.params.size() == 1) {
                         int deviceId = Util::toInt(cmd.params[0]);
+
+						//std::cout << "@ Compare " << deviceId << " to " << id << std::endl;
 
                         if (deviceId == id) {
                             found = true;
@@ -141,12 +157,16 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
                 }
             }
 
+			if (found) {
+				break;
+			}
+
             Util::sleep(10);
         }
 
-        if (found) {
-            break;
-        }
+		if (found) {
+			break;
+		}
     }
 
     if (found) {

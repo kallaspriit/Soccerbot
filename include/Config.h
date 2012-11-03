@@ -9,6 +9,8 @@
 namespace Config {
 
 const int socketPort = 8000;
+const int dribblerId = 5;
+const int coilgunId = 6;
 const float fieldWidth = 4.5f;
 const float fieldHeight = 3.0f;
 const float ballRadius = 0.021335f;
@@ -36,6 +38,7 @@ const int frontCameraSerial = 857769553;
 const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
+const double kickBackoffTime = 0.5;
 const int ballMinArea = 16;
 const float validBallSurroundThreshold = 0.45f;
 const float validBallPathThreshold = 0.75f;

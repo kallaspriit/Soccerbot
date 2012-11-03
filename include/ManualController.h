@@ -14,6 +14,7 @@ class ManualController : public Controller {
         void handleTargetVectorCommand(const Command& cmd);
         void handleTargetDirCommand(const Command& cmd);
         void handleResetPositionCommand(const Command& cmd);
+        void handleKickCommand(const Command& cmd);
 };
 
 #endif // MANUALCONTROLLER_H

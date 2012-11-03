@@ -9,6 +9,7 @@
 
 class Wheel;
 class Dribbler;
+class Coilgun;
 class Task;
 class ParticleFilterLocalizer;
 
@@ -34,11 +35,12 @@ class Robot {
 
         const Math::Position getPosition() const { return Math::Position(x, y, orientation);  }
         float getOrientation() const { return orientation; }
-        const Wheel& getWheelFL() const { return *wheelFL; }
-        const Wheel& getWheelFR() const { return *wheelFR; }
-        const Wheel& getWheelRL() const { return *wheelRL; }
-        const Wheel& getWheelRR() const { return *wheelRR; }
-		const Dribbler& getDribbler() const { return *dribbler; }
+        Wheel& getWheelFL() const { return *wheelFL; }
+        Wheel& getWheelFR() const { return *wheelFR; }
+        Wheel& getWheelRL() const { return *wheelRL; }
+        Wheel& getWheelRR() const { return *wheelRR; }
+		Dribbler& getDribbler() const { return *dribbler; }
+		Coilgun& getCoilgun() const { return *coilgun; }
 
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
@@ -77,6 +79,7 @@ class Robot {
         Wheel* wheelRL;
         Wheel* wheelRR;
 		Dribbler* dribbler;
+		Coilgun* coilgun;
 
         ParticleFilterLocalizer* robotLocalizer;
 
