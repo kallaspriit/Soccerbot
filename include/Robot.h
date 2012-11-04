@@ -96,6 +96,8 @@ class Robot {
 
         double lastDt;
         double totalTime;
+
+		bool coilgunCharged;
 };
 
 #endif // ROBOT_H

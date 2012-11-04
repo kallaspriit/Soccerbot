@@ -37,6 +37,7 @@ Robot::Robot() {
     orientation = 0.0f;
 
     lastCommandTime = -1;
+	coilgunCharged = false;
 }
 
 Robot::~Robot() {
@@ -120,7 +121,7 @@ void Robot::init() {
 	//dribbler->start(100);
 
 	coilgun = new Coilgun(Config::coilgunId);
-	coilgun->charge();
+	//coilgun->charge();
 
     robotLocalizer = new ParticleFilterLocalizer();
 
@@ -155,6 +156,12 @@ void Robot::step(double dt) {
 
         lastCommandTime = -1;
     }
+
+	if (!coilgunCharged) {
+		coilgun->charge();
+
+		coilgunCharged = true;
+	}
 
     handleTasks(dt);
     updateWheelSpeeds();
