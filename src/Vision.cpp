@@ -69,17 +69,18 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     }
     */
 
-    /*frontDistanceLookup.addValue(0, 4.0f);
-    frontDistanceLookup.addValue(100, 3.0f);
-    frontDistanceLookup.addValue(150, 2.0f);
+	/*LookupTable testLookup;
+    testLookup.addValue(0, 4.0f);
+    testLookup.addValue(100, 3.0f);
+    testLookup.addValue(150, 2.0f);
 
-    double d1 = frontDistanceLookup.getValue(0);
-    double d2 = frontDistanceLookup.getValue(100);
-    double d3 = frontDistanceLookup.getValue(50);
-    double d4 = frontDistanceLookup.getValue(25);
-    double d5 = frontDistanceLookup.getValue(75);
-    double d6 = frontDistanceLookup.getValue(125);
-    double d7 = frontDistanceLookup.getValue(200);
+    double d1 = testLookup.getValue(0);
+    double d2 = testLookup.getValue(100);
+    double d3 = testLookup.getValue(50);
+    double d4 = testLookup.getValue(25);
+    double d5 = testLookup.getValue(75);
+    double d6 = testLookup.getValue(125);
+    double d7 = testLookup.getValue(200);
 
     std::cout << "Distance   0: " << d1 << " / 4.00" << std::endl;
     std::cout << "Distance 100: " << d2 << " / 3.00" << std::endl;
