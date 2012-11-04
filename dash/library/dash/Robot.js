@@ -26,13 +26,21 @@ Dash.Robot.prototype.toggleDribbler = function() {
 	if (this.socket.isOpen()) {
 		dash.dbg.log('! Toggling dribbler');
 		
-		this.dribblerActive = !this.dribblerActivel
+		this.dribblerActive = !this.dribblerActive;
 		
 		if (this.dribblerActive) {
 			this.socket.send('<set-dribbler:100>');
 		} else {
-			this.socket.send('<set-dribbler:100>');
+			this.socket.send('<set-dribbler:0>');
 		}
+	}
+};
+
+Dash.Robot.prototype.setDribbler = function(speed) {
+	if (this.socket.isOpen()) {
+		dash.dbg.log('! Setting dribbler speed: ' + speed);
+		
+		this.socket.send('<set-dribbler:' + speed + '>');
 	}
 };
 

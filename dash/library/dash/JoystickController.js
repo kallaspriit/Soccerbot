@@ -65,7 +65,9 @@ Dash.JoystickController.prototype.onTick = function(gamepads) {
 		this.lastToggleTime =  currentTime;
 	}
 	
-	if (gamepads[0].state.LB  && currentTime - this.lastToggleTime > 0.5) {
+	if (gamepads[0].state.LEFT_TRIGGER > 0.1) {
+		this.robot.setDribbler(gamepads[0].state.LEFT_TRIGGER * 255);
+	} else if (gamepads[0].state.LB  && currentTime - this.lastToggleTime > 0.5) {
 		this.robot.toggleDribbler();
 		this.lastToggleTime =  currentTime;
 	}

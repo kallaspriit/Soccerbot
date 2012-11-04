@@ -38,6 +38,7 @@ SoccerBot::SoccerBot() {
     endCommand = "";
 	lastStepDt = 0.01666;
 	totalTime = 0;
+	active = false;
 	stopRequested = false;
     lastStepTime = Util::millitime();
 
@@ -324,7 +325,13 @@ void SoccerBot::run() {
 	rgbaBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 4];
 	rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
 
-    while (!signalHandler->gotExitSignal()/* && totalTime < 5*/ && !stopRequested) {
+	active = true;
+
+    while (!stopRequested) {
+		if (signalHandler->gotExitSignal()) {
+			break;
+		}
+
         time = Util::millitime();
         dt = time - lastStepTime;
         lastStepTime = time;
@@ -383,6 +390,8 @@ void SoccerBot::run() {
 
         //usleep(16000);
     }
+
+	active = false;
 
     std::cout << "! Shutdown requested" << std::endl;
 }
@@ -538,6 +547,10 @@ void SoccerBot::updateLogs() {
 }
 
 void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
+	if (!active) {
+		return;
+	}
+
     std::cout << "! Socket connection opened" << std::endl;
 
     JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
@@ -546,11 +559,19 @@ void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
 }
 
 void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {
+	if (!active) {
+		return;
+	}
+
     std::cout << "! Socket connection closed" << std::endl;
 }
 
 void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websocketpp::server::handler::message_ptr msg) {
-    std::string request = msg->get_payload();
+    if (!active) {
+		return;
+	}
+	
+	std::string request = msg->get_payload();
 
     handleRequest(request, con);
 
