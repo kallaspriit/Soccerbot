@@ -117,7 +117,7 @@ void Robot::init() {
     wheelRR = new Wheel(4);
 
 	dribbler = new Dribbler(Config::dribblerId);
-	dribbler->start(100);
+	//dribbler->start(100);
 
 	coilgun = new Coilgun(Config::coilgunId);
 	coilgun->charge();
