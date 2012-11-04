@@ -156,13 +156,13 @@ SoccerBot::~SoccerBot() {
 void SoccerBot::init() {
     setupSignalHandler();
     //setupFreePort();
-    setupSocket();
     setupSerial();
     setupRobot();
     setupCameras();
     setupVision();
 	setupControllers();
     setupFpsCounter();
+	setupSocket();
 
     std::cout << "! SoccerBot ready" << std::endl;
 }

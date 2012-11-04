@@ -158,6 +158,18 @@ A:hover {
 	background-color: #060;
 	border-radius: 2px;
 }
+#ball-indicator {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left: 10px;
+	bottom: 10px;
+	background: url(../images/got-ball-icon.png) no-repeat left top;
+	opacity: 0.25;
+}
+#ball-indicator.got-ball {
+	opacity: 1;
+}
 
 /* Tasks */
 #tasks {

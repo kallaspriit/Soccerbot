@@ -476,6 +476,10 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.resetPosition();
 	});
 	
+	$('#kick-btn').click(function() {
+		self.robot.kick();
+	});
+	
 	$('#test-turn-btn').click(function() {
 		self.robot.turnBy(Math.PI / 2.0, 2);
 	});
@@ -785,6 +789,12 @@ Dash.UI.prototype.showTasksQueue = function(state) {
 Dash.UI.prototype.showStateStats = function(state) {
 	$('#time').html(Dash.Util.round(state.totalTime, 1) + 's (' + Dash.Util.round(state.dt * 1000, 1) + 'ms / ' + Dash.Util.round(state.duration * 1000, 2) + 'ms)');
 	$('#load > SPAN').css('width', Math.ceil(state.load) + '%');
+	
+	if (state.gotBall) {
+		$('#ball-indicator').addClass('got-ball');
+	} else {
+		$('#ball-indicator').removeClass('got-ball');
+	}
 };
 
 Dash.UI.prototype.rebuild = function(callback) {
