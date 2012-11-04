@@ -131,7 +131,7 @@ void Vision::processBalls(Dir dir) {
     Blobber::Blob* blob = blobber->getBlobs("ball");
 
     while (blob != NULL) {
-        distance = getDistance(dir, blob->y2);
+		distance = getDistance(dir, blob->centerX, blob->y2);
         angle = getAngle(dir, blob->centerX, blob->y2);
 
         Object* ball = new Object(
@@ -168,7 +168,7 @@ void Vision::processGoals(Dir dir) {
         Blobber::Blob* blob = blobber->getBlobs(i == 0 ? "yellow-gloat" : "blue-goal");
 
         while (blob != NULL) {
-            distance = getDistance(dir, blob->y2);
+			distance = getDistance(dir, blob->centerX, blob->y2);
             angle = getAngle(dir, blob->centerX, blob->y2);
 
             Object* goal = new Object(
@@ -253,17 +253,19 @@ bool Vision::isValidGoal(Object* goal, int side) {
 
 }*/
 
-float Vision::getDistance(Dir dir, int y) {
+float Vision::getDistance(Dir dir, int x, int y) {
+	float arcModifier = (x - width / 2) * 0.001f;
+
     if (dir == DIR_FRONT) {
-        return frontDistanceLookup.getValue(y);
+		return frontDistanceLookup.getValue(y) + arcModifier;
     } else {
-        return rearDistanceLookup.getValue(y);
+        return rearDistanceLookup.getValue(y) + arcModifier;
     }
 }
 
 float Vision::getAngle(Dir dir, int x, int y) {
     float centerOffset = (float)(x - (Config::cameraWidth / 2));
-    float distance = getDistance(dir, y);
+    float distance = getDistance(dir, x, y);
     float pixelsPerCm = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
     float horizontalDistance = (double)centerOffset / pixelsPerCm;
 

@@ -5,6 +5,7 @@
 #include "Util.h"
 #include "Maths.h"
 #include "Vision.h"
+#include "Config.h"
 
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
@@ -25,7 +26,7 @@ void TestController::watchBallRoutine(double dt) {
 		return;
 	}
 
-	float omega = ball->angle * -0.5f;
+	float omega = ball->angle * -Config::ballFocusK;
 
 	robot->setTargetOmega(omega);
 }

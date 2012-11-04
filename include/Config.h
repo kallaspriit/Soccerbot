@@ -44,6 +44,8 @@ const float validBallSurroundThreshold = 0.45f;
 const float validBallPathThreshold = 0.25f; // @TEMP 0.75
 const float validGoalPathThreshold = 0.75f;
 
+const float ballFocusK = 0.5f;
+
 } // namespace Config
 
 namespace Side {

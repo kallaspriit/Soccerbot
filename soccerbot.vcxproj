@@ -140,6 +140,7 @@
     <ClCompile Include="src\Maths.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\ParticleFilterLocalizer.cpp" />
+    <ClCompile Include="src\PID.cpp" />
     <ClCompile Include="src\Robot.cpp" />
     <ClCompile Include="src\Serial.cpp" />
     <ClCompile Include="src\SignalHandler.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="include\Maths.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\ParticleFilterLocalizer.h" />
+    <ClInclude Include="include\PID.h" />
     <ClInclude Include="include\Robot.h" />
     <ClInclude Include="include\Serial.h" />
     <ClInclude Include="include\SignalHandler.h" />
