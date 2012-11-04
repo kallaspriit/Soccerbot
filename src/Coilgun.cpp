@@ -59,6 +59,8 @@ void Coilgun::step(double dt) {
 		return;
 	}
 
+	serial->writeln("p"); // send ping to prevent discharge
+
 	if (doDischarge) {
 		serial->writeln("d");
 
