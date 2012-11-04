@@ -257,9 +257,9 @@ float Vision::getDistance(Dir dir, int x, int y) {
 	float arcModifier = (x - width / 2) * 0.001f;
 
     if (dir == DIR_FRONT) {
-		return frontDistanceLookup.getValue(y) + arcModifier;
+		return frontDistanceLookup.getValue(y) - arcModifier;
     } else {
-        return rearDistanceLookup.getValue(y) + arcModifier;
+        return rearDistanceLookup.getValue(y) - arcModifier;
     }
 }
 
