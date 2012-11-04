@@ -480,6 +480,10 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.kick();
 	});
 	
+	$('#toggle-dribbler-btn').click(function() {
+		self.robot.toggleDribbler();
+	});
+	
 	$('#test-turn-btn').click(function() {
 		self.robot.turnBy(Math.PI / 2.0, 2);
 	});

@@ -23,7 +23,7 @@ Dribbler::~Dribbler() {
 	}
 }
 
-void Dribbler::start(int newSpeed) {
+void Dribbler::setSpeed(int newSpeed) {
 	speed = newSpeed;
 }
 

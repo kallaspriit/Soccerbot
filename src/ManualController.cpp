@@ -2,6 +2,7 @@
 
 #include "Robot.h"
 #include "Command.h"
+#include "Dribbler.h"
 #include "Coilgun.h"
 #include "Util.h"
 
@@ -20,6 +21,8 @@ bool ManualController::handleCommand(const Command& cmd) {
         handleTargetDirCommand(cmd);
     } else if (cmd.name == "reset-position") {
         handleResetPositionCommand(cmd);
+    } else if (cmd.name == "set-dribbler" && cmd.params.size() == 1) {
+        handleSetDribblerCommand(cmd);
     } else if (cmd.name == "kick" && cmd.params.size() == 1) {
         handleKickCommand(cmd);
     } else {
@@ -52,6 +55,12 @@ void ManualController::handleTargetDirCommand(const Command& cmd) {
 
 void ManualController::handleResetPositionCommand(const Command& cmd) {
     robot->setPosition(0.125f, 0.125f, 0);
+}
+
+void ManualController::handleSetDribblerCommand(const Command& cmd) {
+    int strength = Util::toInt(cmd.params[0]);
+
+	robot->getDribbler().setSpeed(strength);
 }
 
 void ManualController::handleKickCommand(const Command& cmd) {

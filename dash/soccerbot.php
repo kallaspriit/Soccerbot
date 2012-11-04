@@ -1,15 +1,20 @@
 <?php
 
 function rebuild() {
-	echo exec('bash /home/rx/projects/soccerbot/pull-make-release.sh');
+	/*echo exec('C:/soccerbot/kill.bat')."\n";
+	echo exec('C:/soccerbot/update.bat')."\n";
+	echo exec('C:/soccerbot/build.bat')."\n";*/
+	//echo exec('C:/soccerbot/run.bat')."\n";
+	//echo exec('start /B "test" C:/soccerbot/soccerbot.exe')."\n";
+	pclose(popen('start "bla" "C:/soccerbot/soccerbot.exe"', "r"));
 }
 
 function kill() {
-	echo exec('bash /home/rx/projects/soccerbot/kill.sh');
+	echo exec('C:/soccerbot/kill.bat');
 }
 
 function shutdown() {
-	echo exec('echo "qwerty" | sudo -S shutdown -hP now > /home/rx/projects/soccerbot/test.log');
+	echo exec('C:/soccerbot/shutdown.bat');
 }
 
 if (!isset($_GET['action'])) {

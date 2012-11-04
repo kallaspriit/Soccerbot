@@ -5,6 +5,7 @@ Dash.JoystickController = function(robot) {
 	this.enabled = false;
 	this.fastMode = false;
 	this.gamepad = new Gamepad();
+	this.lastToggleTime = 0;
 };
 
 Dash.JoystickController.prototype.init = function() {
@@ -40,7 +41,8 @@ Dash.JoystickController.prototype.onTick = function(gamepads) {
 	}
 	
 	var speed = dash.config.joystick.speed,
-		turnRate = dash.config.joystick.turnRate;
+		turnRate = dash.config.joystick.turnRate,
+		currentTime = Dash.Util.getMicrotime();
 		
 	if (this.fastMode) {
 		speed *= 2;
@@ -53,11 +55,18 @@ Dash.JoystickController.prototype.onTick = function(gamepads) {
 		gamepads[0].state.LEFT_STICK_X * turnRate
 	);
 		
-	if (gamepads[0].state.Y) {
+	if (gamepads[0].state.Y && currentTime - this.lastToggleTime > 0.5) {
 		this.fastMode = !this.fastMode;
+		this.lastToggleTime =  currentTime;
 	}
 
-	if (gamepads[0].state.LB || gamepads[0].state.RB) {
+	if (gamepads[0].state.RB  && currentTime - this.lastToggleTime > 0.5) {
 		this.robot.kick();
+		this.lastToggleTime =  currentTime;
+	}
+	
+	if (gamepads[0].state.LB  && currentTime - this.lastToggleTime > 0.5) {
+		this.robot.toggleDribbler();
+		this.lastToggleTime =  currentTime;
 	}
 };

@@ -8,7 +8,7 @@ class Dribbler {
 		Dribbler(int serialId);
 		~Dribbler();
 
-		void start(int speed = 255);
+		void setSpeed(int speed = 255);
 		void stop();
 		bool isActive() const { return speed > 0; }
 		bool gotBall() const { return ballDetected; }

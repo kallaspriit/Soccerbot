@@ -1,6 +1,7 @@
 Dash.Robot = function(socket) {
 	this.socket = socket;
 	this.controller = 'manual';
+	this.dribblerActive = false;
 };
 
 Dash.Robot.prototype.setController = function(name) {
@@ -18,6 +19,20 @@ Dash.Robot.prototype.kick = function() {
 		dash.dbg.log('! Kicking');
 		
 		this.socket.send('<kick:500>');
+	}
+};
+
+Dash.Robot.prototype.toggleDribbler = function() {
+	if (this.socket.isOpen()) {
+		dash.dbg.log('! Toggling dribbler');
+		
+		this.dribblerActive = !this.dribblerActivel
+		
+		if (this.dribblerActive) {
+			this.socket.send('<set-dribbler:100>');
+		} else {
+			this.socket.send('<set-dribbler:100>');
+		}
 	}
 };
 
