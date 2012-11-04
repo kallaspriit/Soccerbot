@@ -255,7 +255,8 @@ bool Vision::isValidGoal(Object* goal, int side) {
 
 float Vision::getDistance(Dir dir, int x, int y) {
 	//float arcModifier = (x - width / 2) * 0.001f;
-	float arcModifier = (x - width / 2) * Math::pow(0.032f, 2.0f);
+	//float arcModifier = (x - width / 2) * Math::pow(0.032f, 2.0f);
+	float arcModifier = 0;
 
     if (dir == DIR_FRONT) {
 		return frontDistanceLookup.getValue(y) - arcModifier;
