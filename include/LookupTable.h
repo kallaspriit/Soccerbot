@@ -4,18 +4,18 @@
 #include <map>
 #include <string>
 
-typedef std::map<int, float> LookupMap;
-typedef std::map<int, float>::iterator LookupMapIt;
+typedef std::map<float, float> LookupMap;
+typedef std::map<float, float>::iterator LookupMapIt;
 
 class LookupTable {
     public:
-        inline void addValue(int key, float value) {
+        inline void addValue(float key, float value) {
             map[key] = value;
         }
 
         bool load(std::string filename);
 
-        float getValue(int search);
+        float getValue(float search);
 
     private:
         LookupMap map;

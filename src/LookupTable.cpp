@@ -3,9 +3,9 @@
 #include <cstdio>
 #include <iostream>
 
-float LookupTable::getValue(int search) {
-    int key;
-    int lastKey = -1;
+float LookupTable::getValue(float search) {
+    float key;
+    float lastKey = -1;
     float lastValue = -1;
 
     LookupMapIt finalIt = (map.end())--;
@@ -80,11 +80,11 @@ bool LookupTable::load(std::string filename) {
 
     const int lineBufferSize = 256;
     char buf[lineBufferSize];
-    int key;
+    float key;
     float value;
 
     while (fgets(buf, lineBufferSize, in)) {
-        if (sscanf(buf, "%d %f", &key, &value)) {
+        if (sscanf(buf, "%f %f", &key, &value)) {
             addValue(key, value);
         }
     };
