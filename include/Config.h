@@ -41,7 +41,7 @@ const std::string blobberConfigFilename = "config/blobber.cfg";
 const double kickBackoffTime = 0.5;
 const int ballMinArea = 16;
 const float validBallSurroundThreshold = 0.45f;
-const float validBallPathThreshold = 0.75f;
+const float validBallPathThreshold = 0.25f; // @TEMP 0.75
 const float validGoalPathThreshold = 0.75f;
 
 } // namespace Config
