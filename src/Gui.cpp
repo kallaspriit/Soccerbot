@@ -171,10 +171,10 @@ void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
 
         img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
 
-        sprintf(buf, "%.1fm %.1f deg", ball->distance, ball->angle);
+        sprintf(buf, "%.2fm %.1f deg", ball->distance, ball->angle);
         img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 29, buf);
 
-        sprintf(buf, "%d x %d", ball->x, ball->y);
+		sprintf(buf, "%d x %d", ball->x, ball->y + ball->height);
         img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
 
         int boxArea = ball->width * ball->height;
@@ -191,6 +191,9 @@ void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
         img.drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
         img.drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
     }
+
+	// TEMP
+	img.drawLine(width / 2, 0, width / 2, height);
 
     /*Blobber::Blob* blob = blobber->getBlobs("ball");
 
