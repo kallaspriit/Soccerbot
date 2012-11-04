@@ -4,9 +4,30 @@
 #include "Command.h"
 #include "Util.h"
 #include "Maths.h"
+#include "Vision.h"
+
+TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
+	activeRoutine = Routine::NONE;
+};
 
 void TestController::step(double dt) {
+	switch (activeRoutine) {
+		case Routine::WATCH_BALL:
+			watchBallRoutine(dt);
+		break;
+	};
+}
 
+void TestController::watchBallRoutine(double dt) {
+	const Object* ball = vision->getClosestBall();
+
+	if (ball == NULL) {
+		return;
+	}
+
+	float omega = ball->angle * -0.5f;
+
+	robot->setTargetOmega(omega);
 }
 
 bool TestController::handleRequest(std::string request) {
@@ -22,6 +43,8 @@ bool TestController::handleCommand(const Command& cmd) {
         handleDriveToCommand(cmd);
     } else if (cmd.name == "drive-facing" && cmd.params.size() == 5) {
         handleDriveFacingCommand(cmd);
+    } else if (cmd.name == "watch-ball") {
+		activeRoutine = Routine::WATCH_BALL;
     } else {
         return false;
     }

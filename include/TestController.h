@@ -5,7 +5,11 @@
 
 class TestController : public Controller {
     public:
-        TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {};
+		enum Routine {
+			NONE, WATCH_BALL
+		};
+
+        TestController(Robot* robot, Vision* vision);
 
         bool handleRequest(std::string request);
         bool handleCommand(const Command& cmd);
@@ -15,6 +19,11 @@ class TestController : public Controller {
         void handleTurnByCommand(const Command& cmd);
         void handleDriveToCommand(const Command& cmd);
         void handleDriveFacingCommand(const Command& cmd);
+
+		void watchBallRoutine(double dt);
+
+	private:
+		Routine activeRoutine;
 };
 
 #endif // TESTCONTROLLER_H

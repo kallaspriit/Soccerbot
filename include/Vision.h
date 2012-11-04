@@ -33,6 +33,8 @@ class Vision/* : public Blobber::MapFilter*/ {
 		const ObjectList& getRearBalls() const { return rearBalls; }
         const ObjectList& getRearGoals() const { return rearGoals; }
 
+		Object* getClosestBall();
+
         float getDistance(Dir dir, int y);
         float getAngle(Dir dir, int x, int y);
 
