@@ -265,13 +265,26 @@ float Vision::getDistance(Dir dir, int x, int y) {
     }
 }
 
+float Vision::getHorizontalDistance(Dir dir, int x, int y) {
+	float measurementPixels = 150;
+	float distance = getDistance(dir, x, y);
+	float metersPerPixel = (dir == DIR_FRONT ? frontDistanceLookup.getValue(distance) : rearDistanceLookup.getValue(distance)) / measurementPixels;
+	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+
+	return centerOffset * metersPerPixel;
+}
+
 float Vision::getAngle(Dir dir, int x, int y) {
-    float centerOffset = (float)(x - (Config::cameraWidth / 2));
+    /*float centerOffset = (float)(x - (Config::cameraWidth / 2));
     float distance = getDistance(dir, x, y);
     float pixelsPerCm = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
-    float horizontalDistance = (double)centerOffset / pixelsPerCm;
+    float horizontalDistance = (double)centerOffset / pixelsPerCm;*/
 
-    return Math::tan(horizontalDistance / distance) * 180.0 / Math::PI;
+	float distance = getDistance(dir, x, y);
+	float horizontalDistance = getHorizontalDistance(dir, x, y);
+
+    //return Math::tan(horizontalDistance / distance) * 180.0 / Math::PI;
+    return Math::tan(horizontalDistance / distance);
 }
 
 Blobber::Color* Vision::getColorAt(int x, int y) {

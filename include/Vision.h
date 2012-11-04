@@ -36,6 +36,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 		Object* getClosestBall();
 
         float getDistance(Dir dir, int x, int y);
+		float getHorizontalDistance(Dir dir, int x, int y);
         float getAngle(Dir dir, int x, int y);
 
     private:

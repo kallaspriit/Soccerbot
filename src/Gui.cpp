@@ -1,6 +1,7 @@
 #include "Gui.h"
 #include "Command.h"
 #include "Util.h"
+#include "Math.h"
 #include "Vision.h"
 
 #include <iostream>
@@ -171,7 +172,7 @@ void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
 
         img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
 
-        sprintf(buf, "%.2fm %.1f deg", ball->distance, ball->angle);
+        sprintf(buf, "%.2fm %.1f deg", ball->distance, Math::radToDeg(ball->angle));
         img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 29, buf);
 
 		sprintf(buf, "%d x %d", ball->x, ball->y + ball->height / 2);
