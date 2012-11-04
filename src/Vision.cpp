@@ -274,8 +274,10 @@ float Vision::getHorizontalDistance(Dir dir, int x, int y) {
 	float horizontalDistance = centerOffset * metersPerPixel;
 
 	std::cout << "! Solve horizontal distance for " << x << "x" << y << std::endl;
+	std::cout << " > Dir " << dir << std::endl;
 	std::cout << " > Distance " << distance << std::endl;
 	std::cout << " > Horizontal " << measurementPixels << " pixels meters: " << distanceLookup << std::endl;
+	std::cout << " > Test 2m lookup: " << frontAngleLookup.getValue(2.0f) << std::endl;
 	std::cout << " > Meters for pixel: " << metersPerPixel << std::endl;
 	std::cout << " > Center offset: " << centerOffset << std::endl;
 	std::cout << " > Horizontal distance: " << horizontalDistance << std::endl;
