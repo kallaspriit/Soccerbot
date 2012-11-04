@@ -268,10 +268,18 @@ float Vision::getDistance(Dir dir, int x, int y) {
 float Vision::getHorizontalDistance(Dir dir, int x, int y) {
 	float measurementPixels = 150;
 	float distance = getDistance(dir, x, y);
-	float metersPerPixel = (dir == DIR_FRONT ? frontDistanceLookup.getValue(distance) : rearDistanceLookup.getValue(distance)) / measurementPixels;
+	float distanceLookup = dir == DIR_FRONT ? frontDistanceLookup.getValue(distance) : rearDistanceLookup.getValue(distance);
+	float metersPerPixel = distanceLookup / measurementPixels;
 	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	float horizontalDistance = centerOffset * metersPerPixel;
 
-	return centerOffset * metersPerPixel;
+	std::cout << "! Solve horizontal distance for " << x << "x" << y << std::endl;
+	std::cout << " > Horizontal " << measurementPixels << " pixels meters: " << distanceLookup << std::endl;
+	std::cout << " > Meters for pixel: " << metersPerPixel << std::endl;
+	std::cout << " > Center offset: " << centerOffset << std::endl;
+	std::cout << " > Horizontal distance: " << horizontalDistance << std::endl;
+
+	return horizontalDistance;
 }
 
 float Vision::getAngle(Dir dir, int x, int y) {
