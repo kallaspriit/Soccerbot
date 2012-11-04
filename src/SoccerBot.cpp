@@ -715,10 +715,12 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
         int value = Util::toInt(cmd.params[0]);
 
         frontCamera->setExposure(value);
+		rearCamera->setExposure(value);
     } else if (cmd.name == "camera-set-gain") {
         float value = Util::toFloat(cmd.params[0]);
 
         frontCamera->setGain(value);
+        rearCamera->setGain(value);
     } else if (cmd.name == "camera-set-white-balance") {
         float red = Util::toFloat(cmd.params[0]);
         float green = Util::toFloat(cmd.params[1]);
@@ -727,14 +729,20 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
         frontCamera->setWhiteBalanceRed(red);
         frontCamera->setWhiteBalanceGreen(green);
         frontCamera->setWhiteBalanceBlue(blue);
+
+		rearCamera->setWhiteBalanceRed(red);
+        rearCamera->setWhiteBalanceGreen(green);
+        rearCamera->setWhiteBalanceBlue(blue);
     } else if (cmd.name == "camera-set-luminosity-gamma") {
         float value = Util::toFloat(cmd.params[0]);
 
         frontCamera->setLuminosityGamma(value);
+        rearCamera->setLuminosityGamma(value);
     } else if (cmd.name == "camera-set-chromaticity-gamma") {
         float value = Util::toFloat(cmd.params[0]);
 
         frontCamera->setChromaticityGamma(value);
+        rearCamera->setChromaticityGamma(value);
     }
 }
 
