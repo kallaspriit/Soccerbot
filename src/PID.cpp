@@ -3,8 +3,7 @@
 #include <math.h>
 #include <iostream>
 
-PID::PID(float p, float i, float d, float iLimit)
-{
+PID::PID(float p, float i, float d, float iLimit) {
     this->p = p;
     this->i = i;
     this->d = d;
@@ -14,21 +13,7 @@ PID::PID(float p, float i, float d, float iLimit)
     this->integral = 0.0f;
 }
 
-/*
-previous_error = setpoint - process_feedback
-integral = 0
-start:
-  wait(dt)
-  error = setpoint - process_feedback
-  integral = integral + (error*dt)
-  derivative = (error - previous_error)/dt
-  output = (Kp*error) + (Ki*integral) + (Kd*derivative)
-  previous_error = error
-  goto start
-*/
-
-float PID::getGain(float feedback, double dt)
-{
+float PID::getValue(float feedback, double dt) {
     float error = target - feedback;
 
     float errorPerSecond = error * (float)dt;
@@ -43,13 +28,10 @@ float PID::getGain(float feedback, double dt)
 
     float iLimitNegative = -1.0f * iLimit;
 
-    if (iGain < iLimitNegative)
-    {
+    if (iGain < iLimitNegative) {
         iGain = iLimitNegative;
         integral = iLimitNegative / i;
-    }
-    else if (iGain > iLimit)
-    {
+    } else if (iGain > iLimit) {
         iGain = iLimit;
         integral = iLimit / i;
     }
@@ -63,7 +45,6 @@ float PID::getGain(float feedback, double dt)
     return totalGain;
 }
 
-void PID::reset()
-{
+void PID::reset() {
     integral = 0.0f;
 }
