@@ -46,6 +46,7 @@ const float validGoalPathThreshold = 0.75f;
 
 const float ballFocusK = 5.0f;
 const float ballChaseK = 1.0f;
+const float ballChaseMaxSpeed = 0.75f;
 
 } // namespace Config
 

@@ -7,6 +7,8 @@
 #include "Vision.h"
 #include "Config.h"
 
+#include <iostream>
+
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
 };
@@ -43,7 +45,7 @@ void TestController::chaseBallRoutine(double dt) {
 	}
 
 	float omega = ball->angle * Config::ballFocusK;
-	float speed = ball->distance * Config::ballChaseK;
+	float speed = Math::min(ball->distance * Config::ballChaseK, Config::ballChaseMaxSpeed);
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 }
@@ -54,20 +56,36 @@ bool TestController::handleRequest(std::string request) {
 
 bool TestController::handleCommand(const Command& cmd) {
     if (cmd.name == "test-stop") {
+		std::cout << "! Stopping" << std::endl;
+
         activeRoutine = Routine::NONE;
     } else if (cmd.name == "test-rectangle") {
+		std::cout << "! Testing rectangle" << std::endl;
+
         handleTestRectangleCommand(cmd);
     } else if (cmd.name == "test-turn-by" && cmd.params.size() == 2) {
+		std::cout << "! Testing turn-by" << std::endl;
+
         handleTurnByCommand(cmd);
     } else if (cmd.name == "test-drive-to" && cmd.params.size() == 4) {
+		std::cout << "! Testing drive-to" << std::endl;
+
         handleDriveToCommand(cmd);
     } else if (cmd.name == "test-drive-facing" && cmd.params.size() == 5) {
+		std::cout << "! Testing drive-facing" << std::endl;
+
         handleDriveFacingCommand(cmd);
     } else if (cmd.name == "test-watch-ball") {
+		std::cout << "! Testing watching ball" << std::endl;
+
 		activeRoutine = Routine::WATCH_BALL;
     } else if (cmd.name == "test-chase-ball") {
+		std::cout << "! Testing chasing ball" << std::endl;
+
 		activeRoutine = Routine::CHASE_BALL;
     } else {
+		std::cout << "- Unknown test controller command: " << cmd.name << std::endl;
+
         return false;
     }
 
