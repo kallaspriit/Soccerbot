@@ -505,6 +505,10 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.driveFacing(3, 2, 4.5, 1.5, 1);
 	});
 	
+	$('#test-watch-ball-btn').click(function() {
+		dash.socket.send('<watch-ball>');
+	});
+	
 	$('#graphs-toggle-btn').click(function() {
 		if ($('#wheel-graphs').hasClass('full')) {
 			$('#wheel-graphs').removeClass('full');
