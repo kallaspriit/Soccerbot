@@ -32,7 +32,7 @@ void TestController::watchBallRoutine(double dt) {
 		return;
 	}
 
-	float omega = ball->angle * Config::ballFocusK;
+	float omega = Math::limit(ball->angle * Config::ballFocusK, Config::ballFocusMaxOmega);
 
 	robot->setTargetOmega(omega);
 }
@@ -44,7 +44,7 @@ void TestController::chaseBallRoutine(double dt) {
 		return;
 	}
 
-	float omega = ball->angle * Config::ballFocusK;
+	float omega = Math::limit(ball->angle * Config::ballFocusK, Config::ballFocusMaxOmega);
 	float speed = Math::min(ball->distance * Config::ballChaseK, Config::ballChaseMaxSpeed);
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);

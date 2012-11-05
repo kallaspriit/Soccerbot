@@ -22,6 +22,20 @@ static float min(float a, float b) {
 	return (a < b) ? a : b;
 }
 
+static float limit(float value, float max, float min) {
+	if (value < min) {
+		return min;
+	} else if (value > max) {
+		return max;
+	} else {
+		return value;
+	}
+}
+
+static float limit(float value, float max) {
+	return limit(value, max, -max);
+}
+
 static float abs(float num) {
     return num >= 0 ? num : -num;
 }
