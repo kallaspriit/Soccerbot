@@ -273,14 +273,14 @@ float Vision::getHorizontalDistance(Dir dir, int x, int y) {
 	float centerOffset = (float)(x - (Config::cameraWidth / 2));
 	float horizontalDistance = centerOffset * metersPerPixel;
 
-	std::cout << "! Solve horizontal distance for " << x << "x" << y << std::endl;
+	/*std::cout << "! Solve horizontal distance for " << x << "x" << y << std::endl;
 	std::cout << " > Dir " << dir << std::endl;
 	std::cout << " > Distance " << distance << std::endl;
 	std::cout << " > Horizontal " << measurementPixels << " pixels meters: " << distanceLookup << std::endl;
 	std::cout << " > Test 2m lookup: " << frontAngleLookup.getValue(2.0f) << std::endl;
 	std::cout << " > Meters for pixel: " << metersPerPixel << std::endl;
 	std::cout << " > Center offset: " << centerOffset << std::endl;
-	std::cout << " > Horizontal distance: " << horizontalDistance << std::endl;
+	std::cout << " > Horizontal distance: " << horizontalDistance << std::endl;*/
 
 	return horizontalDistance;
 }
@@ -289,13 +289,18 @@ float Vision::getAngle(Dir dir, int x, int y) {
     /*float centerOffset = (float)(x - (Config::cameraWidth / 2));
     float distance = getDistance(dir, x, y);
     float pixelsPerCm = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
-    float horizontalDistance = (double)centerOffset / pixelsPerCm;*/
+    float horizontalDistance = (double)centerOffset / pixelsPerCm;
+	//return Math::tan(horizontalDistance / distance) * 180.0 / Math::PI;
+	*/
 
-	float distance = getDistance(dir, x, y);
+	/*float distance = getDistance(dir, x, y);
 	float horizontalDistance = getHorizontalDistance(dir, x, y);
+	return Math::tan(horizontalDistance / distance);*/
 
-    //return Math::tan(horizontalDistance / distance) * 180.0 / Math::PI;
-    return Math::tan(horizontalDistance / distance);
+	//float distance = getDistance(dir, x, y);
+	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	
+	return centerOffset / 11.5f;
 }
 
 Blobber::Color* Vision::getColorAt(int x, int y) {

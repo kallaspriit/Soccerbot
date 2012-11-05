@@ -31,6 +31,19 @@ void TestController::watchBallRoutine(double dt) {
 	robot->setTargetOmega(omega);
 }
 
+void TestController::chaseBallRoutine(double dt) {
+	const Object* ball = vision->getClosestBall();
+
+	if (ball == NULL) {
+		return;
+	}
+
+	float omega = ball->angle * -Config::ballFocusK;
+	float speed = ball->distance * 0.5f;
+
+	robot->setTargetDir(Math::Rad(0), speed, omega);
+}
+
 bool TestController::handleRequest(std::string request) {
     return false;
 }

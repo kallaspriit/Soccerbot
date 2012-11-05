@@ -6,7 +6,9 @@
 class TestController : public Controller {
     public:
 		enum Routine {
-			NONE, WATCH_BALL
+			NONE,
+			WATCH_BALL,
+			CHASE_BALL
 		};
 
         TestController(Robot* robot, Vision* vision);
@@ -21,6 +23,7 @@ class TestController : public Controller {
         void handleDriveFacingCommand(const Command& cmd);
 
 		void watchBallRoutine(double dt);
+		void chaseBallRoutine(double dt);
 
 	private:
 		Routine activeRoutine;
