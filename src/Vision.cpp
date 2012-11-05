@@ -293,14 +293,14 @@ float Vision::getAngle(Dir dir, int x, int y) {
 	//return Math::tan(horizontalDistance / distance) * 180.0 / Math::PI;
 	*/
 
-	/*float distance = getDistance(dir, x, y);
+	float distance = getDistance(dir, x, y);
 	float horizontalDistance = getHorizontalDistance(dir, x, y);
-	return Math::tan(horizontalDistance / distance);*/
+	return Math::tan(horizontalDistance / distance);
 
 	//float distance = getDistance(dir, x, y);
-	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	/*float centerOffset = (float)(x - (Config::cameraWidth / 2));
 	
-	return Math::degToRad(centerOffset / 11.5f);
+	return Math::degToRad(centerOffset / 11.5f);*/
 }
 
 Blobber::Color* Vision::getColorAt(int x, int y) {
