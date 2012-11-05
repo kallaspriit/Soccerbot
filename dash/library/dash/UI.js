@@ -484,6 +484,10 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.toggleDribbler();
 	});
 	
+	$('#test-stop').click(function() {
+		dash.socket.send('<test-stop>');
+	});
+	
 	$('#test-turn-btn').click(function() {
 		self.robot.turnBy(Math.PI / 2.0, 2);
 	});
@@ -506,7 +510,11 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#test-watch-ball-btn').click(function() {
-		dash.socket.send('<watch-ball>');
+		dash.socket.send('<test-watch-ball>');
+	});
+	
+	$('#test-chase-ball-btn').click(function() {
+		dash.socket.send('<test-chase-ball>');
 	});
 	
 	$('#graphs-toggle-btn').click(function() {

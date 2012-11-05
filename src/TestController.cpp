@@ -16,6 +16,10 @@ void TestController::step(double dt) {
 		case Routine::WATCH_BALL:
 			watchBallRoutine(dt);
 		break;
+
+		case Routine::CHASE_BALL:
+			chaseBallRoutine(dt);
+		break;
 	};
 }
 
@@ -39,7 +43,7 @@ void TestController::chaseBallRoutine(double dt) {
 	}
 
 	float omega = ball->angle * Config::ballFocusK;
-	float speed = ball->distance * 0.5f;
+	float speed = ball->distance * Config::ballChaseK;
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 }
@@ -49,16 +53,20 @@ bool TestController::handleRequest(std::string request) {
 }
 
 bool TestController::handleCommand(const Command& cmd) {
-    if (cmd.name == "test-rectangle") {
+    if (cmd.name == "test-stop") {
+        activeRoutine = Routine::NONE;
+    } else if (cmd.name == "test-rectangle") {
         handleTestRectangleCommand(cmd);
-    } else if (cmd.name == "turn-by" && cmd.params.size() == 2) {
+    } else if (cmd.name == "test-turn-by" && cmd.params.size() == 2) {
         handleTurnByCommand(cmd);
-    } else if (cmd.name == "drive-to" && cmd.params.size() == 4) {
+    } else if (cmd.name == "test-drive-to" && cmd.params.size() == 4) {
         handleDriveToCommand(cmd);
-    } else if (cmd.name == "drive-facing" && cmd.params.size() == 5) {
+    } else if (cmd.name == "test-drive-facing" && cmd.params.size() == 5) {
         handleDriveFacingCommand(cmd);
-    } else if (cmd.name == "watch-ball") {
+    } else if (cmd.name == "test-watch-ball") {
 		activeRoutine = Routine::WATCH_BALL;
+    } else if (cmd.name == "test-chase-ball") {
+		activeRoutine = Routine::CHASE_BALL;
     } else {
         return false;
     }

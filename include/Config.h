@@ -44,7 +44,8 @@ const float validBallSurroundThreshold = 0.45f;
 const float validBallPathThreshold = 0.25f; // @TEMP 0.75
 const float validGoalPathThreshold = 0.75f;
 
-const float ballFocusK = 2.0f;
+const float ballFocusK = 5.0f;
+const float ballChaseK = 1.0f;
 
 } // namespace Config
 
