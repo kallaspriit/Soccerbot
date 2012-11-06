@@ -69,7 +69,7 @@ float LookupTable::getValue(float search) {
     return lastValue;
 }
 
-bool LookupTable::load(std::string filename) {
+bool LookupTable::load(std::string filename, float valueDiff) {
     FILE* in;
 
     in = fopen(filename.c_str(), "rt");
@@ -85,7 +85,7 @@ bool LookupTable::load(std::string filename) {
 
     while (fgets(buf, lineBufferSize, in)) {
         if (sscanf(buf, "%f %f", &key, &value)) {
-            addValue(key, value);
+            addValue(key, value + valueDiff);
         }
     };
 
