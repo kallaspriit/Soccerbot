@@ -266,10 +266,10 @@ bool Vision::isValidGoal(Object* goal, int side) {
 }*/
 
 float Vision::getDistance(Dir dir, int x, int y) {
-	//float yCorrection = 0.0000471 * Math::pow(x, 2) - 0.0536 * x + 7;
+	float yCorrection = 0.000095 * Math::pow(x, 2) - 0.0536 * x + 7;
 	//std::cout << "! Y-correction: " << yCorrection << " at x: " << x << std::endl;
 
-	float yCorrection = 0;
+	//float yCorrection = 0;
 
     if (dir == DIR_FRONT) {
 		return frontDistanceLookup.getValue(y - yCorrection);
@@ -374,10 +374,10 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 }
 
 Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor) {
-	x1 = Math::limit(x1, 0, Config::cameraWidth);
+	/*x1 = Math::limit(x1, 0, Config::cameraWidth);
 	x2 = Math::limit(x2, 0, Config::cameraWidth);
 	y1 = Math::limit(y1, 0, Config::cameraHeight);
-	y2 = Math::limit(y2, 0, Config::cameraHeight);
+	y2 = Math::limit(y2, 0, Config::cameraHeight);*/
 	
 	if (y2 > y1) {
 		return PathMetric(0.0f, 0, false);
