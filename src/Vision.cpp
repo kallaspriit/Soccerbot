@@ -386,6 +386,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     int senseX[maxSensePoints];
     int senseY[maxSensePoints];
 	int invalidSpree = 0;
+	int longestInvalidSpree = 0;
 
     if (x1 > x2) {
         std::swap(x1, x2);
@@ -546,6 +547,11 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         if (color != NULL) {
             if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
                 matches++;
+
+				if (invalidSpree > longestInvalidSpree) {
+					longestInvalidSpree = invalidSpree;
+				}
+
 				invalidSpree = 0;
 
                 if (debug) {
@@ -574,7 +580,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	float percentage = (float)matches / (float)senseCounter;
 	bool validColorFound = requiredColor == "" || requiredColorFound;
 
-	return PathMetric(percentage, invalidSpree, validColorFound);
+	return PathMetric(percentage, longestInvalidSpree, validColorFound);
 }
 
 ImageBuffer* Vision::classify() {
