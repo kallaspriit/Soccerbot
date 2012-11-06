@@ -42,8 +42,10 @@ const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const double kickBackoffTime = 0.5;
 const int ballMinArea = 16;
+const int ballMaxInvalidSpree = 2;				//< max number of invalid color steps in a row for a valid ball
+const int goalMaxInvalidSpree = 2;				//< max number of invalid color steps in a row for a valid ball
 const float validBallSurroundThreshold = 0.35f;
-const float validBallPathThreshold = 0.65f; // @TEMP 0.75
+const float validBallPathThreshold = 0.65f;
 const float validGoalPathThreshold = 0.75f;
 
 const float ballFocusK = 10.0f;					//< how fast to yaw to focus on a ball (angle multiplier)

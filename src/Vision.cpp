@@ -153,12 +153,6 @@ void Vision::processBalls(Dir dir) {
 }
 
 void Vision::processGoals(Dir dir) {
-	
-	
-return; // @TEMP
-
-
-
 	ObjectList* goals = dir == Dir::DIR_FRONT ? &frontGoals : &rearGoals;
 
     for (ObjectListIt it = goals->begin(); it != goals->end(); it++) {
@@ -209,8 +203,8 @@ bool Vision::isValidBall(Object* ball) {
         ball->x,
         ball->y,
         senseRadius,
-        validBallBgColors
-        //,"green"
+        validBallBgColors,
+		"green"
     );
 
     //std::cout << "Surround: " << surroundMetric << std::endl;
@@ -219,7 +213,7 @@ bool Vision::isValidBall(Object* ball) {
         return false;
     }
 
-    float pathMetric = getPathMetric(
+    PathMetric pathMetric = getPathMetric(
         Config::cameraPathStartX,
         Config::cameraPathStartY,
         ball->x,
@@ -230,7 +224,11 @@ bool Vision::isValidBall(Object* ball) {
 
     //std::cout << "Ball path: " << pathMetric << std::endl;
 
-    if (pathMetric < Config::validBallPathThreshold) {
+	if (
+		pathMetric.percentage < Config::validBallPathThreshold
+		//|| !pathMetric.validColorFound
+		|| pathMetric.invalidSpree > Config::ballMaxInvalidSpree
+	) {
         return false;
     }
 
@@ -238,7 +236,7 @@ bool Vision::isValidBall(Object* ball) {
 }
 
 bool Vision::isValidGoal(Object* goal, int side) {
-    float pathMetric = getPathMetric(
+    PathMetric pathMetric = getPathMetric(
         Config::cameraPathStartX,
         Config::cameraPathStartY,
         goal->x,
@@ -248,7 +246,11 @@ bool Vision::isValidGoal(Object* goal, int side) {
 
     //std::cout << "Goal path: " << pathMetric << std::endl;
 
-    if (pathMetric < Config::validGoalPathThreshold) {
+	if (
+		pathMetric.percentage < Config::validGoalPathThreshold
+		//|| !pathMetric.validColorFound
+		|| pathMetric.invalidSpree > Config::goalMaxInvalidSpree
+	) {
         return false;
     }
 
@@ -260,10 +262,10 @@ bool Vision::isValidGoal(Object* goal, int side) {
 }*/
 
 float Vision::getDistance(Dir dir, int x, int y) {
-	float yCorrection = 0.0000471 * Math::pow(x, 2) - 0.0536 * x + 7;
+	//float yCorrection = 0.0000471 * Math::pow(x, 2) - 0.0536 * x + 7;
+	//std::cout << "! Y-correction: " << yCorrection << " at x: " << x << std::endl;
 
-	std::cout << "! Y-correction: " << yCorrection << " at x: " << x << std::endl;
-	//correctedY = y;
+	float yCorrection = 0;
 
     if (dir == DIR_FRONT) {
 		return frontDistanceLookup.getValue(y - yCorrection);
@@ -367,18 +369,19 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
     }
 }
 
-float Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor) {
-    if (y2 < y1) {
-		return 1.0f;
+Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor) {
+    if (y2 > y1) {
+		return PathMetric(0.0f, 0, false);
 	}
 	
 	int F, x, y;
     int pixelCounter = 0;
     int senseCounter = 0;
-    int senseStep = 10;
+    int senseStep = 5;
     const int maxSensePoints = 255;
     int senseX[maxSensePoints];
     int senseY[maxSensePoints];
+	int invalidSpree = 0;
 
     if (x1 > x2) {
         std::swap(x1, x2);
@@ -539,11 +542,18 @@ float Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::str
         if (color != NULL) {
             if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
                 matches++;
+				invalidSpree = 0;
 
                 if (debug) {
                     img.drawMarker(x, y, 0, 200, 0);
                 }
-            }
+            } else {
+				invalidSpree++;
+
+				if (debug) {
+                    img.drawMarker(x, y, 200, 0, 0);
+                }
+			}
 
             if (requiredColor != "" && color->name == requiredColor) {
                 requiredColorFound = true;
@@ -552,16 +562,15 @@ float Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::str
             if (debug) {
                 img.drawMarker(x, y, 200, 0, 0);
             }
+
+			invalidSpree++;
         }
     }
 
-    if (requiredColor != "" && !requiredColorFound) {
-        return 0.0f;
-    } else {
-        return (float)matches / (float)senseCounter;
-    }
+	float percentage = (float)matches / (float)senseCounter;
+	bool validColorFound = requiredColor == "" || requiredColorFound;
 
-    return 1.0f;
+	return PathMetric(percentage, invalidSpree, validColorFound);
 }
 
 ImageBuffer* Vision::classify() {

@@ -12,6 +12,13 @@
 class Vision/* : public Blobber::MapFilter*/ {
     public:
         enum Dir { DIR_FRONT, DIR_REAR };
+		struct PathMetric {
+			PathMetric(float percentage, int invalidSpree, bool validColorFound) : percentage(percentage), invalidSpree(invalidSpree), validColorFound(validColorFound) {}
+
+			float percentage;
+			int invalidSpree;
+			bool validColorFound;
+		};
 
         Vision(int width, int height);
         ~Vision();
@@ -26,7 +33,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 
         Blobber::Color* getColorAt(int x, int y);
         float getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor = "");
-        float getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
+        PathMetric getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
 
         const ObjectList& getFrontBalls() const { return frontBalls; }
         const ObjectList& getFrontGoals() const { return frontGoals; }
