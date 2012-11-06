@@ -244,19 +244,19 @@ bool Vision::isValidGoal(Object* goal, int side) {
         validGoalPathColors
     );
 
-	std::cout << "! Goal path: " << pathMetric.percentage << "; " << pathMetric.invalidSpree << " - ";
+	//std::cout << "! Goal path: " << pathMetric.percentage << "; " << pathMetric.invalidSpree << " - ";
 
 	if (
 		pathMetric.percentage < Config::validGoalPathThreshold
 		//|| !pathMetric.validColorFound
 		|| pathMetric.invalidSpree > Config::goalMaxInvalidSpree
 	) {
-		std::cout << "INVALID" << std::endl;
+		//std::cout << "INVALID" << std::endl;
 
         return false;
     }
 
-	std::cout << "valid" << std::endl;
+	//std::cout << "valid" << std::endl;
 
     return true;
 }
