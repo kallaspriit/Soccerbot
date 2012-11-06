@@ -52,7 +52,8 @@ const float ballCloseThreshold = 0.2f;		//< balls closer than this are considere
 const float ballChaseFarSpeed = 1.0f;		//< how fast to chase far-away balls
 const float ballChaseNearSpeed = 0.5f;		//< how fast to chase near balls
 const float ballCircleSideSpeed = 0.5f;		//< how fast to turn to the side while circling ball
-const float ballCircleOmega = 0.5f;			//< how fast to yaw while circling ball
+const float ballCircleOmega = 2.0f;			//< how fast to yaw while circling ball
+const int dribblerSpeed = 100;				//< normal dribbler operating speed
 
 } // namespace Config
 

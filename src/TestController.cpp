@@ -56,8 +56,12 @@ void TestController::chaseBallRoutine(double dt) {
 
 	if (ball->distance > Config::ballCloseThreshold) {
 		speed = Config::ballChaseFarSpeed;
+
+		robot->getDribbler().stop();
 	} else {
 		speed = Config::ballChaseNearSpeed;
+
+		robot->getDribbler().start();
 	}
 	
 	//float speed = Math::min(ball->distance * Config::ballChaseK, Config::ballChaseMaxSpeed);
