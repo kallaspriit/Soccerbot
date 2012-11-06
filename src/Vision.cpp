@@ -240,7 +240,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
         validGoalPathColors
     );
 
-    std::cout << "Goal path: " << pathMetric << std::endl;
+    //std::cout << "Goal path: " << pathMetric << std::endl;
 
     if (pathMetric < Config::validGoalPathThreshold) {
         return false;

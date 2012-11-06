@@ -16,9 +16,11 @@ void* WebSocketServer::run() {
     try {
         listening = true;
 
-        server.listen(port);
+        /*server.listen(port);
 
-        listening = false;
+        listening = false;*/
+
+		server.start_listen(port);
 
         //std::cout << "! Stopped socket server on port " << port << std::endl;
     } catch (const std::exception& e) {
