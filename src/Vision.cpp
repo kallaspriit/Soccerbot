@@ -262,7 +262,8 @@ bool Vision::isValidGoal(Object* goal, int side) {
 float Vision::getDistance(Dir dir, int x, int y) {
 	float correctedY = y - (0.0000471 * Math::pow(x, 2) - 0.0536 * x + 7);
 
-	std::cout << "! Corrected y from " << y << " to " << correctedY << " at x: " << x << std::endl;
+	//std::cout << "! Corrected y from " << y << " to " << correctedY << " at x: " << x << std::endl;
+	correctedY = 0;
 
     if (dir == DIR_FRONT) {
 		return frontDistanceLookup.getValue(correctedY);
@@ -312,14 +313,14 @@ float Vision::getAngle(Dir dir, int x, int y) {
 	//float distance = getDistance(dir, x, y);
 
 	// last working
-	/*float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	float centerOffset = (float)(x - (Config::cameraWidth / 2));
 	
-	return Math::degToRad(centerOffset / 11.5f);*/
+	return Math::degToRad(centerOffset / 11.5f);
 
-	float distance = getDistance(dir, x, y);
+	/*float distance = getDistance(dir, x, y);
 	float horizontalDistance = getHorizontalDistance(dir, x, y);
 
-	return Math::atan(horizontalDistance / distance);
+	return Math::atan(horizontalDistance / distance);*/
 }
 
 Blobber::Color* Vision::getColorAt(int x, int y) {
