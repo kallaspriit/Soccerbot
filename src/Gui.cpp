@@ -167,15 +167,18 @@ void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
 
 	Object* ball = NULL;
     char buf[256];
+	float radius;
 
     for (ObjectListItc it = balls.begin(); it != balls.end(); it++) {
         ball = *it;
+
+		radius = Math::max(ball->width, ball->height) / 2;
 
         img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
 		img.drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
         img.drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
 
-        sprintf(buf, "%.2fm %.1f deg", ball->distance, Math::radToDeg(ball->angle));
+        sprintf(buf, "%.2fm  %.1f deg  %d", ball->distance, Math::radToDeg(ball->angle), radius);
         img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
 
 		sprintf(buf, "%d x %d", ball->x, ball->y + ball->height / 2);
