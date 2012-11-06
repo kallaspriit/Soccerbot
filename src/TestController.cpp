@@ -62,12 +62,17 @@ void TestController::chaseBallRoutine(double dt) {
 	if (ball->distance > Config::ballCloseThreshold) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
+		
 		/*if (robot->getVelocity() > Config::ballChaseNearSpeed) {
 			std::cout << "! BREAKING" << std::endl;
 			speed = 0; // brake!
 		} else {*/
 			speed = Config::ballChaseNearSpeed;
 		//}
+	}
+
+	if (Math::abs(ball->angle) > Math::degToRad(Config::ballSlowDownAngleThreshold)) {
+		speed /= 2.0f;
 	}
 
 	if (ball->distance <= Config::dribblerOnThreshold) {

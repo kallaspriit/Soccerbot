@@ -200,7 +200,7 @@ void Robot::spinAroundDribbler(float period, float radius) {
 	float speed = (2 * Math::PI * radius) / period;
 	float omega = (2 * Math::PI) / period;
 
-	setTargetDir(0, speed, -omega);
+	setTargetDir(0.5f, speed, -omega);
 }
 
 void Robot::stop() {
