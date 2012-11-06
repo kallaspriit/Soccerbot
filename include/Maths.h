@@ -61,8 +61,13 @@ static float sin(float a) {
 static float cos(float a) {
     return ::cos(a);
 }
+
 static float tan(float a) {
     return ::tan(a);
+}
+
+static float atan(float a) {
+    return ::atan(a);
 }
 
 static float exp(float a) {

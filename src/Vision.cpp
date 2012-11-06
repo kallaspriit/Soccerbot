@@ -260,24 +260,22 @@ bool Vision::isValidGoal(Object* goal, int side) {
 }*/
 
 float Vision::getDistance(Dir dir, int x, int y) {
-	//float arcModifier = (x - width / 2) * 0.001f;
-	//float arcModifier = (x - width / 2) * Math::pow(0.032f, 2.0f);
-	float arcModifier = 0;
+	float correctedY = 0.0000471 * Math::pow(x, 2) - 0.0536 * x + y + 7;
 
     if (dir == DIR_FRONT) {
-		return frontDistanceLookup.getValue(y) - arcModifier;
+		return frontDistanceLookup.getValue(correctedY);
     } else {
-        return rearDistanceLookup.getValue(y) - arcModifier;
+        return rearDistanceLookup.getValue(correctedY);
     }
 }
 
 float Vision::getHorizontalDistance(Dir dir, int x, int y) {
-	float measurementPixels = 150;
+	/*float measurementPixels = 150;
 	float distance = getDistance(dir, x, y);
 	float distanceLookup = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : frontAngleLookup.getValue(distance);
 	float metersPerPixel = distanceLookup / measurementPixels;
 	float centerOffset = (float)(x - (Config::cameraWidth / 2));
-	float horizontalDistance = centerOffset * metersPerPixel;
+	float horizontalDistance = centerOffset * metersPerPixel;*/
 
 	/*std::cout << "! Solve horizontal distance for " << x << "x" << y << std::endl;
 	std::cout << " > Dir " << dir << std::endl;
@@ -288,7 +286,13 @@ float Vision::getHorizontalDistance(Dir dir, int x, int y) {
 	std::cout << " > Center offset: " << centerOffset << std::endl;
 	std::cout << " > Horizontal distance: " << horizontalDistance << std::endl;*/
 
-	return horizontalDistance;
+	//return horizontalDistance;
+
+	float distance = getDistance(dir, x, y);
+	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	float localAngle = distance / 686.0f;
+
+	return Math::tan(localAngle) * (y + 0.062);
 }
 
 float Vision::getAngle(Dir dir, int x, int y) {
@@ -304,9 +308,16 @@ float Vision::getAngle(Dir dir, int x, int y) {
 	return Math::tan(horizontalDistance / distance);*/
 
 	//float distance = getDistance(dir, x, y);
-	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+
+	// last working
+	/*float centerOffset = (float)(x - (Config::cameraWidth / 2));
 	
-	return Math::degToRad(centerOffset / 11.5f);
+	return Math::degToRad(centerOffset / 11.5f);*/
+
+	float distance = getDistance(dir, x, y);
+	float horizontalDistance = getHorizontalDistance(dir, x, y);
+
+	return Math::atan(horizontalDistance / distance);
 }
 
 Blobber::Color* Vision::getColorAt(int x, int y) {
