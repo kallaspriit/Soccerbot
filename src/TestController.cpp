@@ -42,6 +42,7 @@ void TestController::chaseBallRoutine(double dt) {
 	if (robot->getDribbler().gotBall()) {
 		//robot->setTargetDir(0, Config::ballCircleSideSpeed, -Config::ballCircleOmega);
 
+		robot->getDribbler().start();
 		robot->spinAroundDribbler();
 
 		return;
@@ -56,17 +57,17 @@ void TestController::chaseBallRoutine(double dt) {
 	float omega = Math::limit(ball->angle * Config::ballFocusK, Config::ballFocusMaxOmega);
 	float speed;
 
-	std::cout << "! VEL: " << robot->getVelocity() << std::endl;
+	//std::cout << "! VEL: " << robot->getVelocity() << std::endl;
 
 	if (ball->distance > Config::ballCloseThreshold) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
-		if (robot->getVelocity() > Config::ballChaseNearSpeed) {
+		/*if (robot->getVelocity() > Config::ballChaseNearSpeed) {
 			std::cout << "! BREAKING" << std::endl;
 			speed = 0; // brake!
-		} else {
+		} else {*/
 			speed = Config::ballChaseNearSpeed;
-		}
+		//}
 	}
 
 	if (ball->distance <= Config::dribblerOnThreshold) {
