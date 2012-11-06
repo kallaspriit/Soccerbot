@@ -153,6 +153,12 @@ void Vision::processBalls(Dir dir) {
 }
 
 void Vision::processGoals(Dir dir) {
+	
+	
+return; // @TEMP
+
+
+
 	ObjectList* goals = dir == Dir::DIR_FRONT ? &frontGoals : &rearGoals;
 
     for (ObjectListIt it = goals->begin(); it != goals->end(); it++) {
