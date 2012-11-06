@@ -173,6 +173,8 @@ void Robot::step(double dt) {
 
 	dribbler->step(dt);
 	coilgun->step(dt);
+
+	stop();
 }
 
 void Robot::setTargetDir(float x, float y, float omega) {
