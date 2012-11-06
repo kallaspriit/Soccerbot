@@ -33,15 +33,15 @@ const int cameraExposure = 10000;
 const int cameraWidth = 1280 / cameraDownsampling;
 const int cameraHeight = 1024 / cameraDownsampling;
 const int cameraPathStartX = cameraWidth / 2;
-const int cameraPathStartY = cameraHeight;
+const int cameraPathStartY = cameraHeight - 50;
 const int frontCameraSerial = 857769553;
 const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const double kickBackoffTime = 0.5;
 const int ballMinArea = 16;
-const float validBallSurroundThreshold = 0.45f;
-const float validBallPathThreshold = 0.25f; // @TEMP 0.75
+const float validBallSurroundThreshold = 0.35f;
+const float validBallPathThreshold = 0.65f; // @TEMP 0.75
 const float validGoalPathThreshold = 0.75f;
 
 const float ballFocusK = 10.0f;					//< how fast to yaw to focus on a ball (angle multiplier)

@@ -348,7 +348,11 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 }
 
 float Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor) {
-    int F, x, y;
+    if (y2 < y1) {
+		return 1.0f;
+	}
+	
+	int F, x, y;
     int pixelCounter = 0;
     int senseCounter = 0;
     int senseStep = 10;

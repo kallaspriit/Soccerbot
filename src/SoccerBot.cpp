@@ -601,7 +601,7 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleSetBlobberCalibration(command);
             } else if (command.name == "get-frame") {
                 handleGetFrameCommand(command, con);
-            }if (command.name == "stop") {
+            } else if (command.name == "stop") {
                 handleStopCommand(command);
             } else if (command.name.substr(0, 6) == "camera") {
                 handleCameraCommand(command);
