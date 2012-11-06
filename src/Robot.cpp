@@ -211,7 +211,7 @@ void Robot::stop() {
 float Robot::getVelocity() {
 	Math::Vector velocityVector(movement.velocityY, movement.velocityY);
 
-	return velocityVector.getLength();
+	return velocityVector.getLength() / lastDt;
 }
 
 void Robot::setPosition(float x, float y, float orientation) {
