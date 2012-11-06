@@ -46,7 +46,9 @@ void TestController::chaseBallRoutine(double dt) {
 	}
 
 	if (robot->getDribbler().gotBall()) {
-		robot->setTargetDir(0, Config::ballCircleSideSpeed, -Config::ballCircleOmega);
+		//robot->setTargetDir(0, Config::ballCircleSideSpeed, -Config::ballCircleOmega);
+
+		robot->spinAroundDribbler();
 
 		return;
 	}

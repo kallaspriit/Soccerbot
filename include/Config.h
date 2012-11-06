@@ -44,16 +44,18 @@ const float validBallSurroundThreshold = 0.45f;
 const float validBallPathThreshold = 0.25f; // @TEMP 0.75
 const float validGoalPathThreshold = 0.75f;
 
-const float ballFocusK = 8.0f;				//< how fast to yaw to focus on a ball (angle multiplier)
-//const float ballChaseK = 1.0f;			//< distance multiplier to chase speed
-const float ballFocusMaxOmega = 1.0f;		//< maximum omega to apply while focusing on a ball
-//const float ballChaseMaxSpeed = 0.75f;	//< maximum speed to chase a ball at
-const float ballCloseThreshold = 0.2f;		//< balls closer than this are considered to be close
-const float ballChaseFarSpeed = 1.0f;		//< how fast to chase far-away balls
-const float ballChaseNearSpeed = 0.5f;		//< how fast to chase near balls
-const float ballCircleSideSpeed = 0.5f;		//< how fast to turn to the side while circling ball
-const float ballCircleOmega = 2.0f;			//< how fast to yaw while circling ball
-const int dribblerSpeed = 100;				//< normal dribbler operating speed
+const float ballFocusK = 8.0f;					//< how fast to yaw to focus on a ball (angle multiplier)
+//const float ballChaseK = 1.0f;				//< distance multiplier to chase speed
+const float ballFocusMaxOmega = 1.0f;			//< maximum omega to apply while focusing on a ball
+//const float ballChaseMaxSpeed = 0.75f;		//< maximum speed to chase a ball at
+const float ballCloseThreshold = 0.2f;			//< balls closer than this are considered to be close
+const float ballChaseFarSpeed = 1.0f;			//< how fast to chase far-away balls
+const float ballChaseNearSpeed = 0.5f;			//< how fast to chase near balls
+//const float ballCircleSideSpeed = 0.5f;		//< how fast to turn to the side while circling ball
+//const float ballCircleOmega = 2.0f;			//< how fast to yaw while circling ball
+const int dribblerSpeed = 100;					//< normal dribbler operating speed
+const float spinAroundDribblerPeriod = 4.0f;	//< in how many seconds to spin around the dribbler
+const float spinAroundDribblerRadius = 0.15f;	//< radius at which to spin around the dribbler
 
 } // namespace Config
 

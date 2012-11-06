@@ -3,6 +3,7 @@
 
 #include "Serial.h"
 #include "Maths.h"
+#include "Config.h"
 
 #include <string>
 #include <deque>
@@ -47,6 +48,7 @@ class Robot {
         void setTargetOmega(float omega);
         void stop();
         void setPosition(float x, float y, float orientation);
+		void spinAroundDribbler(float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius);
 
         void addTask(Task* task) { tasks.push_back(task); }
         Task* getCurrentTask();
