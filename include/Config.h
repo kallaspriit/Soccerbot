@@ -1,6 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "Math.h"
+
 #include <Windows.h>
 #include "xiApi.h"
 
