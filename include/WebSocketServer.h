@@ -2,12 +2,9 @@
 #define WEBSOCKETSERVER_H
 
 #include "websocketpp.hpp"
-
-#include "Thread.h"
-
 #include <set>
 
-class WebSocketServer : public websocketpp::server::handler, private Thread {
+class WebSocketServer : public websocketpp::server::handler {
     public:
         class ListenerInterface {
             public:
@@ -25,8 +22,6 @@ class WebSocketServer : public websocketpp::server::handler, private Thread {
         void broadcast(std::string message);
 
     private:
-        virtual void* run();
-
         void on_open(connection_ptr con);
         void on_close(connection_ptr con);
         void on_message(connection_ptr con, message_ptr msg);

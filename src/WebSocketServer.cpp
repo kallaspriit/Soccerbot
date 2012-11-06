@@ -10,19 +10,11 @@ WebSocketServer::~WebSocketServer() {
     close();
 }
 
-void* WebSocketServer::run() {
-    std::cout << "! Starting socket server on port " << port << std::endl;
-
+void WebSocketServer::listen() {
     try {
-        listening = true;
-
-        /*server.listen(port);
-
-        listening = false;*/
-
 		server.start_listen(port);
 
-        //std::cout << "! Stopped socket server on port " << port << std::endl;
+		listening = true;
     } catch (const std::exception& e) {
         listening = false;
 
@@ -30,12 +22,6 @@ void* WebSocketServer::run() {
 
         abort();
     }
-
-	return 0;
-}
-
-void WebSocketServer::listen() {
-    start();
 }
 
 void WebSocketServer::close() {
