@@ -22,6 +22,7 @@ class Robot {
         struct Movement {
             Movement(float velocityX, float velocityY, float omega) :
                 velocityX(velocityX), velocityY(velocityY), omega(omega) {}
+			Movement() : velocityX(0), velocityY(0), omega(0) {}
 
             float velocityX;
             float velocityY;
@@ -36,6 +37,7 @@ class Robot {
 
         const Math::Position getPosition() const { return Math::Position(x, y, orientation);  }
         float getOrientation() const { return orientation; }
+		float getVelocity();
         Wheel& getWheelFL() const { return *wheelFL; }
         Wheel& getWheelFR() const { return *wheelFR; }
         Wheel& getWheelRL() const { return *wheelRL; }
@@ -61,10 +63,11 @@ class Robot {
         void driveFacing(float targetX, float targetY, float faceX, float faceY, float speed = 1.0f);
         void drivePath(const Math::PositionQueue positions, float speed = 1.0f);
 
-        Robot::Movement getMovement();
+		const Robot::Movement& getMovement() const { return movement; }
 
     private:
         void updateWheelSpeeds();
+		void updateMovement();
 
         float x;
         float y;
@@ -91,6 +94,7 @@ class Robot {
         Math::Matrix3x3 omegaMatrixInvC;
         Math::Matrix3x3 omegaMatrixInvD;
         Math::Vector targetDir;
+		Movement movement;
 
         TaskQueue tasks;
 

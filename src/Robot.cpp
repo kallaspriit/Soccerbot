@@ -133,7 +133,7 @@ void Robot::step(double dt) {
     lastDt = dt;
     totalTime += dt;
 
-    Movement movement = getMovement();
+	updateMovement();
 
     orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
 
@@ -205,6 +205,13 @@ void Robot::spinAroundDribbler(float period, float radius) {
 
 void Robot::stop() {
     setTargetDir(0, 0, 0);
+	dribbler->stop();
+}
+
+float Robot::getVelocity() {
+	Math::Vector velocityVector(movement.velocityY, movement.velocityY);
+
+	return velocityVector.getLength();
 }
 
 void Robot::setPosition(float x, float y, float orientation) {
@@ -278,7 +285,7 @@ void Robot::updateWheelSpeeds() {
     wheelRR->setTargetOmega(-resultMatrix.a41);
 }
 
-Robot::Movement Robot::getMovement() {
+void Robot::updateMovement() {
     Math::Matrix3x1 wheelMatrixA = Math::Matrix3x1(
         wheelRL->getRealOmega(),
         wheelFL->getRealOmega(),
@@ -353,9 +360,7 @@ Robot::Movement Robot::getMovement() {
         }
     }
 
-    return Movement(
-        avgVelocityX,
-        avgVelocityY,
-        avgOmega
-    );
+	movement.velocityX = avgVelocityX;
+	movement.velocityY = avgVelocityY;
+	movement.omega = avgOmega;
 }
