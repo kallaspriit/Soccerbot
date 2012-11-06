@@ -557,13 +557,13 @@ void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
 
 	std::cout << "! Opening socket connection.. ";
 
-	EnterCriticalSection(&socketMutex);
+	/*EnterCriticalSection(&socketMutex);
     
     JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
     con->send(controllerMsg.toJSON());
 	
-	LeaveCriticalSection(&socketMutex);
+	LeaveCriticalSection(&socketMutex);*/
 
 	std::cout << "done!" << std::endl;
 }
