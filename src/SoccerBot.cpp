@@ -715,7 +715,7 @@ void SoccerBot::handleSetBlobberCalibration(const Command& cmd) {
         vLow, vHigh
     );
 
-    std::cout << "! Set color " << className << " threshold: " << mergeThreshold << std::endl;
+    //std::cout << "! Set color " << className << " merge threshold: " << mergeThreshold << std::endl;
 
     color->mergeThreshold = mergeThreshold;
 }
