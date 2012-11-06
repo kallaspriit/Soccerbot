@@ -263,7 +263,7 @@ float Vision::getDistance(Dir dir, int x, int y) {
 	float correctedY = y - (0.0000471 * Math::pow(x, 2) - 0.0536 * x + 7);
 
 	//std::cout << "! Corrected y from " << y << " to " << correctedY << " at x: " << x << std::endl;
-	correctedY = 0;
+	correctedY = y;
 
     if (dir == DIR_FRONT) {
 		return frontDistanceLookup.getValue(correctedY);
