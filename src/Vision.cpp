@@ -374,7 +374,12 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 }
 
 Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor) {
-    if (y2 > y1) {
+	x1 = Math::limit(0, Config::cameraWidth);
+	x2 = Math::limit(0, Config::cameraWidth);
+	y1 = Math::limit(0, Config::cameraHeight);
+	y2 = Math::limit(0, Config::cameraHeight);
+	
+	if (y2 > y1) {
 		return PathMetric(0.0f, 0, false);
 	}
 	

@@ -551,19 +551,21 @@ void SoccerBot::updateLogs() {
 }
 
 void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
-	EnterCriticalSection(&socketMutex);
-    
 	if (!active) {
 		return;
 	}
 
-    std::cout << "! Socket connection opened" << std::endl;
+	std::cout << "! Opening socket connection.. ";
 
+	EnterCriticalSection(&socketMutex);
+    
     JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
     con->send(controllerMsg.toJSON());
 	
 	LeaveCriticalSection(&socketMutex);
+
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {
