@@ -45,6 +45,8 @@ SoccerBot::SoccerBot() {
     originalCoutStream = std::cout.rdbuf();
     stringCoutStream = new std::ostringstream();
     //std::cout.rdbuf(stringCoutStream->rdbuf());
+
+	InitializeCriticalSection(&socketMutex);
 }
 
 SoccerBot::~SoccerBot() {
@@ -152,6 +154,8 @@ SoccerBot::~SoccerBot() {
 
         std::cout << "done!" << std::endl;
     }
+
+	DeleteCriticalSection(&socketMutex);
 }
 
 void SoccerBot::init() {
@@ -547,6 +551,8 @@ void SoccerBot::updateLogs() {
 }
 
 void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
+	EnterCriticalSection(&socketMutex);
+    
 	if (!active) {
 		return;
 	}
@@ -556,18 +562,26 @@ void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
     JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
     con->send(controllerMsg.toJSON());
+	
+	LeaveCriticalSection(&socketMutex);
 }
 
 void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {
+	EnterCriticalSection(&socketMutex);
+    
 	if (!active) {
 		return;
 	}
 
     std::cout << "! Socket connection closed" << std::endl;
+	
+	LeaveCriticalSection(&socketMutex);
 }
 
 void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websocketpp::server::handler::message_ptr msg) {
-    if (!active) {
+    EnterCriticalSection(&socketMutex);
+    
+	if (!active) {
 		return;
 	}
 	
@@ -580,6 +594,8 @@ void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websock
     con->send(response);*/
 
     //serial->write(msg->get_payload());
+	
+	LeaveCriticalSection(&socketMutex);
 }
 
 void SoccerBot::handleRequest(std::string request, websocketpp::server::connection_ptr con) {

@@ -184,8 +184,8 @@ Dash.UI.prototype.initSlider = function() {
 	$('.slider').slider({
 		showRange: true,
 		showValue: true,
-		width: 300,
-		minChangeInterval: 500
+		width: 300/*,
+		minChangeInterval: 500*/
 	});
 };
 

@@ -95,6 +95,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         std::map<std::string, Controller*> controllers;
         Controller* activeController;
 		std::string activeControllerName;
+
+		 CRITICAL_SECTION socketMutex;
 };
 
 #endif // SOCCERBOT_H
