@@ -71,9 +71,14 @@ void TestController::chaseBallRoutine(double dt) {
 		//}
 	}
 
-	if (Math::abs(ball->angle) > Math::degToRad(Config::ballSlowDownAngleThreshold)) {
+	// halve speed at 30deg = 0.5rad
+	float speedDecrease = ball->angle * 1.0f;
+
+	speed = speed * (1.0f - speedDecrease);
+
+	/*if (Math::abs(ball->angle) > Math::degToRad(Config::ballSlowDownAngleThreshold)) {
 		speed /= 2.0f;
-	}
+	}*/
 
 	if (ball->distance <= Config::dribblerOnThreshold) {
 		robot->getDribbler().start();
