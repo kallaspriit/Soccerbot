@@ -5,6 +5,7 @@
 #include "Util.h"
 #include "Maths.h"
 #include "Vision.h"
+#include "Dribbler.h"
 #include "Config.h"
 
 #include <iostream>
@@ -44,8 +45,20 @@ void TestController::chaseBallRoutine(double dt) {
 		return;
 	}
 
+	if (robot->getDribbler().gotBall()) {
+		return;
+	}
+
 	float omega = Math::limit(ball->angle * Config::ballFocusK, Config::ballFocusMaxOmega);
-	float speed = Math::min(ball->distance * Config::ballChaseK, Config::ballChaseMaxSpeed);
+	float speed;
+
+	if (ball->distance > Config::ballCloseThreshold) {
+		speed = Config::ballChaseFarSpeed;
+	} else {
+		speed = Config::ballChaseNearSpeed;
+	}
+	
+	//float speed = Math::min(ball->distance * Config::ballChaseK, Config::ballChaseMaxSpeed);
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 }
@@ -55,10 +68,11 @@ bool TestController::handleRequest(std::string request) {
 }
 
 bool TestController::handleCommand(const Command& cmd) {
-    if (cmd.name == "test-stop") {
+    if (cmd.name == "stop") {
 		std::cout << "! Stopping" << std::endl;
 
         activeRoutine = Routine::NONE;
+		robot->stop();
     } else if (cmd.name == "test-rectangle") {
 		std::cout << "! Testing rectangle" << std::endl;
 

@@ -3,7 +3,7 @@ window.Dash = {};
 
 Dash.Config = {
 	socket: {
-		host: 'rx',
+		host: 'localhost',
 		port: 8000
 	},
 	robot: {

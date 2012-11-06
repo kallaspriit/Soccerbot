@@ -484,8 +484,8 @@ Dash.UI.prototype.initControls = function() {
 		self.robot.toggleDribbler();
 	});
 	
-	$('#test-stop').click(function() {
-		dash.socket.send('<test-stop>');
+	$('#stop-btn').click(function() {
+		dash.socket.send('<stop>');
 	});
 	
 	$('#test-turn-btn').click(function() {

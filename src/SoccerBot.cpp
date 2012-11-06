@@ -601,6 +601,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleSetBlobberCalibration(command);
             } else if (command.name == "get-frame") {
                 handleGetFrameCommand(command, con);
+            }if (command.name == "stop") {
+                handleStopCommand(command);
             } else if (command.name.substr(0, 6) == "camera") {
                 handleCameraCommand(command);
             } else if (gui == NULL || !gui->handleCommand(command)) {
@@ -729,6 +731,12 @@ void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::c
     JsonResponse frameResponse("frame", "\"" + base64img + "\"");
 
     con->send(frameResponse.toJSON());
+}
+
+void SoccerBot::handleStopCommand(const Command& cmd) {
+	std::cout << "! STOPPING" << std::endl;
+
+    robot->stop();
 }
 
 void SoccerBot::handleCameraCommand(const Command& cmd) {

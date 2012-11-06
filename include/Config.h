@@ -44,10 +44,13 @@ const float validBallSurroundThreshold = 0.45f;
 const float validBallPathThreshold = 0.25f; // @TEMP 0.75
 const float validGoalPathThreshold = 0.75f;
 
-const float ballFocusK = 5.0f;
-const float ballChaseK = 1.0f;
-const float ballFocusMaxOmega = 1.0f;
-const float ballChaseMaxSpeed = 0.75f;
+const float ballFocusK = 8.0f;				//< how fast to yaw to focus on a ball (angle multiplier)
+//const float ballChaseK = 1.0f;			//< distance multiplier to chase speed
+const float ballFocusMaxOmega = 1.0f;		//< maximum omega to apply while focusing on a ball
+//const float ballChaseMaxSpeed = 0.75f;	//< maximum speed to chase a ball at
+const float ballCloseThreshold = 0.15f;		//< balls closer than this are considered to be close
+const float ballChaseFarSpeed = 0.75f;		//< how fast to chase far-away balls
+const float ballChaseNearSpeed = 0.2f;		//< how fast to chase near balls
 
 } // namespace Config
 
