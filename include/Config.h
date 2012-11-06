@@ -42,7 +42,7 @@ const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const double kickBackoffTime = 0.5;
 const int ballMinArea = 16;
-const int ballMaxInvalidSpree = 3;				//< max number of invalid color steps in a row for a valid ball
+const int ballMaxInvalidSpree = 10;				//< max number of invalid color steps in a row for a valid ball
 const int goalMaxInvalidSpree = 3;				//< max number of invalid color steps in a row for a valid ball
 const float validBallSurroundThreshold = 0.35f;
 const float validBallPathThreshold = 0.65f;
