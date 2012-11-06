@@ -51,6 +51,8 @@ void TestController::chaseBallRoutine(double dt) {
 	const Object* ball = vision->getClosestBall();
 
 	if (ball == NULL) {
+		robot->setTargetDir(0, 0, Math::PI / 2.0f);
+
 		return;
 	}
 

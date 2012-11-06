@@ -12,7 +12,7 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     blobber->loadOptions(Config::blobberConfigFilename);
     blobber->enable(BLOBBER_DENSITY_MERGE);
 
-    frontDistanceLookup.load("config/distance-front.cfg", 0.13f);
+    frontDistanceLookup.load("config/distance-front.cfg"/*, 0.13f*/);
     rearDistanceLookup.load("config/distance-rear.cfg");
     frontAngleLookup.load("config/angle-front.cfg");
     rearAngleLookup.load("config/angle-rear.cfg");
