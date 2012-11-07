@@ -698,7 +698,12 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	int stepsBelow;
 	bool sawWhite = false;
 	bool sawBlack = false;
+	int minValidX = -1;
+	int maxValidX = -1;
+	int minValidY = -1;
+	int maxValidY = -1;
 	const char* targetColorName = targetColor.c_str();
+	std::string lastColorName;
 	Blobber::Color* color;
 
 	for (int x = Math::max(x1, 0); x < Math::min(x1 + blockWidth, width); x += xStep) {
@@ -717,6 +722,22 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 			if (color != NULL) {
 				if (strcmp(color->name, targetColorName) == 0) {
+					if (minValidX == -1) {
+						minValidX = x;
+					}
+
+					if (x > maxValidX) {
+						maxValidX = x;
+					}
+
+					if (minValidY == -1 || y < minValidY) {
+						minValidY = y;
+					}
+
+					if (y > maxValidY) {
+						maxValidY = y;
+					}
+
 					if (debug) {
 						img.drawMarker(x, y, 255, 255, 255);
 					}
@@ -733,6 +754,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
 
 						if (color != NULL && strcmp(color->name, targetColorName) == 0) {
+							if (senseY > maxValidY) {
+								maxValidY = y;
+							}
+
 							if (debug) {
 								img.drawMarker(x, senseY, 0, 0, 0);
 							}
@@ -758,14 +783,22 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 									if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
 										matches++;
 
+										lastColorName = std::string(color->name);
+
 										if (debug) {
 											img.drawMarker(x, gapY, 0, 200, 0, true);
 										}
 									} else {
-										misses++;
+										if (lastColorName != "black" && lastColorName != "white") {
+											misses++;
 
-										if (debug) {
-											img.drawMarker(x, gapY, 200, 0, 0, true);
+											if (debug) {
+												img.drawMarker(x, gapY, 200, 0, 0, true);
+											}
+										} else {
+											if (debug) {
+												img.drawMarker(x, gapY, 255, 255, 0, true);
+											}
 										}
 									}
 								} else {
@@ -790,10 +823,14 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	}
 
 	if (!sawWhite && !sawBlack) {
+		std::cout << "! DIDNT SEE WHITE & BLACK" << std::endl;
+
 		return false;
 	}
 
 	if (matches < Config::validGoalMinMatches) {
+		std::cout << "! TOO FEW MATCHES" << std::endl;
+
 		return false;
 	}
 
