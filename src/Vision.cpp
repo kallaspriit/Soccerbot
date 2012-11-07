@@ -700,48 +700,40 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
 
-						if (color != NULL) {
-							if (strcmp(color->name, targetColorName) == 0) {
-								if (debug) {
-									img.drawMarker(x, senseY, 0, 0, 0);
-								}
-							} else {
-								if (debug) {
-									img.drawMarker(x, senseY, 255, 255, 255);
-								}
-
-								for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
-									color = getColorAt(x, gapY);
-
-									if (color != NULL) {
-										if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
-											matches++;
-
-											if (debug) {
-												img.drawMarker(x, gapY, 0, 200, 0, true);
-											}
-										} else {
-											misses++;
-
-											if (debug) {
-												img.drawMarker(x, gapY, 200, 0, 0, true);
-											}
-										}
-									} else {
-										img.drawMarker(x, gapY, 100, 0, 0, true);
-
-										misses++;
-									}
-								}
-
-								break;
+						if (color != NULL && strcmp(color->name, targetColorName) == 0) {
+							if (debug) {
+								img.drawMarker(x, senseY, 0, 0, 0);
 							}
 						} else {
 							if (debug) {
-								img.drawMarker(x, senseY, 100, 0, 0);
+								img.drawMarker(x, senseY, 255, 255, 255);
 							}
 
-							//misses++;
+							for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
+								color = getColorAt(x, gapY);
+
+								if (color != NULL) {
+									if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+										matches++;
+
+										if (debug) {
+											img.drawMarker(x, gapY, 0, 200, 0, true);
+										}
+									} else {
+										misses++;
+
+										if (debug) {
+											img.drawMarker(x, gapY, 200, 0, 0, true);
+										}
+									}
+								} else {
+									img.drawMarker(x, gapY, 100, 0, 0, true);
+
+									misses++;
+								}
+							}
+
+							break;
 						}
 					}
 
