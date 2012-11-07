@@ -45,6 +45,8 @@ class Vision/* : public Blobber::MapFilter*/ {
         float getDistance(Dir dir, int x, int y);
 		float getHorizontalDistance(Dir dir, int x, int y);
         float getAngle(Dir dir, int x, int y);
+		static int getBallMaxInvalidSpree(int y);
+		static int getGoalMaxInvalidSpree(int y);
 
     private:
         Blobber* blobber;

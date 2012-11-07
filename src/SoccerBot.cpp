@@ -161,7 +161,7 @@ SoccerBot::~SoccerBot() {
 void SoccerBot::init() {
     setupSignalHandler();
     //setupFreePort();
-    setupSerial();
+    //setupSerial();
     setupRobot();
     setupCameras();
     setupVision();

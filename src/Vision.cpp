@@ -227,12 +227,20 @@ bool Vision::isValidBall(Object* ball) {
 	if (
 		pathMetric.percentage < Config::validBallPathThreshold
 		//|| !pathMetric.validColorFound
-		|| pathMetric.invalidSpree > Config::ballMaxInvalidSpree
+		|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
 	) {
         return false;
     }
 
     return true;
+}
+
+int Vision::getBallMaxInvalidSpree(int y) {
+	return Math::max(y / Config::ballInvalidSpreeScaler, Config::ballMinInvalidSpree);
+}
+
+int Vision::getGoalMaxInvalidSpree(int y) {
+	return Math::max(y / Config::goalInvalidSpreeScaler, Config::goalMinInvalidSpree);
 }
 
 bool Vision::isValidGoal(Object* goal, int side) {
@@ -249,7 +257,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
 	if (
 		pathMetric.percentage < Config::validGoalPathThreshold
 		//|| !pathMetric.validColorFound
-		|| pathMetric.invalidSpree > Config::goalMaxInvalidSpree
+		|| pathMetric.invalidSpree > getBallMaxInvalidSpree(goal->y + goal->height / 2)
 	) {
 		//std::cout << "INVALID" << std::endl;
 
@@ -392,7 +400,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     int senseY[maxSensePoints];
 	int invalidSpree = 0;
 	int longestInvalidSpree = 0;
-	int scaler = 10;
+	//int scaler = 10;
 
     if (x1 > x2) {
         std::swap(x1, x2);
@@ -408,7 +416,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         y = y1;
 
         while (y <= y2) {
-			senseStep = (y + scaler) / scaler;
+			//senseStep = (y + scaler) / scaler;
 
             if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                 senseX[senseCounter] = x;
@@ -424,7 +432,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         x = x1;
         y = y1;
 
-		senseStep = (y + scaler) / scaler;
+		//senseStep = (y + scaler) / scaler;
 
         while (x <= x2) {
             if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
@@ -452,7 +460,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 y = y1;
 
                 while (x <= x2) {
-					senseStep = (y + scaler) / scaler;
+					//senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
@@ -477,7 +485,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 x = x1;
 
                 while (y <= y2) {
-					senseStep = (y + scaler) / scaler;
+					//senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
@@ -504,7 +512,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 y = y1;
 
                 while (x <= x2) {
-					senseStep = (y + scaler) / scaler;
+					//senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
@@ -529,7 +537,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 x = x1;
 
                 while (y >= y2) {
-					senseStep = (y + scaler) / scaler;
+					//senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
