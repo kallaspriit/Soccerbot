@@ -793,13 +793,13 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 		return false;
 	}
 
+	if (matches < Config::validGoalMinMatches) {
+		return false;
+	}
+
 	int points = matches + misses;
 
-	if (points == 0) {
-		return 0.0f;
-	} else {
-		return (float)matches / (float)points;
-	}
+	return (float)matches / (float)points;
 }
 
 ImageBuffer* Vision::classify() {
