@@ -796,14 +796,17 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 										}
 									}
 								} else {
+									// allow one invalid color after white/black
 									if (lastColorName != "black" && lastColorName != "white") {
 										img.drawMarker(x, gapY, 100, 0, 0, true);
 
 										misses++;
 									} else {
+										lastColorName = "";
+
 										if (debug) {
-												img.drawMarker(x, gapY, 255, 255, 0, true);
-											}
+											img.drawMarker(x, gapY, 255, 255, 0, true);
+										}
 									}
 								}
 							}
