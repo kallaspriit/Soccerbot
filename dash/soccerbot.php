@@ -1,12 +1,12 @@
 <?php
 
 function rebuild() {
-	/*echo exec('C:/soccerbot/kill.bat')."\n";
+	echo exec('C:/soccerbot/kill.bat')."\n";
 	echo exec('C:/soccerbot/update.bat')."\n";
-	echo exec('C:/soccerbot/build.bat')."\n";*/
+	echo exec('C:/soccerbot/build.bat')."\n";
 	//echo exec('C:/soccerbot/run.bat')."\n";
 	//echo exec('start /B "test" C:/soccerbot/soccerbot.exe')."\n";
-	pclose(popen('start "bla" "C:/soccerbot/soccerbot.exe"', "r"));
+	//pclose(popen('start "bla" "C:/soccerbot/soccerbot.exe"', "r"));
 }
 
 function kill() {
