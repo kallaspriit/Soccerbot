@@ -265,7 +265,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
 	} else {
 		float undersideMetric = getUndersideMetric(
 			goal->x,
-			goal->y + goal->height / 2,
+			goal->y - goal->height / 2,
 			goal->width,
 			goal->height,
 			"blue-goal",
