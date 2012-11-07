@@ -33,6 +33,8 @@ int main(int argc, char* argv[]) {
                 std::cout << "  > Using the ball-follower controller" << std::endl;
             } else {
                 std::cout << "  > Unknown command line option: " << argv[i] << std::endl;
+
+				return 1;
             }
         }
     }

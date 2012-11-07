@@ -279,6 +279,8 @@ bool Vision::isValidGoal(Object* goal, int side) {
 		//std::cout << "! Goal underside: " << undersideMetric << std::endl;
 	//}
 
+	// @TODO Path must not contain green-white-black
+
 	/*if (
 		pathMetric.percentage < Config::validGoalPathThreshold
 		//|| !pathMetric.validColorFound
@@ -682,9 +684,17 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	Blobber::Color* color;
 
 	for (int x = x1; x < Math::min(x1 + blockWidth, width); x += xStep) {
+		if (x > width - 1) {
+			break;
+		}
+
 		stepsBelow = 0;
 
 		for (int y = y1; y < Math::min(y1 + blockHeight * 4, height); y += yStep) {
+			if (y > height - 1) {
+				break;
+			}
+
 			color = getColorAt(x, y);
 
 			if (color != NULL) {
@@ -696,6 +706,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 					//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
 
 					for (int senseY = y + yStep; senseY < Math::min(y + blockHeight * 4, height); senseY += yStep) {
+						if (senseY > height - 1) {
+							break;
+						}
+						
 						color = getColorAt(x, senseY);
 
 						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
@@ -710,6 +724,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 							}
 
 							for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
+								if (gapY > height - 1) {
+									break;
+								}
+								
 								color = getColorAt(x, gapY);
 
 								if (color != NULL) {
@@ -750,7 +768,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	int points = matches + misses;
 
 	if (points == 0) {
-		return 1;
+		return 0.0f;
 	} else {
 		return (float)matches / (float)points;
 	}
