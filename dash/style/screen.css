@@ -595,6 +595,6 @@ TABLE.form.tight TH {
 	user-select: none;
 }
 
-/*.ctrl {
+.ctrl {
 	display: none;
-}*/
+}

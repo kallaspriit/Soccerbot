@@ -2,13 +2,15 @@
 #define TESTCONTROLLER_H
 
 #include "Controller.h"
+#include "Config.h"
 
 class TestController : public Controller {
     public:
 		enum Routine {
 			NONE,
 			WATCH_BALL,
-			CHASE_BALL
+			CHASE_BALL,
+			FIND_GOAL
 		};
 
         TestController(Robot* robot, Vision* vision);
@@ -24,9 +26,11 @@ class TestController : public Controller {
 
 		void watchBallRoutine(double dt);
 		void chaseBallRoutine(double dt);
+		void findGoalRoutine(double dt);
 
 	private:
 		Routine activeRoutine;
+		Side targetSide;
 };
 
 #endif // TESTCONTROLLER_H

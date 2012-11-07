@@ -70,9 +70,9 @@ const float spinAroundDribblerForwardSpeed = 0.5f;	//< radius at which to spin a
 
 } // namespace Config
 
-namespace Side {
-    const int YELLOW = 1;
-    const int BLUE = 2;
-}
+enum Side {
+    YELLOW = 1,
+    BLUE = 2
+};
 
 #endif // CONFIG_H

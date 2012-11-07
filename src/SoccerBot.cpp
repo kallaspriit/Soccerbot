@@ -32,6 +32,7 @@ SoccerBot::SoccerBot() {
 	rearCamera = NULL;
     vision = NULL;
 	activeController = NULL;
+	activeControllerName = "";
     jpegBuffer = NULL;
 	rgbaBuffer = NULL;
     rgbBuffer = NULL;
@@ -345,7 +346,7 @@ void SoccerBot::run() {
 		if (updateCameras(dt) == 0) {
 			std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
-			Util::sleep(100);
+			Util::sleep(16);
 		}
 
         if (gui != NULL) {
@@ -354,16 +355,16 @@ void SoccerBot::run() {
 
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
 
-        while (serial->available() > 0) {
+        /*while (serial->available() > 0) {
             message = serial->read();
 
-            /*std::cout << "Arduino serial: " << message.c_str() << "!" << std::endl;
+            std::cout << "Utility serial: " << message.c_str() << "!" << std::endl;
 
 			if (socket != NULL) {
 				socket->broadcast(message);
 			}
-			*/
-        }
+			
+        }*/
 
         robot->step(dt);
 
@@ -506,16 +507,23 @@ Controller* SoccerBot::getController(std::string name) {
 }
 
 bool SoccerBot::setController(std::string name) {
-    std::map<std::string, Controller*>::iterator result = controllers.find(name);
+    if (name == "") {
+		activeController = NULL;
+		activeControllerName = "";
 
-    if (result == controllers.end()) {
-        return false;
+		return true;
+	} else {
+		std::map<std::string, Controller*>::iterator result = controllers.find(name);
+		
+		if (result != controllers.end()) {
+			activeController = result->second;
+			activeControllerName = name;
+
+			return true;
+		} else {
+			return false;
+		}
     }
-
-    activeController = result->second;
-	activeControllerName = name;
-
-    return true;
 }
 
 std::string SoccerBot::getActiveControllerName() {
@@ -607,6 +615,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
 
             if (command.name == "rebuild") {
                 handleRebuildCommand(command);
+            } else if (command.name == "get-controller") {
+                handleGetControllerCommand(command, con);
             } else if (command.name == "set-controller" && command.params.size() == 1) {
                 handleSetControllerCommand(command);
             } else if (command.name == "get-camera-calibration") {
@@ -640,6 +650,12 @@ void SoccerBot::handleRebuildCommand(const Command& cmd) {
     endCommand = "bash " + workingDir + "/pull-make-release.sh > build-log.txt";
 
     stop();*/
+}
+
+void SoccerBot::handleGetControllerCommand(const Command& cmd, websocketpp::server::connection_ptr con) {
+    JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
+
+    con->send(controllerMsg.toJSON());
 }
 
 void SoccerBot::handleSetControllerCommand(const Command& cmd) {

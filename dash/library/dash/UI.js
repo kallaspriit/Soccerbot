@@ -211,6 +211,10 @@ Dash.UI.prototype.initSocket = function() {
 		$('#connecting').hide();
 		$('.live-only').removeAttr('disabled');
 		$('#rebuild-btn').text('Rebuild');
+		
+		window.setTimeout(function() {
+			dash.socket.send('<get-controller>');
+		}, 500);
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.CLOSE, function(e) {

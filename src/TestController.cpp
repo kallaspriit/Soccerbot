@@ -12,6 +12,7 @@
 
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
+	targetSide = Side::BLUE;
 };
 
 void TestController::step(double dt) {
@@ -127,6 +128,18 @@ bool TestController::handleCommand(const Command& cmd) {
 		std::cout << "! Testing chasing ball" << std::endl;
 
 		activeRoutine = Routine::CHASE_BALL;
+    } else if (cmd.name == "test-find-goal") {
+		std::cout << "! Testing finding goal" << std::endl;
+
+		activeRoutine = Routine::FIND_GOAL;
+
+		if (cmd.params.size() > 0) {
+			if (cmd.params[0] == "yellow") {
+				targetSide = Side::YELLOW;
+			} else if (cmd.params[0] == "blue") {
+				targetSide = Side::BLUE;
+			}
+		}
     } else {
 		std::cout << "- Unknown test controller command: " << cmd.name << std::endl;
 
