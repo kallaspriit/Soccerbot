@@ -789,22 +789,22 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 											img.drawMarker(x, gapY, 0, 200, 0, true);
 										}
 									} else {
-										if (lastColorName != "black" && lastColorName != "white") {
-											misses++;
+										misses++;
 
-											if (debug) {
-												img.drawMarker(x, gapY, 200, 0, 0, true);
-											}
-										} else {
-											if (debug) {
-												img.drawMarker(x, gapY, 255, 255, 0, true);
-											}
+										if (debug) {
+											img.drawMarker(x, gapY, 200, 0, 0, true);
 										}
 									}
 								} else {
-									img.drawMarker(x, gapY, 100, 0, 0, true);
+									if (lastColorName != "black" && lastColorName != "white") {
+										img.drawMarker(x, gapY, 100, 0, 0, true);
 
-									misses++;
+										misses++;
+									} else {
+										if (debug) {
+												img.drawMarker(x, gapY, 255, 255, 0, true);
+											}
+									}
 								}
 							}
 
@@ -823,14 +823,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	}
 
 	if (!sawWhite && !sawBlack) {
-		std::cout << "! DIDNT SEE WHITE & BLACK" << std::endl;
-
 		return false;
 	}
 
 	if (matches < Config::validGoalMinMatches) {
-		std::cout << "! TOO FEW MATCHES" << std::endl;
-
 		return false;
 	}
 
