@@ -99,7 +99,7 @@
       <AdditionalDependencies>m3api.lib;websocketpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>call "C:\soccerbot\push.bat"</Command>
+      <Command>call "C:\soccerbot\post-build.bat"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
