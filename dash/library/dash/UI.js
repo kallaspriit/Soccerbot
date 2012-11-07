@@ -521,6 +521,10 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<test-chase-ball>');
 	});
 	
+	$('#test-find-goal-btn').click(function() {
+		dash.socket.send('<test-find-goal>');
+	});
+	
 	$('#graphs-toggle-btn').click(function() {
 		if ($('#wheel-graphs').hasClass('full')) {
 			$('#wheel-graphs').removeClass('full');

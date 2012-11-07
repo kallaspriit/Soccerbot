@@ -94,6 +94,37 @@ void TestController::chaseBallRoutine(double dt) {
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 }
 
+void TestController::findGoalRoutine(double dt) {
+	ObjectList frontGoals = vision->getFrontGoals();
+	Object* goal = NULL;
+
+	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
+		goal = *it;
+
+		if (goal->type == targetSide) {
+			float omega = Math::limit(goal->angle * Config::goalFocusK, Config::goalFocusMaxOmega);
+
+			robot->setTargetDir(0, 0, omega);
+
+			return;
+		}
+	}
+
+	// @TODO Search front image for opposite camera
+
+	ObjectList rearGoals = vision->getRearGoals();
+
+	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+		goal = *it;
+
+		if (goal->type == targetSide) {
+			// ...
+		} else {
+			// ...
+		}
+	}
+}
+
 bool TestController::handleRequest(std::string request) {
     return false;
 }
