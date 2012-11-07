@@ -134,11 +134,19 @@ void Vision::processBalls(Dir dir) {
 		distance = getDistance(dir, blob->centerX, blob->y2);
         angle = getAngle(dir, blob->centerX, blob->y2);
 
+		if (blob->x1 < 0) blob->x1 = 0;
+		if (blob->x2 > width - 1) blob->x2 = width - 1;
+		if (blob->y1 < 0) blob->y1 = 0;
+		if (blob->y2 > height - 1) blob->y2 = height - 1;
+
+		float width = blob->x2 - blob->x1;
+		float height = blob->y2 - blob->y1;
+
         Object* ball = new Object(
-            blob->centerX,
-            blob->centerY,
-            blob->x2 - blob->x1,
-            blob->y2 - blob->y1,
+            blob->x1 + width / 2,
+            blob->y1 + height / 2,
+            width,
+            height,
             blob->area,
             distance,
             angle
@@ -171,16 +179,24 @@ void Vision::processGoals(Dir dir) {
 			distance = getDistance(dir, blob->centerX, blob->y2);
             angle = getAngle(dir, blob->centerX, blob->y2);
 
-            Object* goal = new Object(
-                blob->centerX,
-                blob->centerY,
-                blob->x2 - blob->x1,
-                blob->y2 - blob->y1,
-                blob->area,
-                distance,
-                angle,
-                i == 0 ? Side::YELLOW : Side::BLUE
-            );
+			if (blob->x1 < 0) blob->x1 = 0;
+			if (blob->x2 > width - 1) blob->x2 = width - 1;
+			if (blob->y1 < 0) blob->y1 = 0;
+			if (blob->y2 > height - 1) blob->y2 = height - 1;
+
+			float width = blob->x2 - blob->x1;
+			float height = blob->y2 - blob->y1;
+
+			Object* goal = new Object(
+				blob->x1 + width / 2,
+				blob->y1 + height / 2,
+				width,
+				height,
+				blob->area,
+				distance,
+				angle,
+				i == 0 ? Side::YELLOW : Side::BLUE
+			);
 
             if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {
                 goals->push_back(goal);
@@ -685,7 +701,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	const char* targetColorName = targetColor.c_str();
 	Blobber::Color* color;
 
-	for (int x = x1; x < Math::min(x1 + blockWidth, width); x += xStep) {
+	for (int x = Math::max(x1, 0); x < Math::min(x1 + blockWidth, width); x += xStep) {
 		if (x > width - 1) {
 			break;
 		}
