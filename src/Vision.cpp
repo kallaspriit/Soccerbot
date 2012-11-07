@@ -236,11 +236,11 @@ bool Vision::isValidBall(Object* ball) {
 }
 
 int Vision::getBallMaxInvalidSpree(int y) {
-	return Math::max(y / Config::ballInvalidSpreeScaler, Config::ballMinInvalidSpree);
+	return y / Math::pow(y, Config::goalInvalidSpreeScaler) + Config::ballMinInvalidSpree;
 }
 
 int Vision::getGoalMaxInvalidSpree(int y) {
-	return Math::max(y / Config::goalInvalidSpreeScaler, Config::goalMinInvalidSpree);
+	return y / Math::pow(y, Config::goalInvalidSpreeScaler) + Config::goalMinInvalidSpree;
 }
 
 bool Vision::isValidGoal(Object* goal, int side) {
@@ -252,19 +252,23 @@ bool Vision::isValidGoal(Object* goal, int side) {
         validGoalPathColors
     );
 
-	//std::cout << "! Goal path: " << pathMetric.percentage << "; " << pathMetric.invalidSpree << " - ";
+	float blockMetric = getBlockMetric(
+		goal->x,
+		goal->y + goal->height / 2,
+		goal->width,
+		goal->height,
+		validGoalPathColors
+	);
+
+	std::cout << "! Goal block: " << blockMetric << std::endl;
 
 	if (
 		pathMetric.percentage < Config::validGoalPathThreshold
 		//|| !pathMetric.validColorFound
 		|| pathMetric.invalidSpree > getBallMaxInvalidSpree(goal->y + goal->height / 2)
 	) {
-		//std::cout << "INVALID" << std::endl;
-
         return false;
     }
-
-	//std::cout << "valid" << std::endl;
 
     return true;
 }
@@ -607,6 +611,101 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	bool validColorFound = requiredColor == "" || requiredColorFound;
 
 	return PathMetric(percentage, longestInvalidSpree, validColorFound);
+}
+
+float Vision::getBlockMetric(int x1, int y1, int width, int height, std::vector<std::string> validColors) {
+	bool debug = img.data != NULL;
+	int step = 10;
+	int matches = 0;
+	int misses = 0;
+
+	for (int x = x1; x < x1 + width; x += step) {
+		for (int y = y1; y < y1 + height; y += step) {
+			Blobber::Color* color = getColorAt(x, y);
+
+			if (color != NULL) {
+				if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+					matches++;
+
+					if (debug) {
+						img.drawMarker(x, y, 0, 200, 0);
+					}
+				} else {
+					misses++;
+
+					if (debug) {
+						img.drawMarker(x, y, 200, 0, 0);
+					}
+				}
+			} else {
+				misses++;
+
+				if (debug) {
+					img.drawMarker(x, y, 200, 0, 0);
+				}
+			}
+		}
+	}
+
+	int points = matches + misses;
+
+	return matches / points;
+}
+
+float Vision::getUndersideMetric(int x1, int y1, int width, int steps, std::string targetColor, std::vector<std::string> validColors) {
+	bool debug = img.data != NULL;
+	int xStep = 10;
+	int yStep = 4;
+	int matches = 0;
+	int misses = 0;
+	bool targetFound;
+	int stepsBelow;
+	const char* targetColorName = targetColor.c_str();
+
+	for (int x = x1; x < x1 + width; x += xStep) {
+		targetFound = false;
+		stepsBelow = 0;
+
+		for (int y = y1; y < height; y += 1) {
+			Blobber::Color* color = getColorAt(x, y);
+
+			if (color != NULL) {
+				if (strcmp(color->name, targetColorName) == 0) {
+					if (debug) {
+						img.drawMarker(x, y, 0, 100, 0);
+					}
+
+					for (int senseY = y + yStep; senseY < y + steps * yStep; senseY += yStep) {
+						color = getColorAt(x, senseY);
+
+						if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+							matches++;
+
+							if (debug) {
+								img.drawMarker(x, y, 0, 200, 0);
+							}
+						} else {
+							misses++;
+
+							if (debug) {
+								img.drawMarker(x, y, 200, 0, 0);
+							}
+						}
+					}
+
+					break;
+				}
+			} else {
+				if (debug) {
+					img.drawMarker(x, y, 200, 200, 200);
+				}
+			}
+		}
+	}
+
+	int points = matches + misses;
+
+	return matches / points;
 }
 
 ImageBuffer* Vision::classify() {
