@@ -701,18 +701,18 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 								matches++;
 
 								if (debug) {
-									img.drawMarker(x, y, 0, 200, 0);
+									img.drawMarker(x, senseY, 0, 200, 0);
 								}
 							} else {
 								misses++;
 
 								if (debug) {
-									img.drawMarker(x, y, 200, 0, 0);
+									img.drawMarker(x, senseY, 200, 0, 0);
 								}
 							}
 						} else {
 							if (debug) {
-								img.drawMarker(x, y, 200, 0, 0);
+								img.drawMarker(x, senseY, 200, 0, 0);
 							}
 
 							misses++;
