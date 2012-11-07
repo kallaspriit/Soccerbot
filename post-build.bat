@@ -1,5 +1,3 @@
-hostname > tmp
-SET /p HOST= < tmp
-DEL tmp
+set HOST=%COMPUTERNAME%
 
-if "%HOST%" NEQ "zbox" call "C:\soccerbot\push.bat"
+if "%HOST%" NEQ "ZBOX" call "C:\soccerbot\push.bat"
