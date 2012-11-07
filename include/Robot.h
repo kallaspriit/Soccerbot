@@ -35,9 +35,12 @@ class Robot {
         void init();
         void step(double dt);
 
-        const Math::Position getPosition() const { return Math::Position(x, y, orientation);  }
-        float getOrientation() const { return orientation; }
-		float getVelocity();
+        inline const Math::Position getPosition() const { return Math::Position(x, y, orientation);  }
+        inline float getOrientation() const { return orientation; }
+		inline float getVelocity() { return velocity; }
+		inline float getLastVelocity() { return lastVelocity; }
+		inline bool isAccelerating() { return velocity > lastVelocity; }
+		inline bool isBraking() { return velocity < lastVelocity; }
         Wheel& getWheelFL() const { return *wheelFL; }
         Wheel& getWheelFR() const { return *wheelFR; }
         Wheel& getWheelRL() const { return *wheelRL; }
@@ -50,7 +53,7 @@ class Robot {
         void setTargetOmega(float omega);
         void stop();
         void setPosition(float x, float y, float orientation);
-		void spinAroundDribbler(float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius);
+		void spinAroundDribbler(float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed);
 
         void addTask(Task* task) { tasks.push_back(task); }
         Task* getCurrentTask();
@@ -72,6 +75,8 @@ class Robot {
         float x;
         float y;
         float orientation;
+		float velocity;
+		float lastVelocity;
 
         float targetOmega;
         float wheelOffset;

@@ -196,22 +196,16 @@ void Robot::setTargetOmega(float omega) {
     lastCommandTime = Util::millitime();
 }
 
-void Robot::spinAroundDribbler(float period, float radius) {
+void Robot::spinAroundDribbler(float period, float radius, float forwardSpeed) {
 	float speed = (2 * Math::PI * radius) / period;
 	float omega = (2 * Math::PI) / period;
 
-	setTargetDir(0.5f, speed, -omega);
+	setTargetDir(forwardSpeed, speed, -omega);
 }
 
 void Robot::stop() {
     setTargetDir(0, 0, 0);
 	dribbler->stop();
-}
-
-float Robot::getVelocity() {
-	Math::Vector velocityVector(movement.velocityX, movement.velocityY);
-
-	return velocityVector.getLength() / lastDt;
 }
 
 void Robot::setPosition(float x, float y, float orientation) {
@@ -363,4 +357,9 @@ void Robot::updateMovement() {
 	movement.velocityX = avgVelocityX;
 	movement.velocityY = avgVelocityY;
 	movement.omega = avgOmega;
+
+	Math::Vector velocityVector(movement.velocityX, movement.velocityY);
+
+	lastVelocity = velocity;
+	velocity = velocityVector.getLength() / lastDt;
 }

@@ -43,7 +43,7 @@ void TestController::chaseBallRoutine(double dt) {
 		//robot->setTargetDir(0, Config::ballCircleSideSpeed, -Config::ballCircleOmega);
 
 		robot->getDribbler().start();
-		robot->spinAroundDribbler();
+		//robot->spinAroundDribbler();
 
 		return;
 	}
@@ -51,7 +51,7 @@ void TestController::chaseBallRoutine(double dt) {
 	const Object* ball = vision->getClosestBall();
 
 	if (ball == NULL) {
-		robot->setTargetDir(0, 0, Math::PI / 2.0f);
+		robot->setTargetDir(0, 0, Math::PI);
 
 		return;
 	}
@@ -65,12 +65,12 @@ void TestController::chaseBallRoutine(double dt) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
 		
-		/*if (robot->getVelocity() > Config::ballChaseNearSpeed) {
-			std::cout << "! BREAKING" << std::endl;
-			speed = 0; // brake!
-		} else {*/
+		if (robot->getVelocity() > Config::ballChaseNearSpeed && !robot->isAccelerating()) {
+			std::cout << "! BRAKING" << std::endl;
+			speed = 0;
+		} else {
 			speed = Config::ballChaseNearSpeed;
-		//}
+		}
 	}
 
 	// halve speed at 30deg = 0.5rad

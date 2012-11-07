@@ -42,26 +42,27 @@ const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const double kickBackoffTime = 0.5;
 const int ballMinArea = 16;
-const int ballMaxInvalidSpree = 30;				//< max number of invalid color steps in a row for a valid ball
-const int goalMaxInvalidSpree = 3;				//< max number of invalid color steps in a row for a valid ball
+const int ballMaxInvalidSpree = 30;					//< max number of invalid color steps in a row for a valid ball
+const int goalMaxInvalidSpree = 3;					//< max number of invalid color steps in a row for a valid ball
 const float validBallSurroundThreshold = 0.35f;
 const float validBallPathThreshold = 0.65f;
 const float validGoalPathThreshold = 0.75f;
 
-const float ballFocusK = 5.0f;					//< how fast to yaw to focus on a ball (angle multiplier)
-//const float ballChaseK = 1.0f;				//< distance multiplier to chase speed
-const float ballFocusMaxOmega = 3.14f;			//< maximum omega to apply while focusing on a ball
-//const float ballChaseMaxSpeed = 0.75f;		//< maximum speed to chase a ball at
-const float ballCloseThreshold = 0.25f;			//< balls closer than this are considered to be close
-const float dribblerOnThreshold = 0.35f;		//< distance at which to turn on the dribbler
-const float ballChaseFarSpeed = 1.0f;			//< how fast to chase far-away balls
-const float ballChaseNearSpeed = 0.4f;			//< how fast to chase near balls
-//const float ballSlowDownAngleThreshold = 20.0f;//< if the ball angle is larger than this then drive slower
-//const float ballCircleSideSpeed = 0.5f;		//< how fast to turn to the side while circling ball
-//const float ballCircleOmega = 2.0f;			//< how fast to yaw while circling ball
-const int dribblerSpeed = 100;					//< normal dribbler operating speed
-const float spinAroundDribblerPeriod = 2.0f;	//< in how many seconds to spin around the dribbler
-const float spinAroundDribblerRadius = 0.15f;	//< radius at which to spin around the dribbler
+const float ballFocusK = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
+//const float ballChaseK = 1.0f;					//< distance multiplier to chase speed
+const float ballFocusMaxOmega = 6.28f;				//< maximum omega to apply while focusing on a ball
+//const float ballChaseMaxSpeed = 0.75f;			//< maximum speed to chase a ball at
+const float ballCloseThreshold = 0.25f;				//< balls closer than this are considered to be close
+const float dribblerOnThreshold = 0.35f;			//< distance at which to turn on the dribbler
+const float ballChaseFarSpeed = 0.75f;				//< how fast to chase far-away balls
+const float ballChaseNearSpeed = 0.4f;				//< how fast to chase near balls
+//const float ballSlowDownAngleThreshold = 20.0f;	//< if the ball angle is larger than this then drive slower
+//const float ballCircleSideSpeed = 0.5f;			//< how fast to turn to the side while circling ball
+//const float ballCircleOmega = 2.0f;				//< how fast to yaw while circling ball
+const int dribblerSpeed = 100;						//< normal dribbler operating speed
+const float spinAroundDribblerPeriod = 2.0f;		//< in how many seconds to spin around the dribbler
+const float spinAroundDribblerRadius = 0.15f;		//< radius at which to spin around the dribbler
+const float spinAroundDribblerForwardSpeed = 0.5f;	//< radius at which to spin around the dribbler
 
 } // namespace Config
 
