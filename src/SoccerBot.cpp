@@ -662,6 +662,12 @@ void SoccerBot::handleGetControllerCommand(const Command& cmd, websocketpp::serv
 	}
 
 	LeaveCriticalSection(&socketMutex);*/
+
+	JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
+
+	if (socket != NULL) {
+		socket->broadcast(controllerMsg.toJSON());
+	}
 }
 
 void SoccerBot::handleSetControllerCommand(const Command& cmd) {
