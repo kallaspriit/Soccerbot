@@ -628,7 +628,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 
 float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, std::vector<std::string> validColors) {
 	bool debug = img.data != NULL;
-	int step = 10;
+	int step = 6;
 	int matches = 0;
 	int misses = 0;
 
