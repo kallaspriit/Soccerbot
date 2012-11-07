@@ -830,7 +830,7 @@ Dash.UI.prototype.request = function(action, callback) {
 		url: 'http://' + dash.config.socket.host + '/dash/soccerbot.php?action=' + action,
 		type: 'GET',
 		dataType: 'html',
-		timeout: 5000
+		timeout: 120000
 	}).success(function() {
 		if (typeof(callback) == 'function') {
 			callback(true);

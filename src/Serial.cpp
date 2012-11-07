@@ -109,7 +109,7 @@ Serial::Result Serial::open(std::string device, int speed, const char delimiter)
 Serial::Result Serial::open(int id, int speed, const char delimiter) {
 	bool found = false;
 
-    for (int i = 0; i <= 20; i++) {
+    for (int i = 0; i <= 40; i++) {
         std::string port = "\\\\.\\COM" + Util::toString(i);
 
         if (isOpen()) {
