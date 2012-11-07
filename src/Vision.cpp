@@ -408,7 +408,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         y = y1;
 
         while (y <= y2) {
-			senseStep = y / scaler;
+			senseStep = (y + scaler) / scaler;
 
             if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                 senseX[senseCounter] = x;
@@ -424,7 +424,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         x = x1;
         y = y1;
 
-		senseStep = y / scaler;
+		senseStep = (y + scaler) / scaler;
 
         while (x <= x2) {
             if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
@@ -452,7 +452,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 y = y1;
 
                 while (x <= x2) {
-					senseStep = y / scaler;
+					senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
@@ -477,7 +477,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 x = x1;
 
                 while (y <= y2) {
-					senseStep = y / scaler;
+					senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
@@ -504,7 +504,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 y = y1;
 
                 while (x <= x2) {
-					senseStep = y / scaler;
+					senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
@@ -529,7 +529,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 x = x1;
 
                 while (y >= y2) {
-					senseStep = y / scaler;
+					senseStep = (y + scaler) / scaler;
 
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
