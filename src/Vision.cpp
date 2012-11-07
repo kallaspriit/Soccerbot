@@ -291,10 +291,10 @@ bool Vision::isValidGoal(Object* goal, int side) {
 }*/
 
 float Vision::getDistance(Dir dir, int x, int y) {
-	float yCorrection = 0.000095 * Math::pow(x, 2) - 0.0536 * x + 7;
+	//float yCorrection = 0.000095 * Math::pow(x, 2) - 0.0536 * x + 7;
 	//std::cout << "! Y-correction: " << yCorrection << " at x: " << x << std::endl;
 
-	//float yCorrection = 0;
+	float yCorrection = 0;
 
     if (dir == DIR_FRONT) {
 		return frontDistanceLookup.getValue(y - yCorrection);
