@@ -689,12 +689,12 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 						img.drawMarker(x, y, 0, 100, 0);
 					}
 
-					std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
+					//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
 
 					for (int senseY = y + yStep; senseY < y + blockHeight; senseY += yStep) {
 						color = getColorAt(x, senseY);
 
-						std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
+						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
 
 						if (color != NULL) {
 							if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
