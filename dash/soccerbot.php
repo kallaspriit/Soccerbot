@@ -4,17 +4,17 @@ function rebuild() {
 	echo exec('call "C:/soccerbot/kill.bat"')."\n";
 	echo exec('call "C:/soccerbot/update.bat"')."\n";
 	echo exec('call "C:/soccerbot/build.bat"')."\n";
-	echo exec('C:/soccerbot/run.bat')."\n";
-	//echo exec('start /B "test" C:/soccerbot/soccerbot.exe')."\n";
+	echo exec('call "C:/soccerbot/run.bat"')."\n";
+	//echo exec('start /B "Soccerbot" C:/soccerbot/soccerbot.exe')."\n";
 	//pclose(popen('start "bla" "C:/soccerbot/soccerbot.exe"', "r"));
 }
 
 function kill() {
-	echo exec('C:/soccerbot/kill.bat');
+	echo exec('call "C:/soccerbot/kill.bat"');
 }
 
 function shutdown() {
-	echo exec('C:/soccerbot/shutdown.bat');
+	echo exec('call "C:/soccerbot/shutdown.bat"');
 }
 
 if (!isset($_GET['action'])) {
