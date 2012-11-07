@@ -214,7 +214,7 @@ Dash.UI.prototype.initSocket = function() {
 		
 		window.setTimeout(function() {
 			dash.socket.send('<get-controller>');
-		}, 500);
+		}, 2000);
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.CLOSE, function(e) {
