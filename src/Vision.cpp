@@ -252,7 +252,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
         validGoalPathColors
     );*/
 
-	if (side == Side::YELLOW) {
+	/*if (side == Side::YELLOW) {
 		float blockMetric = getBlockMetric(
 			goal->x - goal->width / 2,
 			goal->y + goal->height / 2,
@@ -262,18 +262,22 @@ bool Vision::isValidGoal(Object* goal, int side) {
 		);
 
 		std::cout << "! Goal block: " << blockMetric << std::endl;
-	} else {
+	} else {*/
 		float undersideMetric = getUndersideMetric(
 			goal->x - goal->width / 2,
 			goal->y - goal->height / 2,
 			goal->width,
 			goal->height,
-			"blue-goal",
+			side == Side::YELLOW ? "yellow-goal" : "blue-goal",
 			validGoalPathColors
 		);
 
-		std::cout << "! Goal underside: " << undersideMetric << std::endl;
-	}
+		if (undersideMetric < Config::goalMinUndersideMetric) {
+			return false;
+		}
+
+		//std::cout << "! Goal underside: " << undersideMetric << std::endl;
+	//}
 
 	/*if (
 		pathMetric.percentage < Config::validGoalPathThreshold
@@ -680,7 +684,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	for (int x = x1; x < x1 + blockWidth; x += xStep) {
 		stepsBelow = 0;
 
-		for (int y = y1; y < y1 + blockHeight * 2; y += yStep) {
+		for (int y = y1; y < Math::min(y1 + blockHeight * 4, height); y += yStep) {
 			color = getColorAt(x, y);
 
 			if (color != NULL) {
@@ -691,7 +695,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 					//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
 
-					for (int senseY = y + yStep; senseY < y + blockHeight; senseY += yStep) {
+					for (int senseY = y + yStep; senseY < Math::min(y + blockHeight, height); senseY += yStep) {
 						color = getColorAt(x, senseY);
 
 						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
@@ -702,7 +706,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 									img.drawMarker(x, senseY, 0, 0, 0);
 								}
 							} else {
-								for (int gapY = senseY; gapY < senseY + senseSteps * yStep; gapY += yStep) {
+								for (int gapY = senseY; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
 									color = getColorAt(x, gapY);
 
 									if (color != NULL) {
