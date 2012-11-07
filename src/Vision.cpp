@@ -654,8 +654,8 @@ float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, st
 	int matches = 0;
 	int misses = 0;
 
-	for (int x = x1; x < x1 + blockWidth; x += step) {
-		for (int y = y1; y < y1 + blockHeight; y += step) {
+	for (int x = Math::max(x1, 0); x < Math::min(x1 + blockWidth, width); x += step) {
+		for (int y = Math::max(y1, 0); y < Math::min(y1 + blockHeight, height); y += step) {
 			Blobber::Color* color = getColorAt(x, y);
 
 			if (color != NULL) {
