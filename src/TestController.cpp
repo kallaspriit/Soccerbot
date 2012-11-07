@@ -66,7 +66,7 @@ void TestController::chaseBallRoutine(double dt) {
 	} else {
 		
 		if (robot->getVelocity() > Config::ballChaseNearSpeed && !robot->isAccelerating()) {
-			std::cout << "! BRAKING" << std::endl;
+			std::cout << "! BRAKING." << std::endl;
 			speed = 0;
 		} else {
 			speed = Config::ballChaseNearSpeed;
