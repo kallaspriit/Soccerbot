@@ -669,18 +669,17 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	bool debug = img.data != NULL;
 	int xStep = 6;
 	int yStep = 6;
+	int senseSteps = 10;
 	int matches = 0;
 	int misses = 0;
-	bool targetFound;
 	int stepsBelow;
 	const char* targetColorName = targetColor.c_str();
 	Blobber::Color* color;
 
 	for (int x = x1; x < x1 + blockWidth; x += xStep) {
-		targetFound = false;
 		stepsBelow = 0;
 
-		for (int y = y1; y < y1 + blockHeight * 2; y += 1) {
+		for (int y = y1; y < y1 + blockHeight * 2; y += yStep) {
 			color = getColorAt(x, y);
 
 			if (color != NULL) {
@@ -697,25 +696,43 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
 
 						if (color != NULL) {
-							if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
-								matches++;
-
+							if (strcmp(color->name, targetColorName) == 0) {
 								if (debug) {
-									img.drawMarker(x, senseY, 0, 200, 0);
+									img.drawMarker(x, senseY, 200, 200, 0);
 								}
 							} else {
-								misses++;
+								for (int gapY = senseY; gapY < senseY + senseSteps * yStep; gapY += yStep) {
+									color = getColorAt(x, gapY);
 
-								if (debug) {
-									img.drawMarker(x, senseY, 200, 0, 0);
+									if (color != NULL) {
+										if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+											matches++;
+
+											if (debug) {
+												img.drawMarker(x, gapY, 0, 200, 0);
+											}
+										} else {
+											misses++;
+
+											if (debug) {
+												img.drawMarker(x, gapY, 200, 0, 0);
+											}
+										}
+									} else {
+										img.drawMarker(x, gapY, 100, 0, 0);
+
+										misses++;
+									}
 								}
+
+								break;
 							}
 						} else {
 							if (debug) {
-								img.drawMarker(x, senseY, 200, 0, 0);
+								img.drawMarker(x, senseY, 100, 0, 0);
 							}
 
-							misses++;
+							//misses++;
 						}
 					}
 
@@ -725,10 +742,6 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 				if (debug) {
 					img.drawMarker(x, y, 200, 200, 200);
 				}
-			}
-
-			if (debug) {
-				img.drawMarker(x, y, 100, 0, 0);
 			}
 		}
 	}
