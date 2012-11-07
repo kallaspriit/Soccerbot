@@ -1,8 +1,8 @@
 <?php
 
 function rebuild() {
-	//echo exec('call "C:/soccerbot/kill.bat"')."\n";
-	//echo exec('call "C:/soccerbot/update.bat"')."\n";
+	echo exec('call "C:/soccerbot/kill.bat"')."\n";
+	echo exec('call "C:/soccerbot/update.bat"')."\n";
 	echo exec('call "C:/soccerbot/build.bat"')."\n";
 	//echo exec('C:/soccerbot/run.bat')."\n";
 	//echo exec('start /B "test" C:/soccerbot/soccerbot.exe')."\n";
