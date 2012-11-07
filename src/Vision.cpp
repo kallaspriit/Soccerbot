@@ -244,13 +244,13 @@ int Vision::getGoalMaxInvalidSpree(int y) {
 }
 
 bool Vision::isValidGoal(Object* goal, int side) {
-    PathMetric pathMetric = getPathMetric(
+    /*PathMetric pathMetric = getPathMetric(
         Config::cameraPathStartX,
         Config::cameraPathStartY,
         goal->x,
         goal->y,
         validGoalPathColors
-    );
+    );*/
 
 	if (side == Side::YELLOW) {
 		float blockMetric = getBlockMetric(
@@ -275,13 +275,13 @@ bool Vision::isValidGoal(Object* goal, int side) {
 		std::cout << "! Goal underside: " << undersideMetric << std::endl;
 	}
 
-	if (
+	/*if (
 		pathMetric.percentage < Config::validGoalPathThreshold
 		//|| !pathMetric.validColorFound
 		|| pathMetric.invalidSpree > getBallMaxInvalidSpree(goal->y + goal->height / 2)
 	) {
         return false;
-    }
+    }*/
 
     return true;
 }
@@ -685,7 +685,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 			if (color != NULL) {
 				if (strcmp(color->name, targetColorName) == 0) {
 					if (debug) {
-						img.drawMarker(x, y, 0, 100, 0);
+						img.drawMarker(x, y, 255, 255, 255);
 					}
 
 					//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
@@ -698,7 +698,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 						if (color != NULL) {
 							if (strcmp(color->name, targetColorName) == 0) {
 								if (debug) {
-									img.drawMarker(x, senseY, 200, 200, 0);
+									img.drawMarker(x, senseY, 0, 0, 0);
 								}
 							} else {
 								for (int gapY = senseY; gapY < senseY + senseSteps * yStep; gapY += yStep) {
