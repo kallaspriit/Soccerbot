@@ -722,7 +722,11 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 	int points = matches + misses;
 
-	return matches / points;
+	if (points == 0) {
+		return 1;
+	} else {
+		return matches / points;
+	}
 }
 
 ImageBuffer* Vision::classify() {
