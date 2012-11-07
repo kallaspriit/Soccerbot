@@ -443,10 +443,13 @@ void ImageBuffer::drawLine(int x1, int y1, int x2, int y2, int red, int green, i
     }
 }
 
-void ImageBuffer::drawMarker(int x, int y, int red, int green, int blue) {
-    setPixelAt(x, y, red, green, blue);
-    setPixelAt(x - 1, y, red, green, blue);
-    setPixelAt(x + 1, y, red, green, blue);
-    setPixelAt(x, y - 1, red, green, blue);
-    setPixelAt(x, y + 1, red, green, blue);
+void ImageBuffer::drawMarker(int x, int y, int red, int green, int blue, bool tiny) {
+	if (tiny) {
+		setPixelAt(x, y, red, green, blue);
+	} else {
+		setPixelAt(x - 1, y, red, green, blue);
+		setPixelAt(x + 1, y, red, green, blue);
+		setPixelAt(x, y - 1, red, green, blue);
+		setPixelAt(x, y + 1, red, green, blue);
+	}
 }

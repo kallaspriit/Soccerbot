@@ -669,6 +669,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	bool debug = img.data != NULL;
 	int xStep = 6;
 	int yStep = 6;
+	int gapStep = 3;
 	int senseSteps = 10;
 	int matches = 0;
 	int misses = 0;
@@ -709,17 +710,17 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 											matches++;
 
 											if (debug) {
-												img.drawMarker(x, gapY, 0, 200, 0);
+												img.drawMarker(x, gapY, 0, 200, 0, true);
 											}
 										} else {
 											misses++;
 
 											if (debug) {
-												img.drawMarker(x, gapY, 200, 0, 0);
+												img.drawMarker(x, gapY, 200, 0, 0, true);
 											}
 										}
 									} else {
-										img.drawMarker(x, gapY, 100, 0, 0);
+										img.drawMarker(x, gapY, 100, 0, 0, true);
 
 										misses++;
 									}
