@@ -680,6 +680,8 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	int matches = 0;
 	int misses = 0;
 	int stepsBelow;
+	bool sawWhite = false;
+	bool sawBlack = false;
 	const char* targetColorName = targetColor.c_str();
 	Blobber::Color* color;
 
@@ -731,6 +733,12 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 								color = getColorAt(x, gapY);
 
 								if (color != NULL) {
+									if (!sawWhite && strcmp(color->name, "white") == 0) {
+										sawWhite = true;
+									} else if (!sawBlack && strcmp(color->name, "black") == 0) {
+										sawBlack = true;
+									}
+
 									if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
 										matches++;
 
@@ -763,6 +771,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 				}
 			}
 		}
+	}
+
+	if (!sawWhite && !sawBlack) {
+		return false;
 	}
 
 	int points = matches + misses;
