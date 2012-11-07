@@ -35,8 +35,8 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     validGoalPathColors.push_back("white");
     validGoalPathColors.push_back("black");
     validGoalPathColors.push_back("ball");
-    validGoalPathColors.push_back("yellow-goal");
-    validGoalPathColors.push_back("blue-goal");
+    //validGoalPathColors.push_back("yellow-goal");
+    //validGoalPathColors.push_back("blue-goal");
 
     //blobber->enable(BLOBBER_DUAL_THRESHOLD);
     //blobber->setMapFilter(this);
@@ -695,7 +695,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 					//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
 
-					for (int senseY = y + yStep; senseY < Math::min(y + blockHeight, height); senseY += yStep) {
+					for (int senseY = y + yStep; senseY < Math::min(y + blockHeight * 4, height); senseY += yStep) {
 						color = getColorAt(x, senseY);
 
 						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
@@ -706,7 +706,11 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 									img.drawMarker(x, senseY, 0, 0, 0);
 								}
 							} else {
-								for (int gapY = senseY; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
+								if (debug) {
+									img.drawMarker(x, senseY, 255, 255, 255);
+								}
+
+								for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
 									color = getColorAt(x, gapY);
 
 									if (color != NULL) {
@@ -745,7 +749,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 				}
 			} else {
 				if (debug) {
-					img.drawMarker(x, y, 200, 200, 200);
+					img.drawMarker(x, y, 128, 128, 128);
 				}
 			}
 		}
