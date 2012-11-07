@@ -35,7 +35,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         float getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor = "");
         PathMetric getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
 		float getBlockMetric(int x, int y, int width, int height, std::vector<std::string> validColors);
-		float getUndersideMetric(int x, int y, int width, int steps, std::string targetColor, std::vector<std::string> validColors);
+		float getUndersideMetric(int x, int y, int width, int height, std::string targetColor, std::vector<std::string> validColors);
 
         const ObjectList& getFrontBalls() const { return frontBalls; }
         const ObjectList& getFrontGoals() const { return frontGoals; }

@@ -252,15 +252,28 @@ bool Vision::isValidGoal(Object* goal, int side) {
         validGoalPathColors
     );
 
-	float blockMetric = getBlockMetric(
-		goal->x,
-		goal->y + goal->height / 2,
-		goal->width,
-		goal->height,
-		validGoalPathColors
-	);
+	if (side == Side::YELLOW) {
+		float blockMetric = getBlockMetric(
+			goal->x,
+			goal->y + goal->height / 2,
+			goal->width,
+			goal->height,
+			validGoalPathColors
+		);
 
-	std::cout << "! Goal block: " << blockMetric << std::endl;
+		std::cout << "! Goal block: " << blockMetric << std::endl;
+	} else {
+		float undersideMetric = getUndersideMetric(
+			goal->x,
+			goal->y + goal->height / 2,
+			goal->width,
+			goal->height,
+			"blue-goal",
+			validGoalPathColors
+		);
+
+		std::cout << "! Goal underside: " << undersideMetric << std::endl;
+	}
 
 	if (
 		pathMetric.percentage < Config::validGoalPathThreshold
@@ -613,14 +626,14 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	return PathMetric(percentage, longestInvalidSpree, validColorFound);
 }
 
-float Vision::getBlockMetric(int x1, int y1, int width, int height, std::vector<std::string> validColors) {
+float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, std::vector<std::string> validColors) {
 	bool debug = img.data != NULL;
 	int step = 10;
 	int matches = 0;
 	int misses = 0;
 
-	for (int x = x1; x < x1 + width; x += step) {
-		for (int y = y1; y < y1 + height; y += step) {
+	for (int x = x1; x < x1 + blockWidth; x += step) {
+		for (int y = y1; y < y1 + blockHeight; y += step) {
 			Blobber::Color* color = getColorAt(x, y);
 
 			if (color != NULL) {
@@ -652,7 +665,7 @@ float Vision::getBlockMetric(int x1, int y1, int width, int height, std::vector<
 	return matches / points;
 }
 
-float Vision::getUndersideMetric(int x1, int y1, int width, int steps, std::string targetColor, std::vector<std::string> validColors) {
+float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight, std::string targetColor, std::vector<std::string> validColors) {
 	bool debug = img.data != NULL;
 	int xStep = 10;
 	int yStep = 4;
@@ -662,7 +675,7 @@ float Vision::getUndersideMetric(int x1, int y1, int width, int steps, std::stri
 	int stepsBelow;
 	const char* targetColorName = targetColor.c_str();
 
-	for (int x = x1; x < x1 + width; x += xStep) {
+	for (int x = x1; x < x1 + blockWidth; x += xStep) {
 		targetFound = false;
 		stepsBelow = 0;
 
@@ -675,7 +688,7 @@ float Vision::getUndersideMetric(int x1, int y1, int width, int steps, std::stri
 						img.drawMarker(x, y, 0, 100, 0);
 					}
 
-					for (int senseY = y + yStep; senseY < y + steps * yStep; senseY += yStep) {
+					for (int senseY = y + yStep; senseY < y + blockHeight; senseY += yStep) {
 						color = getColorAt(x, senseY);
 
 						if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
