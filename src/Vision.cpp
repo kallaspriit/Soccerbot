@@ -681,7 +681,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	const char* targetColorName = targetColor.c_str();
 	Blobber::Color* color;
 
-	for (int x = x1; x < x1 + blockWidth; x += xStep) {
+	for (int x = x1; x < Math::min(x1 + blockWidth, width); x += xStep) {
 		stepsBelow = 0;
 
 		for (int y = y1; y < Math::min(y1 + blockHeight * 4, height); y += yStep) {
