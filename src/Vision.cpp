@@ -674,13 +674,14 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	bool targetFound;
 	int stepsBelow;
 	const char* targetColorName = targetColor.c_str();
+	Blobber::Color* color;
 
 	for (int x = x1; x < x1 + blockWidth; x += xStep) {
 		targetFound = false;
 		stepsBelow = 0;
 
 		for (int y = y1; y < y1 + blockHeight * 2; y += 1) {
-			Blobber::Color* color = getColorAt(x, y);
+			color = getColorAt(x, y);
 
 			if (color != NULL) {
 				if (strcmp(color->name, targetColorName) == 0) {
@@ -688,8 +689,12 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 						img.drawMarker(x, y, 0, 100, 0);
 					}
 
+					std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
+
 					for (int senseY = y + yStep; senseY < y + blockHeight; senseY += yStep) {
 						color = getColorAt(x, senseY);
+
+						std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
 
 						if (color != NULL) {
 							if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
@@ -706,6 +711,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 								}
 							}
 						} else {
+							if (debug) {
+								img.drawMarker(x, y, 200, 0, 0);
+							}
+
 							misses++;
 						}
 					}
@@ -716,6 +725,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 				if (debug) {
 					img.drawMarker(x, y, 200, 200, 200);
 				}
+			}
+
+			if (debug) {
+				img.drawMarker(x, y, 100, 0, 0);
 			}
 		}
 	}
