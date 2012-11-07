@@ -165,7 +165,7 @@ void Vision::processGoals(Dir dir) {
     float angle;
 
     for (int i = 0; i < 2; i++) {
-        Blobber::Blob* blob = blobber->getBlobs(i == 0 ? "yellow-gloat" : "blue-goal");
+        Blobber::Blob* blob = blobber->getBlobs(i == 0 ? "yellow-goal" : "blue-goal");
 
         while (blob != NULL) {
 			distance = getDistance(dir, blob->centerX, blob->y2);
@@ -254,7 +254,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
 
 	if (side == Side::YELLOW) {
 		float blockMetric = getBlockMetric(
-			goal->x,
+			goal->x - goal->width / 2,
 			goal->y + goal->height / 2,
 			goal->width,
 			goal->height,
@@ -264,7 +264,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
 		std::cout << "! Goal block: " << blockMetric << std::endl;
 	} else {
 		float undersideMetric = getUndersideMetric(
-			goal->x,
+			goal->x - goal->width / 2,
 			goal->y - goal->height / 2,
 			goal->width,
 			goal->height,
@@ -662,13 +662,13 @@ float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, st
 
 	int points = matches + misses;
 
-	return matches / points;
+	return (float)matches / (float)points;
 }
 
 float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight, std::string targetColor, std::vector<std::string> validColors) {
 	bool debug = img.data != NULL;
-	int xStep = 10;
-	int yStep = 4;
+	int xStep = 6;
+	int yStep = 6;
 	int matches = 0;
 	int misses = 0;
 	bool targetFound;
@@ -679,7 +679,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 		targetFound = false;
 		stepsBelow = 0;
 
-		for (int y = y1; y < height; y += 1) {
+		for (int y = y1; y < y1 + blockHeight * 2; y += 1) {
 			Blobber::Color* color = getColorAt(x, y);
 
 			if (color != NULL) {
@@ -725,7 +725,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	if (points == 0) {
 		return 1;
 	} else {
-		return matches / points;
+		return (float)matches / (float)points;
 	}
 }
 
