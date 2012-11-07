@@ -392,6 +392,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     int senseY[maxSensePoints];
 	int invalidSpree = 0;
 	int longestInvalidSpree = 0;
+	int scaler = 10;
 
     if (x1 > x2) {
         std::swap(x1, x2);
@@ -407,6 +408,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         y = y1;
 
         while (y <= y2) {
+			senseStep = y / scaler;
+
             if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                 senseX[senseCounter] = x;
                 senseY[senseCounter] = y;
@@ -420,6 +423,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     } else if (y1 == y2) {
         x = x1;
         y = y1;
+
+		senseStep = y / scaler;
 
         while (x <= x2) {
             if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
@@ -447,6 +452,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 y = y1;
 
                 while (x <= x2) {
+					senseStep = y / scaler;
+
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
                         senseY[senseCounter] = y;
@@ -470,6 +477,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 x = x1;
 
                 while (y <= y2) {
+					senseStep = y / scaler;
+
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
                         senseY[senseCounter] = y;
@@ -495,6 +504,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 y = y1;
 
                 while (x <= x2) {
+					senseStep = y / scaler;
+
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
                         senseY[senseCounter] = y;
@@ -518,6 +529,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
                 x = x1;
 
                 while (y >= y2) {
+					senseStep = y / scaler;
+
                     if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
                         senseX[senseCounter] = x;
                         senseY[senseCounter] = y;
