@@ -129,6 +129,7 @@ class StopRotationTask : public Task {
         std::string toString();
 
 	private:
+		int startSign;
 		float startOmega;
 		float currentOmega;
 };

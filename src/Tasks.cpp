@@ -253,12 +253,17 @@ std::string DriveFacingTask::toString() {
 // stops rotation
 void StopRotationTask::onStart(Robot& robot, double dt) {
 	startOmega = robot.getMovement().omega;
+	startSign = startOmega > 0 ? 1 : 0;
 }
 
 bool StopRotationTask::onStep(Robot& robot, double dt) {
 	currentOmega = robot.getMovement().omega;
+	int currentSign = currentOmega > 0 ? 1 : 0;
 
-	if (Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold) {
+	if (
+		Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold
+		|| currentSign != startSign
+	) {
 		return false;
 	}
 
