@@ -132,6 +132,7 @@ class StopRotationTask : public Task {
 		int startSign;
 		float startOmega;
 		float currentOmega;
+		float diff;
 };
 
 #endif // TASKS_H

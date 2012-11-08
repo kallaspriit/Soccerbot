@@ -258,6 +258,7 @@ void StopRotationTask::onStart(Robot& robot, double dt) {
 
 bool StopRotationTask::onStep(Robot& robot, double dt) {
 	currentOmega = robot.getMovement().omega;
+	diff = Math::abs(currentOmega - Config::rotationStoppedOmegaThreshold);
 	int currentSign = currentOmega > 0 ? 1 : 0;
 
 	if (
@@ -268,9 +269,9 @@ bool StopRotationTask::onStep(Robot& robot, double dt) {
 	}
 
 	if (currentOmega > 0) {
-		robot.setTargetDir(0, 0, -Config::rotationCancelOmega);
+		robot.setTargetDir(0, 0, -diff * Config::rotationCancelMultiplier);
 	} else {
-		robot.setTargetDir(0, 0, Config::rotationCancelOmega);
+		robot.setTargetDir(0, 0, diff * Config::rotationCancelMultiplier);
 	}
 
 	return true;
@@ -284,8 +285,6 @@ float StopRotationTask::getPercentage() {
     if (!started) {
         return 0.0f;
     }
-
-	float diff = Math::abs(currentOmega - Config::rotationStoppedOmegaThreshold);
 
 	return 100.0f - (diff * 100.0f / Math::abs(startOmega));
 }
