@@ -63,7 +63,7 @@ const float goalFocusMaxOmega = ballFocusMaxOmega;	//< maximum omega to apply wh
 //const float ballChaseMaxSpeed = 0.75f;			//< maximum speed to chase a ball at
 const float ballCloseThreshold = 0.3f;				//< balls closer than this are considered to be close
 const float dribblerOnThreshold = 0.4f;				//< distance at which to turn on the dribbler
-const float ballChaseFarSpeed = 1.0f;				//< how fast to chase far-away balls
+const float ballChaseFarSpeed = 1.5f;				//< how fast to chase far-away balls
 const float ballChaseNearSpeed = 0.35f;				//< how fast to chase near balls
 //const float ballSlowDownAngleThreshold = 20.0f;	//< if the ball angle is larger than this then drive slower
 //const float ballCircleSideSpeed = 0.5f;			//< how fast to turn to the side while circling ball
@@ -80,7 +80,7 @@ const float rotationStoppedOmegaThreshold = 0.25f;
 const float rotationCancelMultiplier = 0.5f;
 const float ballChaseAngleSlowdownMultiplier = 4.0f;
 const float chaseBallBrakeMultiplier = 20.0f;
-const float chaseBallMaxBrakeSpeed = -1.5f;
+const float chaseBallMaxBrakeSpeed = 1.5f;
 
 } // namespace Config
 
