@@ -29,7 +29,7 @@ Dash.WheelGraph.prototype.render = function(state, name) {
 	
 	var x = this.width,
 		currentState = state,
-		multiplier = this.height * 0.015,
+		multiplier = this.height * 0.010,
 		first = true,
 		skipCount = 1,
 		info,
