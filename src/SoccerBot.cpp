@@ -254,9 +254,9 @@ void SoccerBot::setupCameras() {
     } else {
 		std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
 
-		delete frontCamera;
+		//delete frontCamera;
 
-		frontCamera = NULL;
+		//frontCamera = NULL;
 	}
 
 	if (rearCamera->open(Config::rearCameraSerial)) {
@@ -267,9 +267,9 @@ void SoccerBot::setupCameras() {
     } else {
 		std::cout << "- Failed to find rear camera with serial: " << Config::rearCameraSerial << std::endl;
 
-		delete rearCamera;
+		//delete rearCamera;
 
-		rearCamera = NULL;
+		//rearCamera = NULL;
 	}
 
 	std::cout << "! Cameras ready" << std::endl;
@@ -406,7 +406,7 @@ int SoccerBot::updateCameras(double dt) {
 	Camera::FrameYUYV* image = NULL;
 	int captures = 0;
 
-	if (frontCamera != NULL) {
+	if (frontCamera != NULL && frontCamera->capturing()) {
 		image = frontCamera->getFrameYUYV();
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
@@ -451,7 +451,7 @@ int SoccerBot::updateCameras(double dt) {
 		}
 	}
 
-	if (rearCamera != NULL) {
+	if (rearCamera != NULL && rearCamera->capturing()) {
 		image = rearCamera->getFrameYUYV();
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
