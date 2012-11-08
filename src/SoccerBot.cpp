@@ -150,6 +150,8 @@ SoccerBot::~SoccerBot() {
     if (stringCoutStream != NULL) {
         std::cout << "! Killing string-based cout stream.. ";
 
+		std::cout.rdbuf(originalCoutStream);
+
         delete stringCoutStream;
         stringCoutStream = NULL;
 
@@ -688,6 +690,8 @@ void SoccerBot::handleSetControllerCommand(const Command& cmd) {
 
 void SoccerBot::handleGetCameraCalibration(const Command& cmd, websocketpp::server::connection_ptr con) {
     Properties cal;
+
+    cal["exposure"] = Util::toString(frontCamera->getExposure());
     cal["gain"] = Util::toString(frontCamera->getGain());
 
     JsonResponse calibrationResponse("camera-calibration", JSON::stringify(cal));

@@ -681,6 +681,7 @@ Dash.UI.prototype.handleLogMessage = function(messages) {
 Dash.UI.prototype.handleCameraCalibrationMessage = function(calibration) {
 	dash.dbg.console('camera calibration', calibration);
 	
+	$('#camera-exposure').slider('val', parseInt(calibration.exposure));
 	$('#camera-gain').slider('val', parseInt(calibration.gain));
 	
 	this.showModal('camera-calibration');

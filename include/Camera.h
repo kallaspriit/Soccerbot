@@ -65,6 +65,7 @@ class Camera {
         int getSerialNumber() { return getIntParam(XI_PRM_DEVICE_SN); }
         bool supportsColor() { return getIntParam(XI_PRM_IMAGE_IS_COLOR) == 1; }
         int getAvailableBandwidth() { return getIntParam(XI_PRM_AVAILABLE_BANDWIDTH); }
+		int getExposure() { return getIntParam(XI_PRM_EXPOSURE); }
         int getGain() { return getIntParam(XI_PRM_GAIN); }
 
         void setFormat(int format) { setIntParam(XI_PRM_IMAGE_DATA_FORMAT, format); }
