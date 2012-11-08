@@ -102,20 +102,18 @@ void TestController::chaseBallRoutine(double dt) {
 		speed = farApproachSpeed;
 		nearSpeedReached = false;
 	} else {
+		speed = Config::ballChaseNearSpeed;
+
 		if (!nearSpeedReached) {
-			if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+			if (currentVelocityX > Config::ballChaseNearSpeed * 0.5f && currentVelocityX < lastVelocityX) {
 				std::cout << "! BRAKING" << std::endl;
 				speed = 0;
 			} else {
-				speed = Config::ballChaseNearSpeed;
 				nearSpeedReached = true;
 			}
-		} else {
-			speed = Config::ballChaseNearSpeed;
 		}
 	}
 
-	// halve speed at 30deg = 0.5rad
 	float speedDecrease = Math::min(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.9f);
 
 	speed = speed * (1.0f - speedDecrease);
