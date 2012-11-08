@@ -492,6 +492,12 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<stop>');
 	});
 	
+	$(window).keydown(function(e) {
+		if (e.keyCode == 27) {
+			dash.socket.send('<stop>');
+		}
+	});
+	
 	$('#test-turn-btn').click(function() {
 		self.robot.turnBy(Math.PI / 2.0, 2);
 	});

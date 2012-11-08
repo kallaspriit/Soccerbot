@@ -792,10 +792,10 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 									}
 
 									if (
-										sawGreen
-										&& (
-											find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()
-											|| strcmp(color->name, targetColorName) == 0
+										strcmp(color->name, targetColorName) == 0
+										|| (
+											sawGreen
+											&& find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()
 										)
 									) {
 										matches++;
@@ -842,7 +842,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 		}
 	}
 
-	if (!sawWhite && !sawBlack) {
+	if (y1 > Config::whiteBlackMinY && !sawWhite && !sawBlack) {
 		return false;
 	}
 
