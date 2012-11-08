@@ -158,7 +158,9 @@ SoccerBot::~SoccerBot() {
         std::cout << "done!" << std::endl;
     }
 
+	std::cout << "! Removing mutex.. ";
 	DeleteCriticalSection(&socketMutex);
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::init() {
