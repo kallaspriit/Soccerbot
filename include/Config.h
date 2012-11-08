@@ -69,7 +69,7 @@ const int dribblerSpeed = 100;						//< normal dribbler operating speed
 const float spinAroundDribblerPeriod = 2.0f;		//< in how many seconds to spin around the dribbler
 const float spinAroundDribblerRadius = 0.15f;		//< radius at which to spin around the dribbler
 const float spinAroundDribblerForwardSpeed = 0.5f;	//< radius at which to spin around the dribbler
-const float goalMinUndersideMetric = 0.80f;			//< minimum amount of valid pixels under goal
+const float goalMinUndersideMetric = 0.70f;			//< minimum amount of valid pixels under goal
 const int validGoalMinMatches = 10;
 const int whiteBlackMinY = 100;
 
