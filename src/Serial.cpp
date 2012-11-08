@@ -115,7 +115,7 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
         if (isOpen()) {
             close();
 
-			Util::sleep(50);
+			//Util::sleep(50);
         }
 
         if (open(port) != Serial::OK) {
