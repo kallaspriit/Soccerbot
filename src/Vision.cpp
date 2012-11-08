@@ -791,7 +791,13 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 										}
 									}
 
-									if (sawGreen && find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
+									if (
+										sawGreen
+										&& (
+											find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()
+											|| strcmp(color->name, targetColorName) == 0
+										)
+									) {
 										matches++;
 
 										lastColorName = std::string(color->name);
