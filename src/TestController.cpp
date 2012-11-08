@@ -60,7 +60,7 @@ void TestController::watchBallRoutine(double dt) {
 	}
 
 	//float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
-	float omega = focusPid.getValue(ball->angle, dt);
+	float omega = focusPid.getValue(-ball->angle, dt);
 
 	if (omega == Config::ballFocusMaxOmega) {
 		std::cout << "! Omega limited to " << Config::ballFocusMaxOmega << std::endl;
