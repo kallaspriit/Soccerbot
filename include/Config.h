@@ -74,7 +74,7 @@ const int validGoalMinMatches = 10;
 const int whiteBlackMinY = 100;
 const int maxBallSenseRadius = 100;
 const float rotationStoppedOmegaThreshold = 0.25f;
-const float rotationCancelMultiplier = 1.0f;
+const float rotationCancelMultiplier = 0.5f;
 
 } // namespace Config
 
