@@ -745,6 +745,10 @@ Dash.UI.prototype.addState = function(state) {
 };
 
 Dash.UI.prototype.showState = function(index) {
+	if (typeof(this.states[index]) == 'undefined') {
+		return;
+	}
+	
 	var state = this.states[index];
 	
 	this.currentStateIndexWrap.val(index + 1);

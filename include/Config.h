@@ -72,6 +72,7 @@ const float spinAroundDribblerForwardSpeed = 0.5f;	//< radius at which to spin a
 const float goalMinUndersideMetric = 0.70f;			//< minimum amount of valid pixels under goal
 const int validGoalMinMatches = 10;
 const int whiteBlackMinY = 100;
+const int maxBallSenseRadius = 100;
 
 } // namespace Config
 

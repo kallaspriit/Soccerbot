@@ -213,7 +213,7 @@ bool Vision::isValidBall(Object* ball) {
     }
 
     int ballRadius = Math::max(ball->width, ball->height) / 2;
-    int senseRadius = ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f;
+    int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
 
     float surroundMetric = getSurroundMetric(
         ball->x,
@@ -392,6 +392,15 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
         int senseX = x + radius * cos(t);
         int senseY = y + radius * sin(t);
 
+		if (
+			senseX < 0
+			|| senseX > width - 1
+			|| senseY < 0
+			|| senseY > height - 1
+		) {
+			continue;
+		}
+
         Blobber::Color* color = getColorAt(senseX, senseY);
 
         if (color != NULL) {
@@ -427,7 +436,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	y2 = Math::limit(y2, 0, Config::cameraHeight);
 	
 	if (y2 > y1) {
-		return PathMetric(0.0f, 0, false);
+		return PathMetric(1.0f, 0, false);
 	}
 	
 	int F, x, y;
