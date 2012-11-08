@@ -37,6 +37,7 @@ class TestController : public Controller {
 		float lastBallDistance;
 		int searchDir;
 		PID focusPid;
+		float lastVelocityX;
 };
 
 #endif // TESTCONTROLLER_H

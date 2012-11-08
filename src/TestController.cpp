@@ -17,6 +17,7 @@ TestController::TestController(Robot* robot, Vision* vision) : Controller(robot,
 	lastBallDistance = -1;
 	searchDir = 1;
 	newBall = true;
+	lastVelocityX = 0;
 
 	focusPid.p = Config::ballFocusP;
 	focusPid.i = Config::ballFocusI;
@@ -84,21 +85,22 @@ void TestController::chaseBallRoutine(double dt) {
 	if (ball == NULL) {
 		robot->setTargetDir(0, 0, Math::PI);
 		lastBallDistance = -1;
+		focusPid.reset();
 
 		return;
 	}
 
 	float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
 	float speed;
+	float currentVelocityX = robot->getMovement().velocityX;
 
 	//std::cout << "! VEL: " << robot->getVelocity() << std::endl;
 
 	if (ball->distance > Config::ballCloseThreshold) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
-		
-		if (robot->getVelocity() > Config::ballChaseNearSpeed && !robot->isAccelerating()) {
-			std::cout << "! BRAKING." << std::endl;
+		if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+			std::cout << "! BRAKING" << std::endl;
 			speed = 0;
 		} else {
 			speed = Config::ballChaseNearSpeed;
@@ -106,7 +108,7 @@ void TestController::chaseBallRoutine(double dt) {
 	}
 
 	// halve speed at 30deg = 0.5rad
-	float speedDecrease = Math::min(ball->angle * 2.0f, 0.8f);
+	float speedDecrease = Math::min(ball->angle * Config::ballChaseAngleSlowdownMultiplier, 0.9f);
 
 	speed = speed * (1.0f - speedDecrease);
 
@@ -125,6 +127,7 @@ void TestController::chaseBallRoutine(double dt) {
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 
 	lastBallDistance = ball->distance;
+	lastVelocityX = currentVelocityX;
 }
 
 void TestController::findGoalRoutine(double dt) {
