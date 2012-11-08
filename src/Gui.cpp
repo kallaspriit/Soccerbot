@@ -117,52 +117,6 @@ bool Gui::handleCommand(const Command& cmd) {
     return false;
 }
 
-LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch(msg)
-	{
-		/*case WM_CREATE:
-    		hBitmap = (HBITMAP)LoadImage(window, "C:\\projects\\window\\test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-    		printf("Create\n");
-		break;*/
-
-		/*case WM_PAINT:
-    		PAINTSTRUCT 	ps;
-    		HDC 			hdc;
-    		BITMAP 			bitmap;
-    		HDC 			hdcMem;
-			HGDIOBJ 		oldBitmap;
-
-    		hdc = BeginPaint(hWnd, &ps);
-
-    		hdcMem = CreateCompatibleDC(hdc);
-			oldBitmap = SelectObject(hdcMem, hBitmap);
-
-			GetObject(hBitmap, sizeof(bitmap), &bitmap);
-			BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, SRCCOPY);
-
-			SelectObject(hdcMem, oldBitmap);
-			DeleteDC(hdcMem);
-
-    		EndPaint(hWnd, &ps);
-
-			printf("Paint\n");
-    	break;*/
-
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			printf("Destroy\n");
-			return 0;
-		break;
-
-		default:
-			return DefWindowProc(hWnd, msg, wParam, lParam);
-		break;
-	}
-
-	return 0;
-}
-
 void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
 	img.data = image;
 
@@ -250,4 +204,60 @@ void Gui::renderDebugGoals(unsigned char* image, const ObjectList& goals) {
         sprintf(buf, "%d - %d%%", goal->area, density);
         img.drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 9, buf);*/
     }
+}
+
+LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	int x, y;
+
+	switch(msg) {
+		/*case WM_CREATE:
+    		hBitmap = (HBITMAP)LoadImage(window, "C:\\projects\\window\\test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+    		printf("Create\n");
+		break;*/
+
+		/*case WM_PAINT:
+    		PAINTSTRUCT 	ps;
+    		HDC 			hdc;
+    		BITMAP 			bitmap;
+    		HDC 			hdcMem;
+			HGDIOBJ 		oldBitmap;
+
+    		hdc = BeginPaint(hWnd, &ps);
+
+    		hdcMem = CreateCompatibleDC(hdc);
+			oldBitmap = SelectObject(hdcMem, hBitmap);
+
+			GetObject(hBitmap, sizeof(bitmap), &bitmap);
+			BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, SRCCOPY);
+
+			SelectObject(hdcMem, oldBitmap);
+			DeleteDC(hdcMem);
+
+    		EndPaint(hWnd, &ps);
+
+			printf("Paint\n");
+    	break;*/
+
+		case WM_LBUTTONDOWN:
+			x = (short)LOWORD(lParam);
+			y = (short)HIWORD(lParam);
+
+			std::cout << "! Mouse down: " << x << "x" << y << std::endl;
+
+			// Check to see if the left button is held down:
+			//bool leftButtonDown=wParam & MK_LBUTTON;
+		break;
+
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			printf("Destroy\n");
+			return 0;
+		break;
+
+		default:
+			return DefWindowProc(hWnd, msg, wParam, lParam);
+		break;
+	}
+
+	return 0;
 }
