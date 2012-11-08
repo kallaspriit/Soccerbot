@@ -79,6 +79,8 @@ const int maxBallSenseRadius = 100;
 const float rotationStoppedOmegaThreshold = 0.25f;
 const float rotationCancelMultiplier = 0.5f;
 const float ballChaseAngleSlowdownMultiplier = 4.0f;
+const float chaseBallBrakeMultiplier = 10.0f;
+const float chaseBallMaxBrakeSpeed = -1.0f;
 
 } // namespace Config
 
