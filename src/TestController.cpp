@@ -188,8 +188,6 @@ bool TestController::handleCommand(const Command& cmd) {
 		focusK = Util::toFloat(cmd.params[0]);
 
 		std::cout << "! New focus multiplier: " << focusK << std::endl;
-
-		activeRoutine = Routine::CHASE_BALL;
     } else if (cmd.name == "test-find-goal" && cmd.params.size() == 1) {
 		std::cout << "! Testing finding goal" << std::endl;
 
