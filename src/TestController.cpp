@@ -114,7 +114,7 @@ void TestController::chaseBallRoutine(double dt) {
 	}
 
 	// halve speed at 30deg = 0.5rad
-	float speedDecrease = Math::min(ball->angle * Config::ballChaseAngleSlowdownMultiplier, 0.9f);
+	float speedDecrease = Math::min(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.9f);
 
 	speed = speed * (1.0f - speedDecrease);
 
