@@ -34,6 +34,7 @@ class TestController : public Controller {
 		float focusK;
 		bool newBall;
 		float lastBallDistance;
+		int searchDir;
 };
 
 #endif // TESTCONTROLLER_H

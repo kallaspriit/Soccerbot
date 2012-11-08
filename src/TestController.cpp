@@ -15,6 +15,7 @@ TestController::TestController(Robot* robot, Vision* vision) : Controller(robot,
 	targetSide = Side::BLUE;
 	focusK = Config::ballFocusK;
 	lastBallDistance = -1;
+	searchDir = 1;
 	newBall = true;
 };
 
@@ -38,7 +39,7 @@ void TestController::watchBallRoutine(double dt) {
 	const Object* ball = vision->getClosestBall();
 
 	if (ball == NULL) {
-		robot->setTargetDir(0, 0, focusK);
+		robot->setTargetDir(0, 0, focusK * searchDir);
 		newBall = true;
 
 		return;
@@ -48,6 +49,7 @@ void TestController::watchBallRoutine(double dt) {
 		robot->stopRotation();
 
 		newBall = false;
+		searchDir *= -1;
 
 		return;
 	}
