@@ -114,6 +114,8 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
 
         if (isOpen()) {
             close();
+
+			Util::sleep(50);
         }
 
         if (open(port) != Serial::OK) {
@@ -134,7 +136,7 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
         while (attemptsLeft-- > 0) {
 			writeln("?");
 
-			Util::sleep(50);
+			//Util::sleep(50);
 
             while (available() > 0) {
                 std::string message = read();

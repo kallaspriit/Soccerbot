@@ -43,14 +43,14 @@ void TestController::watchBallRoutine(double dt) {
 	const Object* ball = vision->getClosestBall();
 
 	if (ball == NULL) {
-		robot->setTargetDir(0, 0, focusK * searchDir);
+		//robot->setTargetDir(0, 0, focusK * searchDir);
 		newBall = true;
 
 		return;
 	}
 
 	if (newBall) {
-		robot->stopRotation();
+		//robot->stopRotation();
 
 		newBall = false;
 		searchDir *= -1;
