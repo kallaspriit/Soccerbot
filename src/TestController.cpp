@@ -106,8 +106,7 @@ void TestController::chaseBallRoutine(double dt) {
 
 		if (!nearSpeedReached) {
 			if (currentVelocityX > Config::ballChaseNearSpeed * 0.5f && currentVelocityX < lastVelocityX) {
-				std::cout << "! BRAKING" << std::endl;
-				speed = 0;
+				speed = -1.0f;
 			} else {
 				nearSpeedReached = true;
 			}
