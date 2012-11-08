@@ -30,8 +30,8 @@ const std::string utilitySerialPort = "COM1";
 
 const int cameraDownsampling = 2;
 const int cameraFormat = XI_RAW8;
-const int cameraGain = 5;
-const int cameraExposure = 16000;
+const int cameraGain = 10;
+const int cameraExposure = 20000;
 const int cameraWidth = 1280 / cameraDownsampling;
 const int cameraHeight = 1024 / cameraDownsampling;
 const int cameraPathStartX = cameraWidth / 2;
