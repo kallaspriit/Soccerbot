@@ -110,6 +110,8 @@ void TestController::chaseBallRoutine(double dt) {
 				speed = Config::ballChaseNearSpeed;
 				nearSpeedReached = true;
 			}
+		} else {
+			speed = Config::ballChaseNearSpeed;
 		}
 	}
 
