@@ -81,7 +81,7 @@ bool Camera::open(int serial) {
     xiSetParamInt(device, XI_PRM_AUTO_WB, 0);
     xiSetParamFloat(device, XI_PRM_WB_KR, 0.5f); // @TEMP
     xiSetParamFloat(device, XI_PRM_WB_KG, 0.5f);
-    xiSetParamFloat(device, XI_PRM_WB_KB, 2.0f);
+    xiSetParamFloat(device, XI_PRM_WB_KB, 10.0f);
     //xiSetParamFloat(device, XI_PRM_GAMMAY, 1.0f);
     //xiSetParamFloat(device, XI_PRM_GAMMAC, 1.0f);
     //xiSetParamFloat(device, XI_PRM_SHARPNESS, 0.0f);
