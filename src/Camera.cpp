@@ -224,7 +224,7 @@ Camera::FrameYUYV* Camera::getFrameYUYV() {
 
     //double s = Util::millitime();
 
-    libyuv::BayerToI420(
+    libyuv::BayerRGGBToI420(
         frameYUV.data,
         frameYUV.width,
         frameYUV.dataY,
@@ -234,8 +234,7 @@ Camera::FrameYUYV* Camera::getFrameYUYV() {
         frameYUV.dataV,
         frameYUV.strideV,
         frameYUV.width,
-        frameYUV.height,
-		FOURCC('R', 'G', 'G', 'B')
+        frameYUV.height
     );
 
     //std::cout << "RGGB > I420: " << (Util::millitime() - s) << std::endl;
