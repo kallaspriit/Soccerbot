@@ -696,7 +696,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	int matches = 0;
 	int misses = 0;
 	int stepsBelow;
-	bool sawGreen;
+	bool sawGreenOrBlack;
 	bool sawWhite = false;
 	bool sawBlack = false;
 	int minValidX = -1;
@@ -767,7 +767,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 								img.drawMarker(x, senseY, 255, 255, 255);
 							}
 
-							sawGreen = false;
+							sawGreenOrBlack = false;
 
 							for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
 								if (gapY > height - 1) {
@@ -777,11 +777,17 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 								color = getColorAt(x, gapY);
 
 								if (color != NULL) {
-									if (!sawGreen && strcmp(color->name, "green") == 0) {
-										sawGreen = true;
+									if (
+										!sawGreenOrBlack
+										&& (
+											strcmp(color->name, "green") == 0
+											|| strcmp(color->name, "black") == 0
+										)
+									) {
+										sawGreenOrBlack = true;
 									}
 
-									if (sawGreen) {
+									if (sawGreenOrBlack) {
 										if (!sawWhite && strcmp(color->name, "white") == 0) {
 											sawWhite = true;
 										} else if (!sawBlack && strcmp(color->name, "black") == 0) {
@@ -794,7 +800,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 									if (
 										strcmp(color->name, targetColorName) == 0
 										|| (
-											sawGreen
+											sawGreenOrBlack
 											&& find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()
 										)
 									) {
