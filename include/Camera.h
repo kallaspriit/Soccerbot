@@ -52,7 +52,7 @@ class Camera {
         bool open(int serial = 0);
         void startAcquisition();
         void stopAcquisition();
-        const FrameRaw* getFrame();
+        FrameRaw* getFrame();
         //const FrameYUV& getFrameYUV();
         FrameYUYV* getFrameYUYV();
         void close();

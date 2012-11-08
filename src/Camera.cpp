@@ -102,7 +102,11 @@ void Camera::startAcquisition() {
     xiStartAcquisition(device);
 }
 
-const Camera::FrameRaw* Camera::getFrame() {
+Camera::FrameRaw* Camera::getFrame() {
+	if (!opened) {
+		return NULL;
+	}
+
     xiGetImage(device, 100, &image);
 
     if (image.bp == NULL) {
@@ -181,6 +185,10 @@ const Camera::FrameYUV& Camera::getFrameYUV() {
 */
 
 Camera::FrameYUYV* Camera::getFrameYUYV() {
+	if (!opened) {
+		return NULL;
+	}
+
     //double s = Util::millitime();
 
     xiGetImage(device, 100, &image);
@@ -338,6 +346,10 @@ void Camera::close() {
 }
 
 std::string Camera::getStringParam(const char* name) {
+	if (!opened) {
+		return "n/a";
+	}
+
     char stringParam[254];
 
     xiGetParamString(device, name, stringParam, sizeof(stringParam));
@@ -346,6 +358,10 @@ std::string Camera::getStringParam(const char* name) {
 }
 
 int Camera::getIntParam(const char* name) {
+	if (!opened) {
+		return -1;
+	}
+
     int intParam = 0;
 
     xiGetParamInt(device, name, &intParam);
@@ -354,6 +370,10 @@ int Camera::getIntParam(const char* name) {
 }
 
 float Camera::getFloatParam(const char* name) {
+	if (!opened) {
+		return -1.0f;
+	}
+
     float floatParam = 0;
 
     xiGetParamFloat(device, name, &floatParam);
@@ -362,13 +382,25 @@ float Camera::getFloatParam(const char* name) {
 }
 
 void Camera::setStringParam(const char* name, std::string value) {
+	if (!opened) {
+		return;
+	}
+
     xiSetParamString(device, name, (void*)value.c_str(), value.length());
 }
 
 void Camera::setIntParam(const char* name, int value) {
+	if (!opened) {
+		return;
+	}
+
     xiSetParamInt(device, name, value);
 }
 
 void Camera::setFloatParam(const char* name, float value) {
+	if (!opened) {
+		return;
+	}
+
     xiSetParamFloat(device, name, value);
 }
