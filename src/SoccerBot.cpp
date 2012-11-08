@@ -805,6 +805,8 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
         float green = Util::toFloat(cmd.params[1]);
         float blue = Util::toFloat(cmd.params[2]);
 
+		std::cout << "! Set white balance: " << red << ", " << green << ", " << blue << std::endl;
+
         frontCamera->setWhiteBalanceRed(red);
         frontCamera->setWhiteBalanceGreen(green);
         frontCamera->setWhiteBalanceBlue(blue);
