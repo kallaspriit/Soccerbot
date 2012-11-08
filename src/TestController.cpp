@@ -18,6 +18,7 @@ TestController::TestController(Robot* robot, Vision* vision) : Controller(robot,
 	searchDir = 1;
 	newBall = true;
 	lastVelocityX = 0;
+	farApproachSpeed = Config::ballChaseFarSpeed;
 
 	focusPid.p = Config::ballFocusP;
 	focusPid.i = Config::ballFocusI;
@@ -97,7 +98,7 @@ void TestController::chaseBallRoutine(double dt) {
 	//std::cout << "! VEL: " << robot->getVelocity() << std::endl;
 
 	if (ball->distance > Config::ballCloseThreshold) {
-		speed = Config::ballChaseFarSpeed;
+		speed = farApproachSpeed;
 	} else {
 		if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
 			std::cout << "! BRAKING" << std::endl;
@@ -215,6 +216,10 @@ bool TestController::handleCommand(const Command& cmd) {
 		focusPid.iLimit = Util::toFloat(cmd.params[0]);
 
 		std::cout << "! PID I-limit: " << focusPid.iLimit << std::endl;
+    } else if (cmd.name == "s" && cmd.params.size() == 1) {
+		farApproachSpeed = Util::toFloat(cmd.params[0]);
+
+		std::cout << "! Far approach speed: " << farApproachSpeed << std::endl;
     } else if (cmd.name == "test-find-goal") {
 		std::cout << "! Testing finding goal" << std::endl;
 

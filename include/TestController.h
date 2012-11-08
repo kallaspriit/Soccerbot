@@ -38,6 +38,8 @@ class TestController : public Controller {
 		int searchDir;
 		PID focusPid;
 		float lastVelocityX;
+		float farApproachSpeed;
+		bool nearSpeedReached;
 };
 
 #endif // TESTCONTROLLER_H
