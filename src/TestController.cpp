@@ -114,7 +114,7 @@ void TestController::chaseBallRoutine(double dt) {
 
 	//std::cout << "! VEL: " << robot->getVelocity() << std::endl;
 
-	if (ball->distance > Config::ballCloseThreshold) {
+	if (ball->distance > brakeDistance) {
 		speed = farApproachSpeed;
 		nearSpeedReached = false;
 	} else {
