@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include "Config.h"
+#include "PID.h"
 
 class TestController : public Controller {
     public:
@@ -35,6 +36,7 @@ class TestController : public Controller {
 		bool newBall;
 		float lastBallDistance;
 		int searchDir;
+		PID focusPid;
 };
 
 #endif // TESTCONTROLLER_H

@@ -3,6 +3,7 @@
 
 class PID {
     public:
+		PID() : p(1), i(0), d(0) {}
         PID(float p, float i, float d, float iLimit);
         void setTarget(float target) { this->target = target; }
         float getValue(float feedback, double dt);

@@ -47,4 +47,5 @@ float PID::getValue(float feedback, double dt) {
 
 void PID::reset() {
     integral = 0.0f;
+	lastError = 0.0f;
 }

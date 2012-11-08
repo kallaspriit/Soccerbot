@@ -13,10 +13,14 @@
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
 	targetSide = Side::BLUE;
-	focusK = Config::ballFocusK;
+	focusK = Config::ballFocusP;
 	lastBallDistance = -1;
 	searchDir = 1;
 	newBall = true;
+
+	focusPid.p = Config::ballFocusP;
+	focusPid.i = Config::ballFocusI;
+	focusPid.d = Config::ballFocusD;
 };
 
 void TestController::step(double dt) {
@@ -50,11 +54,13 @@ void TestController::watchBallRoutine(double dt) {
 
 		newBall = false;
 		searchDir *= -1;
+		focusPid.reset();
 
 		return;
 	}
 
-	float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
+	//float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
+	float omega = focusPid.getValue(ball->angle, dt);
 
 	if (omega == Config::ballFocusMaxOmega) {
 		std::cout << "! Omega limited to " << Config::ballFocusMaxOmega << std::endl;
@@ -129,7 +135,7 @@ void TestController::findGoalRoutine(double dt) {
 		goal = *it;
 
 		if (goal->type == targetSide) {
-			float omega = Math::limit(goal->angle * Config::goalFocusK, Config::goalFocusMaxOmega);
+			float omega = Math::limit(goal->angle * Config::goalFocusP, Config::goalFocusMaxOmega);
 
 			robot->setTargetDir(0, 0, omega);
 
@@ -186,11 +192,23 @@ bool TestController::handleCommand(const Command& cmd) {
 		std::cout << "! Testing chasing ball" << std::endl;
 
 		activeRoutine = Routine::CHASE_BALL;
-    } else if (cmd.name == "focus") {
+    } else if (cmd.name == "focus" && cmd.params.size() == 1) {
 		focusK = Util::toFloat(cmd.params[0]);
 
 		std::cout << "! New focus multiplier: " << focusK << std::endl;
-    } else if (cmd.name == "test-find-goal" && cmd.params.size() == 1) {
+    } else if (cmd.name == "p" && cmd.params.size() == 1) {
+		focusPid.p = Util::toFloat(cmd.params[0]);
+
+		std::cout << "! PID P: " << focusPid.p << std::endl;
+    } else if (cmd.name == "i" && cmd.params.size() == 1) {
+		focusPid.i = Util::toFloat(cmd.params[0]);
+
+		std::cout << "! PID I: " << focusPid.i << std::endl;
+    } else if (cmd.name == "d" && cmd.params.size() == 1) {
+		focusPid.d = Util::toFloat(cmd.params[0]);
+
+		std::cout << "! PID D: " << focusPid.d << std::endl;
+    } else if (cmd.name == "test-find-goal") {
 		std::cout << "! Testing finding goal" << std::endl;
 
 		activeRoutine = Routine::FIND_GOAL;
