@@ -249,3 +249,42 @@ float DriveFacingTask::getPercentage() {
 std::string DriveFacingTask::toString() {
     return "DriveFacing " + Util::toString(targetX) + "x" + Util::toString(targetY) + " facing " + Util::toString(faceX) + "x" + Util::toString(faceY);
 }
+
+// stops rotation
+void StopRotationTask::onStart(Robot& robot, double dt) {
+	startOmega = robot.getMovement().omega;
+}
+
+bool StopRotationTask::onStep(Robot& robot, double dt) {
+	currentOmega = robot.getMovement().omega;
+
+	if (Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold) {
+		return false;
+	}
+
+	if (currentOmega > 0) {
+		robot.setTargetDir(0, 0, -Config::rotationCancelOmega);
+	} else {
+		robot.setTargetDir(0, 0, Config::rotationCancelOmega);
+	}
+
+	return true;
+}
+
+void StopRotationTask::onEnd(Robot& robot, double dt) {
+	robot.stop();
+}
+
+float StopRotationTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
+	float diff = Math::abs(currentOmega - Config::rotationStoppedOmegaThreshold);
+
+	return 100.0f - (diff * 100.0f / Math::abs(startOmega));
+}
+
+std::string StopRotationTask::toString() {
+    return "StopRotation";
+}

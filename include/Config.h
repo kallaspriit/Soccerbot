@@ -73,6 +73,8 @@ const float goalMinUndersideMetric = 0.70f;			//< minimum amount of valid pixels
 const int validGoalMinMatches = 10;
 const int whiteBlackMinY = 100;
 const int maxBallSenseRadius = 100;
+const float rotationStoppedOmegaThreshold = 0.2f;
+const float rotationCancelOmega = 3.14f;
 
 } // namespace Config
 

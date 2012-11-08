@@ -238,6 +238,11 @@ void Robot::drivePath(const Math::PositionQueue positions, float speed) {
     addTask(new DrivePathTask(positions, speed));
 }
 
+
+void Robot::stopRotation() {
+    addTask(new StopRotationTask());
+}
+
 void Robot::handleTasks(double dt) {
     Task* task = getCurrentTask();
 

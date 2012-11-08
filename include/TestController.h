@@ -31,6 +31,9 @@ class TestController : public Controller {
 	private:
 		Routine activeRoutine;
 		Side targetSide;
+		float focusK;
+		bool newBall;
+		float lastBallDistance;
 };
 
 #endif // TESTCONTROLLER_H

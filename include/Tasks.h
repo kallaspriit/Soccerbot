@@ -117,4 +117,20 @@ class DriveFacingTask : public Task {
         float currentDistance;
 };
 
+class StopRotationTask : public Task {
+    public:
+        StopRotationTask() : Task() {}
+
+        void onStart(Robot& robot, double dt);
+        bool onStep(Robot& robot, double dt);
+        void onEnd(Robot& robot, double dt);
+        float getPercentage();
+        std::string getType() { return "stop-rotation"; };
+        std::string toString();
+
+	private:
+		float startOmega;
+		float currentOmega;
+};
+
 #endif // TASKS_H

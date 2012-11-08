@@ -65,6 +65,7 @@ class Robot {
         void driveTo(float x, float y, float orientation, float speed = 1.0f);
         void driveFacing(float targetX, float targetY, float faceX, float faceY, float speed = 1.0f);
         void drivePath(const Math::PositionQueue positions, float speed = 1.0f);
+		void stopRotation();
 
 		const Robot::Movement& getMovement() const { return movement; }
 

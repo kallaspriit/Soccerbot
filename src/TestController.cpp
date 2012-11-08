@@ -13,6 +13,9 @@
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
 	targetSide = Side::BLUE;
+	focusK = Config::ballFocusK;
+	lastBallDistance = -1;
+	newBall = true;
 };
 
 void TestController::step(double dt) {
@@ -28,13 +31,32 @@ void TestController::step(double dt) {
 }
 
 void TestController::watchBallRoutine(double dt) {
-	const Object* ball = vision->getClosestBall();
-
-	if (ball == NULL) {
+	if (robot->hasTasks()) {
 		return;
 	}
 
-	float omega = Math::limit(ball->angle * Config::ballFocusK, Config::ballFocusMaxOmega);
+	const Object* ball = vision->getClosestBall();
+
+	if (ball == NULL) {
+		robot->setTargetDir(0, 0, Math::PI);
+		newBall = true;
+
+		return;
+	}
+
+	if (newBall) {
+		robot->stopRotation();
+
+		newBall = false;
+
+		return;
+	}
+
+	float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
+
+	if (omega == Config::ballFocusMaxOmega) {
+		std::cout << "! Omega limited to " << Config::ballFocusMaxOmega << std::endl;
+	}
 
 	robot->setTargetOmega(omega);
 }
@@ -53,11 +75,12 @@ void TestController::chaseBallRoutine(double dt) {
 
 	if (ball == NULL) {
 		robot->setTargetDir(0, 0, Math::PI);
+		lastBallDistance = -1;
 
 		return;
 	}
 
-	float omega = Math::limit(ball->angle * Config::ballFocusK, Config::ballFocusMaxOmega);
+	float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
 	float speed;
 
 	//std::cout << "! VEL: " << robot->getVelocity() << std::endl;
@@ -75,7 +98,7 @@ void TestController::chaseBallRoutine(double dt) {
 	}
 
 	// halve speed at 30deg = 0.5rad
-	float speedDecrease = ball->angle * 1.0f;
+	float speedDecrease = Math::min(ball->angle * 2.0f, 0.8f);
 
 	speed = speed * (1.0f - speedDecrease);
 
@@ -92,6 +115,8 @@ void TestController::chaseBallRoutine(double dt) {
 	//float speed = Math::min(ball->distance * Config::ballChaseK, Config::ballChaseMaxSpeed);
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);
+
+	lastBallDistance = ball->distance;
 }
 
 void TestController::findGoalRoutine(double dt) {
@@ -159,7 +184,13 @@ bool TestController::handleCommand(const Command& cmd) {
 		std::cout << "! Testing chasing ball" << std::endl;
 
 		activeRoutine = Routine::CHASE_BALL;
-    } else if (cmd.name == "test-find-goal") {
+    } else if (cmd.name == "focus") {
+		focusK = Util::toFloat(cmd.params[0]);
+
+		std::cout << "! New focus multiplier: " << focusK << std::endl;
+
+		activeRoutine = Routine::CHASE_BALL;
+    } else if (cmd.name == "test-find-goal" && cmd.params.size() == 1) {
 		std::cout << "! Testing finding goal" << std::endl;
 
 		activeRoutine = Routine::FIND_GOAL;
