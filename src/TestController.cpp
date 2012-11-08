@@ -110,7 +110,7 @@ void TestController::chaseBallRoutine(double dt) {
 	float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
-	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX, Config::ballCloseThreshold);
+	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * 2.0f, Config::ballCloseThreshold);
 
 	//std::cout << "! VEL: " << robot->getVelocity() << std::endl;
 
