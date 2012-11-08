@@ -19,6 +19,7 @@ TestController::TestController(Robot* robot, Vision* vision) : Controller(robot,
 	newBall = true;
 	lastVelocityX = 0;
 	farApproachSpeed = Config::ballChaseFarSpeed;
+	nearSpeedReached = false;
 
 	focusPid.p = Config::ballFocusP;
 	focusPid.i = Config::ballFocusI;
@@ -99,12 +100,16 @@ void TestController::chaseBallRoutine(double dt) {
 
 	if (ball->distance > Config::ballCloseThreshold) {
 		speed = farApproachSpeed;
+		nearSpeedReached = false;
 	} else {
-		if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
-			std::cout << "! BRAKING" << std::endl;
-			speed = 0;
-		} else {
-			speed = Config::ballChaseNearSpeed;
+		if (!nearSpeedReached) {
+			if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+				std::cout << "! BRAKING" << std::endl;
+				speed = 0;
+			} else {
+				speed = Config::ballChaseNearSpeed;
+				nearSpeedReached = true;
+			}
 		}
 	}
 
