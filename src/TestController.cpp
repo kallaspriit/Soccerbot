@@ -73,6 +73,10 @@ void TestController::watchBallRoutine(double dt) {
 }
 
 void TestController::chaseBallRoutine(double dt) {
+	if (robot->hasTasks()) {
+		return;
+	}
+
 	if (robot->getDribbler().gotBall()) {
 		//robot->setTargetDir(0, Config::ballCircleSideSpeed, -Config::ballCircleOmega);
 
