@@ -101,6 +101,7 @@ void TestController::chaseBallRoutine(double dt) {
 		robot->stopRotation();
 
 		newBall = false;
+		nearSpeedReached = false;
 		searchDir *= -1;
 		focusPid.reset();
 
