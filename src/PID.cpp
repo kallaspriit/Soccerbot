@@ -22,27 +22,29 @@ float PID::getValue(float feedback, double dt) {
 
     lastError = error;
 
-    float pGain = error * p;
-    float iGain = integral * i;
-    float dGain = derivative * d;
+    float pValue = error * p;
+    float iValue = integral * i;
+    float dValue = derivative * d;
 
-    float iLimitNegative = -1.0f * iLimit;
+	if (iLimit != 0) {
+		float iLimitNegative = -1.0f * iLimit;
 
-    if (iGain < iLimitNegative) {
-        iGain = iLimitNegative;
-        integral = iLimitNegative / i;
-    } else if (iGain > iLimit) {
-        iGain = iLimit;
-        integral = iLimit / i;
-    }
+		if (iValue < iLimitNegative) {
+			iValue = iLimitNegative;
+			integral = iLimitNegative / i;
+		} else if (iValue > iLimit) {
+			iValue = iLimit;
+			integral = iLimit / i;
+		}
+	}
 
     //std::cout << "Integral: " << integral << ", iGain: " << iGain << "\n";
 
-    float totalGain = pGain + iGain + dGain;
+    float pidValue = pValue + iValue + dValue;
 
-    //std::cout << "[" << error << ":" << totalGain << "] P: " << pGain << " I: " << iGain << " D: " << dGain << "\n";
+    //std::cout << "[" << error << ":" << pidValue << "] P: " << pValue << " I: " << iValue << " D: " << dValue << "\n";
 
-    return totalGain;
+    return pidValue;
 }
 
 void PID::reset() {
