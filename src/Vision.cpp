@@ -328,7 +328,7 @@ float Vision::getDistance(Dir dir, int x, int y) {
         distance = rearDistanceLookup.getValue(y - yCorrection);
     }
 
-	return Math::max(distance + Config::distanceCorrection, 0.0f);
+	return Math::max(distance + Config::distanceCorrection, 0.01f);
 }
 
 float Vision::getHorizontalDistance(Dir dir, int x, int y) {
