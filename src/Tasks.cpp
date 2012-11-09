@@ -312,7 +312,10 @@ bool JumpAngleTask::onStep(Robot& robot, double dt) {
 	) {
 		breaking = true;
 
-		if (Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold) {
+		if (
+				Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold
+				|| currentOmega < 0.0f
+			) {
 			return false;
 		} else {
 			if (currentOmega > 0) {

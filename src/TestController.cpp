@@ -245,10 +245,13 @@ bool TestController::handleCommand(const Command& cmd) {
     } else if (cmd.name == "j") {
 		float angle = cmd.params.size() >= 1 ? Util::toFloat(cmd.params[0]) : Math::PI / 3.0f;
 		float speed = cmd.params.size() >= 2 ? Util::toFloat(cmd.params[1]) : 5.0f;
+		int times = cmd.params.size() >= 3 ? Util::toInt(cmd.params[2]) : 1;
 
-		robot->jumpAngle(angle, speed);
+		for (int i = 0; i < times; i++) {
+			robot->jumpAngle(angle, speed);
+		}
 
-		std::cout << "! Jumping angle: " << angle << ", " << speed << std::endl;
+		std::cout << "! Jumping angle: " << angle << ", " << speed << " " << times << " times" << std::endl;
     } else if (cmd.name == "test-find-goal") {
 		std::cout << "! Testing finding goal" << std::endl;
 
