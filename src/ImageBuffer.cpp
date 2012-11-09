@@ -8,15 +8,24 @@ void ImageBuffer::setPixelAt(int x, int y, int red, int green, int blue) {
         return;
     }
 
+	if (
+		x < 0
+		|| x > width - 1
+		|| y < 0
+		|| y > height - 1
+	) {
+		return;
+	}
+
 	if (swapRB) {
 		std::swap(red, blue);
 	}
 
     int index = (x + y * width) * 3;
 
-    if (index + 2 >= width * height * 3 || index < 0) {
+    /*if (index + 2 >= width * height * 3 || index < 0) {
         return;
-    }
+    }*/
 
     data[index] = (char)red;
     data[index + 1] = (char)green;
@@ -307,6 +316,10 @@ void ImageBuffer::drawChar(int imageX, int imageY, int index) {
     unsigned char row;
 
     for (int x = 0; x < cols; x++) {
+		if (imageX + x > width) {
+			break;
+		}
+
         for (int y = 0; y < rows; y++) {
             row = character[x];
 

@@ -6,7 +6,7 @@
 
 class ImageBuffer {
     public:
-        ImageBuffer() : data(NULL), width(-1), height(-1), swapRB(false) {}
+        ImageBuffer() : data(NULL), width(-1), height(-1), swapRB(false) { maxIndex = width * height * 3 - 2; }
         ImageBuffer(unsigned char* data, int width, int height) : data(data), width(width), height(height), swapRB(false) {}
 
         void setPixelAt(int x, int y, int red = 255, int green = 0, int blue = 0);
@@ -26,6 +26,7 @@ class ImageBuffer {
 
     private:
         static const unsigned char font[256][8];
+		int maxIndex;
 };
 
 #endif // IMAGEBUFFER_H
