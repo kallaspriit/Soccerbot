@@ -895,14 +895,15 @@ std::string SoccerBot::getStateJSON() const {
 	// balls
 	ObjectList* balls = NULL;
 	ObjectList frontBalls = vision->getFrontBalls();
-	ObjectList rearBalls = vision->getFrontBalls();
+	ObjectList rearBalls = vision->getRearBalls();
 	Object* ball;
+
+	first = true;
 
 	stream << "\"balls\": [";
 
 	for (int i = 0; i < 2; i++) {
 		balls = i == 0 ? &frontBalls : &rearBalls;
-		first = true;
 
 		for (ObjectListItc it = balls->begin(); it != balls->end(); it++) {
 			ball = *it;
@@ -930,15 +931,16 @@ std::string SoccerBot::getStateJSON() const {
 	// goals
 	ObjectList* goals = NULL;
 	ObjectList frontGoals = vision->getFrontGoals();
-	ObjectList rearGoals = vision->getFrontGoals();
+	ObjectList rearGoals = vision->getRearGoals();
 	Object* goal;
+
+	first = true;
 
 	stream << "\"goals\": [";
 
 	for (int i = 0; i < 2; i++) {
 		goals = i == 0 ? &frontGoals : &rearGoals;
-		first = true;
-
+		
 		for (ObjectListItc it = goals->begin(); it != goals->end(); it++) {
 			goal = *it;
 
