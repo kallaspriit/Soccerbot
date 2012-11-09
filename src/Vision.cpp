@@ -399,7 +399,7 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 			senseX < 0
 			|| senseX > width - 1
 			|| senseY < 0
-			|| senseY > height - 1
+			|| senseY > height - 51
 		) {
 			continue;
 		}

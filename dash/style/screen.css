@@ -176,6 +176,13 @@ A:hover {
 #ball-indicator.got-ball {
 	opacity: 1;
 }
+#fps-indicator {
+	position: absolute;
+	right: 20px;
+	bottom: 10px;
+	font-size: 16px;
+	color: #FFF;
+}
 
 /* Tasks */
 #tasks {

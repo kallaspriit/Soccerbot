@@ -830,6 +830,8 @@ Dash.UI.prototype.showStateStats = function(state) {
 	} else {
 		$('#ball-indicator').removeClass('got-ball');
 	}
+	
+	$('#fps-indicator').html(state.fps + ' FPS');
 };
 
 Dash.UI.prototype.rebuild = function(callback) {
