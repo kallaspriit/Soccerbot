@@ -317,12 +317,15 @@ float Vision::getDistance(Dir dir, int x, int y) {
 	//std::cout << "! Y-correction: " << yCorrection << " at x: " << x << std::endl;
 
 	float yCorrection = 0;
+	float distance;
 
     if (dir == DIR_FRONT) {
-		return frontDistanceLookup.getValue(y - yCorrection);
+		distance = frontDistanceLookup.getValue(y - yCorrection);
     } else {
-        return rearDistanceLookup.getValue(y - yCorrection);
+        distance = rearDistanceLookup.getValue(y - yCorrection);
     }
+
+	return Math::max(distance + Config::distanceCorrection, 0.0f);
 }
 
 float Vision::getHorizontalDistance(Dir dir, int x, int y) {

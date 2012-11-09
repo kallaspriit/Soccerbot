@@ -83,6 +83,7 @@ const float ballChaseAngleSlowdownMultiplier = 4.0f;
 const float chaseBallBrakeMultiplier = 0.5f;
 const float chaseBallMaxBrakeSpeed = 2.0f;
 const float brakeDistanceMultiplier = 1.5f;
+const float distanceCorrection = -0.06f;
 
 } // namespace Config
 
