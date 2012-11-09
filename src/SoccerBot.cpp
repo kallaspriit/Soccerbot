@@ -382,9 +382,9 @@ void SoccerBot::run() {
 
         fpsCounter->step();
 
-        if (fpsCounter->isChanged()) {
+        /*if (fpsCounter->isChanged()) {
             std::cout << "! FPS: " << fpsCounter->getFps() << std::endl;
-        }
+        }*/
 
         updateLogs();
 
@@ -843,6 +843,7 @@ std::string SoccerBot::getStateJSON() const {
     stream << "\"duration\":" << lastStepDuration << ",";
     stream << "\"totalTime\":" << totalTime << ",";
 	stream << "\"gotBall\":" << robot->getDribbler().gotBall() << ",";
+	stream << "\"fps\":" << fpsCounter->getFps() << ",";
 
     // wheels
     stream << "\"wheelFL\": {";
