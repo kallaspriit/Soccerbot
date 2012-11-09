@@ -81,9 +81,9 @@ const float rotationCancelMultiplier = 0.3f;
 const float ballChaseAngleSlowdownMultiplier = 4.0f;
 const float ballChaseAngleMaxSlowdown = 0.9f;
 //const float chaseBallBrakeMultiplier = 20.0f;
-const float chaseBallBrakeMultiplier = 1.1f;
+const float chaseBallBrakeMultiplier = 1.0f;
 const float chaseBallMaxBrakeSpeed = 2.0f;
-const float brakeDistanceMultiplier = 0.75f;
+const float brakeDistanceMultiplier = 1.0f;
 const float distanceCorrection = -0.03f;
 const int maxSurroundSenseY = cameraHeight / 2 - 50;
 
