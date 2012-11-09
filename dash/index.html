@@ -17,6 +17,7 @@
 		<script src="library/dash/Bootstrapper.js"></script>
 		<script src="library/dash/Socket.js"></script>
 		<script src="library/dash/WheelGraph.js"></script>
+		<script src="library/dash/BlobberView.js"></script>
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
 		<script src="library/dash/FpsCounter.js"></script>
@@ -126,6 +127,9 @@
 			<div class="modal" id="camera-view">
 				<img id="frame-img" src="" width="640" height="512"/>
 			</div>
+			<div class="modal" id="blobber-view">
+				<canvas id="blobber-canvas"></canvas>
+			</div>
 			<div id="gamepad"></div>
 			<div id="options">
 				<table class="ctrl manual-ctrl">
@@ -155,6 +159,7 @@
 				<button id="calibrate-camera-btn" class="live-only">Calibrate Camera</button>
 				<button id="calibrate-blobber-btn" class="live-only">Calibrate Blobber</button>
 				<button id="fetch-frame-btn" class="live-only">Fetch Frame</button>
+				<button id="show-blobber-btn" class="live-only">Show Blobber</button>
 				
 				<select name="controller-choice" id="controller-choice" class="live-only seperated" disabled="disabled">
 					<option value="">-- Select Controller --</option>

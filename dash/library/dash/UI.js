@@ -9,6 +9,7 @@ Dash.UI = function() {
 	this.joystickController = null;
 	this.lastLogMessage = null;
 	this.rxCounter = null;
+	this.blobberView = null;
 	this.currentStateIndex = 0;
 	this.repeatedLogCount = 0;
 	
@@ -31,6 +32,7 @@ Dash.UI.prototype.init = function() {
 	this.initJoystickController();
 	this.initKeyListeners();
 	this.initControls();
+	this.initBlobberView();
 };
 
 Dash.UI.prototype.initDebugListener = function() {
@@ -470,6 +472,10 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<get-frame>');
 	});
 	
+	$('#show-blobber-btn').click(function() {
+		dash.ui.showModal('blobber-view');
+	});
+	
 	$('#blobber-class').change(function() {
 		var selectedClass = $('#blobber-class').val();
 		
@@ -585,6 +591,11 @@ Dash.UI.prototype.initControls = function() {
 		
 		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + ',' + mergeThreshold + '>');
 	});
+};
+
+Dash.UI.prototype.initBlobberView = function() {
+	this.blobberView = new Dash.BlobberView();
+	this.blobberView.init();
 };
 
 Dash.UI.prototype.setController = function(name) {
@@ -832,6 +843,10 @@ Dash.UI.prototype.showStateStats = function(state) {
 	}
 	
 	$('#fps-indicator').html(state.fps + ' FPS');
+	
+	if ($('#blobber-view').is(':visible')) {
+		this.blobberView.render(state);
+	}
 };
 
 Dash.UI.prototype.rebuild = function(callback) {
