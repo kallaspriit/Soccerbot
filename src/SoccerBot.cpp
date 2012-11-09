@@ -893,8 +893,6 @@ std::string SoccerBot::getStateJSON() const {
     stream << "],";
 
 	// balls
-    
-
 	ObjectList* balls = NULL;
 	ObjectList frontBalls = vision->getFrontBalls();
 	ObjectList rearBalls = vision->getFrontBalls();
@@ -923,7 +921,42 @@ std::string SoccerBot::getStateJSON() const {
 			stream << "\"distance\": " << ball->distance << ",";
 			stream << "\"angle\": " << ball->angle << ",";
 			stream << "\"camera\": \"" << (i == 0 ? "front" : "rear") << "\"";
-			stream << "},";
+			stream << "}";
+		}
+	}
+
+	stream << "],";
+
+	// goals
+	ObjectList* goals = NULL;
+	ObjectList frontGoals = vision->getFrontGoals();
+	ObjectList rearGoals = vision->getFrontGoals();
+	Object* goal;
+
+	stream << "\"goals\": [";
+
+	for (int i = 0; i < 2; i++) {
+		goals = i == 0 ? &frontGoals : &rearGoals;
+		first = true;
+
+		for (ObjectListItc it = goals->begin(); it != goals->end(); it++) {
+			goal = *it;
+
+			if (!first) {
+				stream << ",";
+			} else {
+				first = false;
+			}
+
+			stream << "{";
+			stream << "\"x\": " << goal->x << ",";
+			stream << "\"y\": " << goal->y << ",";
+			stream << "\"width\": " << goal->width << ",";
+			stream << "\"height\": " << goal->height << ",";
+			stream << "\"distance\": " << goal->distance << ",";
+			stream << "\"angle\": " << goal->angle << ",";
+			stream << "\"camera\": \"" << (i == 0 ? "front" : "rear") << "\"";
+			stream << "}";
 		}
 	}
 
