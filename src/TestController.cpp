@@ -245,7 +245,7 @@ bool TestController::handleCommand(const Command& cmd) {
 		std::cout << "! Far approach speed: " << farApproachSpeed << std::endl;
     } else if (cmd.name == "j") {
 		float angle = cmd.params.size() >= 1 ? Util::toFloat(cmd.params[0]) : 0.35f;
-		float speed = cmd.params.size() >= 2 ? Util::toFloat(cmd.params[1]) : 15.0f;
+		float speed = cmd.params.size() >= 2 ? Util::toFloat(cmd.params[1]) : 13.0f;
 		int times = cmd.params.size() >= 3 ? Util::toInt(cmd.params[2]) : 1;
 
 		for (int i = 0; i < times; i++) {
