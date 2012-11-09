@@ -243,6 +243,10 @@ void Robot::stopRotation() {
     addTask(new StopRotationTask());
 }
 
+void Robot::jumpAngle(float angle, float speed) {
+	addTask(new JumpAngleTask(angle, speed));
+}
+
 void Robot::handleTasks(double dt) {
     Task* task = getCurrentTask();
 

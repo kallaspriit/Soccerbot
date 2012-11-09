@@ -292,3 +292,50 @@ float StopRotationTask::getPercentage() {
 std::string StopRotationTask::toString() {
     return "StopRotation";
 }
+
+// jumps by an angle
+void JumpAngleTask::onStart(Robot& robot, double dt) {
+	startOrientation = robot.getOrientation();
+	targetOrientation = Math::floatModulus(startOrientation + angle, Math::TWO_PI);
+}
+
+bool JumpAngleTask::onStep(Robot& robot, double dt) {
+	float currentOrientation = robot.getOrientation();
+	float currentOmega = robot.getMovement().omega;
+	diff = Math::abs(currentOrientation - targetOrientation);
+	
+	
+	if (
+		diff < 0.2f
+	) {
+		if (Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold) {
+			return false;
+		} else {
+			if (currentOmega > 0) {
+				robot.setTargetDir(0, 0, -diff * Config::jumpAngleStopMultiplier);
+			} else {
+				robot.setTargetDir(0, 0, diff * Config::jumpAngleStopMultiplier);
+			}
+		}
+	} else {
+		robot.setTargetDir(0, 0, speed);
+	}
+
+	return true;
+}
+
+void JumpAngleTask::onEnd(Robot& robot, double dt) {
+	robot.stop();
+}
+
+float JumpAngleTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
+	return 100.0f - (diff * 100.0f / Math::abs(angle));
+}
+
+std::string JumpAngleTask::toString() {
+    return "JumpAngle";
+}

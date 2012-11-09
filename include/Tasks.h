@@ -135,4 +135,23 @@ class StopRotationTask : public Task {
 		float diff;
 };
 
+class JumpAngleTask : public Task {
+    public:
+        JumpAngleTask(float angle, float speed = 1.0f) : Task(), angle(angle), speed(speed) {}
+
+        void onStart(Robot& robot, double dt);
+        bool onStep(Robot& robot, double dt);
+        void onEnd(Robot& robot, double dt);
+        float getPercentage();
+        std::string getType() { return "jump-angle"; };
+        std::string toString();
+
+	private:
+		float startOrientation;
+		float targetOrientation;
+		float speed;
+		float angle;
+		float diff;
+};
+
 #endif // TASKS_H
