@@ -137,7 +137,7 @@ class StopRotationTask : public Task {
 
 class JumpAngleTask : public Task {
     public:
-		JumpAngleTask(float angle = Math::PI / 3.0f, float speed = 5.0f) : Task(), angle(angle), speed(speed) {}
+		JumpAngleTask(float angle = 0.35f, float speed = 15.0f) : Task(), angle(angle), speed(speed) {}
 
         void onStart(Robot& robot, double dt);
         bool onStep(Robot& robot, double dt);
