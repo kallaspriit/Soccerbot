@@ -66,7 +66,7 @@ class Robot {
         void driveFacing(float targetX, float targetY, float faceX, float faceY, float speed = 1.0f);
         void drivePath(const Math::PositionQueue positions, float speed = 1.0f);
 		void stopRotation();
-		void jumpAngle(float angle = Math::PI / 4, float speed = 1.0f);
+		void jumpAngle(float angle = Math::PI / 3.0f, float speed = 5.0f);
 
 		const Robot::Movement& getMovement() const { return movement; }
 

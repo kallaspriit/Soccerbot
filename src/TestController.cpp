@@ -243,8 +243,8 @@ bool TestController::handleCommand(const Command& cmd) {
 
 		std::cout << "! Far approach speed: " << farApproachSpeed << std::endl;
     } else if (cmd.name == "j") {
-		float angle = cmd.params.size() >= 1 ? Util::toFloat(cmd.params[0]) : Math::PI / 4;
-		float speed = cmd.params.size() >= 2 ? Util::toFloat(cmd.params[1]) : 1.0f;
+		float angle = cmd.params.size() >= 1 ? Util::toFloat(cmd.params[0]) : Math::PI / 3.0f;
+		float speed = cmd.params.size() >= 2 ? Util::toFloat(cmd.params[1]) : 5.0f;
 
 		robot->jumpAngle(angle, speed);
 
