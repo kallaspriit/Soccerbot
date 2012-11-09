@@ -246,6 +246,8 @@ bool TestController::handleCommand(const Command& cmd) {
 		float angle = cmd.params.size() >= 1 ? Util::toFloat(cmd.params[0]) : Math::PI / 4;
 		float speed = cmd.params.size() >= 2 ? Util::toFloat(cmd.params[1]) : 1.0f;
 
+		robot->jumpAngle(angle, speed);
+
 		std::cout << "! Jumping angle: " << angle << ", " << speed << std::endl;
     } else if (cmd.name == "test-find-goal") {
 		std::cout << "! Testing finding goal" << std::endl;
