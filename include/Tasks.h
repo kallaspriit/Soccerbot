@@ -152,6 +152,7 @@ class JumpAngleTask : public Task {
 		float speed;
 		float angle;
 		float diff;
+		bool breaking;
 };
 
 #endif // TASKS_H

@@ -297,6 +297,7 @@ std::string StopRotationTask::toString() {
 void JumpAngleTask::onStart(Robot& robot, double dt) {
 	startOrientation = robot.getOrientation();
 	targetOrientation = Math::floatModulus(startOrientation + angle, Math::TWO_PI);
+	breaking = false;
 }
 
 bool JumpAngleTask::onStep(Robot& robot, double dt) {
@@ -307,8 +308,10 @@ bool JumpAngleTask::onStep(Robot& robot, double dt) {
 	
 	if (
 		diff < 0.2f
-		|| currentOrientation > targetOrientation
+		|| breaking
 	) {
+		breaking = true;
+
 		if (Math::abs(currentOmega) < Config::rotationStoppedOmegaThreshold) {
 			return false;
 		} else {
