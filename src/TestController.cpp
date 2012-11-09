@@ -122,7 +122,7 @@ void TestController::chaseBallRoutine(double dt) {
 		speed = Config::ballChaseNearSpeed;
 
 		if (!nearSpeedReached) {
-			if (currentVelocityX > Config::ballChaseNearSpeed * 0.5f && currentVelocityX < lastVelocityX) {
+			if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
 				//speed = -Math::max(Config::chaseBallBrakeMultiplier * ball->distance, Config::chaseBallMaxBrakeSpeed);
 				speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
 			} else {
