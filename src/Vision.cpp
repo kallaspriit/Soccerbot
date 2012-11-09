@@ -393,8 +393,12 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
     bool requiredColorFound = false;
     bool debug = img.data != NULL;
 
+	int start = 0;
+	int sensePoints = points;
+	
 	if (undersideOnly) {
-		points /= 2.0f;
+		start = points / 4;
+		sensePoints /= 2;
 	}
 
     for (int i = 0; i < points; i++) {
