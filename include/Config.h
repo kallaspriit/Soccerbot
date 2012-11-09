@@ -85,6 +85,7 @@ const float chaseBallBrakeMultiplier = 0.5f;
 const float chaseBallMaxBrakeSpeed = 2.0f;
 const float brakeDistanceMultiplier = 1.5f;
 const float distanceCorrection = -0.06f;
+const int maxSurroundSenseY = cameraHeight / 2 - 50;
 
 } // namespace Config
 

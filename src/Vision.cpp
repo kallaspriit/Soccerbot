@@ -387,7 +387,11 @@ Blobber::Color* Vision::getColorAt(int x, int y) {
 }
 
 float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor, bool undersideOnly) {
-    int matches = 0;
+    if (y > Config::maxSurroundSenseY) {
+		return 1.0f;
+	}
+	
+	int matches = 0;
 	int misses = 0;
     int points = radius;
     bool requiredColorFound = false;
@@ -411,7 +415,7 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 			senseX < 0
 			|| senseX > width - 1
 			|| senseY < 0
-			|| senseY > height - 51
+			|| senseY > Config::maxSurroundSenseY
 		) {
 			continue;
 		}
@@ -441,11 +445,13 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
         }
     }
 
-    if (requiredColor != "" && !requiredColorFound) {
+	int sensedPoints = matches + misses;
+
+	if (sensedPoints == 0) {
+		return 1.0f;
+	} else if (requiredColor != "" && !requiredColorFound) {
         return 0.0f;
     } else {
-		int sensedPoints = matches + misses;
-
         return (float)matches / (float)sensedPoints;
     }
 }
