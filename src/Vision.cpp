@@ -234,7 +234,7 @@ bool Vision::isValidBall(Object* ball) {
 			Config::cameraPathStartX,
 			Config::cameraPathStartY,
 			ball->x,
-			ball->y + ballRadius,
+			ball->y + ballRadius * 1.25f,
 			validBallPathColors
 			//,"green"
 		);
@@ -387,6 +387,7 @@ Blobber::Color* Vision::getColorAt(int x, int y) {
 
 float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor) {
     int matches = 0;
+	int misses = 0;
     int points = radius;
     bool requiredColorFound = false;
     bool debug = img.data != NULL;
@@ -415,12 +416,16 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
                 if (debug) {
                     img.drawMarker(senseX, senseY, 0, 200, 0);
                 }
-            }
+            } else {
+				misses++;
+			}
 
             if (requiredColor != "" && color->name == requiredColor) {
                 requiredColorFound = true;
             }
         } else {
+			misses++;
+
             if (debug) {
                 img.drawMarker(senseX, senseY, 200, 0, 0);
             }
@@ -430,7 +435,9 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
     if (requiredColor != "" && !requiredColorFound) {
         return 0.0f;
     } else {
-        return (float)matches / (float)points;
+		int sensedPoints = matches + misses;
+
+        return (float)matches / (float)sensedPoints;
     }
 }
 

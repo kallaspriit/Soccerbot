@@ -35,7 +35,7 @@ const int cameraExposure = 10000;
 const int cameraWidth = 1280 / cameraDownsampling;
 const int cameraHeight = 1024 / cameraDownsampling;
 const int cameraPathStartX = cameraWidth / 2;
-const int cameraPathStartY = cameraHeight - 120;
+const int cameraPathStartY = cameraHeight - 80;
 const int frontCameraSerial = 857769553;
 const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
@@ -83,7 +83,7 @@ const float ballChaseAngleSlowdownMultiplier = 4.0f;
 const float chaseBallBrakeMultiplier = 0.5f;
 const float chaseBallMaxBrakeSpeed = 2.0f;
 const float brakeDistanceMultiplier = 1.5f;
-const float distanceCorrection = -0.03f;
+const float distanceCorrection = -0.06f;
 
 } // namespace Config
 
