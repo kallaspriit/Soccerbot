@@ -48,7 +48,7 @@ const float ballInvalidSpreeScaler = 0.55f;
 const int ballMinInvalidSpree = 4;
 const float goalInvalidSpreeScaler = 0.55f;
 const int goalMinInvalidSpree = 1;
-const float validBallSurroundThreshold = 0.35f;
+const float validBallSurroundThreshold = 0.5f;
 const float validBallPathThreshold = 0.65f;			//< which percentage of pixels need to be valid on ball path
 const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels need to be valid on goal path
 

@@ -397,11 +397,11 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 	int sensePoints = points;
 	
 	if (undersideOnly) {
-		start = points / 4;
-		sensePoints /= 2;
+		start = points / 2;
+		sensePoints = points / 2;
 	}
 
-    for (int i = start; i < sensePoints; i++) {
+    for (int i = start; i < start + sensePoints; i++) {
         double t = 2 * Math::PI * i / points + Math::PI;
 
         int senseX = x + radius * cos(t);
