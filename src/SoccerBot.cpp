@@ -843,7 +843,6 @@ std::string SoccerBot::getStateJSON() const {
     stream << "\"duration\":" << lastStepDuration << ",";
     stream << "\"totalTime\":" << totalTime << ",";
 	stream << "\"gotBall\":" << robot->getDribbler().gotBall() << ",";
-	stream << "\"fps\":" << fpsCounter->getFps() << ",";
 
     // wheels
     stream << "\"wheelFL\": {";
@@ -891,7 +890,39 @@ std::string SoccerBot::getStateJSON() const {
         stream << "}";
     }
 
-    stream << "]";
+    stream << "],";
+
+	// balls
+    
+
+	ObjectList* balls = NULL;
+	ObjectList frontBalls = vision->getFrontBalls();
+	ObjectList rearBalls = vision->getFrontBalls();
+	Object* ball;
+
+	stream << "\"balls\": [";
+
+	for (int i = 0; i < 2; i++) {
+		balls = i == 0 ? &frontBalls : &rearBalls;
+
+		for (ObjectListItc it = balls->begin(); it != balls->end(); it++) {
+			ball = *it;
+
+			stream << "{";
+			stream << "\"x\": " << ball->x << ",";
+			stream << "\"y\": " << ball->y << ",";
+			stream << "\"width\": " << ball->width << ",";
+			stream << "\"height\": " << ball->height << ",";
+			stream << "\"distance\": " << ball->distance << ",";
+			stream << "\"angle\": " << ball->angle << ",";
+			stream << "\"camera\": \"" << (i == 0 ? "front" : "rear") << "\"";
+			stream << "}";
+		}
+	}
+
+	stream << "],";
+
+	stream << "\"fps\":" << fpsCounter->getFps();
 
     stream << "}";
 
