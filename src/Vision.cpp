@@ -229,34 +229,38 @@ bool Vision::isValidBall(Object* ball) {
         return false;
     }
 
-    PathMetric pathMetric = getPathMetric(
-        Config::cameraPathStartX,
-        Config::cameraPathStartY,
-        ball->x,
-		ball->y + ball->height / 2,
-        validBallPathColors
-        //,"green"
-    );
+	if (ball->y < Config::cameraPathStartY) {
+		PathMetric pathMetric = getPathMetric(
+			Config::cameraPathStartX,
+			Config::cameraPathStartY,
+			ball->x,
+			ball->y + ballRadius,
+			validBallPathColors
+			//,"green"
+		);
 
-    //std::cout << "Ball path: " << pathMetric << std::endl;
+		//std::cout << "Ball path: " << pathMetric << std::endl;
 
-	if (
-		pathMetric.percentage < Config::validBallPathThreshold
-		//|| !pathMetric.validColorFound
-		|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
-	) {
-        return false;
-    }
+		// @TODO Path must not contain green-white-black
+
+		if (
+			pathMetric.percentage < Config::validBallPathThreshold
+			//|| !pathMetric.validColorFound
+			|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
+		) {
+			return false;
+		}
+	}
 
     return true;
 }
 
 int Vision::getBallMaxInvalidSpree(int y) {
-	return y / Math::pow(y, Config::goalInvalidSpreeScaler) + Config::ballMinInvalidSpree;
+	return y / 20.0f; // @TODO Something reasonable..
 }
 
 int Vision::getGoalMaxInvalidSpree(int y) {
-	return y / Math::pow(y, Config::goalInvalidSpreeScaler) + Config::goalMinInvalidSpree;
+	return y / 20.0f;
 }
 
 bool Vision::isValidGoal(Object* goal, int side) {
@@ -294,8 +298,6 @@ bool Vision::isValidGoal(Object* goal, int side) {
 
 		//std::cout << "! Goal underside: " << undersideMetric << std::endl;
 	//}
-
-	// @TODO Path must not contain green-white-black
 
 	/*if (
 		pathMetric.percentage < Config::validGoalPathThreshold
