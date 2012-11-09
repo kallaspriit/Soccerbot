@@ -904,9 +904,16 @@ std::string SoccerBot::getStateJSON() const {
 
 	for (int i = 0; i < 2; i++) {
 		balls = i == 0 ? &frontBalls : &rearBalls;
+		first = true;
 
 		for (ObjectListItc it = balls->begin(); it != balls->end(); it++) {
 			ball = *it;
+
+			if (!first) {
+				stream << ",";
+			} else {
+				first = false;
+			}
 
 			stream << "{";
 			stream << "\"x\": " << ball->x << ",";
@@ -916,7 +923,7 @@ std::string SoccerBot::getStateJSON() const {
 			stream << "\"distance\": " << ball->distance << ",";
 			stream << "\"angle\": " << ball->angle << ",";
 			stream << "\"camera\": \"" << (i == 0 ? "front" : "rear") << "\"";
-			stream << "}";
+			stream << "},";
 		}
 	}
 
