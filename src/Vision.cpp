@@ -220,7 +220,8 @@ bool Vision::isValidBall(Object* ball) {
         ball->y,
         senseRadius,
         validBallBgColors,
-		"green"
+		"green",
+		true
     );
 
     //std::cout << "Surround: " << surroundMetric << std::endl;
@@ -246,7 +247,7 @@ bool Vision::isValidBall(Object* ball) {
 		if (
 			pathMetric.percentage < Config::validBallPathThreshold
 			//|| !pathMetric.validColorFound
-			|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
+			//|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
 		) {
 			return false;
 		}
@@ -385,12 +386,16 @@ Blobber::Color* Vision::getColorAt(int x, int y) {
     return blobber->getColorAt(x, y);
 }
 
-float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor) {
+float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor, bool undersideOnly) {
     int matches = 0;
 	int misses = 0;
     int points = radius;
     bool requiredColorFound = false;
     bool debug = img.data != NULL;
+
+	if (undersideOnly) {
+		points /= 2.0f;
+	}
 
     for (int i = 0; i < points; i++) {
         double t = 2 * Math::PI * i / points + Math::PI;

@@ -117,7 +117,7 @@ void TestController::chaseBallRoutine(double dt) {
 
 	if (ball->distance > brakeDistance) {
 		speed = farApproachSpeed;
-		nearSpeedReached = false;
+		//nearSpeedReached = false;
 	} else {
 		speed = Config::ballChaseNearSpeed;
 
@@ -131,7 +131,7 @@ void TestController::chaseBallRoutine(double dt) {
 		}
 	}
 
-	float speedDecrease = Math::min(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.9f);
+	float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 
 	speed = speed * (1.0f - speedDecrease);
 
