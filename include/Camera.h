@@ -45,7 +45,7 @@ class Camera {
 
 				YUYV* pixel = new YUYV();
 
-				int stride = width * 4;
+				int stride = width * 1;
                 int pos = y * stride + x;
 
                 pixel->y1 = dataYUYV[pos];
