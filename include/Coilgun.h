@@ -1,7 +1,7 @@
 #ifndef COILGUN_H
 #define COILGUN_H
 
-class Serial;
+#include "Serial.h"
 
 class Coilgun {
 	public:
@@ -11,6 +11,7 @@ class Coilgun {
 		void kick(int strength = 100);
 		void charge();
 		void discharge();
+		bool isReady() { return serial->isOpen(); }
 		void step(double dt);
 
 	private:
@@ -19,6 +20,7 @@ class Coilgun {
 		bool doKick;
 		bool doDischarge;
 		bool charging;
+		bool ready;
 		double lastKickTime;
 		Serial* serial;
 };

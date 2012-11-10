@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Serial;
+#include "Serial.h"
 
 class Wheel
 {
@@ -14,6 +14,7 @@ class Wheel
         void setTargetOmega(float omega);
         float getTargetOmega() const;
         float getRealOmega() const;
+		bool isReady() const { return serial->isOpen(); }
         void step(double dt);
 
         static float omegaToSpeed(float omega);

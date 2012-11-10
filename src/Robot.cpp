@@ -84,7 +84,7 @@ Robot::~Robot() {
     }
 }
 
-void Robot::init() {
+bool Robot::init() {
     omegaMatrix = Math::Matrix4x3(
         -Math::sin(wheelAngles[0]), Math::cos(wheelAngles[0]), wheelOffset,
 		-Math::sin(wheelAngles[1]), Math::cos(wheelAngles[1]), wheelOffset,
@@ -128,6 +128,19 @@ void Robot::init() {
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
     //setTargetDir(Math::Deg(0.0f), 0.0f, 0.0f);
+
+	if (
+		!wheelFL->isReady()
+		|| !wheelFR->isReady()
+		|| !wheelRL->isReady()
+		|| !wheelRR->isReady()
+		|| !dribbler->isReady()
+		|| !coilgun->isReady()
+	) {
+		return false;
+	}
+
+	return true;
 }
 
 void Robot::step(double dt) {

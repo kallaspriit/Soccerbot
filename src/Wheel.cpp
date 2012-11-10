@@ -1,6 +1,4 @@
 #include "Wheel.h"
-
-#include "Serial.h"
 #include "Maths.h"
 #include "Command.h"
 #include "Util.h"
@@ -10,7 +8,7 @@
 const float Wheel::pidFrequency = 62.5f;
 const float Wheel::ticksPerRevolution = 64.0f * 18.75f;
 
-Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
+Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0) {
     serial = new Serial();
 
     if (serial->open(id) == Serial::OK) {
@@ -18,8 +16,6 @@ Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false) {
 
         // request sending speed automatically
         //serial->writeln("gs1");
-
-        ready = true;
     } else {
         std::cout << "- Failed to find wheel #" << id << " on any of the serial ports" << std::endl;
     }

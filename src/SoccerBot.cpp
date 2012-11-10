@@ -170,6 +170,7 @@ void SoccerBot::init() {
     setupRobot();
     setupCameras();
     setupVision();
+	setupInfoBoard();
 	setupControllers();
     setupFpsCounter();
 	setupSocket();
@@ -209,8 +210,6 @@ void SoccerBot::setupSocket() {
 
     socket->addListener(this);
     socket->listen();
-
-	Util::sleep(500);
 }
 
 void SoccerBot::setupRobot() {
@@ -218,7 +217,11 @@ void SoccerBot::setupRobot() {
 
     robot = new Robot();
 
-    robot->init();
+    if (!robot->init()) {
+		std::cout << "- Robot initialization failed!" << std::endl;
+
+		infoBoard->raiseError();
+	}
 }
 
 void SoccerBot::setupGui(HINSTANCE instance) {
@@ -243,6 +246,8 @@ void SoccerBot::setupCameras() {
     } else {
 		std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
 
+		infoBoard->raiseError();
+
 		//delete frontCamera;
 
 		//frontCamera = NULL;
@@ -255,6 +260,8 @@ void SoccerBot::setupCameras() {
 		rearCamera->startAcquisition();
     } else {
 		std::cout << "- Failed to find rear camera with serial: " << Config::rearCameraSerial << std::endl;
+
+		infoBoard->raiseError();
 
 		//delete rearCamera;
 

@@ -32,7 +32,7 @@ class Robot {
         Robot();
         ~Robot();
 
-        void init();
+        bool init();
         void step(double dt);
 
         inline const Math::Position getPosition() const { return Math::Position(x, y, orientation);  }

@@ -1,5 +1,4 @@
 #include "Coilgun.h"
-#include "Serial.h"
 #include "Util.h"
 #include "Config.h"
 
