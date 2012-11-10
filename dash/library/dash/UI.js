@@ -756,7 +756,7 @@ Dash.UI.prototype.handleFrameMessage = function(frame) {
 	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + frame.rgb);
 	$('#frame-classification').attr('src', 'data:image/jpeg;base64,' + frame.classification);
 
-	//dash.socket.send('<get-frame>');
+	dash.socket.send('<get-frame>');
 };
 
 Dash.UI.prototype.showModal = function(id) {
