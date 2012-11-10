@@ -800,11 +800,12 @@ bool Blobber::loadOptions(std::string filename) {
 		}
 	}
 
-	char buf[4 * BLOBBER_COLOR_LEVELS];
+	const int bufferSize = 4 * BLOBBER_COLOR_LEVELS;
+	char buf[bufferSize];
 	int line = 0;
 	std::string row;
 
-	while(fgets(buf, BLOBBER_MAX_BUF, file)) {
+	while(fgets(buf, bufferSize, file)) {
 		row = std::string(buf);
 
 		if (line == 0) {
