@@ -86,13 +86,12 @@ LRESULT DisplayWindow::handleMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 	switch(msg) {
 		case WM_LBUTTONDOWN:
-			x = (short)LOWORD(lParam);
-			y = (short)HIWORD(lParam);
+			if (gui != NULL) {
+				x = (short)LOWORD(lParam);
+				y = (short)HIWORD(lParam);
 
-			std::cout << "! Mouse down: " << x << "x" << y << std::endl;
-
-			// Check to see if the left button is held down:
-			//bool leftButtonDown=wParam & MK_LBUTTON;
+				gui->onMouseClick(x, y);
+			}
 		break;
 
 		default:

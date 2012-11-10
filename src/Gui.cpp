@@ -118,7 +118,7 @@ bool Gui::handleCommand(const Command& cmd) {
 }
 
 void Gui::onMouseClick(int x, int y) {
-
+	std::cout << "! Mouse click: " << x << "x" << y << std::endl;
 }
 
 void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
