@@ -33,14 +33,24 @@ class Camera {
             unsigned char* dataV;
             unsigned char* dataYUYV;
 
-            YUYV getPixelAt(int x, int y) const {
-                int pos = y * strideY + x;
-                YUYV pixel;
+            YUYV* getPixelAt(int x, int y) const {
+				if (
+					x < 0
+					|| x > width - 1
+					|| y < 0
+					|| y > height - 1
+				) {
+					return NULL;
+				}
 
-                pixel.y1 = dataYUYV[pos];
-                pixel.u = dataYUYV[pos + 1];
-                pixel.y2 = dataYUYV[pos + 2];
-                pixel.v = dataYUYV[pos + 3];
+				YUYV* pixel = new YUYV();
+
+                int pos = y * strideY + x;
+
+                pixel->y1 = dataYUYV[pos];
+                pixel->u = dataYUYV[pos + 1];
+                pixel->y2 = dataYUYV[pos + 2];
+                pixel->v = dataYUYV[pos + 3];
 
                 return pixel;
             }
@@ -55,6 +65,7 @@ class Camera {
         FrameRaw* getFrame();
         //const FrameYUV& getFrameYUV();
         FrameYUYV* getFrameYUYV();
+		FrameYUYV* getLastFrame() { return &frameYUV; }
 		inline bool capturing() const { return opened; }
         void close();
 

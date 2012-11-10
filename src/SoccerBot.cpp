@@ -239,7 +239,7 @@ void SoccerBot::setupRobot() {
 void SoccerBot::setupGui(HINSTANCE instance) {
 	std::cout << "! Setting up GUI.. ";
 
-    gui = new Gui(instance, Config::cameraWidth, Config::cameraHeight);
+    gui = new Gui(instance, Config::cameraWidth, Config::cameraHeight, this);
 
 	std::cout << "done!" << std::endl;
 }

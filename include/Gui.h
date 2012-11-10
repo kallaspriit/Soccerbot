@@ -1,6 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
+#define _WINSOCKAPI_
 #include <windows.h>
 
 #include "DisplayWindow.h"
@@ -9,10 +10,11 @@
 
 class Command;
 class Vision;
+class SoccerBot;
 
 class Gui {
     public:
-        Gui(HINSTANCE instance, int width, int height);
+        Gui(HINSTANCE instance, int width, int height, SoccerBot* bot);
         ~Gui();
 
         void setFrontCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision);
@@ -36,6 +38,7 @@ class Gui {
         DisplayWindow* rearCameraClassification;
 		DisplayWindow* frontCameraRGB;
         DisplayWindow* rearCameraRGB;
+		SoccerBot* bot;
 };
 
 #endif // GUI_H

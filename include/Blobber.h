@@ -205,6 +205,7 @@ class Blobber {
         }
 
         Color* getColorAt(int x, int y);
+		Pixel* getPixelAt(int x, int y);
 
         void setColor(int color, Color& info) {
             colors[color] = info;

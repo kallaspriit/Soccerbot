@@ -41,6 +41,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         std::string getActiveControllerName();
 
         inline Gui* getGui() const { return gui; }
+		inline Vision* getVision() const { return vision; }
+		inline Camera* getFrontCamera() const { return frontCamera; }
 
         void onSocketOpen(websocketpp::server::connection_ptr con);
         void onSocketClose(websocketpp::server::connection_ptr con);

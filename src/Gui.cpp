@@ -5,19 +5,22 @@
 #include "Vision.h"
 #include "Config.h"
 #include "Vision.h"
+#include "SoccerBot.h"
+#include "Camera.h"
 
 #include <iostream>
 
 LRESULT CALLBACK WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 
-Gui::Gui(HINSTANCE instance, int width, int height) :
+Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
 	instance(instance),
     width(width),
     height(height),
     frontCameraClassification(NULL),
     rearCameraClassification(NULL),
 	frontCameraRGB(NULL),
-    rearCameraRGB(NULL)
+    rearCameraRGB(NULL),
+	bot(bot)
 {
 	img.width = width;
 	img.height = height;
@@ -118,7 +121,16 @@ bool Gui::handleCommand(const Command& cmd) {
 }
 
 void Gui::onMouseClick(int x, int y) {
-	std::cout << "! Mouse click: " << x << "x" << y << std::endl;
+	Vision* vision = bot->getVision();
+	Camera::YUYV* pixel = bot->getFrontCamera()->getLastFrame()->getPixelAt(x, y);
+
+	if (pixel == NULL) {
+		std::cout << "! No color found at: " << x << "x" << y << std::endl;
+
+		return;
+	}
+
+	std::cout << "! Mouse click: " << x << "x" << y << ": " << pixel->y1 << "," << pixel->u<< "," << pixel->y2<< "," << pixel->v << std::endl;
 }
 
 void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
