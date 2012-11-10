@@ -825,10 +825,16 @@ bool Blobber::saveOptions(std::string filename) {
 		return false;
 	}
 
+	for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
+		fprintf(file, "%d %d %d", yClass[i], uClass[i], vClass[i]);
+	}
+
+	fprintf(file, "\n");
+
 	for (int i = 0; i < colorCount; i++) {
 		color = &colors[i];
 
-		fprintf(file,"%s %6.4lf %d\n", color->name, color->mergeThreshold, color->expectedBlobs);
+		fprintf(file, "%s %6.4lf %d\n", color->name, color->mergeThreshold, color->expectedBlobs);
 	}
 
 	fclose(file);
