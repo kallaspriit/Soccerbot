@@ -592,11 +592,11 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + ',' + mergeThreshold + '>');
 	});
 	
-	$('#frame-img').bind('contextmenu', function(e) {
+	$('#frame-img, #frame-classification').bind('contextmenu', function(e) {
 		e.preventDefault();
 	});
 	
-	$('#frame-img').mousedown(function(e) {
+	$('#frame-img, #frame-classification').mousedown(function(e) {
 		var x = e.offsetX,
 			y = e.offsetY,
 			mode = 2,
@@ -749,6 +749,8 @@ Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
 Dash.UI.prototype.handleFrameMessage = function(frame) {
 	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + frame.rgb);
 	$('#frame-classification').attr('src', 'data:image/jpeg;base64,' + frame.classification);
+
+	dash.socket.send('<get-frame>');
 
 	this.showModal('camera-view');
 };
