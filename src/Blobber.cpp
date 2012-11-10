@@ -783,7 +783,7 @@ bool Blobber::loadOptions(std::string filename)
     return(true);
 }
 
-bool Blobber::saveOptions(std::string filename) {
+/*bool Blobber::saveOptions(std::string filename) {
     Color* c;
     FILE* out;
     int i;
@@ -815,6 +815,25 @@ bool Blobber::saveOptions(std::string filename) {
     fclose(out);
 
     return(true);
+}*/
+
+bool Blobber::saveOptions(std::string filename) {
+	FILE* file = fopen(filename.c_str(), "wt");
+	Color* color;
+
+	if (!file) {
+		return false;
+	}
+
+	for (int i = 0; i < colorCount; i++) {
+		color = &colors[i];
+
+		fprintf(file,"%s %6.4lf %d\n", color->name, color->mergeThreshold, color->expectedBlobs);
+	}
+
+	fclose(file);
+
+	return true;
 }
 
 bool Blobber::enable(unsigned opt) {
