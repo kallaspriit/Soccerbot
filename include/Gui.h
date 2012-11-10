@@ -26,9 +26,6 @@ class Gui {
 		DisplayWindow* createWindow(int width, int height, std::string name);
 
     private:
-		void renderDebugBalls(unsigned char* image, const ObjectList& balls);
-		void renderDebugGoals(unsigned char* image, const ObjectList& goals);
-
         int width;
         int height;
 		HINSTANCE instance;
