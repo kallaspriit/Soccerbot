@@ -788,6 +788,8 @@ bool Blobber::loadOptions(std::string filename) {
 		return false;
 	}
 
+	colorCount = 0;
+
 	for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
 		yClass[i] = uClass[i] = vClass[i] = 0;
 	}
@@ -801,9 +803,12 @@ bool Blobber::loadOptions(std::string filename) {
 	}
 
 	const int bufferSize = 4 * 3 * BLOBBER_COLOR_LEVELS;
-	char buf[bufferSize];
+	char buf[bufferSize], str[256];
 	int line = 0;
 	std::string row;
+
+	int red, green, blue, expectedBlobs;
+	double mergeThreshold;
 
 	while (fgets(buf, bufferSize, file)) {
 		row = std::string(buf);
@@ -819,8 +824,23 @@ bool Blobber::loadOptions(std::string filename) {
 				u = (unsigned)atoi(row.substr(pos + 4, 3).c_str());
 				v = (unsigned)atoi(row.substr(pos + 8, 3).c_str());
 
+				yClass[i] = y;
+				uClass[i] = u;
+				vClass[i] = v;
+
 				printf("Read #%d: %d, %d, %d\n", i, y, u, v);
 			}
+		} else {
+			sscanf(buf,"%s %d %d %d %lf %d", str, red, green, blue, mergeThreshold, expectedBlobs);
+
+			color = &colors[colorCount];
+            color->color.red = red;
+            color->color.green= green;
+            color->color.blue = blue;
+            color->name  = strdup(str);
+            color->mergeThreshold = mergeThreshold;
+            color->expectedBlobs = expectedBlobs;
+            colorCount++;
 		}
 
 		line++;
