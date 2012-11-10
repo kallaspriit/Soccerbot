@@ -15,7 +15,7 @@ DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::str
 		NULL,
 		NULL,
 		instance,
-		NULL
+		(void*)this
 	);
 
 	if (!hWnd) {
