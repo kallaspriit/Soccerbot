@@ -137,6 +137,7 @@
     <ClCompile Include="src\Canvas.cpp" />
     <ClCompile Include="src\Coilgun.cpp" />
     <ClCompile Include="src\Command.cpp" />
+    <ClCompile Include="src\DebugRenderer.cpp" />
     <ClCompile Include="src\DisplayWindow.cpp" />
     <ClCompile Include="src\Dribbler.cpp" />
     <ClCompile Include="src\FpsCounter.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="include\Command.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Controller.h" />
+    <ClInclude Include="include\DebugRenderer.h" />
     <ClInclude Include="include\DisplayWindow.h" />
     <ClInclude Include="include\Dribbler.h" />
     <ClInclude Include="include\FpsCounter.h" />

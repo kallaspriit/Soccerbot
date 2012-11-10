@@ -1,8 +1,9 @@
 #include "DebugRenderer.h"
-#include "Object.h"
 #include "Config.h"
+#include "ImageBuffer.h"
+#include "Maths.h"
 
-DebugRenderer::render(unsigned char* image, const ObjectList& balls, const ObjectList& goals) {
+void DebugRenderer::render(unsigned char* image, const ObjectList& balls, const ObjectList& goals) {
 	ImageBuffer img;
 
 	img.data = image;
@@ -13,24 +14,22 @@ DebugRenderer::render(unsigned char* image, const ObjectList& balls, const Objec
 	renderGoals(&img, goals);
 }
 
-void DebugRenderer::renderDebugBalls(ImageBuffer* img, const ObjectList& balls) {
-	img.data = image;
-
+void DebugRenderer::renderBalls(ImageBuffer* img, const ObjectList& balls) {
 	Object* ball = NULL;
     char buf[256];
 
     for (ObjectListItc it = balls.begin(); it != balls.end(); it++) {
         ball = *it;
 
-        img.drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
-		img.drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
-        img.drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
+        img->drawBoxCentered(ball->x, ball->y, ball->width, ball->height);
+		img->drawLine(ball->x - ball->width / 2, ball->y - ball->height / 2, ball->x + ball->width / 2, ball->y + ball->height / 2);
+        img->drawLine(ball->x - ball->width / 2, ball->y + ball->height / 2, ball->x + ball->width / 2, ball->y - ball->height / 2);
 
 		sprintf(buf, "%.2fm  %.1f deg", ball->distance, Math::radToDeg(ball->angle));
-        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
+        img->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
 
 		sprintf(buf, "%d x %d", ball->x, ball->y + ball->height / 2);
-        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
+        img->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
 
         int boxArea = ball->width * ball->height;
 
@@ -41,11 +40,11 @@ void DebugRenderer::renderDebugBalls(ImageBuffer* img, const ObjectList& balls) 
         int density = ball->area * 100 / boxArea;
 
         sprintf(buf, "%d - %d%%", ball->area, density);
-        img.drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);*/
+        img->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);*/
     }
 
 	// TEMP - draw centerline
-	img.drawLine(width / 2, 0, width / 2, height);
+	img->drawLine(Config::cameraWidth / 2, 0, Config::cameraWidth / 2, Config::cameraHeight);
 
     /*Blobber::Blob* blob = blobber->getBlobs("ball");
 
@@ -56,9 +55,7 @@ void DebugRenderer::renderDebugBalls(ImageBuffer* img, const ObjectList& balls) 
     }*/
 }
 
-void DebugRenderer::renderDebugGoals(ImageBuffer* img, const ObjectList& goals) {
-	img.data = image;
-
+void DebugRenderer::renderGoals(ImageBuffer* img, const ObjectList& goals) {
 	Object* goal = NULL;
     char buf[256];
 	int r, g, b;
@@ -76,15 +73,15 @@ void DebugRenderer::renderDebugGoals(ImageBuffer* img, const ObjectList& goals) 
 			b = 200;
 		}
 
-        img.drawBoxCentered(goal->x, goal->y, goal->width, goal->height, r, g, b);
-		img.drawLine(goal->x - goal->width / 2, goal->y - goal->height / 2, goal->x + goal->width / 2, goal->y + goal->height / 2, r, g, b);
-        img.drawLine(goal->x - goal->width / 2, goal->y + goal->height / 2, goal->x + goal->width / 2, goal->y - goal->height / 2, r, g, b);
+        img->drawBoxCentered(goal->x, goal->y, goal->width, goal->height, r, g, b);
+		img->drawLine(goal->x - goal->width / 2, goal->y - goal->height / 2, goal->x + goal->width / 2, goal->y + goal->height / 2, r, g, b);
+        img->drawLine(goal->x - goal->width / 2, goal->y + goal->height / 2, goal->x + goal->width / 2, goal->y - goal->height / 2, r, g, b);
 
         sprintf(buf, "%.2fm %.1f deg", goal->distance, Math::radToDeg(goal->angle));
-        img.drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 19, buf);
+        img->drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 19, buf);
 
 		sprintf(buf, "%d x %d", goal->x, goal->y + goal->height / 2);
-        img.drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 9, buf);
+        img->drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 9, buf);
 
         int boxArea = goal->width * goal->height;
 
@@ -95,6 +92,6 @@ void DebugRenderer::renderDebugGoals(ImageBuffer* img, const ObjectList& goals) 
         int density = goal->area * 100 / boxArea;
 
         sprintf(buf, "%d - %d%%", goal->area, density);
-        img.drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 9, buf);*/
+        img->drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 9, buf);*/
     }
 }
