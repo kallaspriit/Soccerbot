@@ -81,7 +81,7 @@ Gui::~Gui() {
 }
 
 DisplayWindow* Gui::createWindow(int width, int height, std::string name) {
-	return new DisplayWindow(instance, width, height, name);
+	return new DisplayWindow(instance, width, height, name, this);
 }
 
 void Gui::setFrontCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision) {
