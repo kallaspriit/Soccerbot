@@ -452,7 +452,7 @@ int SoccerBot::updateCameras(double dt) {
 					rgbaBuffer, image->width * 4,
 					image->width, image->height
 				);
-
+				
 				libyuv::ARGBToRGB24(
 					rgbaBuffer, image->width * 4,
 					rgbBuffer, image->width * 3,
