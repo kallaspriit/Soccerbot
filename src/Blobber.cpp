@@ -840,6 +840,7 @@ bool Blobber::loadOptions(std::string filename) {
             color->name  = strdup(str);
             color->mergeThreshold = mergeThreshold;
             color->expectedBlobs = expectedBlobs;
+
             colorCount++;
 		}
 
@@ -900,7 +901,7 @@ bool Blobber::saveOptions(std::string filename) {
 	for (int i = 0; i < colorCount; i++) {
 		color = &colors[i];
 
-		fprintf(file, "%d %d %d %6.4lf %d %s\n", color->name, color->color.red, color->color.green, color->color.blue, color->mergeThreshold, color->expectedBlobs);
+		fprintf(file, "%d %d %d %6.4lf %d %s\n", color->color.red, color->color.green, color->color.blue, color->mergeThreshold, color->expectedBlobs, color->name);
 	}
 
 	fclose(file);
