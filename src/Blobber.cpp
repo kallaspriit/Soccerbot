@@ -1,5 +1,7 @@
 #include "Blobber.h"
 
+#include <string>
+
 /*=========================================================================
 Implementation of the CMVision real time Color Machine Vision library
 -------------------------------------------------------------------------
@@ -671,6 +673,7 @@ bool Blobber::initialize(int width, int height) {
 #define BLOBBER_STATE_THRESH 2
 #define BLOBBER_MAX_BUF 256
 
+/*
 bool Blobber::loadOptions(std::string filename)
 // Loads in options file specifying color names and representative
 // rgb triplets.  Also loads in color class threshold values.
@@ -772,15 +775,56 @@ bool Blobber::loadOptions(std::string filename)
         }
     }
 
-    /*
-    for(i=0; i<BLOBBER_COLOR_LEVELS; i++){
-      printf("%08X %08X %08X\n",yClass[i],uClass[i],vClass[i]);
-    }
-    */
-
     fclose(in);
 
     return(true);
+}
+*/
+
+bool Blobber::loadOptions(std::string filename) {
+	FILE* file = fopen(filename.c_str(), "wt");
+	Color* color;
+
+	if (!file) {
+		return false;
+	}
+
+	for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
+		yClass[i] = uClass[i] = vClass[i] = 0;
+	}
+
+	for (int i = 0; i < BLOBBER_MAX_COLORS; i++) {
+		if (colors[i].name) {
+			delete(colors[i].name);
+
+			colors[i].name = NULL;
+		}
+	}
+
+	char buf[BLOBBER_MAX_BUF], str[BLOBBER_MAX_BUF];
+	int line = 0;
+	std::string row;
+
+	while(fgets(buf, BLOBBER_MAX_BUF, file)) {
+		row = std::string(buf);
+
+		if (line == 0) {
+			int pos;
+			unsigned y, u, v;
+
+			for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
+				pos = i * 4;
+
+				y = (unsigned)atoi(row.substr(pos, 3).c_str());
+				u = (unsigned)atoi(row.substr(pos + 4, 3).c_str());
+				v = (unsigned)atoi(row.substr(pos + 8, 3).c_str());
+
+				printf("Read: %u, %u, %u\n", y, u, v);
+			}
+		}
+
+		line++;
+	}
 }
 
 /*bool Blobber::saveOptions(std::string filename) {
@@ -826,7 +870,7 @@ bool Blobber::saveOptions(std::string filename) {
 	}
 
 	for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
-		fprintf(file, "%s%u %u %u", i > 0 ? " " : "", yClass[i], uClass[i], vClass[i]);
+		fprintf(file, "%s%3u %3u %3u", i > 0 ? " " : "", yClass[i], uClass[i], vClass[i]);
 	}
 
 	fprintf(file, "\n");
