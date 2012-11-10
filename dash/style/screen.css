@@ -100,7 +100,16 @@ A:hover {
 	height: 512px;
 	margin: -256px 0 0 -320px;
 	padding: 0;
-	overflow: hidden;
+	overflow: visible;
+}
+#frame-img {
+	width: 640px;
+	height: 512px;
+}
+#camera-view-controls {
+	position: absolute;
+	left: 0;
+	top: -30px;
 }
 #blobber-view {
 	width: 1280px;

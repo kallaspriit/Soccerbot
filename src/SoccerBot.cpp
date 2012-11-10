@@ -817,9 +817,13 @@ void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::c
     Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, frame, rgbBuffer);
 
     Util::jpegEncode(rgbBuffer, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
-    std::string base64img = Util::base64Encode(jpegBuffer, jpegBufferSize);
+    std::string base64Rgb = Util::base64Encode(jpegBuffer, jpegBufferSize);
 
-    JsonResponse frameResponse("frame", "\"" + base64img + "\"");
+	ImageBuffer* classification = vision->classify();
+	Util::jpegEncode(classification->data, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
+	std::string base64Classification = Util::base64Encode(jpegBuffer, jpegBufferSize);
+
+	JsonResponse frameResponse("frame", "{\"rgb\": \"" + base64Rgb + "\",\"classification\": \"" + base64Classification + "\"}");
 
     con->send(frameResponse.toJSON());
 }

@@ -592,14 +592,35 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + ',' + mergeThreshold + '>');
 	});
 	
-	$('#frame-img').click(function(e) {
+	$('#frame-img').bind('contextmenu', function(e) {
+		e.preventDefault();
+	});
+	
+	$('#frame-img').mousedown(function(e) {
 		var x = e.offsetX,
 			y = e.offsetY,
-			mode = 2;
-			
-		console.log('img', e);
+			mode = 2,
+			color = $('#threshold-class').val(),
+			brush = $('#threshold-brush').val();
 		
-		dash.socket.send('<blobber-threshold:green,' + x + ',' + y + ',2,10>');
+		switch (e.which) {
+			case 1:
+				mode = 2;
+			break;
+			
+			case 2:
+				mode = 1;
+			break;
+			
+			case 3:
+				mode = 3;
+			break;
+		}
+			
+		dash.socket.send('<blobber-threshold:' + color + ',' + x + ',' + y + ',' + mode + ',' + brush + '>');
+		dash.socket.send('<get-frame>');
+		
+		e.preventDefault();
 	});
 };
 
@@ -725,14 +746,14 @@ Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
 	this.showModal('blobber-calibration');
 };
 
-Dash.UI.prototype.handleFrameMessage = function(base64Image) {
-	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + base64Image);
+Dash.UI.prototype.handleFrameMessage = function(frame) {
+	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + frame.rgb);
 
 	this.showModal('camera-view');
 };
 
 Dash.UI.prototype.showModal = function(id) {
-	$('.modal').fadeOut(100);
+	$('.modal[id!="' + id + '"]').fadeOut(100);
 	
 	$('#' + id).fadeIn(150, function() {
 		$(this).one('clickoutside', function() {
