@@ -411,32 +411,32 @@ int SoccerBot::updateCameras(double dt) {
 	ImageBuffer* classification = NULL;
 	Camera::FrameYUYV* image = NULL;
 	int captures = 0;
-	double s;
+	//double s;
 
 	if (frontCamera != NULL && frontCamera->capturing()) {
-		s = Util::millitime();
+		//s = Util::millitime();
 		image = frontCamera->getFrameYUYV();
-		printf("@ Get frame: %.4f\n", Util::duration(s));
+		//printf("@ Get frame: %.4f\n", Util::duration(s));
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
 
 		if (image != NULL) {
-			s = Util::millitime();
+			//s = Util::millitime();
 			vision->setFrame(image->dataYUYV);
-			printf("@ Blobber: %.4f\n", Util::duration(s));
+			//printf("@ Blobber: %.4f\n", Util::duration(s));
 
 			if (gui != NULL) {
-				s = Util::millitime();
+				//s = Util::millitime();
 				classification = vision->classify();
-				printf("@ Classification: %.4f\n", Util::duration(s));
+				//printf("@ Classification: %.4f\n", Util::duration(s));
 			}
 
-			s = Util::millitime();
+			//s = Util::millitime();
 			vision->process(Vision::DIR_FRONT);
-			printf("@ Process: %.4f\n", Util::duration(s));
+			//printf("@ Process: %.4f\n", Util::duration(s));
 
 			if (gui != NULL) {
-				s = Util::millitime();
+				//s = Util::millitime();
 
 				char buf[64];
 				sprintf(buf, "FPS: %d", fpsCounter->getFps());
@@ -461,7 +461,7 @@ int SoccerBot::updateCameras(double dt) {
 
 				gui->setFrontCamera(rgbBuffer, classification->data, *vision);
 
-				printf("@ GUI: %.4f\n", Util::duration(s));
+				//printf("@ GUI: %.4f\n", Util::duration(s));
 			}
 
 			captures++;
