@@ -831,7 +831,7 @@ bool Blobber::loadOptions(std::string filename) {
 				printf("Read #%d: %d, %d, %d\n", i, y, u, v);
 			}
 		} else {
-			sscanf(buf, "%d %d %d %lf %d %s", str, &red, &green, &blue, &mergeThreshold, &expectedBlobs);
+			sscanf(buf, "%d %d %d %lf %d %s", &red, &green, &blue, &mergeThreshold, &expectedBlobs, str);
 
 			color = &colors[colorCount];
             color->color.red = red;
