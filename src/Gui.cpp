@@ -221,6 +221,8 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
 			if (displayWindow != NULL) {
 				return displayWindow->handleMessage(hWnd, msg, wParam, lParam);
+			} else {
+				return DefWindowProc(hWnd, msg, wParam, lParam);
 			}
 		break;
 	}
