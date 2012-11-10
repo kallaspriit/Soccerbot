@@ -67,7 +67,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\XIMEA\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>m3api.lib;websocketpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
@@ -97,7 +97,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\XIMEA\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>m3api.lib;websocketpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>call "C:\soccerbot\post-build.bat"</Command>

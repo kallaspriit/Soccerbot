@@ -107,7 +107,8 @@ void Util::jpegEncode(const unsigned char* input, void* output, int &bufferSize,
 
 double Util::millitime() {
 	//return (double)GetTickCount() / 1000.0;
-	return ((double)clock() / (double)CLOCKS_PER_SEC);
+	//return ((double)clock() / (double)CLOCKS_PER_SEC);
+	return timeGetTime() / 1000.0;
 
 	//return time(0) * 1000.0;
 
