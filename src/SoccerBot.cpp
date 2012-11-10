@@ -629,6 +629,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleGetBlobberCalibration(command, con);
             } else if (command.name == "set-blobber-calibration" && command.params.size() == 8) {
                 handleSetBlobberCalibration(command);
+            } else if (command.name == "blobber-threshold" && command.params.size() == 5) {
+                handleBlobberThresholdCommand(command);
             } else if (command.name == "get-frame") {
                 handleGetFrameCommand(command, con);
             } else if (command.name == "stop") {
@@ -752,6 +754,45 @@ void SoccerBot::handleSetBlobberCalibration(const Command& cmd) {
     //std::cout << "! Set color " << className << " merge threshold: " << mergeThreshold << std::endl;
 
     color->mergeThreshold = mergeThreshold;
+}
+
+void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
+    std::string className = cmd.params[0];
+    int x = Util::toInt(cmd.params[1]);
+    int y = Util::toInt(cmd.params[2]);
+    int mode = Util::toInt(cmd.params[3]);
+    int brush = Util::toInt(cmd.params[4]);
+    
+	Camera::YUYV* pixel = frontCamera->getLastFrame()->getPixelAt(x, y);
+    Blobber::Color* color = vision->getBlobber()->getColor(className);
+
+    if (color == NULL) {
+        std::cout << "- Requested invalid color: " << className << std::endl;
+    }
+
+	int Y = (pixel->y1 + pixel->y2) / 2;
+	int U = pixel->u;
+	int V = pixel->v;
+
+	if (mode == 1) {
+		color->setThreshold(
+			Y - brush, Y + brush,
+			U - brush, U + brush,
+			V - brush, V + brush
+		);
+	} else if (mode == 2) {
+		color->addThreshold(
+			Y - brush, Y + brush,
+			U - brush, U + brush,
+			V - brush, V + brush
+		);
+	} else if (mode == 3) {
+		color->substractThreshold(
+			Y - brush, Y + brush,
+			U - brush, U + brush,
+			V - brush, V + brush
+		);
+	}
 }
 
 void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con) {

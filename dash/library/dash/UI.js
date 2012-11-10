@@ -468,7 +468,7 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<get-blobber-calibration:' + selectedClass + '>');
 	});
 	
-	$('#fetch-frame-btn, #frame-img').click(function() {
+	$('#fetch-frame-btn').click(function() {
 		dash.socket.send('<get-frame>');
 	});
 	
@@ -590,6 +590,16 @@ Dash.UI.prototype.initControls = function() {
 			mergeThreshold = $('#blobber-merge-threshold').val();
 		
 		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + ',' + mergeThreshold + '>');
+	});
+	
+	$('#frame-img').click(function(e) {
+		var x = e.offsetX,
+			y = e.offsetY,
+			mode = 2;
+			
+		console.log('img', e);
+		
+		dash.socket.send('<blobber-threshold:green,' + x + ',' + y + ',2,10>');
 	});
 };
 

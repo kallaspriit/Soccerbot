@@ -61,6 +61,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 		void handleGetControllerCommand(const Command& cmd, websocketpp::server::connection_ptr con);
         void handleSetControllerCommand(const Command& cmd);
         void handleCameraCommand(const Command& cmd);
+		void handleBlobberThresholdCommand(const Command& cmd);
 
         std::string getStateJSON() const;
 
