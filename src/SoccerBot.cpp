@@ -377,6 +377,8 @@ void SoccerBot::run() {
             activeController->step(dt);
         }
 
+		infoBoard->step(dt);
+
 		if (frameRequested) {
 			sendFrame();
 
@@ -1015,7 +1017,8 @@ std::string SoccerBot::getStateJSON() const {
 
 	stream << "\"fps\":" << fpsCounter->getFps()  << ",";
 	stream << "\"targetGoal\":" << infoBoard->getTargetSide() << ",";
-	stream << "\"isError\":" << infoBoard->isError();
+	stream << "\"isError\":" << (infoBoard->isError() ? "1" : "0") << ",";
+	stream << "\"isGo\":" << (infoBoard->isGo() ? "1" : "0");
 
     stream << "}";
 
