@@ -52,7 +52,7 @@ const float validBallSurroundThreshold = 0.5f;
 const float validBallPathThreshold = 0.65f;			//< which percentage of pixels need to be valid on ball path
 const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels need to be valid on goal path
 
-const float ballFocusP = 4.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
+const float ballFocusP = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusD = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 
@@ -79,7 +79,7 @@ const int maxBallSenseRadius = 100;
 const float rotationStoppedOmegaThreshold = 0.25f;
 const float rotationCancelMultiplier = 0.3f;
 const float ballChaseAngleSlowdownMultiplier = 4.0f;
-const float ballChaseAngleMaxSlowdown = 0.9f;
+const float ballChaseAngleMaxSlowdown = 0.8f;
 //const float chaseBallBrakeMultiplier = 20.0f;
 const float chaseBallBrakeMultiplier = 1.0f;
 const float chaseBallMaxBrakeSpeed = 2.0f;
