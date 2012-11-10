@@ -402,6 +402,8 @@ void SoccerBot::run() {
 
 		if (frameRequested) {
 			sendFrame();
+
+			frameRequested = false;
 		}
 
         //usleep(16000);
