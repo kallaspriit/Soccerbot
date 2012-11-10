@@ -45,13 +45,15 @@ class Camera {
 
 				YUYV* pixel = new YUYV();
 
-				int stride = width * 1;
-                int pos = y * stride + x;
+				int yPos = strideY * y + x;
+				int uvPos = strideU * (y / 2) + (x / 2);
 
-                pixel->y1 = dataYUYV[pos];
-                pixel->u = dataYUYV[pos + 1];
-                pixel->y2 = dataYUYV[pos + 2];
-                pixel->v = dataYUYV[pos + 3];
+				int stride = width * 1;
+
+                pixel->y1 = dataY[yPos];
+                pixel->u = dataU[uvPos];
+                pixel->y2 = dataY[yPos];
+                pixel->v = dataV[uvPos];
 
                 return pixel;
             }
