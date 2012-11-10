@@ -919,9 +919,9 @@ bool Blobber::setThreshold(
     c = &colors[color];
     k = 1 << color;
 
-    clearBits(yClass,BLOBBER_COLOR_LEVELS,c->yLow,c->yHigh,k);
+    /*clearBits(yClass,BLOBBER_COLOR_LEVELS,c->yLow,c->yHigh,k);
     clearBits(uClass,BLOBBER_COLOR_LEVELS,c->uLow,c->uHigh,k);
-    clearBits(vClass,BLOBBER_COLOR_LEVELS,c->vLow,c->vHigh,k);
+    clearBits(vClass,BLOBBER_COLOR_LEVELS,c->vLow,c->vHigh,k);*/
 
     c->yLow = yLow;
     c->yHigh = yHigh;
