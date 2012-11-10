@@ -347,13 +347,13 @@ void SoccerBot::run() {
         lastStepDt = dt;
         totalTime += dt;
 
-		double s = Util::millitime();
+		//double s = Util::millitime();
 		if (updateCameras(dt) == 0) {
 			std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
 			Util::sleep(16);
 		}
-		std::cout << "! Updating cameras took " << Util::duration(s) << " seconds" << std::endl;
+		//std::cout << "! Updating cameras took " << Util::duration(s) << " seconds" << std::endl;
 
         if (gui != NULL) {
             gui->update();
@@ -411,22 +411,33 @@ int SoccerBot::updateCameras(double dt) {
 	ImageBuffer* classification = NULL;
 	Camera::FrameYUYV* image = NULL;
 	int captures = 0;
+	double s;
 
 	if (frontCamera != NULL && frontCamera->capturing()) {
+		s = Util::millitime();
 		image = frontCamera->getFrameYUYV();
+		std::cout << "@ Get frame: " << Util::duration(s) << std::endl;
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
 
 		if (image != NULL) {
+			s = Util::millitime();
 			vision->setFrame(image->dataYUYV);
+			std::cout << "@ Blobber: " << Util::duration(s) << std::endl;
 
 			if (gui != NULL) {
+				s = Util::millitime();
 				classification = vision->classify();
+				std::cout << "@ Classification: " << Util::duration(s) << std::endl;
 			}
 
+			s = Util::millitime();
 			vision->process(Vision::DIR_FRONT);
+			std::cout << "@ Process: " << Util::duration(s) << std::endl;
 
 			if (gui != NULL) {
+				s = Util::millitime();
+
 				char buf[64];
 				sprintf(buf, "FPS: %d", fpsCounter->getFps());
 				classification->drawText(10, 10, buf);
@@ -449,6 +460,8 @@ int SoccerBot::updateCameras(double dt) {
 				);
 
 				gui->setFrontCamera(rgbBuffer, classification->data, *vision);
+
+				std::cout << "@ GUI: " << Util::duration(s) << std::endl;
 			}
 
 			captures++;
