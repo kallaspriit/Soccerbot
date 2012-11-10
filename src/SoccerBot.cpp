@@ -1,6 +1,5 @@
 #include "SoccerBot.h"
 
-#include "Serial.h"
 #include "Robot.h"
 #include "Wheel.h"
 #include "WebSocketServer.h"
@@ -19,19 +18,20 @@
 #include "Camera.h"
 #include "Dribbler.h"
 #include "Vision.h"
+#include "InfoBoard.h"
 #include "DebugRenderer.h"
 #include "Config.h"
 
 SoccerBot::SoccerBot() {
 	robot = NULL;
     socket = NULL;
-    serial = NULL;
 	signalHandler = NULL;
     gui = NULL;
     fpsCounter = NULL;
     frontCamera = NULL;
 	rearCamera = NULL;
     vision = NULL;
+	infoBoard = NULL;
 	activeController = NULL;
 	activeControllerName = "";
     jpegBuffer = NULL;
@@ -68,6 +68,15 @@ SoccerBot::~SoccerBot() {
 
         delete fpsCounter;
         fpsCounter = NULL;
+
+        std::cout << "done!" << std::endl;
+    }
+
+	if (infoBoard != NULL) {
+        std::cout << "! Killing info-board.. ";
+
+        delete infoBoard;
+        infoBoard = NULL;
 
         std::cout << "done!" << std::endl;
     }
@@ -115,15 +124,6 @@ SoccerBot::~SoccerBot() {
         std::cout << "done!" << std::endl;
     }
 
-    if (serial != NULL) {
-        std::cout << "! Killing serial.. ";
-
-        delete serial;
-        serial = NULL;
-
-        std::cout << "done!" << std::endl;
-    }
-
     // display latest output and disable special log buffer
     updateLogs();
     std::cout.rdbuf(originalCoutStream);
@@ -167,7 +167,6 @@ SoccerBot::~SoccerBot() {
 void SoccerBot::init() {
     setupSignalHandler();
     //setupFreePort();
-    //setupSerial();
     setupRobot();
     setupCameras();
     setupVision();
@@ -193,21 +192,6 @@ void SoccerBot::setupFreePort() {
 
         std::cout << "done!" << std::endl;
     }*/
-}
-
-void SoccerBot::setupSerial() {
-	std::cout << "! Opening utility serial.. ";
-
-    serial = new Serial();
-	Serial::Result result = serial->open(Config::utilitySerialPort, 115200);
-
-    if (result == Serial::OK) {
-		std::cout << "done!" << std::endl;
-	} else {
-		std::cout << "FAILED!" << std::endl;
-
-		std::cout << "- Failed to open utility serial on port " << Config::utilitySerialPort << " (error: " << result << ")" << std::endl;
-	}
 }
 
 void SoccerBot::setupSignalHandler() {
@@ -288,6 +272,10 @@ void SoccerBot::setupVision() {
 	std::cout << "done!" << std::endl;
 }
 
+void SoccerBot::setupInfoBoard() {
+	infoBoard = new InfoBoard(Config::infoBoardId);
+}
+
 void SoccerBot::setupControllers() {
 	std::cout << "! Setting up controllers.. ";
 
@@ -361,17 +349,6 @@ void SoccerBot::run() {
         }
 
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
-
-        /*while (serial->available() > 0) {
-            message = serial->read();
-
-            std::cout << "Utility serial: " << message.c_str() << "!" << std::endl;
-
-			if (socket != NULL) {
-				socket->broadcast(message);
-			}
-			
-        }*/
 
         robot->step(dt);
 
@@ -627,8 +604,6 @@ void SoccerBot::onSocketMessage(websocketpp::server::connection_ptr con, websock
     sprintf(response, "You said: '%s'", msg->get_payload().c_str());
     con->send(response);*/
 
-    //serial->write(msg->get_payload());
-	
 	LeaveCriticalSection(&socketMutex);
 }
 
@@ -1038,7 +1013,9 @@ std::string SoccerBot::getStateJSON() const {
 
 	stream << "],";
 
-	stream << "\"fps\":" << fpsCounter->getFps();
+	stream << "\"fps\":" << fpsCounter->getFps()  << ",";
+	stream << "\"targetGoal\":" << infoBoard->getTargetSide() << ",";
+	stream << "\"isError\":" << infoBoard->isError();
 
     stream << "}";
 

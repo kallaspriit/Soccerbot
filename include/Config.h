@@ -13,6 +13,7 @@ namespace Config {
 const int socketPort = 8000;
 const int dribblerId = 5;
 const int coilgunId = 6;
+const int infoBoardId = 7;
 const float fieldWidth = 4.5f;
 const float fieldHeight = 3.0f;
 const float ballRadius = 0.021335f;

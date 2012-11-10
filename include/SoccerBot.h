@@ -7,7 +7,6 @@
 #include <string>
 
 class Robot;
-class Serial;
 class Command;
 class SignalHandler;
 class Controller;
@@ -15,6 +14,7 @@ class Gui;
 class FpsCounter;
 class Camera;
 class Vision;
+class InfoBoard;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
@@ -27,11 +27,11 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         void setupSignalHandler();
         void setupFreePort();
         void setupSocket();
-        void setupSerial();
         void setupRobot();
         void setupGui(HINSTANCE instance);
         void setupCameras();
         void setupVision();
+		void setupInfoBoard();
 		void setupControllers();
         void setupFpsCounter();
 
@@ -73,13 +73,13 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 
         Robot* robot;
         WebSocketServer* socket;
-        Serial* serial;
         SignalHandler* signalHandler;
         Gui* gui;
         FpsCounter* fpsCounter;
         Camera* frontCamera;
 		Camera* rearCamera;
         Vision* vision;
+		InfoBoard* infoBoard;
 
         std::streambuf* originalCoutStream;
         std::ostringstream* stringCoutStream;
@@ -102,7 +102,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         Controller* activeController;
 		std::string activeControllerName;
 
-		 CRITICAL_SECTION socketMutex;
+		CRITICAL_SECTION socketMutex;
 };
 
 #endif // SOCCERBOT_H

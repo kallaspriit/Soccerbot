@@ -143,6 +143,7 @@
     <ClCompile Include="src\FpsCounter.cpp" />
     <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="src\ImageBuffer.cpp" />
+    <ClCompile Include="src\InfoBoard.cpp" />
     <ClCompile Include="src\JSON.cpp" />
     <ClCompile Include="src\JsonResponse.cpp" />
     <ClCompile Include="src\LookupTable.cpp" />
