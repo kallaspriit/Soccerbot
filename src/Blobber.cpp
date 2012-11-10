@@ -826,7 +826,7 @@ bool Blobber::saveOptions(std::string filename) {
 	}
 
 	for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
-		fprintf(file, "%d %d %d", yClass[i], uClass[i], vClass[i]);
+		fprintf(file, "%s%u %u %u", i > 0 ? " " : "", yClass[i], uClass[i], vClass[i]);
 	}
 
 	fprintf(file, "\n");
