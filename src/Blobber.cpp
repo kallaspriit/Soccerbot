@@ -800,7 +800,7 @@ bool Blobber::loadOptions(std::string filename) {
 		}
 	}
 
-	char buf[BLOBBER_MAX_BUF], str[BLOBBER_MAX_BUF];
+	char buf[4 * BLOBBER_COLOR_LEVELS];
 	int line = 0;
 	std::string row;
 
