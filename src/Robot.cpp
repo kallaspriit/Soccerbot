@@ -38,6 +38,7 @@ Robot::Robot() {
 
     lastCommandTime = -1;
 	coilgunCharged = false;
+	autostop = true;
 }
 
 Robot::~Robot() {
@@ -174,7 +175,9 @@ void Robot::step(double dt) {
 	dribbler->step(dt);
 	coilgun->step(dt);
 
-	stop();
+	if (autostop) {
+		stop();
+	}
 }
 
 void Robot::setTargetDir(float x, float y, float omega) {

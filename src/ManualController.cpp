@@ -7,7 +7,7 @@
 #include "Util.h"
 
 void ManualController::step(double dt) {
-
+	robot->setAutostop(false);
 }
 
 bool ManualController::handleRequest(std::string request) {

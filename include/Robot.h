@@ -41,6 +41,9 @@ class Robot {
 		inline float getLastVelocity() { return lastVelocity; }
 		inline bool isAccelerating() { return velocity > lastVelocity; }
 		inline bool isBraking() { return velocity < lastVelocity; }
+		inline void setAutostop(bool mode) { autostop = mode; }
+		inline bool usingAutostop() { return autostop; }
+
         Wheel& getWheelFL() const { return *wheelFL; }
         Wheel& getWheelFR() const { return *wheelFR; }
         Wheel& getWheelRL() const { return *wheelRL; }
@@ -111,6 +114,7 @@ class Robot {
         double totalTime;
 
 		bool coilgunCharged;
+		bool autostop;
 };
 
 #endif // ROBOT_H

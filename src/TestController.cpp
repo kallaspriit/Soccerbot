@@ -27,6 +27,8 @@ TestController::TestController(Robot* robot, Vision* vision) : Controller(robot,
 };
 
 void TestController::step(double dt) {
+	robot->setAutostop(true);
+
 	switch (activeRoutine) {
 		case Routine::WATCH_BALL:
 			watchBallRoutine(dt);
@@ -39,11 +41,15 @@ void TestController::step(double dt) {
 }
 
 void TestController::watchBallRoutine(double dt) {
+	const Object* ball = vision->getClosestBall();
+
+	if (ball != NULL) {
+		// @TODO clear tasks, add stop rotation
+	}
+
 	if (robot->hasTasks()) {
 		return;
 	}
-
-	const Object* ball = vision->getClosestBall();
 
 	if (ball == NULL) {
 		robot->jumpAngle();
