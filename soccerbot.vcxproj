@@ -181,6 +181,7 @@
     <ClInclude Include="include\FpsCounter.h" />
     <ClInclude Include="include\Gui.h" />
     <ClInclude Include="include\ImageBuffer.h" />
+    <ClInclude Include="include\InfoBoard.h" />
     <ClInclude Include="include\JSON.h" />
     <ClInclude Include="include\JsonResponse.h" />
     <ClInclude Include="include\LookupTable.h" />

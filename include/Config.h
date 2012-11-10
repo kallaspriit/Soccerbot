@@ -92,7 +92,8 @@ const float jumpAngleStopMultiplier = 1.0f;
 
 enum Side {
     YELLOW = 1,
-    BLUE = 2
+    BLUE = 2,
+	UNKNOWN = 3
 };
 
 #endif // CONFIG_H
