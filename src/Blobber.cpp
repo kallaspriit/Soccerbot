@@ -800,7 +800,7 @@ bool Blobber::loadOptions(std::string filename) {
 		}
 	}
 
-	const int bufferSize = 4 * BLOBBER_COLOR_LEVELS;
+	const int bufferSize = 5 * BLOBBER_COLOR_LEVELS;
 	char buf[bufferSize];
 	int line = 0;
 	std::string row;
