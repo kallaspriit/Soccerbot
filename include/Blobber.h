@@ -54,7 +54,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // values may need tweaked, although these seem to work usually
 #define BLOBBER_MAX_RUNS     (BLOBBER_DEFAULT_WIDTH * BLOBBER_DEFAULT_HEIGHT) / 4
 #define BLOBBER_MAX_BLOBS    BLOBBER_MAX_RUNS / 4
-#define BLOBBER_MIN_AREA     4
+#define BLOBBER_MIN_AREA     2
 
 // Options for level of processing, use enable()/disable() to change
 #define BLOBBER_THRESHOLD      0x01
