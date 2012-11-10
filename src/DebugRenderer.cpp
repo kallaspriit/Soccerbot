@@ -3,12 +3,13 @@
 #include "ImageBuffer.h"
 #include "Maths.h"
 
-void DebugRenderer::render(unsigned char* image, const ObjectList& balls, const ObjectList& goals) {
+void DebugRenderer::render(unsigned char* image, const ObjectList& balls, const ObjectList& goals, bool swapRB) {
 	ImageBuffer img;
 
 	img.data = image;
 	img.width = Config::cameraWidth;
 	img.height = Config::cameraHeight;
+	img.swapRB = swapRB;
 
 	renderBalls(&img, balls);
 	renderGoals(&img, goals);

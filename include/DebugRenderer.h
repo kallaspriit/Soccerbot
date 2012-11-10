@@ -7,7 +7,7 @@ class ImageBuffer;
 
 class DebugRenderer {
 	public:
-		static void render(unsigned char* image, const ObjectList& balls, const ObjectList& goals);
+		static void render(unsigned char* image, const ObjectList& balls, const ObjectList& goals, bool swapRB = false);
 
 	private:
 		static void renderBalls(ImageBuffer* img, const ObjectList& balls);

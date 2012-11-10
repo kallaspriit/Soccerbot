@@ -89,14 +89,14 @@ DisplayWindow* Gui::createWindow(int width, int height, std::string name) {
 }
 
 void Gui::setFrontCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision) {
-	DebugRenderer::render(rgb, vision.getFrontBalls(), vision.getFrontGoals());
+	DebugRenderer::render(rgb, vision.getFrontBalls(), vision.getFrontGoals(), true);
 
     frontCameraRGB->setImage(rgb, false);
     frontCameraClassification->setImage(classification);
 }
 
 void Gui::setRearCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision) {
-	DebugRenderer::render(rgb, vision.getRearBalls(), vision.getRearGoals());
+	DebugRenderer::render(rgb, vision.getRearBalls(), vision.getRearGoals(), true);
 
 	rearCameraRGB->setImage(rgb, false);
     rearCameraClassification->setImage(classification);
