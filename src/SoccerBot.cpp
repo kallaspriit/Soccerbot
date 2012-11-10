@@ -167,10 +167,10 @@ SoccerBot::~SoccerBot() {
 void SoccerBot::init() {
     setupSignalHandler();
     //setupFreePort();
+	setupInfoBoard();
     setupRobot();
     setupCameras();
     setupVision();
-	setupInfoBoard();
 	setupControllers();
     setupFpsCounter();
 	setupSocket();
@@ -280,7 +280,11 @@ void SoccerBot::setupVision() {
 }
 
 void SoccerBot::setupInfoBoard() {
+	std::cout << "! Setting up info-board.. ";
+
 	infoBoard = new InfoBoard(Config::infoBoardId);
+
+	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::setupControllers() {
