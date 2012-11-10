@@ -96,13 +96,24 @@ A:hover {
 	margin: -95px 0 0 -240px;
 }
 #camera-view {
-	width: 640px;
+	width: 1280px;
 	height: 512px;
-	margin: -256px 0 0 -320px;
+	margin: -256px 0 0 -660px;
 	padding: 0;
 	overflow: visible;
+	z-index: 100;
 }
 #frame-img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 640px;
+	height: 512px;
+}
+#frame-classification {
+	position: absolute;
+	left: 640px;
+	top: 0;
 	width: 640px;
 	height: 512px;
 }

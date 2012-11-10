@@ -748,6 +748,7 @@ Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
 
 Dash.UI.prototype.handleFrameMessage = function(frame) {
 	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + frame.rgb);
+	$('#frame-classification').attr('src', 'data:image/jpeg;base64,' + frame.classification);
 
 	this.showModal('camera-view');
 };
