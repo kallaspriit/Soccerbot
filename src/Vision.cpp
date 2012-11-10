@@ -918,15 +918,18 @@ ImageBuffer* Vision::classify() {
 Object* Vision::getClosestBall() {
 	const ObjectList& frontBalls = getFrontBalls();
 	float closestDistance;
+	float distanceModifier;
 	Object* ball;
 	Object* closestBall = NULL;
 
 	for (ObjectListItc it = frontBalls.begin(); it != frontBalls.end(); it++) {
 		ball = *it;
+
+		distanceModifier = ball->angle < 0 ? 0.05f : 0.0f;
 		
-		if (closestBall == NULL || ball->distance < closestDistance) {
+		if (closestBall == NULL || ball->distance + distanceModifier < closestDistance) {
 			closestBall = ball;
-			closestDistance = ball->distance;
+			closestDistance = ball->distance + distanceModifier;
 		}
 	}
 
@@ -934,10 +937,12 @@ Object* Vision::getClosestBall() {
 
 	for (ObjectListItc it = rearBalls.begin(); it != rearBalls.end(); it++) {
 		ball = *it;
+
+		distanceModifier = ball->angle < 0 ? 0.05f : 0.0f;
 		
-		if (closestBall == NULL || ball->distance < closestDistance) {
+		if (closestBall == NULL || ball->distance + distanceModifier < closestDistance) {
 			closestBall = ball;
-			closestDistance = ball->distance;
+			closestDistance = ball->distance + distanceModifier;
 		}
 	}
 
