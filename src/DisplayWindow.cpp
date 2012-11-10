@@ -79,3 +79,25 @@ void DisplayWindow::setImage(unsigned char* image, bool rgb2bgr) {
 
 	//RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE);
 }
+
+LRESULT DisplayWindow::handleMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	int x, y;
+
+	switch(msg) {
+		case WM_LBUTTONDOWN:
+			x = (short)LOWORD(lParam);
+			y = (short)HIWORD(lParam);
+
+			std::cout << "! Mouse down: " << x << "x" << y << std::endl;
+
+			// Check to see if the left button is held down:
+			//bool leftButtonDown=wParam & MK_LBUTTON;
+		break;
+
+		default:
+			return DefWindowProc(hWnd, msg, wParam, lParam);
+		break;
+	}
+
+	return 0;
+}

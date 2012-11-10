@@ -14,6 +14,7 @@ class DisplayWindow {
 
         void setImage(unsigned char* image, bool rgb2bgr = true);
         static bool windowsVisible() { return 0; /* TODO! */ }
+		LRESULT handleMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     private:
 		HINSTANCE instance;

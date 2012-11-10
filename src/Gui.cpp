@@ -204,55 +204,24 @@ void Gui::renderDebugGoals(unsigned char* image, const ObjectList& goals) {
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	int x, y;
-
 	switch(msg) {
-		/*case WM_CREATE:
-    		hBitmap = (HBITMAP)LoadImage(window, "C:\\projects\\window\\test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-    		printf("Create\n");
-		break;*/
-
-		/*case WM_PAINT:
-    		PAINTSTRUCT 	ps;
-    		HDC 			hdc;
-    		BITMAP 			bitmap;
-    		HDC 			hdcMem;
-			HGDIOBJ 		oldBitmap;
-
-    		hdc = BeginPaint(hWnd, &ps);
-
-    		hdcMem = CreateCompatibleDC(hdc);
-			oldBitmap = SelectObject(hdcMem, hBitmap);
-
-			GetObject(hBitmap, sizeof(bitmap), &bitmap);
-			BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, SRCCOPY);
-
-			SelectObject(hdcMem, oldBitmap);
-			DeleteDC(hdcMem);
-
-    		EndPaint(hWnd, &ps);
-
-			printf("Paint\n");
-    	break;*/
-
-		case WM_LBUTTONDOWN:
-			x = (short)LOWORD(lParam);
-			y = (short)HIWORD(lParam);
-
-			std::cout << "! Mouse down: " << x << "x" << y << std::endl;
-
-			// Check to see if the left button is held down:
-			//bool leftButtonDown=wParam & MK_LBUTTON;
+		case WM_CREATE:
+			SetWindowLong(hWnd, GWL_USERDATA, LONG(LPCREATESTRUCT(lParam)->lpCreateParams));
 		break;
 
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			printf("Destroy\n");
+
 			return 0;
 		break;
 
 		default:
-			return DefWindowProc(hWnd, msg, wParam, lParam);
+			DisplayWindow* displayWindow = (DisplayWindow*)GetWindowLong(hWnd, GWL_USERDATA);
+
+			if (displayWindow != NULL) {
+				return displayWindow->handleMessage(hWnd, msg, wParam, lParam);
+			}
 		break;
 	}
 
