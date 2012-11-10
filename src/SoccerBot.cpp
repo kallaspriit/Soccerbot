@@ -400,6 +400,10 @@ void SoccerBot::run() {
             activeController->step(dt);
         }
 
+		if (frameRequested) {
+			sendFrame();
+		}
+
         //usleep(16000);
     }
 
@@ -812,39 +816,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 }
 
 void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con) {
-    unsigned char* frame = vision->getLastFrame();
-
-    if (frame == NULL) {
-        std::cout << "- Unable to send frame, none captured" << std::endl;
-
-        return;
-    }
-
-    int jpegBufferSize = 1024 * 1000;
-
-    if (jpegBuffer == NULL) {
-        jpegBuffer = new unsigned char[jpegBufferSize];
-    }
-
-    if (rgbBuffer == NULL) {
-        rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
-    }
-
-    Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, frame, rgbBuffer);
-	DebugRenderer::render(rgbBuffer, vision->getFrontBalls(), vision->getRearBalls());
-
-    Util::jpegEncode(rgbBuffer, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
-    std::string base64Rgb = Util::base64Encode(jpegBuffer, jpegBufferSize);
-
-	jpegBufferSize = 1024 * 1000;
-
-	ImageBuffer* classification = vision->classify();
-	Util::jpegEncode(classification->data, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
-	std::string base64Classification = Util::base64Encode(jpegBuffer, jpegBufferSize);
-
-	JsonResponse frameResponse("frame", "{\"rgb\": \"" + base64Rgb + "\",\"classification\": \"" + base64Classification + "\"}");
-
-    con->send(frameResponse.toJSON());
+	frameRequested = true;
 }
 
 void SoccerBot::handleStopCommand(const Command& cmd) {
@@ -889,6 +861,42 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
         frontCamera->setChromaticityGamma(value);
         rearCamera->setChromaticityGamma(value);
     }
+}
+
+void SoccerBot::sendFrame() {
+	unsigned char* frame = vision->getLastFrame();
+
+    if (frame == NULL) {
+        std::cout << "- Unable to send frame, none captured" << std::endl;
+
+        return;
+    }
+
+    int jpegBufferSize = 1024 * 1000;
+
+    if (jpegBuffer == NULL) {
+        jpegBuffer = new unsigned char[jpegBufferSize];
+    }
+
+    if (rgbBuffer == NULL) {
+        rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
+    }
+
+    Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, frame, rgbBuffer);
+	DebugRenderer::render(rgbBuffer, vision->getFrontBalls(), vision->getRearBalls());
+
+    Util::jpegEncode(rgbBuffer, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
+    std::string base64Rgb = Util::base64Encode(jpegBuffer, jpegBufferSize);
+
+	jpegBufferSize = 1024 * 1000;
+
+	ImageBuffer* classification = vision->classify();
+	Util::jpegEncode(classification->data, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
+	std::string base64Classification = Util::base64Encode(jpegBuffer, jpegBufferSize);
+
+	JsonResponse frameResponse("frame", "{\"rgb\": \"" + base64Rgb + "\",\"classification\": \"" + base64Classification + "\"}");
+
+	socket->broadcast(frameResponse.toJSON());
 }
 
 std::string SoccerBot::getStateJSON() const {

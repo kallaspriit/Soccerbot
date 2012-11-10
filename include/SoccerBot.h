@@ -68,6 +68,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
     private:
 		void configureCamera(Camera* camera);
 		void showCameraInfo(Camera* camera, std::string name);
+		void sendFrame();
 		int updateCameras(double dt);
 
         Robot* robot;
@@ -94,6 +95,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         double totalTime;
 		bool active;
         bool stopRequested;
+		bool frameRequested;
         std::string endCommand;
 
         std::map<std::string, Controller*> controllers;
