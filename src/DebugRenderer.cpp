@@ -4,15 +4,17 @@
 #include "Maths.h"
 
 void DebugRenderer::render(unsigned char* image, const ObjectList& balls, const ObjectList& goals, bool swapRB) {
-	ImageBuffer img;
+	ImageBuffer* img = new ImageBuffer();;
 
-	img.data = image;
-	img.width = Config::cameraWidth;
-	img.height = Config::cameraHeight;
-	img.swapRB = swapRB;
+	img->data = image;
+	img->width = Config::cameraWidth;
+	img->height = Config::cameraHeight;
+	img->swapRB = swapRB;
 
-	renderBalls(&img, balls);
-	renderGoals(&img, goals);
+	renderBalls(img, balls);
+	renderGoals(img, goals);
+
+	delete img;
 }
 
 void DebugRenderer::renderBalls(ImageBuffer* img, const ObjectList& balls) {

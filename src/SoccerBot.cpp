@@ -820,7 +820,7 @@ void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::c
         return;
     }
 
-    int jpegBufferSize = 1024 * 500;
+    int jpegBufferSize = 1024 * 1000;
 
     if (jpegBuffer == NULL) {
         jpegBuffer = new unsigned char[jpegBufferSize];
@@ -836,7 +836,7 @@ void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::c
     Util::jpegEncode(rgbBuffer, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
     std::string base64Rgb = Util::base64Encode(jpegBuffer, jpegBufferSize);
 
-	jpegBufferSize = 1024 * 500;
+	jpegBufferSize = 1024 * 1000;
 
 	ImageBuffer* classification = vision->classify();
 	Util::jpegEncode(classification->data, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
