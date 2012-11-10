@@ -6,10 +6,11 @@
 
 class Canvas;
 class Command;
+class Gui;
 
 class DisplayWindow {
     public:
-        DisplayWindow(HINSTANCE instance, int width, int height, std::string name = "Window");
+        DisplayWindow(HINSTANCE instance, int width, int height, std::string name = "Window", Gui* gui = NULL);
         ~DisplayWindow();
 
         void setImage(unsigned char* image, bool rgb2bgr = true);
@@ -23,6 +24,7 @@ class DisplayWindow {
 		HDC hdc;
 		HDC cDC;
 		HBITMAP hBitmap;
+		Gui* gui;
         int width;
         int height;
 		std::string name;

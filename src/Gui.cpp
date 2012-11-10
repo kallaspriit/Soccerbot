@@ -117,6 +117,10 @@ bool Gui::handleCommand(const Command& cmd) {
     return false;
 }
 
+void Gui::onMouseClick(int x, int y) {
+
+}
+
 void Gui::renderDebugBalls(unsigned char* image, const ObjectList& balls) {
 	img.data = image;
 

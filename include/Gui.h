@@ -19,6 +19,7 @@ class Gui {
         void setRearCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision);
         bool update();
         bool handleCommand(const Command& cmd);
+		void onMouseClick(int x, int y);
 
 		DisplayWindow* createWindow(int width, int height, std::string name);
 

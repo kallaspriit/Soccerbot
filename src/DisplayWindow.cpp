@@ -1,8 +1,9 @@
 #include "DisplayWindow.h"
+#include "Gui.h"
 
 #include <iostream>
 
-DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::string name) : instance(instance), width(width), height(height), name(name), firstDraw(true) {
+DisplayWindow::DisplayWindow(HINSTANCE instance, int width, int height, std::string name, Gui* gui) : instance(instance), gui(gui), width(width), height(height), name(name), firstDraw(true) {
     hWnd = CreateWindowEx(
 		NULL,
 		"Window Class",
