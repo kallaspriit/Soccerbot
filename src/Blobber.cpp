@@ -819,7 +819,7 @@ bool Blobber::loadOptions(std::string filename) {
 				u = (unsigned)atoi(row.substr(pos + 4, 3).c_str());
 				v = (unsigned)atoi(row.substr(pos + 8, 3).c_str());
 
-				printf("Read: %u, %u, %u\n", y, u, v);
+				printf("Read #%d: %d, %d, %d\n", i, y, u, v);
 			}
 		}
 
