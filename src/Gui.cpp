@@ -130,12 +130,13 @@ void Gui::onMouseClick(int x, int y) {
 		return;
 	}
 
-	Blobber::Color* color = vision->getBlobber()->getColor("green");
+	//Blobber::Color* color = vision->getBlobber()->getColor("green");
 
 	int Y = (pixel->y1 + pixel->y2) / 2;
 	int U = pixel->u;
 	int V = pixel->v;
-	int brush = 10;
+	
+	/*int brush = 10;
 
 	color->setThreshold(
 		Y - brush,
@@ -144,7 +145,7 @@ void Gui::onMouseClick(int x, int y) {
 		U + brush,
 		V - brush,
 		V + brush
-	);
+	);*/
 
 	std::cout << "! Mouse click: " << x << "x" << y << ": " << pixel->y1 << "," << pixel->u<< "," << pixel->y2<< "," << pixel->v << std::endl;
 }

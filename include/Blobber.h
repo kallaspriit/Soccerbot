@@ -125,6 +125,18 @@ class Blobber {
                 int uLow, int uHigh,
                 int vLow, int vHigh
             );
+
+			bool addThreshold(
+                int yLow, int yHigh,
+                int uLow, int uHigh,
+                int vLow, int vHigh
+            );
+
+			bool substractThreshold(
+                int yLow, int yHigh,
+                int uLow, int uHigh,
+                int vLow, int vHigh
+            );
         };
 
         class MapFilter {
@@ -170,6 +182,20 @@ class Blobber {
         );
 
         bool setThreshold(
+            int color,
+            int yLow, int yHigh,
+            int uLow, int uHigh,
+            int vLow, int vHigh
+        );
+
+		bool addThreshold(
+            int color,
+            int yLow, int yHigh,
+            int uLow, int uHigh,
+            int vLow, int vHigh
+        );
+
+		bool substractThreshold(
             int color,
             int yLow, int yHigh,
             int uLow, int uHigh,

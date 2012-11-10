@@ -49,6 +49,32 @@ bool Blobber::Color::setThreshold(
     );
 }
 
+bool Blobber::Color::addThreshold(
+    int yLow, int yHigh,
+    int uLow, int uHigh,
+    int vLow, int vHigh
+) {
+    return blobber->addThreshold(
+        id,
+        yLow, yHigh,
+        uLow, uHigh,
+        vLow, vHigh
+    );
+}
+
+bool Blobber::Color::substractThreshold(
+    int yLow, int yHigh,
+    int uLow, int uHigh,
+    int vLow, int vHigh
+) {
+    return blobber->substractThreshold(
+        id,
+        yLow, yHigh,
+        uLow, uHigh,
+        vLow, vHigh
+    );
+}
+
 Blobber::Blobber() {
     clear();
     mapFilter = NULL;
@@ -914,14 +940,16 @@ bool Blobber::setThreshold(
     Color* c;
     unsigned k;
 
-    if(color<0 || color>=BLOBBER_MAX_COLORS) return(false);
+    if (color < 0 || color >= BLOBBER_MAX_COLORS) {
+		return false;
+	}
 
     c = &colors[color];
     k = 1 << color;
 
-    /*clearBits(yClass,BLOBBER_COLOR_LEVELS,c->yLow,c->yHigh,k);
-    clearBits(uClass,BLOBBER_COLOR_LEVELS,c->uLow,c->uHigh,k);
-    clearBits(vClass,BLOBBER_COLOR_LEVELS,c->vLow,c->vHigh,k);*/
+    clearBits(yClass, BLOBBER_COLOR_LEVELS, c->yLow, c->yHigh, k);
+    clearBits(uClass, BLOBBER_COLOR_LEVELS, c->uLow, c->uHigh, k);
+    clearBits(vClass, BLOBBER_COLOR_LEVELS, c->vLow, c->vHigh, k);
 
     c->yLow = yLow;
     c->yHigh = yHigh;
@@ -930,11 +958,71 @@ bool Blobber::setThreshold(
     c->vLow = vLow;
     c->vHigh = vHigh;
 
-    setBits(yClass,BLOBBER_COLOR_LEVELS,yLow,yHigh,k);
-    setBits(uClass,BLOBBER_COLOR_LEVELS,uLow,uHigh,k);
-    setBits(vClass,BLOBBER_COLOR_LEVELS,vLow,vHigh,k);
+    setBits(yClass, BLOBBER_COLOR_LEVELS, yLow, yHigh, k);
+    setBits(uClass, BLOBBER_COLOR_LEVELS, uLow, uHigh, k);
+    setBits(vClass, BLOBBER_COLOR_LEVELS, vLow, vHigh, k);
 
-    return(true);
+    return true;
+}
+
+bool Blobber::addThreshold(
+    int color,
+    int yLow,int yHigh,
+    int uLow,int uHigh,
+    int vLow,int vHigh
+) {
+    Color* c;
+    unsigned k;
+
+    if (color < 0 || color >= BLOBBER_MAX_COLORS) {
+		return false;
+	}
+
+    c = &colors[color];
+    k = 1 << color;
+
+    c->yLow = yLow;
+    c->yHigh = yHigh;
+    c->uLow = uLow;
+    c->uHigh = uHigh;
+    c->vLow = vLow;
+    c->vHigh = vHigh;
+
+    setBits(yClass, BLOBBER_COLOR_LEVELS, yLow, yHigh, k);
+    setBits(uClass, BLOBBER_COLOR_LEVELS, uLow, uHigh, k);
+    setBits(vClass, BLOBBER_COLOR_LEVELS, vLow, vHigh, k);
+
+    return true;
+}
+
+bool Blobber::substractThreshold(
+    int color,
+    int yLow,int yHigh,
+    int uLow,int uHigh,
+    int vLow,int vHigh
+) {
+    Color* c;
+    unsigned k;
+
+    if (color < 0 || color >= BLOBBER_MAX_COLORS) {
+		return false;
+	}
+
+    c = &colors[color];
+    k = 1 << color;
+
+    clearBits(yClass, BLOBBER_COLOR_LEVELS, c->yLow, c->yHigh, k);
+    clearBits(uClass, BLOBBER_COLOR_LEVELS, c->uLow, c->uHigh, k);
+    clearBits(vClass, BLOBBER_COLOR_LEVELS, c->vLow, c->vHigh, k);
+
+    c->yLow = yLow;
+    c->yHigh = yHigh;
+    c->uLow = uLow;
+    c->uHigh = uHigh;
+    c->vLow = vLow;
+    c->vHigh = vHigh;
+
+    return true;
 }
 
 //==== Main Vision Functions =======================================//
