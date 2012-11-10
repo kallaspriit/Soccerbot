@@ -782,7 +782,7 @@ bool Blobber::loadOptions(std::string filename)
 */
 
 bool Blobber::loadOptions(std::string filename) {
-	FILE* file = fopen(filename.c_str(), "wt");
+	FILE* file = fopen(filename.c_str(), "rt");
 	Color* color;
 
 	if (!file) {
@@ -825,6 +825,8 @@ bool Blobber::loadOptions(std::string filename) {
 
 		line++;
 	}
+
+	return true;
 }
 
 /*bool Blobber::saveOptions(std::string filename) {
