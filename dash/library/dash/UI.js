@@ -469,6 +469,8 @@ Dash.UI.prototype.initControls = function() {
 	});
 	
 	$('#fetch-frame-btn').click(function() {
+		dash.ui.showModal('camera-view');
+		
 		dash.socket.send('<get-frame>');
 	});
 	
@@ -747,12 +749,14 @@ Dash.UI.prototype.handleBlobberCalibrationMessage = function(calibration) {
 };
 
 Dash.UI.prototype.handleFrameMessage = function(frame) {
+	if (!$('#camera-view').is(':visible')) {
+		return;
+	}
+	
 	$('#frame-img').attr('src', 'data:image/jpeg;base64,' + frame.rgb);
 	$('#frame-classification').attr('src', 'data:image/jpeg;base64,' + frame.classification);
 
 	dash.socket.send('<get-frame>');
-
-	this.showModal('camera-view');
 };
 
 Dash.UI.prototype.showModal = function(id) {
