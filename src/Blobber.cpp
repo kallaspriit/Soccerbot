@@ -800,7 +800,7 @@ bool Blobber::loadOptions(std::string filename) {
 		}
 	}
 
-	const int bufferSize = 5 * BLOBBER_COLOR_LEVELS;
+	const int bufferSize = 4 * 3 * BLOBBER_COLOR_LEVELS;
 	char buf[bufferSize];
 	int line = 0;
 	std::string row;
@@ -813,7 +813,7 @@ bool Blobber::loadOptions(std::string filename) {
 			unsigned y, u, v;
 
 			for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
-				pos = i * 4;
+				pos = i * 4 * 3;
 
 				y = (unsigned)atoi(row.substr(pos, 3).c_str());
 				u = (unsigned)atoi(row.substr(pos + 4, 3).c_str());
