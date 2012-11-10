@@ -673,7 +673,7 @@ bool Blobber::initialize(int width, int height) {
 #define BLOBBER_STATE_THRESH 2
 #define BLOBBER_MAX_BUF 256
 
-
+/*
 bool Blobber::loadOptions(std::string filename)
 // Loads in options file specifying color names and representative
 // rgb triplets.  Also loads in color class threshold values.
@@ -778,9 +778,9 @@ bool Blobber::loadOptions(std::string filename)
     fclose(in);
 
     return(true);
-}
+}*/
 
-/*bool Blobber::loadOptions(std::string filename) {
+bool Blobber::loadOptions(std::string filename) {
 	FILE* file = fopen(filename.c_str(), "rt");
 	Color* color;
 
@@ -805,7 +805,7 @@ bool Blobber::loadOptions(std::string filename)
 	int line = 0;
 	std::string row;
 
-	while(fgets(buf, bufferSize, file)) {
+	while (fgets(buf, bufferSize, file)) {
 		row = std::string(buf);
 
 		if (line == 0) {
@@ -827,7 +827,7 @@ bool Blobber::loadOptions(std::string filename)
 	}
 
 	return true;
-}*/
+}
 
 /*bool Blobber::saveOptions(std::string filename) {
     Color* c;
