@@ -216,7 +216,7 @@ bool TestController::handleCommand(const Command& cmd) {
 		robot->stop();
     } else if (cmd.name == "test-rectangle") {
 		std::cout << "! Testing rectangle" << std::endl;
-
+		
         handleTestRectangleCommand(cmd);
     } else if (cmd.name == "test-turn-by" && cmd.params.size() == 2) {
 		std::cout << "! Testing turn-by" << std::endl;

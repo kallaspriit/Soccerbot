@@ -65,6 +65,8 @@ void Coilgun::step(double dt) {
 
 		doDischarge = false;
 	} else if (doKick) {
+		doKick = false;
+
 		if (!charging) {
 			std::cout << "- Kick requested but autocharging not active" << std::endl;
 		}
@@ -82,6 +84,5 @@ void Coilgun::step(double dt) {
 		serial->writeln("k" + Util::toString(kickStrength));
 
 		lastKickTime = currentTime;
-		doKick = false;
 	}
 }
