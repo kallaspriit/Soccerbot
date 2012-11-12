@@ -280,11 +280,7 @@ void SoccerBot::setupVision() {
 }
 
 void SoccerBot::setupInfoBoard() {
-	std::cout << "! Setting up info-board.. ";
-
 	infoBoard = new InfoBoard(Config::infoBoardId);
-
-	std::cout << "done!" << std::endl;
 }
 
 void SoccerBot::setupControllers() {
