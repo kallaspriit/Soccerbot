@@ -185,23 +185,19 @@ void TestController::findGoalRoutine(double dt) {
 	}
 
 	int halfWidth = Config::cameraWidth / 2;
-	int clearance;
+	int leftEdge = goal->x - goal->width / 2;
+	int rightEdge = goal->x + goal->width / 2;
+	
+	int goalKickThresholdPixels = goal->width * Config::goalKickThreshold;
 
-	if (goal->angle < 0.0f) {
-		clearance = (goal->x + goal->width / 2) - halfWidth;
-	} else {
-		clearance = halfWidth - (goal->x - goal->width / 2);
-	}
-
-	std::cout << "! Goal left: " << (goal->x - goal->width / 2) << std::endl;
-	std::cout << "! Goal right: " << (goal->x + goal->width / 2) << std::endl;
-	std::cout << "! Half width: " << halfWidth << std::endl;
-	std::cout << "! Angle: " << goal->angle << std::endl;
-	std::cout << "! Clearance: " << clearance << ", threshold: " << Config::goalKickThreshold << std::endl;
-
-	if (clearance < Config::goalKickThreshold) {
+	if (
+		leftEdge + goalKickThresholdPixels < halfWidth
+		&& rightEdge - goalKickThresholdPixels > halfWidth
+	) {
 		robot->getCoilgun().kick(750);
 	} else {
+		//robot->spinAroundDribbler(4.0f * ());
+
 		float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
 
 		robot->setTargetDir(Math::Rad(0), 0, omega);

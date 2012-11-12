@@ -94,7 +94,7 @@ const float brakeDistanceMultiplier = 1.0f;
 const float distanceCorrection = -0.13f;
 const int maxSurroundSenseY = cameraHeight - 50;
 const float jumpAngleStopMultiplier = 1.0f;
-const int goalKickThreshold = 50;
+const float goalKickThreshold = 0.1f;
 
 } // namespace Config
 
