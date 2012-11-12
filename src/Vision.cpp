@@ -773,141 +773,136 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 			color = getColorAt(x, y);
 
-			if (color != NULL) {
-				if (strcmp(color->name, targetColorName) == 0) {
-					if (minValidX == -1) {
-						minValidX = x;
-					}
+			if (color == NULL || strcmp(color->name, targetColorName) != 0) {
+				if (debug) {
+					img.drawMarker(x, y, 128, 128, 128);
+				}
 
-					if (x > maxValidX) {
-						maxValidX = x;
-					}
+				continue;
+			}
 
-					if (minValidY == -1 || y < minValidY) {
-						minValidY = y;
-					}
+			if (minValidX == -1) {
+				minValidX = x;
+			}
 
-					if (y > maxValidY) {
+			if (x > maxValidX) {
+				maxValidX = x;
+			}
+
+			if (minValidY == -1 || y < minValidY) {
+				minValidY = y;
+			}
+
+			if (y > maxValidY) {
+				maxValidY = y;
+			}
+
+			if (debug) {
+				img.drawMarker(x, y, 255, 255, 255);
+			}
+
+			//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
+
+			bool retryTarget = false;
+			int runMatches = 0;
+			int runMisses = 0;
+
+			for (int senseY = y + yStep; senseY < Math::min(y + blockHeight * 4, height); senseY += yStep) {
+				if (senseY > height - 1) {
+					break;
+				}
+						
+				color = getColorAt(x, senseY);
+
+				//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
+
+				if (color != NULL && strcmp(color->name, targetColorName) == 0) {
+					if (senseY > maxValidY) {
 						maxValidY = y;
 					}
 
 					if (debug) {
-						img.drawMarker(x, y, 255, 255, 255);
+						img.drawMarker(x, senseY, 0, 0, 0);
+					}
+				} else {
+					if (debug) {
+						img.drawMarker(x, senseY, 255, 255, 255);
 					}
 
-					//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
+					sawGreenOrBlack = false;
 
-					bool retryTarget = false;
-					int runMatches = 0;
-					int runMisses = 0;
-
-					for (int senseY = y + yStep; senseY < Math::min(y + blockHeight * 4, height); senseY += yStep) {
-						if (senseY > height - 1) {
+					for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
+						if (gapY > height - 1) {
 							break;
 						}
-						
-						color = getColorAt(x, senseY);
-
-						//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
-
-						if (color != NULL && strcmp(color->name, targetColorName) == 0) {
-							if (senseY > maxValidY) {
-								maxValidY = y;
-							}
-
-							if (debug) {
-								img.drawMarker(x, senseY, 0, 0, 0);
-							}
-
-							retryTarget = true;
-
-							break;
-						} else {
-							if (debug) {
-								img.drawMarker(x, senseY, 255, 255, 255);
-							}
-
-							sawGreenOrBlack = false;
-
-							for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
-								if (gapY > height - 1) {
-									break;
-								}
 								
-								color = getColorAt(x, gapY);
+						color = getColorAt(x, gapY);
 
-								if (color != NULL) {
-									if (
-										!sawGreenOrBlack
-										&& (
-											strcmp(color->name, "green") == 0
-											|| strcmp(color->name, "black") == 0
-										)
-									) {
-										sawGreenOrBlack = true;
-									}
-
-									if (sawGreenOrBlack) {
-										if (!sawWhite && strcmp(color->name, "white") == 0) {
-											sawWhite = true;
-										} else if (!sawBlack && strcmp(color->name, "black") == 0) {
-											sawBlack = true;
-										} else if (!sawBlack && strcmp(color->name, "black") == 0) {
-											sawBlack = true;
-										}
-									}
-
-									if (
-										strcmp(color->name, targetColorName) == 0
-										|| (
-											sawGreenOrBlack
-											&& find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()
-										)
-									) {
-										runMatches++;
-
-										lastColorName = std::string(color->name);
-
-										if (debug) {
-											img.drawMarker(x, gapY, 0, 200, 0, true);
-										}
-									} else {
-										runMisses++;
-
-										if (debug) {
-											img.drawMarker(x, gapY, 200, 0, 0, true);
-										}
-									}
-								} else {
-									// allow one invalid color after white/black
-									if (lastColorName != "black" && lastColorName != "white") {
-										img.drawMarker(x, gapY, 100, 0, 0, true);
-
-										runMisses++;
-									} else {
-										lastColorName = "";
-
-										if (debug) {
-											img.drawMarker(x, gapY, 255, 255, 0, true);
-										}
-									}
-								}
-							}
-
-							if (!retryTarget) {
-								matches += runMatches;
-								misses += runMisses;
+						if (color != NULL) {
+							if (strcmp(color->name, targetColorName) == 0) {
+								retryTarget = true;
 
 								break;
 							}
+
+							if (
+								!sawGreenOrBlack
+								&& (
+									strcmp(color->name, "green") == 0
+									|| strcmp(color->name, "black") == 0
+								)
+							) {
+								sawGreenOrBlack = true;
+							}
+
+							if (sawGreenOrBlack) {
+								if (!sawWhite && strcmp(color->name, "white") == 0) {
+									sawWhite = true;
+								} else if (!sawBlack && strcmp(color->name, "black") == 0) {
+									sawBlack = true;
+								}
+							}
+
+							if (
+								sawGreenOrBlack
+								&& find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()
+							) {
+								runMatches++;
+
+								lastColorName = std::string(color->name);
+
+								if (debug) {
+									img.drawMarker(x, gapY, 0, 200, 0, true);
+								}
+							} else {
+								runMisses++;
+
+								if (debug) {
+									img.drawMarker(x, gapY, 200, 0, 0, true);
+								}
+							}
+						} else {
+							// allow one invalid color after white/black
+							if (lastColorName != "black" && lastColorName != "white") {
+								img.drawMarker(x, gapY, 100, 0, 0, true);
+
+								runMisses++;
+							} else {
+								lastColorName = "";
+
+								if (debug) {
+									img.drawMarker(x, gapY, 255, 255, 0, true);
+								}
+							}
 						}
 					}
 
-					break;
-				}
-			} else {
-				if (debug) {
-					img.drawMarker(x, y, 128, 128, 128);
+					if (!retryTarget) {
+						matches += runMatches;
+						misses += runMisses;
+
+						break;
+					}
 				}
 			}
 		}
