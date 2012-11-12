@@ -979,7 +979,9 @@ void SoccerBot::sendFrame() {
 
 	jpegBufferSize = 1024 * 1000;
 
-	//ImageBuffer* classification = vision->classify();
+	if (classification == NULL) {
+		classification = vision->classify();
+	}
 
 	vision->setImage(classification->data);
 
