@@ -178,7 +178,8 @@ void TestController::findGoalRoutine(double dt) {
 	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
 
 	if (goal == NULL) {
-		robot->setTargetDir(0, 0, focusK * searchDir);
+		//robot->setTargetDir(0, 0, focusK * searchDir);
+		robot->spinAroundDribbler(0.5f);
 
 		return;
 	}
@@ -199,11 +200,9 @@ void TestController::findGoalRoutine(double dt) {
 	} else {
 		std::cout << "! Clearance: " << clearance << std::endl;
 
-		robot->spinAroundDribbler(0.5f);
+		float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
 
-		/*float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
-
-		robot->setTargetDir(Math::Rad(0), 0, omega);*/
+		robot->setTargetDir(Math::Rad(0), 0, omega);
 	}
 }
 
