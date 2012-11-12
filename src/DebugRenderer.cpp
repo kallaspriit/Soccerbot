@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "ImageBuffer.h"
 #include "Maths.h"
+#include "Util.h"
 
 void DebugRenderer::render(unsigned char* image, const ObjectList& balls, const ObjectList& goals, bool swapRB) {
 	ImageBuffer* img = new ImageBuffer();;
@@ -20,6 +21,7 @@ void DebugRenderer::render(unsigned char* image, const ObjectList& balls, const 
 void DebugRenderer::renderBalls(ImageBuffer* img, const ObjectList& balls) {
 	Object* ball = NULL;
     char buf[256];
+	int correctedX, correctedY;
 
     for (ObjectListItc it = balls.begin(); it != balls.end(); it++) {
         ball = *it;
@@ -31,7 +33,12 @@ void DebugRenderer::renderBalls(ImageBuffer* img, const ObjectList& balls) {
 		sprintf(buf, "%.2fm  %.1f deg", ball->distance, Math::radToDeg(ball->angle));
         img->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 19, buf);
 
-		sprintf(buf, "%d x %d", ball->x, ball->y + ball->height / 2);
+		correctedX = ball->x;
+		correctedY = ball->y;
+
+		Util::correctCameraPoint(correctedX, correctedY);
+
+		sprintf(buf, "%d x %d", correctedX, correctedY + ball->height / 2);
         img->drawText(ball->x - ball->width / 2 + 2, ball->y - ball->height / 2 - 9, buf);
 
         int boxArea = ball->width * ball->height;

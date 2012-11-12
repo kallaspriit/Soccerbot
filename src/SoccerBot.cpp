@@ -7,6 +7,7 @@
 #include "Command.h"
 #include "Tasks.h"
 #include "Util.h"
+#include "Maths.h"
 #include "JSON.h"
 #include "SignalHandler.h"
 #include "Controller.h"
@@ -768,8 +769,8 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     int centerY = Util::toInt(cmd.params[2]);
     int mode = Util::toInt(cmd.params[3]);
     int brush = Util::toInt(cmd.params[4]);
+	int range = 0;
 
-	//std::vector<Camera::YUYV*> pixels;
 	Camera::YUYV* pixel = NULL;
 	Blobber::Color* color = vision->getBlobber()->getColor(className);
 
@@ -780,7 +781,9 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     }
 
 	int Y, U, V;
-	int range = 0;
+	std::vector<float> yValues;
+	std::vector<float> uValues;
+	std::vector<float> vValues;
 
 	for (int x = -brush; x < brush; x++) {
 		int height = (int)Math::sqrt(brush * brush - x * x);
@@ -792,33 +795,60 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 			U = pixel->u;
 			V = pixel->v;
 
-			if (mode == 1) {
-				color->setThreshold(
-					Y - range, Y + range,
-					U - range, U + range,
-					V - range, V + range
-				);
-			} else if (mode == 2) {
-				color->addThreshold(
-					Y - range, Y + range,
-					U - range, U + range,
-					V - range, V + range
-				);
-			} else if (mode == 3) {
-				color->substractThreshold(
-					Y - range, Y + range,
-					U - range, U + range,
-					V - range, V + range
-				);
-			}
+			delete pixel;
 
-			//pixels.push_back(pixel);
+			yValues.push_back(Y);
+			uValues.push_back(U);
+			vValues.push_back(V);
 		}
 	}
 
-	/*for (std::vector<Camera::YUYV*>::iterator it = pixels.begin(); it != pixels.end(); it++) {
+	
+	
 
-	}*/
+	float yMean, uMean, vMean;
+	float yStdDev = Math::standardDeviation(yValues, yMean);
+	float uStdDev = Math::standardDeviation(uValues, uMean);
+	float vStdDev = Math::standardDeviation(vValues, vMean);
+
+	for (int i = 0; i < yValues.size(); i++) {
+		Y = yValues.at(i);
+		U = uValues.at(i);
+		V = vValues.at(i);
+
+		if (
+			Y < yMean - yStdDev
+			|| Y > yMean + yStdDev
+			|| U < uMean - uStdDev
+			|| U > uMean + uStdDev
+			|| V < vMean - vStdDev
+			|| V > vMean + vStdDev
+		) {
+			std::cout << "! Filtered out: " << Y << ", " << U << ", " << V << std::endl;
+
+			continue;
+		}
+
+		if (mode == 1) {
+			color->setThreshold(
+				Y - range, Y + range,
+				U - range, U + range,
+				V - range, V + range
+			);
+		} else if (mode == 2) {
+			color->addThreshold(
+				Y - range, Y + range,
+				U - range, U + range,
+				V - range, V + range
+			);
+		} else if (mode == 3) {
+			color->substractThreshold(
+				Y - range, Y + range,
+				U - range, U + range,
+				V - range, V + range
+			);
+		}
+	}
 }
 
 void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con) {

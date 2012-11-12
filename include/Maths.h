@@ -5,6 +5,7 @@
 #include <math.h>
 #include <vector>
 #include <queue>
+#include <numeric>
 
 #undef min
 #undef max
@@ -88,6 +89,14 @@ static float floatModulus(float a, float b) {
 
 static float distanceBetween(float x1, float y1, float x2, float y2) {
     return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
+static float standardDeviation(std::vector<float> elements, float& mean) {
+	float sum = std::accumulate(elements.begin(), elements.end(), 0.0);
+	mean = sum / elements.size();
+	float sqSum = std::inner_product(elements.begin(), elements.end(), elements.begin(), 0.0);
+
+	return std::sqrt(sqSum / elements.size() - mean * mean);
 }
 
 static float getAngleDir(float from, float to) {
