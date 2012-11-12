@@ -85,7 +85,7 @@ void Wheel::step(double dt) {
 }*/
 
 float Wheel::omegaToSpeed(float omega) {
-    return omega / Math::TWO_PI * ticksPerRevolution / pidFrequency;
+    return Math::limit(omega / Math::TWO_PI * ticksPerRevolution / pidFrequency, 255);
 }
 
 float Wheel::speedToOmega(float speed) {

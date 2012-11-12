@@ -977,3 +977,32 @@ Object* Vision::getClosestBall() {
 
 	return closestBall;
 }
+
+Object* Vision::getLargestGoal() {
+	const ObjectList& frontGoals = getFrontGoals();
+	float largestArea;
+	Object* goal;
+	Object* largestGoal = NULL;
+
+	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
+		goal = *it;
+		
+		if (largestGoal == NULL || goal->area < largestArea) {
+			largestGoal = goal;
+			largestArea = goal->area;
+		}
+	}
+
+	const ObjectList& rearGoals = getRearGoals();
+
+	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+		goal = *it;
+		
+		if (largestGoal == NULL || goal->area < largestArea) {
+			largestGoal = goal;
+			largestArea = goal->area;
+		}
+	}
+
+	return largestGoal;
+}

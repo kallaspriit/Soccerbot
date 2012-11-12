@@ -45,6 +45,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         const ObjectList& getRearGoals() const { return rearGoals; }
 
 		Object* getClosestBall();
+		Object* getLargestGoal();
 
         float getDistance(Dir dir, int x, int y);
 		float getHorizontalDistance(Dir dir, int x, int y);
