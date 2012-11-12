@@ -18,6 +18,7 @@
 		<script src="library/dash/Socket.js"></script>
 		<script src="library/dash/WheelGraph.js"></script>
 		<script src="library/dash/BlobberView.js"></script>
+		<script src="library/dash/FrameCanvas.js"></script>
 		<script src="library/dash/Renderer.js"></script>
 		<script src="library/dash/UI.js"></script>
 		<script src="library/dash/FpsCounter.js"></script>
@@ -141,12 +142,16 @@
 						<option value="5" selected="selected">Brush: 5</option>
 						<option value="10">Brush: 10</option>
 						<option value="20">Brush: 20</option>
+						<option value="30">Brush: 30</option>
+						<option value="40">Brush: 40</option>
+						<option value="50">Brush: 50</option>
 					</select>
-					<!--<button id="blobber-clear-current-btn">Clear Current</button>
-					<button id="blobber-clear-all-btn">Clear All</button>-->
+					<button id="blobber-clear-current-btn">Clear Current</button>
+					<button id="blobber-clear-all-btn">Clear All</button>
 				</div>
 				<img id="frame-img" src="" width="640" height="512"/>
 				<img id="frame-classification" src="" width="640" height="512"/>
+				<canvas id="frame-canvas"></canvas>
 			</div>
 			<div class="modal" id="blobber-view">
 				<canvas id="blobber-canvas"></canvas>
@@ -179,7 +184,7 @@
 				<button id="shutdown-btn">Shutdown</button>
 				<button id="calibrate-camera-btn" class="live-only">Calibrate Camera</button>
 				<button id="calibrate-blobber-btn" class="live-only">Calibrate Blobber</button>
-				<button id="fetch-frame-btn" class="live-only">Fetch Frame</button>
+				<button id="fetch-frame-btn" class="live-only">Show Video</button>
 				<button id="show-blobber-btn" class="live-only">Show Blobber</button>
 				
 				<select name="controller-choice" id="controller-choice" class="live-only seperated" disabled="disabled">

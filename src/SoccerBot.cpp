@@ -822,8 +822,6 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 			|| V < vMean - vStdDev
 			|| V > vMean + vStdDev
 		) {
-			std::cout << "! Filtered out: " << Y << ", " << U << ", " << V << std::endl;
-
 			continue;
 		}
 

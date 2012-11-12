@@ -10,6 +10,7 @@ Dash.UI = function() {
 	this.lastLogMessage = null;
 	this.rxCounter = null;
 	this.blobberView = null;
+	this.frameCanvas = null;
 	this.currentStateIndex = 0;
 	this.repeatedLogCount = 0;
 	
@@ -33,6 +34,7 @@ Dash.UI.prototype.init = function() {
 	this.initKeyListeners();
 	this.initControls();
 	this.initBlobberView();
+	this.initFrameCanvas();
 };
 
 Dash.UI.prototype.initDebugListener = function() {
@@ -629,6 +631,11 @@ Dash.UI.prototype.initControls = function() {
 Dash.UI.prototype.initBlobberView = function() {
 	this.blobberView = new Dash.BlobberView();
 	this.blobberView.init();
+};
+
+Dash.UI.prototype.initFrameCanvas = function() {
+	this.frameCanvas = new Dash.FrameCanvas();
+	this.frameCanvas.init();
 };
 
 Dash.UI.prototype.setController = function(name) {
