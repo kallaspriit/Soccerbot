@@ -818,7 +818,15 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 	float yStdDev = Math::standardDeviation(yValues, yMean);
 	float uStdDev = Math::standardDeviation(uValues, uMean);
 	float vStdDev = Math::standardDeviation(vValues, vMean);
-	int minY = -1, maxY = -1, minU = -1, maxU = -1, minV = -1, maxV = -1;
+
+	int minY = yMean - (float)yStdDev * Config::blobberPickerStdDevMultiplier;
+	int maxY = yMean + (float)yStdDev * Config::blobberPickerStdDevMultiplier;
+	int minU = uMean - (float)uStdDev * Config::blobberPickerStdDevMultiplier;
+	int maxU = uMean + (float)uStdDev * Config::blobberPickerStdDevMultiplier;
+	int minV = vMean - (float)vStdDev * Config::blobberPickerStdDevMultiplier;
+	int maxV = vMean + (float)vStdDev * Config::blobberPickerStdDevMultiplier;
+	
+	/*int minY = -1, maxY = -1, minU = -1, maxU = -1, minV = -1, maxV = -1;
 
 	for (unsigned int i = 0; i < yValues.size(); i++) {
 		Y = yValues.at(i);
@@ -853,27 +861,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 		} else if (V > maxV) {
 			maxV = V;
 		}
-
-		/*if (mode == 1) {
-			color->setThreshold(
-				Y - range, Y + range,
-				U - range, U + range,
-				V - range, V + range
-			);
-		} else if (mode == 2) {
-			color->addThreshold(
-				Y - range, Y + range,
-				U - range, U + range,
-				V - range, V + range
-			);
-		} else if (mode == 3) {
-			color->substractThreshold(
-				Y - range, Y + range,
-				U - range, U + range,
-				V - range, V + range
-			);
-		}*/
-	}
+	}*/
 
 	std::cout << "! Colorpicker [" << mode << "]" << std::endl;
 	std::cout << "  > Y mean: " << yMean << "; std-dev: " << yStdDev << "; min: " << minY << "; max: " << maxY << std::endl;

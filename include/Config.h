@@ -54,6 +54,7 @@ const int goalMinInvalidSpree = 1;
 const float validBallSurroundThreshold = 0.5f;
 const float validBallPathThreshold = 0.65f;			//< which percentage of pixels need to be valid on ball path
 const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels need to be valid on goal path
+const float blobberPickerStdDevMultiplier = 1.5f;
 
 const float ballFocusP = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
