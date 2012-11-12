@@ -811,7 +811,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 	float uStdDev = Math::standardDeviation(uValues, uMean);
 	float vStdDev = Math::standardDeviation(vValues, vMean);
 
-	for (int i = 0; i < yValues.size(); i++) {
+	for (unsigned int i = 0; i < yValues.size(); i++) {
 		Y = yValues.at(i);
 		U = uValues.at(i);
 		V = vValues.at(i);
