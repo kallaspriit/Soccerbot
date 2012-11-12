@@ -943,6 +943,12 @@ ImageBuffer* Vision::classify() {
     return &img;
 }
 
+void Vision::setImage(unsigned char* image, int width, int height) {
+	img.width = width;
+    img.height = height;
+    img.data = image;
+}
+
 Object* Vision::getClosestBall() {
 	const ObjectList& frontBalls = getFrontBalls();
 	float closestDistance;

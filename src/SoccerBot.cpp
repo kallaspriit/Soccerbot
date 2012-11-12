@@ -975,6 +975,9 @@ void SoccerBot::sendFrame() {
 	jpegBufferSize = 1024 * 1000;
 
 	ImageBuffer* classification = vision->classify();
+
+	vision->setImage(classification->data);
+
 	Util::jpegEncode(classification->data, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
 	std::string base64Classification = Util::base64Encode(jpegBuffer, jpegBufferSize);
 

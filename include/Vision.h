@@ -5,6 +5,7 @@
 #include "ImageBuffer.h"
 #include "Object.h"
 #include "LookupTable.h"
+#include "Config.h"
 
 #include <string>
 #include <vector>
@@ -25,6 +26,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 
         void setFrame(unsigned char* frame);
         void process(Dir dir);
+		void setImage(unsigned char* image, int width = Config::cameraWidth, int height = Config::cameraHeight);
         //void filterMap(unsigned int* map);
         unsigned int* getColorMap() { return blobber->getMap(); }
         ImageBuffer* classify();
