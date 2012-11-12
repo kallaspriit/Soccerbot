@@ -13,7 +13,7 @@
 
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
-	focusK = Config::ballFocusP * 0.5f;
+	focusK = Config::ballFocusP;
 	lastBallDistance = -1;
 	searchDir = 1;
 	newBall = true;
