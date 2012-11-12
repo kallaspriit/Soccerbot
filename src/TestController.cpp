@@ -6,6 +6,7 @@
 #include "Maths.h"
 #include "Vision.h"
 #include "Dribbler.h"
+#include "Coilgun.h"
 #include "Config.h"
 
 #include <iostream>
@@ -164,9 +165,15 @@ void TestController::chaseBallRoutine(double dt) {
 }
 
 void TestController::findGoalRoutine(double dt) {
-	if (robot->hasTasks()) {
+	if (!robot->getDribbler().gotBall()) {
 		return;
 	}
+
+	/*if (robot->hasTasks()) {
+		return;
+	}*/
+
+	robot->getDribbler().start();
 
 	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
 
@@ -176,9 +183,22 @@ void TestController::findGoalRoutine(double dt) {
 		return;
 	}
 
-	float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
+	int halfWidth = Config::cameraWidth / 2;
+	int clearance;
 
-	robot->setTargetDir(Math::Rad(0), 0, omega);
+	if (goal->angle < 0.0f) {
+		clearance = (goal->x + goal->width / 2) - halfWidth;
+	} else {
+		clearance = halfWidth - (goal->x - goal->width / 2);
+	}
+
+	if (clearance < Config::goalKickThreshold) {
+		robot->getCoilgun().kick();
+	} else {
+		float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
+
+		robot->setTargetDir(Math::Rad(0), 0, omega);
+	}
 }
 
 bool TestController::handleRequest(std::string request) {
