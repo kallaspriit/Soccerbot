@@ -744,7 +744,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 	int xStep = 6;
 	int yStep = 6;
 	int gapStep = 3;
-	int senseSteps = 5;
+	int senseSteps = 10;
 	int matches = 0;
 	int misses = 0;
 	int stepsBelow;
