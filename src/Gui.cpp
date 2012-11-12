@@ -120,7 +120,7 @@ bool Gui::handleCommand(const Command& cmd) {
 }
 
 void Gui::onMouseClick(int x, int y) {
-	Vision* vision = bot->getVision();
+	/*Vision* vision = bot->getVision();
 	Camera::YUYV* pixel = bot->getFrontCamera()->getLastFrame()->getPixelAt(x, y);
 
 	if (pixel == NULL) {
@@ -133,7 +133,7 @@ void Gui::onMouseClick(int x, int y) {
 
 	int Y = (pixel->y1 + pixel->y2) / 2;
 	int U = pixel->u;
-	int V = pixel->v;
+	int V = pixel->v;*/
 	
 	/*int brush = 10;
 
@@ -146,7 +146,7 @@ void Gui::onMouseClick(int x, int y) {
 		V + brush
 	);*/
 
-	std::cout << "! Mouse click: " << x << "x" << y << ": " << pixel->y1 << "," << pixel->u<< "," << pixel->y2<< "," << pixel->v << std::endl;
+	std::cout << "! Mouse click: " << x << "x" << y << std::endl;
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
