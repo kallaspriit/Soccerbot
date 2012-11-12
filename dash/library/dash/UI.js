@@ -596,12 +596,12 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<set-blobber-calibration:' + selectedClass + ',' + y + ',' + u + ',' + v + ',' + mergeThreshold + '>');
 	});
 	
-	$('#frame-img, #frame-classification').bind('contextmenu', function(e) {
+	$('#frame-img, #frame-classification, #frame-canvas').bind('contextmenu', function(e) {
 		e.preventDefault();
 	});
 	
-	$('#frame-img, #frame-classification').mousedown(function(e) {
-		var x = e.offsetX,
+	$('#frame-img, #frame-classification, #frame-canvas').mousedown(function(e) {
+		var x = e.offsetX % 640,
 			y = e.offsetY,
 			mode = 2,
 			color = $('#threshold-class').val(),

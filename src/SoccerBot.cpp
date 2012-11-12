@@ -789,6 +789,15 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 		int height = (int)Math::sqrt(brush * brush - x * x);
 
 		for (int y = -height; y < height; y++) {
+			if (
+				x < 0
+				|| x > Config::cameraWidth - 1
+				|| y < 0
+				|| y > Config::cameraHeight -1
+			) {
+				continue;
+			}
+
 			pixel = frontCamera->getLastFrame()->getPixelAt(x + centerX, y + centerY);
 
 			Y = (pixel->y1 + pixel->y2) / 2;
