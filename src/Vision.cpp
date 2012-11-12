@@ -270,6 +270,10 @@ bool Vision::isValidGoal(Object* goal, int side) {
 		return false;
 	}
 
+	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
+		return false;
+	}
+
     /*PathMetric pathMetric = getPathMetric(
         Config::cameraPathStartX,
         Config::cameraPathStartY,

@@ -15,7 +15,7 @@ Dash.Config = {
 		turnRate: Math.PI
 	},
 	joystick: {
-		speed: 3,
+		speed: 1.5,
 		turnRate: Math.PI * 2
 	}
 };
