@@ -63,8 +63,7 @@ const float ballFocusD = 0.0f;						//< how fast to yaw to focus on a ball (angl
 
 const float goalFocusP = ballFocusP;				//< how fast to yaw to focus on a goal (angle multiplier)
 //const float ballChaseK = 1.0f;					//< distance multiplier to chase speed
-const float ballFocusMaxOmega = 6.28f;				//< maximum omega to apply while focusing on a ball
-const float goalFocusMaxOmega = ballFocusMaxOmega;	//< maximum omega to apply while focusing on a ball
+const float focusMaxOmega = 6.28f;					//< maximum omega to apply while focusing on an object
 //const float ballChaseMaxSpeed = 0.75f;			//< maximum speed to chase a ball at
 const float ballCloseThreshold = 0.25f;				//< balls closer than this are considered to be close
 const float dribblerOnThreshold = 0.3f;				//< distance at which to turn on the dribbler

@@ -344,6 +344,8 @@ void SoccerBot::run() {
         lastStepDt = dt;
         totalTime += dt;
 
+		robot->setTargetSide(infoBoard->getTargetSide());
+
 		//double s = Util::millitime();
 		if (updateCameras(dt) == 0) {
 			std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;

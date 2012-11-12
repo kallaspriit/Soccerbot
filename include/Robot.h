@@ -51,6 +51,7 @@ class Robot {
 		Dribbler& getDribbler() const { return *dribbler; }
 		Coilgun& getCoilgun() const { return *coilgun; }
 
+		void setTargetSide(Side side) { targetSide = side; }
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
         void setTargetOmega(float omega);
@@ -89,6 +90,7 @@ class Robot {
         float wheelRadiusInv;
         float wheelAngles[4];
 
+		Side targetSide;
         Wheel* wheelFL;
         Wheel* wheelFR;
         Wheel* wheelRL;

@@ -13,6 +13,7 @@
 #include <sstream>
 
 Robot::Robot() {
+	targetSide = Side::UNKNOWN;
     wheelFL = NULL;
     wheelFR = NULL;
     wheelRL = NULL;

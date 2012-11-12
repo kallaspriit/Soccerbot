@@ -978,7 +978,7 @@ Object* Vision::getClosestBall() {
 	return closestBall;
 }
 
-Object* Vision::getLargestGoal() {
+Object* Vision::getLargestGoal(Side side) {
 	const ObjectList& frontGoals = getFrontGoals();
 	float largestArea;
 	Object* goal;
@@ -986,6 +986,10 @@ Object* Vision::getLargestGoal() {
 
 	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
 		goal = *it;
+
+		if (goal->type != side) {
+			continue;
+		}
 		
 		if (largestGoal == NULL || goal->area < largestArea) {
 			largestGoal = goal;
@@ -997,6 +1001,10 @@ Object* Vision::getLargestGoal() {
 
 	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
 		goal = *it;
+
+		if (goal->type != side) {
+			continue;
+		}
 		
 		if (largestGoal == NULL || goal->area < largestArea) {
 			largestGoal = goal;

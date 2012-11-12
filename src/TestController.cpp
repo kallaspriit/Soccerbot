@@ -69,11 +69,11 @@ void TestController::watchBallRoutine(double dt) {
 		return;
 	}
 
-	//float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
+	//float omega = Math::limit(ball->angle * focusK, Config::focusMaxOmega);
 	float omega = focusPid.getValue(-ball->angle, dt);
 
-	if (omega == Config::ballFocusMaxOmega) {
-		std::cout << "! Omega limited to " << Config::ballFocusMaxOmega << std::endl;
+	if (omega == Config::focusMaxOmega) {
+		std::cout << "! Omega limited to " << Config::focusMaxOmega << std::endl;
 	}
 
 	robot->setTargetOmega(omega);
@@ -115,7 +115,7 @@ void TestController::chaseBallRoutine(double dt) {
 		return;
 	}
 
-	float omega = Math::limit(ball->angle * focusK, Config::ballFocusMaxOmega);
+	float omega = Math::limit(ball->angle * focusK, Config::focusMaxOmega);
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
 	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * Config::brakeDistanceMultiplier, Config::ballCloseThreshold);
@@ -161,34 +161,21 @@ void TestController::chaseBallRoutine(double dt) {
 }
 
 void TestController::findGoalRoutine(double dt) {
-	ObjectList frontGoals = vision->getFrontGoals();
-	Object* goal = NULL;
-
-	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
-		goal = *it;
-
-		if (goal->type == targetSide) {
-			float omega = Math::limit(goal->angle * Config::goalFocusP, Config::goalFocusMaxOmega);
-
-			robot->setTargetDir(0, 0, omega);
-
-			return;
-		}
+	if (robot->hasTasks()) {
+		return;
 	}
 
-	// @TODO Search front image for opposite camera
+	const Object* goal = vision->getLargestGoal(targetSide);
 
-	ObjectList rearGoals = vision->getRearGoals();
+	if (goal == NULL) {
+		robot->setTargetDir(0, 0, focusK * searchDir);
 
-	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
-		goal = *it;
-
-		if (goal->type == targetSide) {
-			// ...
-		} else {
-			// ...
-		}
+		return;
 	}
+
+	float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
+
+	robot->setTargetDir(Math::Rad(0), 0, omega);
 }
 
 bool TestController::handleRequest(std::string request) {
