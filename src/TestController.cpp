@@ -194,7 +194,7 @@ void TestController::findGoalRoutine(double dt) {
 		leftEdge + goalKickThresholdPixels < halfWidth
 		&& rightEdge - goalKickThresholdPixels > halfWidth
 	) {
-		robot->getCoilgun().kick(750);
+		robot->getCoilgun().kick();
 	} else {
 		//robot->spinAroundDribbler(4.0f * ());
 
