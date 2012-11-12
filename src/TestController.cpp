@@ -37,6 +37,10 @@ void TestController::step(double dt) {
 		case Routine::CHASE_BALL:
 			chaseBallRoutine(dt);
 		break;
+
+		case Routine::FIND_GOAL:
+			findGoalRoutine(dt);
+		break;
 	};
 }
 
