@@ -266,6 +266,10 @@ int Vision::getGoalMaxInvalidSpree(int y) {
 }
 
 bool Vision::isValidGoal(Object* goal, int side) {
+	if (goal->area < Config::goalMinArea) {
+		return false;
+	}
+
     /*PathMetric pathMetric = getPathMetric(
         Config::cameraPathStartX,
         Config::cameraPathStartY,

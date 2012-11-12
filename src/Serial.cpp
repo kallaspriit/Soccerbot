@@ -24,7 +24,7 @@ Serial::~Serial() {
 	DeleteCriticalSection(&messagesMutex);
 }
 
-Serial::Result Serial::open(std::string device, int speed, const char delimiter) {
+Serial::Result Serial::open(std::string device, int speed, const char delimiter, int attempts) {
     if (isOpen()) {
 		CloseHandle(hSerial);
 
