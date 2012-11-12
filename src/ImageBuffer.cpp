@@ -1,5 +1,6 @@
 #include "ImageBuffer.h"
 #include "Util.h"
+#include "Maths.h"
 
 #include <algorithm>
 
@@ -48,6 +49,15 @@ void ImageBuffer::drawBox(int x, int y, int width, int height, int red, int gree
     for (int i = y; i < y + height; i++) {
         setPixelAt(x + width, i, red, green, blue);
     }
+}
+
+void ImageBuffer::fillCircleCentered(int centerX, int centerY, int radius, int red, int green, int blue) {
+	for (int x = -radius; x < radius; x++) {
+		int height = (int)Math::sqrt(radius * radius - x * x);
+
+		for (int y = -height; y < height; y++)
+			setPixelAt(x + centerX, y + centerY, red, green, blue);
+	}
 }
 
 const unsigned char ImageBuffer::font[256][8] = {

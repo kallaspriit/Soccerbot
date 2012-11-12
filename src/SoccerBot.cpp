@@ -772,6 +772,9 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     int y = Util::toInt(cmd.params[2]);
     int mode = Util::toInt(cmd.params[3]);
     int brush = Util::toInt(cmd.params[4]);
+
+	/*std::vector<Camera::YUYV*> pixels;
+	Camera::YUYV* pixel = NULL;*/
     
 	Camera::YUYV* pixel = frontCamera->getLastFrame()->getPixelAt(x, y);
     Blobber::Color* color = vision->getBlobber()->getColor(className);

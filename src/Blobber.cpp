@@ -827,8 +827,6 @@ bool Blobber::loadOptions(std::string filename) {
 				yClass[i] = y;
 				uClass[i] = u;
 				vClass[i] = v;
-
-				printf("Read #%d: %d, %d, %d\n", i, y, u, v);
 			}
 		} else {
 			sscanf(buf, "%d %d %d %lf %d %s", &red, &green, &blue, &mergeThreshold, &expectedBlobs, str);
