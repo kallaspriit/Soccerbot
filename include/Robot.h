@@ -52,6 +52,7 @@ class Robot {
 		Coilgun& getCoilgun() const { return *coilgun; }
 
 		void setTargetSide(Side side) { targetSide = side; }
+		Side getTargetSide() { return targetSide; }
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
         void setTargetOmega(float omega);

@@ -12,7 +12,6 @@
 
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
-	targetSide = Side::BLUE;
 	focusK = Config::ballFocusP * 0.5f;
 	lastBallDistance = -1;
 	searchDir = 1;
@@ -169,7 +168,7 @@ void TestController::findGoalRoutine(double dt) {
 		return;
 	}
 
-	const Object* goal = vision->getLargestGoal(targetSide);
+	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
 
 	if (goal == NULL) {
 		robot->setTargetDir(0, 0, focusK * searchDir);
@@ -254,14 +253,6 @@ bool TestController::handleCommand(const Command& cmd) {
 		std::cout << "! Testing finding goal" << std::endl;
 
 		activeRoutine = Routine::FIND_GOAL;
-
-		if (cmd.params.size() > 0) {
-			if (cmd.params[0] == "yellow") {
-				targetSide = Side::YELLOW;
-			} else if (cmd.params[0] == "blue") {
-				targetSide = Side::BLUE;
-			}
-		}
     } else {
 		return false;
 	}

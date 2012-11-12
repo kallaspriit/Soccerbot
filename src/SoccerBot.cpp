@@ -344,8 +344,6 @@ void SoccerBot::run() {
         lastStepDt = dt;
         totalTime += dt;
 
-		robot->setTargetSide(infoBoard->getTargetSide());
-
 		//double s = Util::millitime();
 		if (updateCameras(dt) == 0) {
 			std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
@@ -360,6 +358,7 @@ void SoccerBot::run() {
 
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
 
+		robot->setTargetSide(infoBoard->getTargetSide());
         robot->step(dt);
 
         //usleep(6000); // some long-running thingy test
