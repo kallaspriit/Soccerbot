@@ -195,7 +195,7 @@ void TestController::findGoalRoutine(double dt) {
 	if (clearance < Config::goalKickThreshold) {
 		std::cout << "! KICK" << std::endl;
 
-		robot->getCoilgun().kick();
+		robot->getCoilgun().kick(750);
 	} else {
 		std::cout << "! Clearance: " << clearance << std::endl;
 
