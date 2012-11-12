@@ -775,7 +775,7 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 			if (color == NULL || strcmp(color->name, targetColorName) != 0) {
 				if (debug) {
-					img.drawMarker(x, y, 128, 128, 128);
+					img.drawMarker(x, y, 64, 64, 64);
 				}
 
 				continue;
@@ -803,10 +803,6 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 
 			//std::cout << "! DOWN FROM " << (y + yStep) << " to " << y + blockHeight << std::endl;
 
-			bool retryTarget = false;
-			int runMatches = 0;
-			int runMisses = 0;
-
 			for (int senseY = y + yStep; senseY < Math::min(y + blockHeight * 4, height); senseY += yStep) {
 				if (senseY > height - 1) {
 					break;
@@ -830,6 +826,9 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 					}
 
 					sawGreenOrBlack = false;
+					bool retryTarget = false;
+					int runMatches = 0;
+					int runMisses = 0;
 
 					for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
 						if (gapY > height - 1) {
@@ -902,6 +901,8 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 						misses += runMisses;
 
 						break;
+					} else {
+
 					}
 				}
 			}
