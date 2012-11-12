@@ -236,7 +236,7 @@ bool Vision::isValidBall(Object* ball) {
 			Config::cameraPathStartX,
 			Config::cameraPathStartY,
 			ball->x,
-			ball->y + ballRadius * 1.25f,
+			ball->y + senseRadius,
 			validBallPathColors
 			//,"green"
 		);
@@ -409,7 +409,7 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 	
 	int matches = 0;
 	int misses = 0;
-    int points = radius;
+    int points = radius * 2;
     bool requiredColorFound = false;
     bool debug = img.data != NULL;
 
