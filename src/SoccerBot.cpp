@@ -648,7 +648,7 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
             } else if (command.name.substr(0, 6) == "camera") {
                 handleCameraCommand(command);
             } else if (gui == NULL || !gui->handleCommand(command)) {
-                std::cout << "- Unsupported command '" << command.name << "' "<< Util::toString(command.params) << std::endl;
+                std::cout << "- Unsupported command '" << command.name << "' " << Util::toString(command.params) << std::endl;
             }
         }
     } else {

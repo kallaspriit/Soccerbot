@@ -153,8 +153,6 @@ void Vision::processBalls(Dir dir) {
             angle
         );
 
-		Util::correctCameraPoint(ball->x, ball->y);
-
         if (isValidBall(ball)) {
             balls->push_back(ball);
         }
@@ -200,8 +198,6 @@ void Vision::processGoals(Dir dir) {
 				angle,
 				i == 0 ? Side::YELLOW : Side::BLUE
 			);
-
-			Util::correctCameraPoint(goal->x, goal->y);
 
             if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {
                 goals->push_back(goal);
@@ -324,13 +320,18 @@ float Vision::getDistance(Dir dir, int x, int y) {
 	//float yCorrection = 0.000095 * Math::pow(x, 2) - 0.0536 * x + 7;
 	//std::cout << "! Y-correction: " << yCorrection << " at x: " << x << std::endl;
 
+	int realX = x;
+	int realY = y;
+
+	Util::correctCameraPoint(realX, realY);
+
 	float yCorrection = 0;
 	float distance;
 
     if (dir == DIR_FRONT) {
-		distance = frontDistanceLookup.getValue(y - yCorrection);
+		distance = frontDistanceLookup.getValue(realY - yCorrection);
     } else {
-        distance = rearDistanceLookup.getValue(y - yCorrection);
+        distance = rearDistanceLookup.getValue(realY - yCorrection);
     }
 
 	return Math::max(distance + Config::distanceCorrection, 0.01f);
@@ -355,14 +356,24 @@ float Vision::getHorizontalDistance(Dir dir, int x, int y) {
 
 	//return horizontalDistance;
 
-	float distance = getDistance(dir, x, y);
-	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	int realX = x;
+	int realY = y;
+
+	Util::correctCameraPoint(realX, realY);
+
+	float distance = getDistance(dir, realX, realY);
+	float centerOffset = (float)(realX - (Config::cameraWidth / 2));
 	float localAngle = distance / 686.0f;
 
-	return Math::tan(localAngle) * (y + 0.062);
+	return Math::tan(localAngle) * (realY + 0.062);
 }
 
 float Vision::getAngle(Dir dir, int x, int y) {
+	int realX = x;
+	int realY = y;
+
+	Util::correctCameraPoint(realX, realY);
+
     /*float centerOffset = (float)(x - (Config::cameraWidth / 2));
     float distance = getDistance(dir, x, y);
     float pixelsPerCm = dir == DIR_FRONT ? frontAngleLookup.getValue(distance) : rearAngleLookup.getValue(distance);
@@ -377,7 +388,7 @@ float Vision::getAngle(Dir dir, int x, int y) {
 	//float distance = getDistance(dir, x, y);
 
 	// last working
-	float centerOffset = (float)(x - (Config::cameraWidth / 2));
+	float centerOffset = (float)(realX - (Config::cameraWidth / 2));
 	
 	return Math::degToRad(centerOffset / 11.5f);
 
