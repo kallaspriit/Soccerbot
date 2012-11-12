@@ -15,6 +15,7 @@ class FpsCounter;
 class Camera;
 class Vision;
 class InfoBoard;
+class ImageBuffer;
 
 class SoccerBot : public WebSocketServer::ListenerInterface {
     public:
@@ -97,11 +98,14 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 		bool active;
         bool stopRequested;
 		bool frameRequested;
+		bool lastFrameRequested;
         std::string endCommand;
 
         std::map<std::string, Controller*> controllers;
         Controller* activeController;
 		std::string activeControllerName;
+
+		ImageBuffer* classification;
 
 		CRITICAL_SECTION socketMutex;
 };

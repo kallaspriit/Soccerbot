@@ -38,11 +38,13 @@ SoccerBot::SoccerBot() {
     jpegBuffer = NULL;
 	rgbaBuffer = NULL;
     rgbBuffer = NULL;
+	classification = NULL;
     endCommand = "";
 	lastStepDt = 0.01666;
 	totalTime = 0;
 	active = false;
 	stopRequested = false;
+	lastFrameRequested = false;
     lastStepTime = Util::millitime();
 
     originalCoutStream = std::cout.rdbuf();
@@ -388,6 +390,8 @@ void SoccerBot::run() {
 
 		infoBoard->step(dt);
 
+		lastFrameRequested = frameRequested;
+
 		if (frameRequested) {
 			sendFrame();
 
@@ -403,7 +407,7 @@ void SoccerBot::run() {
 }
 
 int SoccerBot::updateCameras(double dt) {
-	ImageBuffer* classification = NULL;
+	//ImageBuffer* classification = NULL;
 	Camera::FrameYUYV* image = NULL;
 	int captures = 0;
 	//double s;
@@ -420,7 +424,7 @@ int SoccerBot::updateCameras(double dt) {
 			vision->setFrame(image->dataYUYV);
 			//printf("@ Blobber: %.4f\n", Util::duration(s));
 
-			if (gui != NULL) {
+			if (gui != NULL || lastFrameRequested) {
 				//s = Util::millitime();
 				classification = vision->classify();
 				//printf("@ Classification: %.4f\n", Util::duration(s));
@@ -975,7 +979,7 @@ void SoccerBot::sendFrame() {
 
 	jpegBufferSize = 1024 * 1000;
 
-	ImageBuffer* classification = vision->classify();
+	//ImageBuffer* classification = vision->classify();
 
 	vision->setImage(classification->data);
 
