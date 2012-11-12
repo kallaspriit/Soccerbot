@@ -48,6 +48,7 @@ void DebugRenderer::renderBalls(ImageBuffer* img, const ObjectList& balls) {
 
 	// TEMP - draw centerline
 	img->drawLine(Config::cameraWidth / 2, 0, Config::cameraWidth / 2, Config::cameraHeight);
+	//img->fillCircleCentered(Config::cameraWidth / 2, Config::cameraHeight / 2, 100, 0, 0, 255);
 
     /*Blobber::Blob* blob = blobber->getBlobs("ball");
 
