@@ -179,7 +179,7 @@ void TestController::findGoalRoutine(double dt) {
 
 	if (goal == NULL) {
 		//robot->setTargetDir(0, 0, focusK * searchDir);
-		robot->spinAroundDribbler(4.0f);
+		robot->spinAroundDribbler();
 
 		return;
 	}

@@ -218,7 +218,7 @@ bool Vision::isValidBall(Object* ball) {
 
     float surroundMetric = getSurroundMetric(
         ball->x,
-        ball->y,
+        ball->y + ballRadius,
         senseRadius,
         validBallBgColors,
 		"green",
@@ -236,7 +236,7 @@ bool Vision::isValidBall(Object* ball) {
 			Config::cameraPathStartX,
 			Config::cameraPathStartY,
 			ball->x,
-			ball->y + senseRadius,
+			ball->y + ballRadius + senseRadius,
 			validBallPathColors
 			//,"green"
 		);
