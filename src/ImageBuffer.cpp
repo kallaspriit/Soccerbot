@@ -56,7 +56,7 @@ void ImageBuffer::fillCircleCentered(int centerX, int centerY, int radius, int r
 		int height = (int)Math::sqrt(radius * radius - x * x);
 
 		for (int y = -height; y < height; y++)
-			setPixelAt(x + centerX, y + centerY, red, green, blue);
+			setPixelAt(x + centerX, y + centerY - radius, red, green, blue);
 	}
 }
 
