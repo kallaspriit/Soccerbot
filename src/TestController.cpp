@@ -272,10 +272,8 @@ bool TestController::handleCommand(const Command& cmd) {
 			}
 		}
     } else {
-		std::cout << "- Unknown test controller command: " << cmd.name << std::endl;
-
-        return false;
-    }
+		return false;
+	}
 
     return true;
 }
