@@ -193,11 +193,17 @@ void TestController::findGoalRoutine(double dt) {
 	}
 
 	if (clearance < Config::goalKickThreshold) {
+		std::cout << "! KICK" << std::endl;
+
 		robot->getCoilgun().kick();
 	} else {
-		float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
+		std::cout << "! Clearance: " << clearance << std::endl;
 
-		robot->setTargetDir(Math::Rad(0), 0, omega);
+		robot->spinAroundDribbler(0.5f);
+
+		/*float omega = Math::limit(goal->angle * focusK, Config::focusMaxOmega);
+
+		robot->setTargetDir(Math::Rad(0), 0, omega);*/
 	}
 }
 
