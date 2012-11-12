@@ -764,44 +764,61 @@ void SoccerBot::handleSetBlobberCalibration(const Command& cmd) {
 
 void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     std::string className = cmd.params[0];
-    int x = Util::toInt(cmd.params[1]);
-    int y = Util::toInt(cmd.params[2]);
+    int centerX = Util::toInt(cmd.params[1]);
+    int centerY = Util::toInt(cmd.params[2]);
     int mode = Util::toInt(cmd.params[3]);
     int brush = Util::toInt(cmd.params[4]);
 
-	/*std::vector<Camera::YUYV*> pixels;
-	Camera::YUYV* pixel = NULL;*/
-    
-	Camera::YUYV* pixel = frontCamera->getLastFrame()->getPixelAt(x, y);
-    Blobber::Color* color = vision->getBlobber()->getColor(className);
+	//std::vector<Camera::YUYV*> pixels;
+	Camera::YUYV* pixel = NULL;
+	Blobber::Color* color = vision->getBlobber()->getColor(className);
 
-    if (color == NULL) {
+	if (color == NULL) {
         std::cout << "- Requested invalid color: " << className << std::endl;
+
+		return;
     }
 
-	int Y = (pixel->y1 + pixel->y2) / 2;
-	int U = pixel->u;
-	int V = pixel->v;
+	int Y, U, V;
+	int range = 0;
 
-	if (mode == 1) {
-		color->setThreshold(
-			Y - brush, Y + brush,
-			U - brush, U + brush,
-			V - brush, V + brush
-		);
-	} else if (mode == 2) {
-		color->addThreshold(
-			Y - brush, Y + brush,
-			U - brush, U + brush,
-			V - brush, V + brush
-		);
-	} else if (mode == 3) {
-		color->substractThreshold(
-			Y - brush, Y + brush,
-			U - brush, U + brush,
-			V - brush, V + brush
-		);
+	for (int x = -brush; x < brush; x++) {
+		int height = (int)Math::sqrt(brush * brush - x * x);
+
+		for (int y = -height; y < height; y++) {
+			pixel = frontCamera->getLastFrame()->getPixelAt(x + centerX, y + centerY - brush);
+
+			Y = (pixel->y1 + pixel->y2) / 2;
+			U = pixel->u;
+			V = pixel->v;
+
+			if (mode == 1) {
+				color->setThreshold(
+					Y - range, Y + range,
+					U - range, U + range,
+					V - range, V + range
+				);
+			} else if (mode == 2) {
+				color->addThreshold(
+					Y - range, Y + range,
+					U - range, U + range,
+					V - range, V + range
+				);
+			} else if (mode == 3) {
+				color->substractThreshold(
+					Y - range, Y + range,
+					U - range, U + range,
+					V - range, V + range
+				);
+			}
+
+			//pixels.push_back(pixel);
+		}
 	}
+
+	/*for (std::vector<Camera::YUYV*>::iterator it = pixels.begin(); it != pixels.end(); it++) {
+
+	}*/
 }
 
 void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con) {
