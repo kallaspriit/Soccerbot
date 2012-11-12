@@ -288,6 +288,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
 		float undersideMetric = getUndersideMetric(
 			goal->x - goal->width / 2,
 			goal->y - goal->height / 2,
+			goal->distance,
 			goal->width,
 			goal->height,
 			side == Side::YELLOW ? "yellow-goal" : "blue-goal",
@@ -739,12 +740,12 @@ float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, st
 	return (float)matches / (float)points;
 }
 
-float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight, std::string targetColor, std::vector<std::string> validColors) {
+float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::vector<std::string> validColors) {
 	bool debug = img.data != NULL;
 	int xStep = 6;
 	int yStep = 6;
 	int gapStep = 3;
-	int senseSteps = 10;
+	int senseSteps = (int)Math::max((float)Config::undersideMetricBaseSteps / distance, 3.0f);
 	int matches = 0;
 	int misses = 0;
 	int stepsBelow;
