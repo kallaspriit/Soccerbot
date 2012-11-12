@@ -906,6 +906,8 @@ float Vision::getUndersideMetric(int x1, int y1, int blockWidth, int blockHeight
 					}
 				}
 			}
+
+			break;
 		}
 	}
 
