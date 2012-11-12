@@ -803,13 +803,11 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 		}
 	}
 
-	
-	
-
 	float yMean, uMean, vMean;
 	float yStdDev = Math::standardDeviation(yValues, yMean);
 	float uStdDev = Math::standardDeviation(uValues, uMean);
 	float vStdDev = Math::standardDeviation(vValues, vMean);
+	int minY = -1, maxY = -1, minU = -1, maxU = -1, minV = -1, maxV = -1;
 
 	for (unsigned int i = 0; i < yValues.size(); i++) {
 		Y = yValues.at(i);
@@ -829,7 +827,25 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 			continue;
 		}
 
-		if (mode == 1) {
+		if (minY == -1 || Y < minY) {
+			minY = Y;
+		} else if (Y > maxY) {
+			maxY = Y;
+		}
+
+		if (minU == -1 || U < minU) {
+			minU = U;
+		} else if (U > maxU) {
+			maxU = U;
+		}
+
+		if (minV == -1 || V < minV) {
+			minV = V;
+		} else if (V > maxV) {
+			maxV = V;
+		}
+
+		/*if (mode == 1) {
 			color->setThreshold(
 				Y - range, Y + range,
 				U - range, U + range,
@@ -847,7 +863,27 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 				U - range, U + range,
 				V - range, V + range
 			);
-		}
+		}*/
+	}
+
+	if (mode == 1) {
+		color->setThreshold(
+			minY, maxY,
+			minU, maxU,
+			minV, maxV
+		);
+	} else if (mode == 2) {
+		color->addThreshold(
+			minY, maxY,
+			minU, maxU,
+			minV, maxV
+		);
+	} else if (mode == 3) {
+		color->substractThreshold(
+			minY, maxY,
+			minU, maxU,
+			minV, maxV
+		);
 	}
 }
 
