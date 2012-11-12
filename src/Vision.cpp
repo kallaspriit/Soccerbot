@@ -1,6 +1,7 @@
 #include "Vision.h"
 #include "Config.h"
 #include "Maths.h"
+#include "Util.h"
 
 #include <iostream>
 #include <algorithm>
@@ -152,6 +153,8 @@ void Vision::processBalls(Dir dir) {
             angle
         );
 
+		Util::correctCameraPoint(ball->x, ball->y);
+
         if (isValidBall(ball)) {
             balls->push_back(ball);
         }
@@ -197,6 +200,8 @@ void Vision::processGoals(Dir dir) {
 				angle,
 				i == 0 ? Side::YELLOW : Side::BLUE
 			);
+
+			Util::correctCameraPoint(goal->x, goal->y);
 
             if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {
                 goals->push_back(goal);
