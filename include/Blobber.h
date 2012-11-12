@@ -152,6 +152,8 @@ class Blobber {
         bool saveOptions(std::string filename);
         bool enable(unsigned opt);
         bool disable(unsigned opt);
+		void clearColor(std::string name);
+		void clearColors();
         void close();
 
         void setMapFilter(MapFilter* mapFilter) {

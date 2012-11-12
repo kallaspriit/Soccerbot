@@ -626,6 +626,14 @@ Dash.UI.prototype.initControls = function() {
 		
 		e.preventDefault();
 	});
+	
+	$('#blobber-clear-current-btn').click(function() {
+		dash.socket.send('<blobber-clear:' + $('#threshold-class').val() + '>');
+	});
+	
+	$('#blobber-clear-all-btn').click(function() {
+		dash.socket.send('<blobber-clear>');
+	});
 };
 
 Dash.UI.prototype.initBlobberView = function() {

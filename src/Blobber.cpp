@@ -1115,6 +1115,26 @@ bool Blobber::substractThreshold(
     return true;
 }
 
+void Blobber::clearColor(std::string name) {
+	Color* color = getColor(name);
+
+	if (color == NULL) {
+		return;
+	}
+
+	unsigned k = 1 << color->id;
+
+    clearBits(yClass, BLOBBER_COLOR_LEVELS, 0, 255, k);
+    clearBits(uClass, BLOBBER_COLOR_LEVELS, 0, 255, k);
+    clearBits(vClass, BLOBBER_COLOR_LEVELS, 0, 255, k);
+}
+
+void Blobber::clearColors() {
+	for (int i = 0; i < BLOBBER_COLOR_LEVELS; i++) {
+		yClass[i] = uClass[i] = vClass[i] = 0;
+	}
+}
+
 //==== Main Vision Functions =======================================//
 
 bool Blobber::processFrame(Pixel* image) {

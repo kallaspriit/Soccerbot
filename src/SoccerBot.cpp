@@ -638,6 +638,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleSetBlobberCalibration(command);
             } else if (command.name == "blobber-threshold" && command.params.size() == 5) {
                 handleBlobberThresholdCommand(command);
+            } else if (command.name == "blobber-clear") {
+                handleBlobberClearCommand(command);
             } else if (command.name == "get-frame") {
                 handleGetFrameCommand(command, con);
             } else if (command.name == "stop") {
@@ -769,7 +771,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     int centerY = Util::toInt(cmd.params[2]);
     int mode = Util::toInt(cmd.params[3]);
     int brush = Util::toInt(cmd.params[4]);
-	int range = 0;
+	//int range = 0;
 
 	Camera::YUYV* pixel = NULL;
 	Blobber::Color* color = vision->getBlobber()->getColor(className);
@@ -790,10 +792,10 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 
 		for (int y = -height; y < height; y++) {
 			if (
-				x < 0
-				|| x > Config::cameraWidth - 1
-				|| y < 0
-				|| y > Config::cameraHeight -1
+				x + centerX < 0
+				|| x + centerX > Config::cameraWidth - 1
+				|| y + centerY < 0
+				|| y + centerY > Config::cameraHeight -1
 			) {
 				continue;
 			}
@@ -896,6 +898,16 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 			minU, maxU,
 			minV, maxV
 		);
+	}
+}
+
+void SoccerBot::handleBlobberClearCommand(const Command& cmd) {
+	if (cmd.params.size() == 1) {
+		std::string color = cmd.params[0];
+
+		vision->getBlobber()->clearColor(color);
+	} else {
+		vision->getBlobber()->clearColors();
 	}
 }
 
