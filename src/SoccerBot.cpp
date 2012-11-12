@@ -866,6 +866,11 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 		}*/
 	}
 
+	std::cout << "! Colorpicker [" << mode << "]" << std::endl;
+	std::cout << "  > Y mean: " << yMean << "; std-dev: " << yStdDev << "; min: " << minY << "; max: " << maxY << std::endl;
+	std::cout << "  > U mean: " << uMean << "; std-dev: " << uStdDev << "; min: " << minU << "; max: " << maxU << std::endl;
+	std::cout << "  > V mean: " << vMean << "; std-dev: " << vStdDev << "; min: " << minV << "; max: " << maxV << std::endl;
+
 	if (mode == 1) {
 		color->setThreshold(
 			minY, maxY,

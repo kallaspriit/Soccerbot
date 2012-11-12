@@ -44,7 +44,7 @@ const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const double kickBackoffTime = 0.5;
-const int ballMinArea = 16;
+const int ballMinArea = 4;
 //const int ballMaxInvalidSpree = 30;					//< max number of invalid color steps in a row for a valid ball
 //const int goalMaxInvalidSpree = 3;					//< max number of invalid color steps in a row for a valid ball
 const float ballInvalidSpreeScaler = 0.55f;
@@ -89,7 +89,7 @@ const float chaseBallMaxBrakeSpeed = 2.0f;
 const float brakeDistanceMultiplier = 1.0f;
 //const float distanceCorrection = -0.03f;
 const float distanceCorrection = 0.0f;
-const int maxSurroundSenseY = cameraHeight / 2 - 50;
+const int maxSurroundSenseY = cameraHeight - 50;
 const float jumpAngleStopMultiplier = 1.0f;
 
 } // namespace Config
