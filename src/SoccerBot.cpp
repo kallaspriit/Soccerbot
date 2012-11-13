@@ -39,6 +39,7 @@ SoccerBot::SoccerBot() {
 	rgbaBuffer = NULL;
     rgbBuffer = NULL;
 	classification = NULL;
+	stringCoutStream = NULL;
     endCommand = "";
 	lastStepDt = 0.01666;
 	totalTime = 0;
@@ -47,8 +48,8 @@ SoccerBot::SoccerBot() {
 	lastFrameRequested = false;
     lastStepTime = Util::millitime();
 
-    originalCoutStream = std::cout.rdbuf();
-    stringCoutStream = new std::ostringstream();
+    //originalCoutStream = std::cout.rdbuf();
+    //stringCoutStream = new std::ostringstream();
     //std::cout.rdbuf(stringCoutStream->rdbuf());
 
 	InitializeCriticalSection(&socketMutex);
@@ -128,8 +129,8 @@ SoccerBot::~SoccerBot() {
     }
 
     // display latest output and disable special log buffer
-    updateLogs();
-    std::cout.rdbuf(originalCoutStream);
+    //updateLogs();
+    //std::cout.rdbuf(originalCoutStream);
 
     if (socket != NULL) {
         std::cout << "! Killing socket.. ";
