@@ -51,7 +51,7 @@ class Robot {
 		Dribbler& getDribbler() const { return *dribbler; }
 		Coilgun& getCoilgun() const { return *coilgun; }
 
-		void setTargetSide(Side side) { targetSide = side; }
+		void setTargetSide(Side side);
 		void setIsGo(bool mode) { isGoRequested = mode; }
 		bool isGo() { return isGoRequested; }
 		Side getTargetSide() { return targetSide; }

@@ -145,6 +145,15 @@ bool Robot::init() {
 	return true;
 }
 
+void Robot::setTargetSide(Side side) {
+	targetSide = side;
+
+	/*if (side == Side::BLUE) {
+		x = Config::fieldWidth - Config::robotRadius;
+		y = Config::robotRadius
+	}*/
+}
+
 void Robot::step(double dt) {
     lastDt = dt;
     totalTime += dt;
