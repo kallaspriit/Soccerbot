@@ -526,6 +526,10 @@ Controller* SoccerBot::getController(std::string name) {
 
 bool SoccerBot::setController(std::string name) {
     if (name == "") {
+		if (activeController != NULL) {
+			activeController->onExit();
+		}
+
 		activeController = NULL;
 		activeControllerName = "";
 
@@ -534,8 +538,14 @@ bool SoccerBot::setController(std::string name) {
 		std::map<std::string, Controller*>::iterator result = controllers.find(name);
 		
 		if (result != controllers.end()) {
+			if (activeController != NULL) {
+				activeController->onExit();
+			}
+
 			activeController = result->second;
 			activeControllerName = name;
+
+			activeController->onEnter();
 
 			return true;
 		} else {

@@ -130,7 +130,7 @@
     <ClCompile Include="lib\libyuv\source\scale_neon.cc" />
     <ClCompile Include="lib\libyuv\source\video_common.cc" />
     <ClCompile Include="src\Ball.cpp" />
-    <ClCompile Include="src\BallFollowerController.cpp" />
+    <ClCompile Include="src\SimpleAI.cpp" />
     <ClCompile Include="src\BallLocalizer.cpp" />
     <ClCompile Include="src\Blobber.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -167,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Ball.h" />
-    <ClInclude Include="include\BallFollowerController.h" />
+    <ClInclude Include="include\SimpleAI.h" />
     <ClInclude Include="include\BallLocalizer.h" />
     <ClInclude Include="include\Blobber.h" />
     <ClInclude Include="include\Camera.h" />

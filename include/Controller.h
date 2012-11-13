@@ -10,6 +10,8 @@ class Command;
 class Controller {
     public:
         Controller(Robot* robot, Vision* vision) : robot(robot), vision(vision) {};
+		virtual void onEnter() {};
+		virtual void onExit() {};
 		virtual bool handleRequest(std::string request) { return true; };
 		virtual bool handleCommand(const Command& cmd) { return true; };
         virtual void step(double dt) = 0;
