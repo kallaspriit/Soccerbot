@@ -487,6 +487,11 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	x2 = Math::limit(x2, 0, Config::cameraWidth);
 	y1 = Math::limit(y1, 0, Config::cameraHeight);
 	y2 = Math::limit(y2, 0, Config::cameraHeight);
+
+	int originalX1 = x1;
+	int originalX2 = x2;
+	int originalY1 = y1;
+	int originalY2 = y2;
 	
 	if (y2 > y1) {
 		return PathMetric(1.0f, 0, false, false);
@@ -669,12 +674,12 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	bool lastBlack = false;
 	bool crossingGreenWhiteBlackGreen = false;
 
-	int start = x1 < x2 ? 0 : senseCounter - 1;
-	int step = x1 < x2 ? 1 : -1;
+	int start = originalX1 < originalX2 ? 0 : senseCounter - 1;
+	int step = originalX1 < originalX2 ? 1 : -1;
 
-	std::cout << "X1: " << x1 << ", X2: " << x2 << ", start: " << start << ", step: " << step << std::endl;
+	std::cout << "X1: " << originalX1 << ", X2: " << originalX2 << ", start: " << start << ", step: " << step << std::endl;
 
-    for (int i = start; (x1 < x2 ? i < senseCounter : i >= 0); i += step) {
+    for (int i = start; (originalX1 < originalX2 ? i < senseCounter : i >= 0); i += step) {
         x = senseX[i];
         y = senseY[i];
 
