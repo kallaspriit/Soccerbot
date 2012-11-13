@@ -33,7 +33,7 @@ class TestController : public Controller {
 		Routine activeRoutine;
 		float focusK;
 		bool newBall;
-		float lastBallDistance;
+		//float lastBallDistance;
 		int searchDir;
 		PID focusPid;
 		float lastVelocityX;

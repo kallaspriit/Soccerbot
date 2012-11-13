@@ -14,7 +14,7 @@
 TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
 	activeRoutine = Routine::NONE;
 	focusK = Config::ballFocusP;
-	lastBallDistance = -1;
+	//lastBallDistance = -1;
 	searchDir = 1;
 	newBall = true;
 	lastVelocityX = 0;
@@ -101,7 +101,7 @@ void TestController::chaseBallRoutine(double dt) {
 
 	if (ball == NULL) {
 		robot->setTargetDir(0, 0, focusK * searchDir);
-		lastBallDistance = -1;
+		//lastBallDistance = -1;
 		focusPid.reset();
 		newBall = true;
 
@@ -160,7 +160,7 @@ void TestController::chaseBallRoutine(double dt) {
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 
-	lastBallDistance = ball->distance;
+	//lastBallDistance = ball->distance;
 	lastVelocityX = currentVelocityX;
 }
 

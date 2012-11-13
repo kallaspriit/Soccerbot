@@ -2,11 +2,16 @@
 
 #include "Robot.h"
 #include "Vision.h"
+#include "Dribbler.h"
+#include "Coilgun.h"
 
 void SimpleAI::onEnter() {
 	state = State::PRESTART;
 	stateDuration = 0.0;
 	totalDuration = 0.0;
+	searchDir = 1.0f;
+	nearSpeedReached = false;
+	lastVelocityX = 0.0f;
 }
 
 void SimpleAI::setState(State newState) {
@@ -62,32 +67,105 @@ void SimpleAI::enterPrestart() {
 void SimpleAI::stepPrestart(double dt) {
 	if (robot->isGo()) {
 		setState(State::FIND_BALL);
-	}
-}
 
-void SimpleAI::enterFindBall() {
-	if (robot->hasTasks()) {
 		return;
 	}
 }
 
-void SimpleAI::stepFindBall(double dt) {
+void SimpleAI::enterFindBall() {
+	searchDir = 1.0f;
+}
 
+void SimpleAI::stepFindBall(double dt) {
+	if (robot->getDribbler().gotBall()) {
+		setState(State::FIND_GOAL);
+
+		return;
+	}
+
+	const Object* ball = vision->getClosestBall();
+
+	if (ball != NULL) {
+		setState(State::FETCH_BALL);
+
+		return;
+	}
+
+	robot->setTargetDir(0, 0, Config::ballFocusP * searchDir);
+
+	return;
 }
 
 void SimpleAI::enterFetchBall() {
-
+	robot->stopRotation();
+	nearSpeedReached = false;
+	lastVelocityX = robot->getMovement().velocityX;
 }
 
 void SimpleAI::stepFetchBall(double dt) {
+	if (robot->hasTasks()) {
+		return;
+	}
 
+	if (robot->getDribbler().gotBall()) {
+		setState(State::FIND_GOAL);
+
+		return;
+	}
+
+	const Object* ball = vision->getClosestBall();
+
+	if (ball == NULL) {
+		setState(State::FIND_BALL);
+
+		return;
+	}
+
+	float omega = Math::limit(ball->angle * Config::ballFocusP, Config::focusMaxOmega);
+	float speed;
+	float currentVelocityX = robot->getMovement().velocityX;
+	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * Config::brakeDistanceMultiplier, Config::ballCloseThreshold);
+
+	if (ball->distance > brakeDistance) {
+		speed = Config::ballChaseFarSpeed;
+	} else {
+		speed = Config::ballChaseNearSpeed;
+
+		if (!nearSpeedReached) {
+			if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+				speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
+			} else {
+				nearSpeedReached = true;
+			}
+		}
+	}
+
+	float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
+
+	speed = speed * (1.0f - speedDecrease);
+
+	if (ball->distance <= Config::dribblerOnThreshold) {
+		robot->getDribbler().start();
+	} else {
+		robot->getDribbler().stop();
+	}
+	
+	robot->setTargetDir(Math::Rad(0), speed, omega);
+
+	lastVelocityX = currentVelocityX;
 }
 
 void SimpleAI::enterFindGoal() {
-
+	
 }
 
 void SimpleAI::stepFindGoal(double dt) {
+	if (!robot->getDribbler().gotBall()) {
+		setState(State::FIND_BALL);
 
+		return;
+	}
+
+	robot->getDribbler().start();
 }
 

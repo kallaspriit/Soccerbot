@@ -34,6 +34,9 @@ class SimpleAI : public Controller {
 		State state;
 		double stateDuration;
 		double totalDuration;
+		float searchDir;
+		bool nearSpeedReached;
+		float lastVelocityX;
 };
 
 #endif // SIMPLEAI_H
