@@ -25,6 +25,18 @@ Serial::~Serial() {
 }
 
 Serial::Result Serial::open(std::string device, int speed, const char delimiter, int attempts) {
+	Result result = attemptOpen(device, speed, delimiter);
+
+	if (result == Result::OK) {
+		return result;
+	} else if (attempts > 0) {
+		return open(device, speed, delimiter, attempts - 1);
+	} else {
+		return result;
+	}
+}
+
+Serial::Result Serial::attemptOpen(std::string device, int speed, const char delimiter) {
     if (isOpen()) {
 		CloseHandle(hSerial);
 

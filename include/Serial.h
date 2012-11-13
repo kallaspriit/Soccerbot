@@ -33,6 +33,7 @@ class Serial : private Thread {
         int writeln(std::string message) { return write(message + "\n"); }
 
     private:
+		Result attemptOpen(std::string device, int speed = 9600, const char delimiter = '\n');
 		virtual void* run();
 		const std::string readDirect(bool& isMore);
 
