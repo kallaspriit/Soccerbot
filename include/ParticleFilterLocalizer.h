@@ -2,6 +2,7 @@
 #define PARTICLEFILTERLOCALIZER_H
 
 #include "Maths.h"
+#include "Config.h"
 
 #include <string>
 #include <map>
@@ -30,20 +31,21 @@ typedef std::map<std::string, float> Measurements;
 
 class ParticleFilterLocalizer {
     public:
-        ParticleFilterLocalizer();
+		ParticleFilterLocalizer(int particleCount = Config::ballLocalizerParticleCount, float forwardNoise = Config::ballLocalizerForwardNoise, float turnNoise = Config::ballLocalizerTurnNoise, float senseNoise = Config::ballLocalizerSenseNoise);
         ~ParticleFilterLocalizer();
 
         void addLandmark(Landmark* landmark);
         void addLandmark(std::string name, float x, float y);
         void move(float velocityX, float velocityY, float omega, double dt);
         float getMeasurementProbability(Particle* particle, const Measurements& measurements);
+		void resetDeviation(float x, float y, float orientation);
         void update(const Measurements& measurements);
         void resample(float probabilities[], int count);
         Math::Position getPosition();
 
     private:
         const int particleCount;
-        int moveNoise;
+        int forwardNoise;
         int turnNoise;
         int senseNoise;
         LandmarkMap landmarks;

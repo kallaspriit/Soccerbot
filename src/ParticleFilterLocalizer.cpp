@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-ParticleFilterLocalizer::ParticleFilterLocalizer() : particleCount(1000) {
+ParticleFilterLocalizer::ParticleFilterLocalizer(int particleCount, float forwardNoise, float turnNoise, float senseNoise) : particleCount(particleCount), forwardNoise(forwardNoise), turnNoise(turnNoise), senseNoise(senseNoise) {
     for (int i = 0; i < particleCount; i++) {
         particles.push_back(new Particle(
             Math::randomFloat(0.0f, Config::fieldWidth),
@@ -39,13 +39,22 @@ void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
 }
 
 void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt) {
-    float noisyVelocityX = velocityX + Math::randomGaussian(moveNoise);
-    float noisyVelocityY = velocityY + Math::randomGaussian(moveNoise);
+    float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
+    float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
 
     for (unsigned int i = 0; i < particles.size(); i++) {
         particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt, Math::TWO_PI);
         particles[i]->x += (noisyVelocityX * Math::cos(particles[i]->orientation) - noisyVelocityY * Math::sin(particles[i]->orientation)) * dt;
         particles[i]->y += (noisyVelocityX * Math::sin(particles[i]->orientation) + noisyVelocityY * Math::cos(particles[i]->orientation)) * dt;
+    }
+}
+
+void ParticleFilterLocalizer::resetDeviation(float x, float y, float orientation) {
+	for (unsigned int i = 0; i < particles.size(); i++) {
+		particles[i]->orientation = orientation;
+        particles[i]->x = x;
+        particles[i]->y = y;
+		particles[i]->probability = 1;
     }
 }
 

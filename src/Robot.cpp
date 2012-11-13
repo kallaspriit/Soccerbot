@@ -168,6 +168,8 @@ void Robot::setTargetSide(Side side) {
 		x = Config::fieldWidth - Config::robotRadius;
 		y = Config::robotRadius
 	}*/
+
+	//robotLocalizer->resetDeviation(x, y, orientation);
 }
 
 void Robot::step(double dt) {
@@ -176,7 +178,7 @@ void Robot::step(double dt) {
 
 	updateMovement();
 
-    orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
+    /*orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
 
     if (orientation < 0.0f) {
         orientation += Math::TWO_PI;
@@ -186,7 +188,16 @@ void Robot::step(double dt) {
     float globalVelocityY = movement.velocityX * Math::sin(orientation) + movement.velocityY * Math::cos(orientation);
 
     x += globalVelocityX * dt;
-    y += globalVelocityY * dt;
+    y += globalVelocityY * dt;*/
+
+	robotLocalizer->update(measurements);
+	robotLocalizer->move(movement.omega, movement.velocityY, movement.omega, dt);
+
+	Math::Position position = robotLocalizer->getPosition();
+
+	x = position.x;
+	y = position.y;
+	orientation = position.orientation;
 
     //std::cout << "Vx: " << movement.velocityX << "; Vy: " << movement.velocityY << "; omega: " << movement.omega << std::endl;
 

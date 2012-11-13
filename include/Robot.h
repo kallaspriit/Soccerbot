@@ -4,6 +4,7 @@
 #include "Serial.h"
 #include "Maths.h"
 #include "Config.h"
+#include "ParticleFilterLocalizer.h"
 
 #include <string>
 #include <deque>
@@ -12,7 +13,6 @@ class Wheel;
 class Dribbler;
 class Coilgun;
 class Task;
-class ParticleFilterLocalizer;
 
 typedef std::deque<Task*> TaskQueue;
 typedef std::deque<Task*>::const_iterator TaskQueueIt;
@@ -104,6 +104,7 @@ class Robot {
 		Coilgun* coilgun;
 
         ParticleFilterLocalizer* robotLocalizer;
+		Measurements measurements;
 
         Math::Matrix4x3 omegaMatrix;
         Math::Matrix3x3 omegaMatrixInvA;
