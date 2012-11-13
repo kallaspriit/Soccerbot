@@ -173,7 +173,7 @@ void SimpleAI::stepFindGoal(double dt) {
 	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
 
 	if (goal == NULL) {
-		robot->spinAroundDribbler(4.0f);
+		robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 2.0f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
 
 		return;
 	}
