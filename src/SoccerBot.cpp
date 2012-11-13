@@ -923,6 +923,8 @@ void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::c
 void SoccerBot::handleStopCommand(const Command& cmd) {
 	std::cout << "! STOPPING" << std::endl;
 
+	setController("");
+
     robot->stop();
 }
 
