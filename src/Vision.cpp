@@ -669,7 +669,10 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	bool lastBlack = false;
 	bool crossingGreenWhiteBlackGreen = false;
 
-    for (int i = senseCounter - 1; i >= 0; i--) {
+	int start = x1 < x2 ? 0 : senseCounter - 1;
+	int step = x1 < x2 ? 1 : -1;
+
+    for (int i = start; x1 < x2 ? i < senseCounter : i >= 0; i--) {
         x = senseX[i];
         y = senseY[i];
 
