@@ -79,7 +79,7 @@ void Wheel::step(double dt) {
 	if (currentTime - lastMessageTime > 1.0f) {
 		std::cout << "- Wheel #" << id << " seems to have lost connection" << std::endl;
 
-		serial->reconnect();
+		//serial->reconnect();
 	}
 }
 
