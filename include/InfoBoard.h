@@ -20,6 +20,7 @@ class InfoBoard {
 	private:
 		int serialId;
 		bool errorRaised;
+		bool goReceived;
 		bool goRequested;
 		Side targetSide;
 		Serial* serial;

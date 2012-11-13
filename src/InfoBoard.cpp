@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goRequested(false), targetSide(Side::UNKNOWN) {
+InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), targetSide(Side::UNKNOWN) {
 	serial = new Serial();
 
 	if (serial->open(serialId) == Serial::OK) {
@@ -55,10 +55,12 @@ void InfoBoard::step(double dt) {
 
 				if (startValue == 0) {
 					goRequested = false;
+					goReceived = true;
 
 					std::cout << "! Stop requested by button" << std::endl;
 				} else if (startValue == 1) {
 					goRequested = true;
+					goReceived = true;
 
 					std::cout << "! GO GO GO" << std::endl;
 				} else {
@@ -73,6 +75,10 @@ void InfoBoard::step(double dt) {
 	if (targetSide == Side::UNKNOWN) {
 		serial->write("<goal>");
 	}
+
+	if (!goReceived) {
+		serial->write("<start>");
+	}
 	
-	serial->write("<error:" + Util::toString(errorRaised || targetSide == Side::UNKNOWN ? 1 : 0) + ">");
+	serial->write("<error:" + Util::toString(errorRaised || targetSide == Side::UNKNOWN || !goReceived ? 1 : 0) + ">");
 }
