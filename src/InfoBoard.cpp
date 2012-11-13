@@ -10,6 +10,8 @@ InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRais
 
 	if (serial->open(serialId) == Serial::OK) {
 		std::cout << "+ InfoBoard found on port '" << serial->getPortName() << "'" << std::endl;
+
+		//serial->write("<start:0>");
 	} else {
 		std::cout << "- Failed to open InfoBoard serial #" << serialId << " on any of the serial ports" << std::endl;
 	}
