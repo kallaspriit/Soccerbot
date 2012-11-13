@@ -8,7 +8,7 @@
 const float Wheel::pidFrequency = 62.5f;
 const float Wheel::ticksPerRevolution = 64.0f * 18.75f;
 
-Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0) {
+Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), lastMessageTime(-1) {
     serial = new Serial();
 
     if (serial->open(id) == Serial::OK) {
@@ -52,6 +52,8 @@ void Wheel::step(double dt) {
 
     //int i = 0;
 
+	double currentTime = Util::millitime();
+
     while (serial->available() > 0) {
         message = serial->read();
 
@@ -69,8 +71,14 @@ void Wheel::step(double dt) {
 
                 //std::cout << "Read speed #" << id << ": " << realOmega << std::endl;
             }
+
+			lastMessageTime = currentTime;
         }
     }
+
+	if (currentTime - lastMessageTime > 1.0f) {
+		std::cout << "- Wheel #" << id << " seems to have lost connection" << std::endl;
+	}
 }
 
 /*std::string Wheel::getStateJSON() const {

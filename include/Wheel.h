@@ -28,6 +28,7 @@ class Wheel
         float targetOmega;
         float realOmega;
         bool ready;
+		double lastMessageTime;
 
         static const float pidFrequency;
         static const float ticksPerRevolution;
