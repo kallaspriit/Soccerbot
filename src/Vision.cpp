@@ -671,13 +671,14 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     bool requiredColorFound = false;
 	bool sawGreen = false;
 	bool sawWhite = false;
+	bool sawBlack = false;
 	bool lastBlack = false;
 	bool crossingGreenWhiteBlackGreen = false;
+	std::string firstColor = "";
+	std::string lastColor = "";
 
 	int start = originalX1 < originalX2 ? 0 : senseCounter - 1;
 	int step = originalX1 < originalX2 ? 1 : -1;
-
-	std::cout << "X1: " << originalX1 << ", X2: " << originalX2 << ", start: " << start << ", step: " << step << std::endl;
 
     for (int i = start; (originalX1 < originalX2 ? i < senseCounter : i >= 0); i += step) {
         x = senseX[i];
@@ -686,6 +687,12 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         Blobber::Color* color = getColorAt(x, y);
 
         if (color != NULL) {
+			if (firstColor == "") {
+				firstColor = std::string(color->name);
+			}
+
+			lastColor = std::string(color->name);
+
 			if (strcmp(color->name, "green") == 0) {
 				if (!sawGreen) {
 					sawGreen = true;
@@ -714,6 +721,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			
 			if (strcmp(color->name, "black") == 0) {
 				lastBlack = true;
+				sawBlack = true;
 			} else {
 				lastBlack = false;
 			}
@@ -749,6 +757,10 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			invalidSpree++;
         }
     }
+
+	if (firstColor == "white" && sawBlack && (lastColor == "black" || lastColor == "green")) {
+		crossingGreenWhiteBlackGreen = true;
+	}
 
 	float percentage = (float)matches / (float)senseCounter;
 	bool validColorFound = requiredColor == "" || requiredColorFound;
