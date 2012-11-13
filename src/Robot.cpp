@@ -126,7 +126,7 @@ bool Robot::init() {
 	coilgun = new Coilgun(Config::coilgunId);
 	//coilgun->charge();
 
-    robotLocalizer = new ParticleFilterLocalizer();
+	initLocalizer();
 
     //setTargetDir(1.0f, 0.0f, 0.0f);
     //setTargetDir(Math::Deg(0.0f), 0.0f, 0.0f);
@@ -143,6 +143,22 @@ bool Robot::init() {
 	}
 
 	return true;
+}
+
+void Robot::initLocalizer() {
+	robotLocalizer = new ParticleFilterLocalizer();
+
+	robotLocalizer->addLandmark(
+		"yellow-center",
+		0.0f,
+		Config::fieldHeight / 2.0f
+	);
+
+	robotLocalizer->addLandmark(
+		"blue-center",
+		Config::fieldWidth,
+		Config::fieldHeight / 2.0f
+	);
 }
 
 void Robot::setTargetSide(Side side) {

@@ -34,6 +34,10 @@ void ParticleFilterLocalizer::addLandmark(Landmark* landmark) {
     landmarks[landmark->name] = landmark;
 }
 
+void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
+	addLandmark(new Landmark(name, x, y));
+}
+
 void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt) {
     float noisyVelocityX = velocityX + Math::randomGaussian(moveNoise);
     float noisyVelocityY = velocityY + Math::randomGaussian(moveNoise);
