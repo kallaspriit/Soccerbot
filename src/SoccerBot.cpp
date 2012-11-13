@@ -13,7 +13,7 @@
 #include "Controller.h"
 #include "ManualController.h"
 #include "TestController.h"
-#include "BallFollowerController.h"
+#include "SimpleAI.h"
 #include "Gui.h"
 #include "FpsCounter.h"
 #include "Camera.h"
@@ -291,7 +291,7 @@ void SoccerBot::setupControllers() {
 
     addController("manual", new ManualController(robot, vision));
     addController("test", new TestController(robot, vision));
-    addController("ball-follower", new BallFollowerController(robot, vision));
+    addController("simple-ai", new SimpleAI(robot, vision));
 
     setController("manual");
 

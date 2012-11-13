@@ -622,7 +622,7 @@ Dash.UI.prototype.initControls = function() {
 			break;
 		}
 			
-		dash.socket.send('<blobber-threshold:' + color + ',' + x + ',' + y + ',' + mode + ',' + brush + '>');
+		dash.socket.send('<blobber-threshold:' + color + ',' + x + ',' + y + ',' + mode + ',' + brush + ',' + stdev + '>');
 		dash.socket.send('<get-frame>');
 		
 		e.preventDefault();
