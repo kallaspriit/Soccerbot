@@ -681,13 +681,19 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 				} else if (sawWhite && lastBlack) {
 					crossingGreenWhiteBlackGreen = true;
 
+					if (debug) {
+						img.drawMarker(x, y, 255, 0, 0);
+					}
+
 					break;
 				}
 			} else if (!sawWhite && sawGreen && strcmp(color->name, "white") == 0) {
 				sawWhite = true;
-			}
 
-			if (strcmp(color->name, "black") == 0) {
+				if (debug) {
+					img.drawMarker(x, y, 255, 255, 255);
+				}
+			} else if (strcmp(color->name, "black") == 0) {
 				lastBlack = true;
 			} else {
 				lastBlack = false;
