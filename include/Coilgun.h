@@ -8,7 +8,7 @@ class Coilgun {
 		Coilgun(int serialId);
 		~Coilgun();
 
-		void kick(int strength = 2000);
+		void kick(int strength = 1500);
 		void charge();
 		void discharge();
 		bool isReady() { return serial->isOpen(); }

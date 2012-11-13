@@ -24,8 +24,6 @@ Dribbler::~Dribbler() {
 
 void Dribbler::setSpeed(int newSpeed) {
 	speed = newSpeed;
-
-	serial->writeln("gb\nwl" + Util::toString(speed));
 }
 
 void Dribbler::stop() {
