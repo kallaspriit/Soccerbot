@@ -5,6 +5,8 @@
 #include "Dribbler.h"
 #include "Coilgun.h"
 
+#include <iostream>
+
 void SimpleAI::onEnter() {
 	state = State::PRESTART;
 	stateDuration = 0.0;
@@ -167,5 +169,34 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	robot->getDribbler().start();
+
+	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
+
+	if (goal == NULL) {
+		robot->spinAroundDribbler(4.0f);
+
+		return;
+	}
+
+	int halfWidth = Config::cameraWidth / 2;
+	int leftEdge = goal->x - goal->width / 2;
+	int rightEdge = goal->x + goal->width / 2;
+	
+	int goalKickThresholdPixels = goal->width * Config::goalKickThreshold;
+
+	if (
+		leftEdge + goalKickThresholdPixels < halfWidth
+		&& rightEdge - goalKickThresholdPixels > halfWidth
+	) {
+		//std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
+
+		robot->getCoilgun().kick();
+	} else {
+		//robot->spinAroundDribbler(4.0f * ());
+
+		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
+
+		robot->setTargetDir(Math::Rad(0), 0, omega);
+	}
 }
 
