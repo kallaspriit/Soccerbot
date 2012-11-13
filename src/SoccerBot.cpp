@@ -641,7 +641,7 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleGetBlobberCalibration(command, con);
             } else if (command.name == "set-blobber-calibration" && command.params.size() == 8) {
                 handleSetBlobberCalibration(command);
-            } else if (command.name == "blobber-threshold" && command.params.size() == 5) {
+            } else if (command.name == "blobber-threshold" && command.params.size() == 6) {
                 handleBlobberThresholdCommand(command);
             } else if (command.name == "blobber-clear") {
                 handleBlobberClearCommand(command);
@@ -776,6 +776,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     int centerY = Util::toInt(cmd.params[2]);
     int mode = Util::toInt(cmd.params[3]);
     int brush = Util::toInt(cmd.params[4]);
+    float stdev = Util::toInt(cmd.params[5]);
 	//int range = 0;
 
 	Camera::YUYV* pixel = NULL;
@@ -824,12 +825,12 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 	float uStdDev = Math::standardDeviation(uValues, uMean);
 	float vStdDev = Math::standardDeviation(vValues, vMean);
 
-	int minY = yMean - (float)yStdDev * Config::blobberPickerStdDevMultiplier;
-	int maxY = yMean + (float)yStdDev * Config::blobberPickerStdDevMultiplier;
-	int minU = uMean - (float)uStdDev * Config::blobberPickerStdDevMultiplier;
-	int maxU = uMean + (float)uStdDev * Config::blobberPickerStdDevMultiplier;
-	int minV = vMean - (float)vStdDev * Config::blobberPickerStdDevMultiplier;
-	int maxV = vMean + (float)vStdDev * Config::blobberPickerStdDevMultiplier;
+	int minY = yMean - (float)yStdDev * stdev;
+	int maxY = yMean + (float)yStdDev * stdev;
+	int minU = uMean - (float)uStdDev * stdev;
+	int maxU = uMean + (float)uStdDev * stdev;
+	int minV = vMean - (float)vStdDev * stdev;
+	int maxV = vMean + (float)vStdDev * stdev;
 	
 	/*int minY = -1, maxY = -1, minU = -1, maxU = -1, minV = -1, maxV = -1;
 
@@ -868,7 +869,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 		}
 	}*/
 
-	std::cout << "! Colorpicker [" << mode << "]" << std::endl;
+	std::cout << "! Colorpicker [" << mode << "] with brush " << brush << " and stdev " << stdev << std::endl;
 	std::cout << "  > Y mean: " << yMean << "; std-dev: " << yStdDev << "; min: " << minY << "; max: " << maxY << std::endl;
 	std::cout << "  > U mean: " << uMean << "; std-dev: " << uStdDev << "; min: " << minU << "; max: " << maxU << std::endl;
 	std::cout << "  > V mean: " << vMean << "; std-dev: " << vStdDev << "; min: " << minV << "; max: " << maxV << std::endl;
