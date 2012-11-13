@@ -194,10 +194,6 @@ void TestController::findGoalRoutine(double dt) {
 		leftEdge + goalKickThresholdPixels < halfWidth
 		&& rightEdge - goalKickThresholdPixels > halfWidth
 	) {
-		robot->stopRotation();
-
-		return;
-
 		std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
 
 		robot->getCoilgun().kick();
