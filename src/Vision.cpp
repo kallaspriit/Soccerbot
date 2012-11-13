@@ -247,6 +247,7 @@ bool Vision::isValidBall(Object* ball) {
 
 		if (
 			pathMetric.percentage < Config::validBallPathThreshold
+			|| pathMetric.out
 			//|| !pathMetric.validColorFound
 			//|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
 		) {
@@ -488,7 +489,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	y2 = Math::limit(y2, 0, Config::cameraHeight);
 	
 	if (y2 > y1) {
-		return PathMetric(1.0f, 0, false);
+		return PathMetric(1.0f, 0, false, false);
 	}
 	
 	int F, x, y;
@@ -734,7 +735,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	float percentage = (float)matches / (float)senseCounter;
 	bool validColorFound = requiredColor == "" || requiredColorFound;
 
-	return PathMetric(percentage, longestInvalidSpree, validColorFound);
+	return PathMetric(percentage, longestInvalidSpree, validColorFound, crossingGreenWhiteBlackGreen);
 }
 
 float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, std::vector<std::string> validColors) {

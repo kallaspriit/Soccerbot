@@ -14,11 +14,12 @@ class Vision/* : public Blobber::MapFilter*/ {
     public:
         enum Dir { DIR_FRONT, DIR_REAR };
 		struct PathMetric {
-			PathMetric(float percentage, int invalidSpree, bool validColorFound) : percentage(percentage), invalidSpree(invalidSpree), validColorFound(validColorFound) {}
+			PathMetric(float percentage, int invalidSpree, bool validColorFound, bool out) : percentage(percentage), invalidSpree(invalidSpree), validColorFound(validColorFound), out(out) {}
 
 			float percentage;
 			int invalidSpree;
 			bool validColorFound;
+			bool out;
 		};
 
         Vision(int width, int height);
