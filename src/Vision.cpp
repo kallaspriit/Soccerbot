@@ -663,6 +663,10 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     int matches = 0;
     bool debug = img.data != NULL;
     bool requiredColorFound = false;
+	bool sawGreen = false;
+	bool sawWhite = false;
+	bool lastBlack = false;
+	bool crossingGreenWhiteBlackGreen = false;
 
     for (int i = 0; i < senseCounter; i++) {
         x = senseX[i];
@@ -671,6 +675,24 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         Blobber::Color* color = getColorAt(x, y);
 
         if (color != NULL) {
+			if (strcmp(color->name, "green") == 0) {
+				if (!sawGreen) {
+					sawGreen = true;
+				} else if (sawWhite && lastBlack) {
+					crossingGreenWhiteBlackGreen = true;
+
+					break;
+				}
+			} else if (!sawWhite && sawGreen && strcmp(color->name, "white") == 0) {
+				sawWhite = true;
+			}
+
+			if (strcmp(color->name, "black") == 0) {
+				lastBlack = true;
+			} else {
+				lastBlack = false;
+			}
+
             if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
                 matches++;
 
