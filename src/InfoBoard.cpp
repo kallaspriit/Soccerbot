@@ -71,8 +71,8 @@ void InfoBoard::step(double dt) {
 	}
 
 	if (targetSide == Side::UNKNOWN) {
-		serial->writeln("<goal>");
+		serial->write("<goal>");
 	}
 	
-	serial->writeln("<error:" + Util::toString(errorRaised || targetSide == Side::UNKNOWN ? 1 : 0) + ">");
+	serial->write("<error:" + Util::toString(errorRaised || targetSide == Side::UNKNOWN ? 1 : 0) + ">");
 }
