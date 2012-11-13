@@ -12,7 +12,7 @@
 #include <map>
 #include <sstream>
 
-Robot::Robot() {
+Robot::Robot(Vision* vision) : vision(vision) {
 	targetSide = Side::UNKNOWN;
     wheelFL = NULL;
     wheelFR = NULL;
@@ -177,6 +177,7 @@ void Robot::step(double dt) {
     totalTime += dt;
 
 	updateMovement();
+	updateMeasurements();
 
     /*orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
 
@@ -425,4 +426,19 @@ void Robot::updateMovement() {
 
 	lastVelocity = velocity;
 	velocity = velocityVector.getLength() / lastDt;
+}
+
+void Robot::updateMeasurements() {
+	measurements.clear();
+
+	Object* yellowGoal = vision->getLargestGoal(Side::YELLOW);
+	Object* blueGoal = vision->getLargestGoal(Side::BLUE);
+
+	if (yellowGoal != NULL) {
+		measurements["yellow-center"] = yellowGoal->distance;
+	}
+
+	if (blueGoal != NULL) {
+		measurements["blue-center"] = blueGoal->distance;
+	}
 }

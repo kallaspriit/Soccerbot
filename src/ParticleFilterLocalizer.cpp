@@ -86,6 +86,10 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
 }
 
 void ParticleFilterLocalizer::update(const Measurements& measurements) {
+	if (measurements.size() == 0) {
+		return;
+	}
+
     Particle* particle;
     float* probabilities = new float[particles.size()];
     float maxProbability = -1;

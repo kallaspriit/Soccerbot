@@ -5,6 +5,7 @@
 #include "Maths.h"
 #include "Config.h"
 #include "ParticleFilterLocalizer.h"
+#include "Vision.h"
 
 #include <string>
 #include <deque>
@@ -29,7 +30,7 @@ class Robot {
             float omega;
         };
 
-        Robot();
+        Robot(Vision* vision);
         ~Robot();
 
         bool init();
@@ -81,6 +82,7 @@ class Robot {
     private:
         void updateWheelSpeeds();
 		void updateMovement();
+		void updateMeasurements();
 
         float x;
         float y;
@@ -96,6 +98,7 @@ class Robot {
 
 		Side targetSide;
 		bool isGoRequested;
+		Vision* vision;
         Wheel* wheelFL;
         Wheel* wheelFR;
         Wheel* wheelRL;

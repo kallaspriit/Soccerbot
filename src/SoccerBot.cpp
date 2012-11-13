@@ -171,9 +171,9 @@ void SoccerBot::init() {
     setupSignalHandler();
     //setupFreePort();
 	setupInfoBoard();
-    setupRobot();
     setupCameras();
     setupVision();
+	setupRobot();
 	setupControllers();
     setupFpsCounter();
 	setupSocket();
@@ -218,7 +218,7 @@ void SoccerBot::setupSocket() {
 void SoccerBot::setupRobot() {
 	std::cout << "! Setting up robot.. " << std::endl;
 
-    robot = new Robot();
+    robot = new Robot(vision);
 
     if (!robot->init()) {
 		std::cout << "- Robot initialization failed!" << std::endl;
