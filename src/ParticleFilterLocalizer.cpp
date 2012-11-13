@@ -38,15 +38,23 @@ void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
 	addLandmark(new Landmark(name, x, y));
 }
 
-void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt) {
-    float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
-    float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
+void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt, bool exact) {
+	if (exact) {
+		for (unsigned int i = 0; i < particles.size(); i++) {
+			particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt, Math::TWO_PI);
+			particles[i]->x += (velocityX * Math::cos(particles[i]->orientation) - velocityY * Math::sin(particles[i]->orientation)) * dt;
+			particles[i]->y += (velocityX * Math::sin(particles[i]->orientation) + velocityY * Math::cos(particles[i]->orientation)) * dt;
+		}
+	} else {
+		float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
+		float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
 
-    for (unsigned int i = 0; i < particles.size(); i++) {
-        particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt, Math::TWO_PI);
-        particles[i]->x += (noisyVelocityX * Math::cos(particles[i]->orientation) - noisyVelocityY * Math::sin(particles[i]->orientation)) * dt;
-        particles[i]->y += (noisyVelocityX * Math::sin(particles[i]->orientation) + noisyVelocityY * Math::cos(particles[i]->orientation)) * dt;
-    }
+		for (unsigned int i = 0; i < particles.size(); i++) {
+			particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt, Math::TWO_PI);
+			particles[i]->x += (noisyVelocityX * Math::cos(particles[i]->orientation) - noisyVelocityY * Math::sin(particles[i]->orientation)) * dt;
+			particles[i]->y += (noisyVelocityX * Math::sin(particles[i]->orientation) + noisyVelocityY * Math::cos(particles[i]->orientation)) * dt;
+		}
+	}
 }
 
 void ParticleFilterLocalizer::resetDeviation(float x, float y, float orientation) {

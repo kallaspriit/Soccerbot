@@ -192,7 +192,7 @@ void Robot::step(double dt) {
     y += globalVelocityY * dt;*/
 
 	robotLocalizer->update(measurements);
-	robotLocalizer->move(movement.omega, movement.velocityY, movement.omega, dt);
+	robotLocalizer->move(movement.omega, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
 	Math::Position position = robotLocalizer->getPosition();
 

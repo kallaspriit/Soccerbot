@@ -36,7 +36,7 @@ class ParticleFilterLocalizer {
 
         void addLandmark(Landmark* landmark);
         void addLandmark(std::string name, float x, float y);
-        void move(float velocityX, float velocityY, float omega, double dt);
+        void move(float velocityX, float velocityY, float omega, double dt, bool exact = false);
         float getMeasurementProbability(Particle* particle, const Measurements& measurements);
 		void resetDeviation(float x, float y, float orientation);
         void update(const Measurements& measurements);
