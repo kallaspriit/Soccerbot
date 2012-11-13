@@ -361,6 +361,7 @@ void SoccerBot::run() {
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
 
 		robot->setTargetSide(infoBoard->getTargetSide());
+		robot->setIsGo(infoBoard->isGo());
         robot->step(dt);
 
         //usleep(6000); // some long-running thingy test

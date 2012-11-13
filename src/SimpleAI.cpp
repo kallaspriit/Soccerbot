@@ -60,11 +60,15 @@ void SimpleAI::enterPrestart() {
 }
 
 void SimpleAI::stepPrestart(double dt) {
-
+	if (robot->isGo()) {
+		setState(State::FIND_BALL);
+	}
 }
 
 void SimpleAI::enterFindBall() {
-
+	if (robot->hasTasks()) {
+		return;
+	}
 }
 
 void SimpleAI::stepFindBall(double dt) {

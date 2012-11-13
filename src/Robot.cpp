@@ -38,6 +38,7 @@ Robot::Robot() {
     orientation = 0.0f;
 
     lastCommandTime = -1;
+	isGoRequested = false;
 	coilgunCharged = false;
 	autostop = true;
 }

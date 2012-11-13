@@ -52,6 +52,8 @@ class Robot {
 		Coilgun& getCoilgun() const { return *coilgun; }
 
 		void setTargetSide(Side side) { targetSide = side; }
+		void setIsGo(bool mode) { isGoRequested = mode; }
+		bool isGo() { return isGoRequested; }
 		Side getTargetSide() { return targetSide; }
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
@@ -92,6 +94,7 @@ class Robot {
         float wheelAngles[4];
 
 		Side targetSide;
+		bool isGoRequested;
         Wheel* wheelFL;
         Wheel* wheelFR;
         Wheel* wheelRL;
