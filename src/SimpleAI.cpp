@@ -93,7 +93,7 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	robot->setTargetDir(0, 0, Config::ballFocusP * searchDir);
+	robot->setTargetDir(0, 0, Config::ballFocusP * 0.5f * searchDir);
 
 	return;
 }
