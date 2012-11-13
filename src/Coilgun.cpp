@@ -81,7 +81,7 @@ void Coilgun::step(double dt) {
 
 		std::cout << "! KICK: " << kickStrength << std::endl;
 
-		serial->writeln("k" + Util::toString(kickStrength));
+		//serial->writeln("k" + Util::toString(kickStrength));
 
 		lastKickTime = currentTime;
 	}

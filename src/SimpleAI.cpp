@@ -4,6 +4,7 @@
 #include "Vision.h"
 #include "Dribbler.h"
 #include "Coilgun.h"
+#include "Util.h"
 
 #include <iostream>
 
@@ -162,6 +163,10 @@ void SimpleAI::enterFindGoal() {
 }
 
 void SimpleAI::stepFindGoal(double dt) {
+	if (robot->hasTasks()) {
+		return;
+	}
+
 	if (!robot->getDribbler().gotBall()) {
 		setState(State::FIND_BALL);
 
@@ -184,7 +189,18 @@ void SimpleAI::stepFindGoal(double dt) {
 		return;
 	}
 
-	int halfWidth = Config::cameraWidth / 2;
+	float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
+	float speed = Config::ballChaseNearSpeed;
+
+	robot->setTargetDir(Math::Rad(0), speed, omega);
+
+	if (goal->width > 620.0f) {
+		robot->getDribbler().setSpeed(-255);
+
+		robot->turnBy(Math::PI);
+	}
+
+	/*int halfWidth = Config::cameraWidth / 2;
 	int leftEdge = goal->x - goal->width / 2;
 	int rightEdge = goal->x + goal->width / 2;
 	
@@ -203,6 +219,6 @@ void SimpleAI::stepFindGoal(double dt) {
 		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
 
 		robot->setTargetDir(Math::Rad(0), 0, omega);
-	}
+	}*/
 }
 
