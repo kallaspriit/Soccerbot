@@ -23,6 +23,7 @@ class Serial : private Thread {
         ~Serial();
         Result open(std::string device, int speed = 9600, const char delimiter = '\n', int attempts = 10);
 		Result open(int id, int speed = 9600, const char delimiter = '\n');
+		void reconnect();
         void close();
         int available();
         const std::string read();
@@ -38,6 +39,7 @@ class Serial : private Thread {
 		const std::string readDirect(bool& isMore);
 
         std::string device;
+		int id;
         int speed;
         char delimiter;
         bool opened;

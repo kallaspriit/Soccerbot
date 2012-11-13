@@ -12,7 +12,7 @@
 #include "Util.h"
 #include "Command.h"
 
-Serial::Serial() : opened(false), threadStarted(false) {
+Serial::Serial() : opened(false), threadStarted(false), id(0) {
 	InitializeCriticalSection(&messagesMutex);
 }
 
@@ -118,6 +118,16 @@ Serial::Result Serial::attemptOpen(std::string device, int speed, const char del
 	return Result::OK;
 }
 
+void Serial::reconnect() {
+	close();
+
+	if (id != 0) {
+		open(id, speed, delimiter);
+	} else {
+		open(device, speed, delimiter);
+	}
+}
+
 Serial::Result Serial::open(int id, int speed, const char delimiter) {
 	bool found = false;
 
@@ -186,6 +196,7 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
     }
 
     if (found) {
+		this->id = id;
         //std::cout << "+ Serial device #" << id << " found on port '" << portName << "'" << std::endl;
     
 		return Result::OK;

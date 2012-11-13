@@ -605,7 +605,8 @@ Dash.UI.prototype.initControls = function() {
 			y = e.offsetY,
 			mode = 2,
 			color = $('#threshold-class').val(),
-			brush = $('#threshold-brush').val();
+			brush = $('#threshold-brush').val(),
+			stdev = $('#threshold-stdev').val();
 		
 		switch (e.which) {
 			case 1:
