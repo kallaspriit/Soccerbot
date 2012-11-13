@@ -196,6 +196,7 @@ void SimpleAI::stepFindGoal(double dt) {
 
 	if (goal->width > 600.0f) {
 		robot->getDribbler().setSpeed(-255);
+		robot->setTargetDir(0, 0, 0);
 
 		Util::sleep(1000);
 		
