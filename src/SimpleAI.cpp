@@ -190,7 +190,7 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
-	float speed = Config::ballChaseNearSpeed;
+	float speed = 1.0f;
 
 	robot->setTargetDir(Math::Rad(0), speed, omega);
 
