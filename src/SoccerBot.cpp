@@ -379,7 +379,7 @@ void SoccerBot::run() {
             std::cout << "! FPS: " << fpsCounter->getFps() << std::endl;
         }*/
 
-        updateLogs();
+        //updateLogs();
 
         lastStepDuration = Util::duration(time);
         lastStepLoad = lastStepDuration * 100.0f / 0.01666f;
