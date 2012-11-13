@@ -169,9 +169,9 @@ void TestController::findGoalRoutine(double dt) {
 		return;
 	}
 
-	/*if (robot->hasTasks()) {
+	if (robot->hasTasks()) {
 		return;
-	}*/
+	}
 
 	robot->getDribbler().start();
 
@@ -194,6 +194,12 @@ void TestController::findGoalRoutine(double dt) {
 		leftEdge + goalKickThresholdPixels < halfWidth
 		&& rightEdge - goalKickThresholdPixels > halfWidth
 	) {
+		robot->stopRotation();
+
+		return;
+
+		std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
+
 		robot->getCoilgun().kick();
 	} else {
 		//robot->spinAroundDribbler(4.0f * ());
