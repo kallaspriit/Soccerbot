@@ -174,6 +174,8 @@ void SimpleAI::stepFindGoal(double dt) {
 
 	if (stateDuration > 5.0f) {
 		robot->getCoilgun().kick();
+
+		return;
 	}
 
 	if (goal == NULL) {
