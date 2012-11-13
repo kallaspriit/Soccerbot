@@ -191,7 +191,7 @@ void TestController::findGoalRoutine(double dt) {
 	int goalKickThresholdPixels = goal->width * Config::goalKickThreshold;
 
 	if (
-		leftEdge + goalKickThresholdPixels < halfWidth
+		leftEdge/* + goalKickThresholdPixels*/ < halfWidth
 		&& rightEdge - goalKickThresholdPixels > halfWidth
 	) {
 		std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;

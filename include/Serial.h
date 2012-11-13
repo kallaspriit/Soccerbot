@@ -21,7 +21,7 @@ class Serial : private Thread {
 
         Serial();
         ~Serial();
-        Result open(std::string device, int speed = 9600, const char delimiter = '\n', int attempts = 3);
+        Result open(std::string device, int speed = 9600, const char delimiter = '\n', int attempts = 10);
 		Result open(int id, int speed = 9600, const char delimiter = '\n');
         void close();
         int available();
