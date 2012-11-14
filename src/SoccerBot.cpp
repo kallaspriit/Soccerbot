@@ -1146,15 +1146,17 @@ std::string SoccerBot::getStateJSON() const {
 	stream << "],";
 
 	if (activeController != NULL) {
+		stream << "\"controllerName\": \"" + activeControllerName + "\",";
 		std::string controllerInfo = activeController->getJSON();
 
 		if (controllerInfo.length() > 0) {
-			stream << "\"controller\": " << controllerInfo << ",";
+			stream << "\"controllerState\": " << controllerInfo << ",";
 		} else {
-			stream << "\"controller\": null,";
+			stream << "\"controllerState\": null,";
 		}
 	} else {
-		stream << "\"controller\": null,";
+		stream << "\"controllerName\": null,";
+		stream << "\"controllerState\": null,";
 	}
 
 	stream << "\"fps\":" << fpsCounter->getFps()  << ",";

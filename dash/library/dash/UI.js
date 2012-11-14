@@ -76,7 +76,7 @@ Dash.UI.prototype.initDebugListener = function() {
 			msgClass = 'positive';
 		} else if (firstChar == '-') {
 			msgClass = 'negative';
-		} else if (firstChar == '!') {
+		}else if (firstChar == '!') {
 			msgClass = 'info';
 		}
 
@@ -933,6 +933,14 @@ Dash.UI.prototype.showStateStats = function(state) {
 	} else if (state.isGo == 0) {
 		$('#status').addClass('stop');
 	}
+	
+	if (state.controllerName == "simple-ai") {
+		this.showSimpleAiState(state.controllerInfo);
+	}
+};
+
+Dash.UI.prototype.showSimpleAiState = function(info) {
+	dash.dbg.console('SimpleAI', info);
 };
 
 Dash.UI.prototype.rebuild = function(callback) {
