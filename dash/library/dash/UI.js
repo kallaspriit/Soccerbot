@@ -635,6 +635,10 @@ Dash.UI.prototype.initControls = function() {
 	$('#blobber-clear-all-btn').click(function() {
 		dash.socket.send('<blobber-clear>');
 	});
+	
+	$('#status').click(function() {
+		self.toggleTargetSide();
+	});
 };
 
 Dash.UI.prototype.initBlobberView = function() {
@@ -645,6 +649,20 @@ Dash.UI.prototype.initBlobberView = function() {
 Dash.UI.prototype.initFrameCanvas = function() {
 	this.frameCanvas = new Dash.FrameCanvas();
 	this.frameCanvas.init();
+};
+
+Dash.UI.prototype.toggleTargetSide = function() {
+	if (this.states.length == 0) {
+		return;
+	}
+	
+	var lastState = this.states[this.states.length - 1];
+	
+	if (lastState.targetSide == 0) {
+		dash.socket.send('<target-side:1>');
+	} else {
+		dash.socket.send('<target-side:2>');
+	}
 };
 
 Dash.UI.prototype.setController = function(name) {
@@ -900,6 +918,20 @@ Dash.UI.prototype.showStateStats = function(state) {
 	
 	if ($('#blobber-view').is(':visible')) {
 		this.blobberView.render(state);
+	}
+	
+	$('#status').removeClass();
+	
+	if (state.targetGoal == 1) {
+		$('#status').addClass('yellow');
+	} else if (state.targetGoal == 2) {
+		$('#status').addClass('blue');
+	}
+	
+	if (state.isGo == 1) {
+		$('#status').addClass('go');
+	} else if (state.isGo == 0) {
+		$('#status').addClass('stop');
 	}
 };
 

@@ -29,6 +29,29 @@ A:hover {
     height: 537px;
 	background: url(../images/canvas-bg.png) no-repeat left top;
 }
+#status {
+	position: absolute;
+	width: 60px;
+	height: 30px;
+	left: 50%;
+	top: 10px;
+	margin: 0 0 0 -32px;
+	background-color: #CCC;
+	border: 4px solid #AAA;
+	border-radius: 3px;
+}
+#status.yellow {
+	background-color: #FF0;
+}
+#status.blue {
+	background-color: #00F;
+}
+#status.go {
+	border-color: #090;
+}
+#status.stop {
+	border-color: #900;
+}
 #controls {
 	position: absolute;
 	left: 0;

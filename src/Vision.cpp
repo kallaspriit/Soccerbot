@@ -672,6 +672,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	bool sawGreen = false;
 	bool sawWhite = false;
 	bool sawBlack = false;
+	bool sawWhiteBeforeBlack = false;
 	bool lastBlack = false;
 	bool crossingGreenWhiteBlackGreen = false;
 	std::string firstColor = "";
@@ -721,6 +722,10 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			
 			if (strcmp(color->name, "black") == 0) {
 				lastBlack = true;
+
+				if (sawWhite) {
+					sawWhiteBeforeBlack = true;
+				}
 				sawBlack = true;
 			} else {
 				lastBlack = false;
@@ -758,7 +763,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
         }
     }
 
-	if (sawWhite && sawBlack && (lastColor == "black" || lastColor == "green")) {
+	if (sawWhiteBeforeBlack && (lastColor == "black" || lastColor == "green")) {
 		crossingGreenWhiteBlackGreen = true;
 	}
 
