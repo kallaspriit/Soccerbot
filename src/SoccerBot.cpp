@@ -1067,7 +1067,7 @@ std::string SoccerBot::getStateJSON() const {
         stream << "{";
         stream << "\"started\": " << (task->isStarted() ? "true" : "false") << ",";
         stream << "\"percentage\": " << task->getPercentage() << ",";
-        stream << "\"status\": \"!" << task->toString() << "!\"";
+        stream << "\"status\": \"" << task->toString() << "\"";
         stream << "}";
     }
 
@@ -1144,6 +1144,16 @@ std::string SoccerBot::getStateJSON() const {
 	}
 
 	stream << "],";
+
+	if (activeController != NULL) {
+		std::string controllerInfo = activeController->getJSON();
+
+		if (controllerInfo != "") {
+			stream << "\"controller\": \"" << controllerInfo << "\",";
+		} else {
+			stream << "\"controller\": null,";
+		}
+	}
 
 	stream << "\"fps\":" << fpsCounter->getFps()  << ",";
 	stream << "\"targetGoal\":" << infoBoard->getTargetSide() << ",";

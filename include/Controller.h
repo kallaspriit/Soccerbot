@@ -9,11 +9,12 @@ class Command;
 
 class Controller {
     public:
-        Controller(Robot* robot, Vision* vision) : robot(robot), vision(vision) {};
-		virtual void onEnter() {};
+        Controller(Robot* robot, Vision* vision) : robot(robot), vision(vision) {}
+		virtual void onEnter() {}
 		virtual void onExit() {};
-		virtual bool handleRequest(std::string request) { return false; };
-		virtual bool handleCommand(const Command& cmd) { return false; };
+		virtual bool handleRequest(std::string request) { return false; }
+		virtual bool handleCommand(const Command& cmd) { return false; }
+		virtual std::string getJSON() { return ""; }
         virtual void step(double dt) = 0;
 
     protected:

@@ -16,6 +16,8 @@ class SimpleAI : public Controller {
 
 		void onEnter();
 		void setState(State newState);
+		State getState() { return state; }
+		std::string getStateName();
         void step(double dt);
 
 		void enterPrestart();
@@ -29,6 +31,8 @@ class SimpleAI : public Controller {
 
 		void enterFindGoal();
 		void stepFindGoal(double dt);
+
+		std::string getJSON();
 
 	private:
 		State state;

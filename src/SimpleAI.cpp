@@ -6,6 +6,8 @@
 #include "Coilgun.h"
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 void SimpleAI::onEnter() {
 	state = State::PRESTART;
@@ -64,6 +66,24 @@ void SimpleAI::step(double dt) {
 			stepFindGoal(dt);
 		break;
 	}
+}
+
+std::string SimpleAI::getStateName() {
+	switch (state) {
+		case PRESTART:
+			return "PRESTART";
+
+		case FIND_BALL:
+			return "FIND_BALL";
+
+		case FETCH_BALL:
+			return "FETCH_BALL";
+
+		case FIND_GOAL:
+			return "FIND_GOAL";
+	}
+
+	return "UNKNOWN";
 }
 
 void SimpleAI::enterPrestart() {
@@ -181,11 +201,11 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	if (goal == NULL) {
-		//if (lastGoalDistance >= 1.0f) {
-			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 2.0f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
-		/*} else {
+		if (lastGoalDistance >= 1.0f && lastGoalDistance <= 3.5f) {
+			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 1.5f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
+		} else {
 			robot->setTargetDir(0, 0, Config::ballRotateOmega);
-		}*/
+		}
 
 		return;
 	}
@@ -202,6 +222,14 @@ void SimpleAI::stepFindGoal(double dt) {
 		leftEdge + goalKickThresholdPixels < halfWidth
 		&& rightEdge - goalKickThresholdPixels > halfWidth
 	) {
+		float currentOmega = robot->getMovement().omega;
+
+		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold) {
+			robot->stopRotation();
+
+			return;
+		}
+
 		//std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
 
 		robot->getCoilgun().kick();
@@ -214,3 +242,18 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 }
 
+std::string SimpleAI::getJSON() {
+	std::stringstream stream;
+
+    stream << "{";
+	stream << "\"state\": \"" << getStateName() << "\",";
+	stream << "\"stateDuration\": " << stateDuration << ",";
+	stream << "\"totalDuration\": " << totalDuration << ",";
+	stream << "\"searchDir\": " << searchDir << ",";
+	stream << "\"nearSpeedReached\": " << (nearSpeedReached ? "true" : "false") << ",";
+	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
+	stream << "\"lastGoalDistance\": " << lastGoalDistance;
+	stream << "}";
+
+    return stream.str();
+}
