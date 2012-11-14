@@ -61,13 +61,13 @@ void InfoBoard::step(double dt) {
             if (cmd.name == "goal" && cmd.params.size() == 1) {
 				int sideValue = Util::toInt(cmd.params[0]);
 
-				if (sideValue == 0) {
+				if (sideValue == 0 && targetSide != 0) {
 					targetSide = Side::BLUE;
 
 					serial->write("<goal:0>");
 
 					std::cout << "! Target goal changed to blue" << std::endl;
-				} else if (sideValue == 1) {
+				} else if (sideValue == 1 && targetSide != 1) {
 					targetSide = Side::YELLOW;
 
 					serial->write("<goal:1>");

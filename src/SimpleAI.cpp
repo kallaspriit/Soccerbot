@@ -162,7 +162,7 @@ void SimpleAI::stepFetchBall(double dt) {
 }
 
 void SimpleAI::enterFindGoal() {
-	
+	lastGoalDistance = 0.0f;
 }
 
 void SimpleAI::stepFindGoal(double dt) {

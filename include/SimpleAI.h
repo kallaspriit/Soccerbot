@@ -37,6 +37,7 @@ class SimpleAI : public Controller {
 		float searchDir;
 		bool nearSpeedReached;
 		float lastVelocityX;
+		float lastGoalDistance;
 };
 
 #endif // SIMPLEAI_H
