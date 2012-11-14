@@ -991,6 +991,7 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
 }
 
 void SoccerBot::sendFrame() {
+	// @TODO Fetch frame based on cameraChoice
 	unsigned char* frame = vision->getLastFrame();
 
     if (frame == NULL) {
