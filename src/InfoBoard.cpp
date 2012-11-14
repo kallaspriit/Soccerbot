@@ -73,9 +73,9 @@ void InfoBoard::step(double dt) {
 					serial->write("<goal:1>");
 
 					std::cout << "! Target goal changed to yellow" << std::endl;
-				} else {
+				}/* else {
 					std::cout << "- Invalid target side: " << sideValue << std::endl;
-				}
+				}*/
 			} else if (cmd.name == "start" && cmd.params.size() == 1) {
 				int startValue = Util::toInt(cmd.params[0]);
 
@@ -93,9 +93,9 @@ void InfoBoard::step(double dt) {
 					serial->write("<start:1>");
 
 					std::cout << "! GO GO GO" << std::endl;
-				} else {
+				}/* else {
 					std::cout << "- Invalid start value: " << startValue << std::endl;
-				}
+				}*/
 			} else {
 				std::cout << "- Invalid info-board command: " << cmd.name << " " << Util::toString(cmd.params) << std::endl;
 			}
