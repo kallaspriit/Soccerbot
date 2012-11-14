@@ -13,8 +13,10 @@ class InfoBoard {
 		void raiseError() { errorRaised = 1; }
 		void removeError() { errorRaised = 0; }
 		Side getTargetSide() { return targetSide; }
+		void setTargetSide(Side side);
 		bool isError() { return errorRaised; }
 		bool isGo() { return goRequested; }
+		void setGo(bool mode);
 		void step(double dt);
 
 	private:

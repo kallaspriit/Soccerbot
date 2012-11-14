@@ -25,6 +25,26 @@ InfoBoard::~InfoBoard() {
 	}
 }
 
+void InfoBoard::setTargetSide(Side side) {
+	targetSide = side;
+
+	if (side == Side::BLUE) {
+		serial->write("<goal:0>");
+	} else if (side == Side::YELLOW) {
+		serial->write("<goal:1>");
+	}
+}
+
+void InfoBoard::setGo(bool mode) {
+	goReceived = mode;
+
+	if (goReceived) {
+		serial->write("<start:1>");
+	} else {
+		serial->write("<start:0>");
+	}
+}
+
 void InfoBoard::step(double dt) {
 	if (!serial->isOpen()) {
 		return;
@@ -44,9 +64,13 @@ void InfoBoard::step(double dt) {
 				if (sideValue == 0) {
 					targetSide = Side::BLUE;
 
+					serial->write("<goal:0>");
+
 					std::cout << "! Target goal changed to blue" << std::endl;
 				} else if (sideValue == 1) {
 					targetSide = Side::YELLOW;
+
+					serial->write("<goal:1>");
 
 					std::cout << "! Target goal changed to yellow" << std::endl;
 				} else {
@@ -59,10 +83,14 @@ void InfoBoard::step(double dt) {
 					goRequested = false;
 					goReceived = true;
 
+					serial->write("<start:0>");
+
 					std::cout << "! Stop requested by button" << std::endl;
 				} else if (startValue == 1) {
 					goRequested = true;
 					goReceived = true;
+
+					serial->write("<start:1>");
 
 					std::cout << "! GO GO GO" << std::endl;
 				} else {

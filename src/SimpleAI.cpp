@@ -43,6 +43,10 @@ void SimpleAI::step(double dt) {
 	stateDuration = 0;
 	totalDuration = 0;
 
+	if (!robot->isGo()) {
+		setState(State::PRESTART);
+	}
+
 	switch (state) {
 		case PRESTART:
 			stepPrestart(dt);
