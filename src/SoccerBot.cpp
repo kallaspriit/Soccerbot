@@ -544,6 +544,7 @@ bool SoccerBot::setController(std::string name) {
 
 		activeController = NULL;
 		activeControllerName = "";
+		controllerRequested = true;
 
 		return true;
 	} else {
@@ -556,16 +557,15 @@ bool SoccerBot::setController(std::string name) {
 
 			activeController = result->second;
 			activeControllerName = name;
-
 			activeController->onEnter();
+
+			controllerRequested = true;
 
 			return true;
 		} else {
 			return false;
 		}
     }
-
-	controllerRequested = true;
 }
 
 std::string SoccerBot::getActiveControllerName() {

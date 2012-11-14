@@ -928,7 +928,7 @@ Dash.UI.prototype.showStateStats = function(state) {
 		this.blobberView.render(state);
 	}
 	
-	$('#status').removeClass();
+	$('#status').removeClass('yellow blue go stop');
 	
 	if (state.targetGoal == 1) {
 		$('#status').addClass('yellow');
