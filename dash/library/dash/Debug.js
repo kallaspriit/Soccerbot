@@ -122,7 +122,7 @@ Dash.Debug.prototype.box = function(name, value, numberDecimals) {
 			element: boxElement,
 			firstValue: value,
 			lastValue: value,
-			lastUpdated: Sim.Util.getMicrotime()
+			lastUpdated: Dash.Util.getMicrotime()
 		};
 		
 		this.boxCount++;
@@ -132,10 +132,10 @@ Dash.Debug.prototype.box = function(name, value, numberDecimals) {
 		element = box.element,
 		displayValue = value;
 	
-	box.lastUpdated = Sim.Util.getMicrotime();
+	box.lastUpdated = Dash.Util.getMicrotime();
 	
 	if (typeof(value) == 'number' && typeof(numberDecimals) == 'number') {
-		displayValue = Sim.Math.round(value, numberDecimals);
+		displayValue = Dash.Util.round(value, numberDecimals);
 	}
 	
 	element.html('<strong>' + name + '</strong>' + (typeof(displayValue) != 'undefined' ? ': <span>' + displayValue + '</span>' : ''));
@@ -148,7 +148,7 @@ Dash.Debug.prototype.box = function(name, value, numberDecimals) {
  */
 Dash.Debug.prototype.step = function() {
 	for (var name in this.boxes) {
-		if (Sim.Util.getMicrotime() - this.boxes[name].lastUpdated > 1.0) {
+		if (Dash.Util.getMicrotime() - this.boxes[name].lastUpdated > 1.0) {
 			$(this.boxes[name].element).remove();
 			
 			delete this.boxes[name];

@@ -935,12 +935,18 @@ Dash.UI.prototype.showStateStats = function(state) {
 	}
 	
 	if (state.controllerName == "simple-ai") {
-		this.showSimpleAiState(state.controllerInfo);
+		this.showSimpleAiState(state.controllerState);
 	}
 };
 
-Dash.UI.prototype.showSimpleAiState = function(info) {
-	dash.dbg.console('SimpleAI', info);
+Dash.UI.prototype.showSimpleAiState = function(state) {
+	dash.dbg.box('State', state.state);
+	dash.dbg.box('State duration', state.stateDuration);
+	dash.dbg.box('Total duration', state.totalDuration);
+	dash.dbg.box('Search dir', state.searchDir);
+	dash.dbg.box('Near speed reached', state.nearSpeedReached ? 'yes' : 'no');
+	dash.dbg.box('Last velocity', state.lastVelocityX);
+	dash.dbg.box('Last goal distance', state.lastGoalDistance);
 };
 
 Dash.UI.prototype.rebuild = function(callback) {
