@@ -1148,8 +1148,6 @@ std::string SoccerBot::getStateJSON() const {
 	if (activeController != NULL) {
 		std::string controllerInfo = activeController->getJSON();
 
-		std::cout << "Controller info: " << controllerInfo << std::endl;
-
 		if (controllerInfo.length() > 0) {
 			stream << "\"controller\": " << controllerInfo << ",";
 		} else {
