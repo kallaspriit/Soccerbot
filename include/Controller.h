@@ -5,11 +5,12 @@
 
 class Robot;
 class Vision;
+class InfoBoard;
 class Command;
 
 class Controller {
     public:
-        Controller(Robot* robot, Vision* vision) : robot(robot), vision(vision) {}
+        Controller(Robot* robot, Vision* vision, InfoBoard* infoBoard) : robot(robot), vision(vision), infoBoard(infoBoard) {}
 		virtual void onEnter() {}
 		virtual void onExit() {};
 		virtual bool handleRequest(std::string request) { return false; }
@@ -20,6 +21,7 @@ class Controller {
     protected:
         Robot* robot;
 		Vision* vision;
+		InfoBoard* infoBoard;
 };
 
 #endif // CONTROLLER_H

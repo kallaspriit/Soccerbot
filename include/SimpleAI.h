@@ -12,12 +12,13 @@ class SimpleAI : public Controller {
 			FIND_GOAL
 		};
 
-        SimpleAI(Robot* robot, Vision* vision) : Controller(robot, vision) {};
+        SimpleAI(Robot* robot, Vision* vision, InfoBoard* infoBoard) : Controller(robot, vision, infoBoard) {};
 
 		void onEnter();
 		void setState(State newState);
 		State getState() { return state; }
 		std::string getStateName();
+		bool handleCommand(const Command& cmd);
         void step(double dt);
 
 		void enterPrestart();

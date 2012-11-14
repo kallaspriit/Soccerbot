@@ -5,7 +5,7 @@
 
 class ManualController : public Controller {
     public:
-        ManualController(Robot* robot, Vision* vision) : Controller(robot, vision) {};
+        ManualController(Robot* robot, Vision* vision, InfoBoard* infoBoard) : Controller(robot, vision, infoBoard) {};
 
         bool handleRequest(std::string request);
         bool handleCommand(const Command& cmd);

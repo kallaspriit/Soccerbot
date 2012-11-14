@@ -292,9 +292,9 @@ void SoccerBot::setupInfoBoard() {
 void SoccerBot::setupControllers() {
 	std::cout << "! Setting up controllers.. ";
 
-    addController("manual", new ManualController(robot, vision));
-    addController("test", new TestController(robot, vision));
-    addController("simple-ai", new SimpleAI(robot, vision));
+    addController("manual", new ManualController(robot, vision, infoBoard));
+    addController("test", new TestController(robot, vision, infoBoard));
+    addController("simple-ai", new SimpleAI(robot, vision, infoBoard));
 
     setController("manual");
 

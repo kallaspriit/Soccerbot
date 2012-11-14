@@ -14,7 +14,7 @@ class TestController : public Controller {
 			FIND_GOAL
 		};
 
-        TestController(Robot* robot, Vision* vision);
+        TestController(Robot* robot, Vision* vision, InfoBoard* infoBoard);
 
         bool handleRequest(std::string request);
         bool handleCommand(const Command& cmd);

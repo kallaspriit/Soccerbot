@@ -636,6 +636,14 @@ Dash.UI.prototype.initControls = function() {
 		dash.socket.send('<blobber-clear>');
 	});
 	
+	$('#ai-start-btn').click(function() {
+		dash.socket.send('<ai-start>');
+	});
+	
+	$('#ai-stop-btn').click(function() {
+		dash.socket.send('<ai-stop>');
+	});
+	
 	$('#status').click(function() {
 		self.toggleTargetSide();
 	});
@@ -659,9 +667,9 @@ Dash.UI.prototype.toggleTargetSide = function() {
 	var lastState = this.states[this.states.length - 1];
 	
 	if (lastState.targetSide == 0) {
-		dash.socket.send('<target-side:1>');
+		dash.socket.send('<ai-target-side:1>');
 	} else {
-		dash.socket.send('<target-side:2>');
+		dash.socket.send('<ai-target-side:2>');
 	}
 };
 

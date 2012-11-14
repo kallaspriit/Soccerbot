@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-TestController::TestController(Robot* robot, Vision* vision) : Controller(robot, vision) {
+TestController::TestController(Robot* robot, Vision* vision, InfoBoard* infoBoard) : Controller(robot, vision, infoBoard) {
 	activeRoutine = Routine::NONE;
 	focusK = Config::ballFocusP;
 	//lastBallDistance = -1;

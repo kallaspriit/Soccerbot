@@ -4,6 +4,9 @@
 #include "Vision.h"
 #include "Dribbler.h"
 #include "Coilgun.h"
+#include "Command.h"
+#include "InfoBoard.h"
+#include "Util.h"
 
 #include <iostream>
 #include <string>
@@ -18,6 +21,34 @@ void SimpleAI::onEnter() {
 	lastVelocityX = 0.0f;
 
 	// @TODO Set go to stop
+}
+
+bool SimpleAI::handleCommand(const Command& cmd) {
+    if (cmd.name == "ai-start") {
+		std::cout << "! Starting AI" << std::endl;
+
+		infoBoard->setGo(true);
+    } else if (cmd.name == "ai-stop") {
+		std::cout << "! Stopping AI" << std::endl;
+
+		infoBoard->setGo(false);
+	} else if (cmd.name == "ai-target-side" && cmd.params.size() == 1) {
+		int side = Util::toInt(cmd.params[0]);
+
+		if (side == 1) {
+			infoBoard->setTargetSide(Side::BLUE);
+
+			std::cout << "! New target: BLUE" << std::endl;
+		} else if (side == 2) {
+			infoBoard->setTargetSide(Side::YELLOW);
+
+			std::cout << "! New target: YELLOW" << std::endl;
+		}
+    } else {
+		return false;
+	}
+
+	return true;
 }
 
 void SimpleAI::setState(State newState) {
