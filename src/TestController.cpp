@@ -212,7 +212,7 @@ bool TestController::handleRequest(std::string request) {
 
 bool TestController::handleCommand(const Command& cmd) {
     if (cmd.name == "stop") {
-		std::cout << "! Stopping" << std::endl;
+		std::cout << "! Stopping test" << std::endl;
 
         activeRoutine = Routine::NONE;
 		robot->stop();

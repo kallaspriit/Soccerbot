@@ -25,7 +25,12 @@ void SimpleAI::onEnter() {
 }
 
 bool SimpleAI::handleCommand(const Command& cmd) {
-    if (cmd.name == "ai-start") {
+    if (cmd.name == "stop") {
+		std::cout << "! Stopping AI" << std::endl;
+
+		setState(State::PRESTART);
+		robot->stop();
+    } else if (cmd.name == "ai-start") {
 		std::cout << "! Starting AI" << std::endl;
 
 		infoBoard->setGo(true);
