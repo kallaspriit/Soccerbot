@@ -16,6 +16,8 @@ void SimpleAI::onEnter() {
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	lastVelocityX = 0.0f;
+
+	// @TODO Set go to stop
 }
 
 void SimpleAI::setState(State newState) {
