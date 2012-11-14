@@ -49,7 +49,7 @@ void SimpleAI::step(double dt) {
 		setState(State::PRESTART);
 	}
 
-	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
+	const Object* goal = vision->getLargestGoal(Side::UNKNOWN);
 
 	if (goal != NULL) {
 		lastGoalDistance = goal->distance;

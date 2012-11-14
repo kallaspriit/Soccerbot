@@ -1064,7 +1064,7 @@ Object* Vision::getLargestGoal(Side side) {
 	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
 		goal = *it;
 
-		if (goal->type != side) {
+		if (side != Side::BLUE && goal->type != side) {
 			continue;
 		}
 		
@@ -1079,7 +1079,7 @@ Object* Vision::getLargestGoal(Side side) {
 	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
 		goal = *it;
 
-		if (goal->type != side) {
+		if (side != Side::BLUE && goal->type != side) {
 			continue;
 		}
 		
