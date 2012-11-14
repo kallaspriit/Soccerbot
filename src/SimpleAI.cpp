@@ -49,6 +49,12 @@ void SimpleAI::step(double dt) {
 		setState(State::PRESTART);
 	}
 
+	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
+
+	if (goal != NULL) {
+		lastGoalDistance = goal->distance;
+	}
+
 	switch (state) {
 		case PRESTART:
 			stepPrestart(dt);
@@ -185,7 +191,7 @@ void SimpleAI::stepFetchBall(double dt) {
 }
 
 void SimpleAI::enterFindGoal() {
-	lastGoalDistance = -1.0f;
+	
 }
 
 void SimpleAI::stepFindGoal(double dt) {
@@ -212,8 +218,6 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		return;
 	}
-
-	lastGoalDistance = goal->distance;
 
 	int halfWidth = Config::cameraWidth / 2;
 	int leftEdge = goal->x - goal->width / 2;
