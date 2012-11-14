@@ -61,13 +61,13 @@ void InfoBoard::step(double dt) {
             if (cmd.name == "goal" && cmd.params.size() == 1) {
 				int sideValue = Util::toInt(cmd.params[0]);
 
-				if (sideValue == 0 && targetSide != 0) {
+				if (sideValue == 0 && targetSide != Side::BLUE) {
 					targetSide = Side::BLUE;
 
 					serial->write("<goal:0>");
 
 					std::cout << "! Target goal changed to blue" << std::endl;
-				} else if (sideValue == 1 && targetSide != 1) {
+				} else if (sideValue == 1 && targetSide != Side::YELLOW) {
 					targetSide = Side::YELLOW;
 
 					serial->write("<goal:1>");
@@ -79,14 +79,14 @@ void InfoBoard::step(double dt) {
 			} else if (cmd.name == "start" && cmd.params.size() == 1) {
 				int startValue = Util::toInt(cmd.params[0]);
 
-				if (startValue == 0) {
+				if (startValue == 0 && (!goReceived || goRequested != false)) {
 					goRequested = false;
 					goReceived = true;
 
 					serial->write("<start:0>");
 
 					std::cout << "! Stop requested by button" << std::endl;
-				} else if (startValue == 1) {
+				} else if (startValue == 1 && (!goReceived || goRequested != true)) {
 					goRequested = true;
 					goReceived = true;
 
