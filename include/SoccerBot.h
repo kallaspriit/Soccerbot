@@ -98,6 +98,7 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 		bool active;
         bool stopRequested;
 		bool frameRequested;
+		bool controllerRequested;
 		bool lastFrameRequested;
         std::string endCommand;
 

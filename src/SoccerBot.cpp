@@ -45,6 +45,8 @@ SoccerBot::SoccerBot() {
 	totalTime = 0;
 	active = false;
 	stopRequested = false;
+	frameRequested = false;
+	controllerRequested = false;
 	lastFrameRequested = false;
     lastStepTime = Util::millitime();
 
@@ -400,6 +402,14 @@ void SoccerBot::run() {
 			frameRequested = false;
 		}
 
+		if (controllerRequested) {
+			JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
+
+			socket->broadcast(controllerMsg.toJSON());
+
+			controllerRequested = false;
+		}
+
         //usleep(16000);
     }
 
@@ -595,13 +605,15 @@ void SoccerBot::onSocketOpen(websocketpp::server::connection_ptr con) {
 
 	std::cout << "! Opened socket connection" << std::endl;
 
-	EnterCriticalSection(&socketMutex);
+	controllerRequested = true;
+
+	/*EnterCriticalSection(&socketMutex);
     
     JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
     con->send(controllerMsg.toJSON());
 	
-	LeaveCriticalSection(&socketMutex);
+	LeaveCriticalSection(&socketMutex);*/
 }
 
 void SoccerBot::onSocketClose(websocketpp::server::connection_ptr con) {
