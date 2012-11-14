@@ -162,7 +162,7 @@ void SimpleAI::stepFetchBall(double dt) {
 }
 
 void SimpleAI::enterFindGoal() {
-	lastGoalDistance = 0.0f;
+	lastGoalDistance = -1.0f;
 }
 
 void SimpleAI::stepFindGoal(double dt) {
@@ -181,10 +181,16 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	if (goal == NULL) {
-		robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 2.0f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
+		if (lastGoalDistance >= 1.0f) {
+			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 2.0f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
+		} else {
+			robot->setTargetDir(0, 0, Config::ballRotateOmega);
+		}
 
 		return;
 	}
+
+	lastGoalDistance = goal->distance;
 
 	int halfWidth = Config::cameraWidth / 2;
 	int leftEdge = goal->x - goal->width / 2;
