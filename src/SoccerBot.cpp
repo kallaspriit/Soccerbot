@@ -564,6 +564,8 @@ bool SoccerBot::setController(std::string name) {
 			return false;
 		}
     }
+
+	controllerRequested = true;
 }
 
 std::string SoccerBot::getActiveControllerName() {
