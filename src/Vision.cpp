@@ -673,7 +673,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	bool sawWhite = false;
 	bool sawBlack = false;
 	bool sawWhiteBeforeBlack = false;
-	bool lastBlack = false;
+	int previousBlack = 0;
 	bool crossingGreenWhiteBlackGreen = false;
 	std::string firstColor = "";
 	std::string lastColor = "";
@@ -701,7 +701,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 					if (debug) {
 						img.drawMarker(x, y, 0, 128, 0);
 					}
-				} else if (sawWhite && lastBlack) {
+				} else if (sawWhite && previousBlack >= 2) {
 					crossingGreenWhiteBlackGreen = true;
 
 					if (debug) {
@@ -721,14 +721,14 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			}
 			
 			if (strcmp(color->name, "black") == 0) {
-				lastBlack = true;
+				sawBlack = true;
+				previousBlack++;
 
 				if (sawWhite) {
 					sawWhiteBeforeBlack = true;
 				}
-				sawBlack = true;
 			} else {
-				lastBlack = false;
+				previousBlack = 0;
 			}
 
             if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
