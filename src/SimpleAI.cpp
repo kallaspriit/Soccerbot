@@ -42,8 +42,8 @@ void SimpleAI::setState(State newState) {
 }
 
 void SimpleAI::step(double dt) {
-	stateDuration = 0;
-	totalDuration = 0;
+	stateDuration += dt;
+	totalDuration += dt;
 
 	if (!robot->isGo()) {
 		setState(State::PRESTART);
@@ -87,7 +87,7 @@ std::string SimpleAI::getStateName() {
 }
 
 void SimpleAI::enterPrestart() {
-
+	
 }
 
 void SimpleAI::stepPrestart(double dt) {
@@ -96,6 +96,9 @@ void SimpleAI::stepPrestart(double dt) {
 
 		return;
 	}
+
+	stateDuration = 0;
+	totalDuration  = 0;
 }
 
 void SimpleAI::enterFindBall() {
