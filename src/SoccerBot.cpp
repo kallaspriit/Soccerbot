@@ -43,6 +43,7 @@ SoccerBot::SoccerBot() {
     endCommand = "";
 	lastStepDt = 0.01666;
 	totalTime = 0;
+	cameraChoice = 1;
 	active = false;
 	stopRequested = false;
 	frameRequested = false;
@@ -673,6 +674,8 @@ void SoccerBot::handleRequest(std::string request, websocketpp::server::connecti
                 handleBlobberClearCommand(command);
             } else if (command.name == "get-frame") {
                 handleGetFrameCommand(command, con);
+            } else if (command.name == "camera-choice") {
+                handleCameraChoiceCommand(command);
             } else if (command.name == "stop") {
                 handleStopCommand(command);
             } else if (command.name.substr(0, 6) == "camera") {
@@ -933,6 +936,12 @@ void SoccerBot::handleBlobberClearCommand(const Command& cmd) {
 
 void SoccerBot::handleGetFrameCommand(const Command& cmd, websocketpp::server::connection_ptr con) {
 	frameRequested = true;
+}
+
+void SoccerBot::handleCameraChoiceCommand(const Command& cmd) {
+	cameraChoice = Util::toInt(cmd.params[0]);
+
+	std::cout << "! Switched camera choice to " << cameraChoice << std::endl;
 }
 
 void SoccerBot::handleStopCommand(const Command& cmd) {

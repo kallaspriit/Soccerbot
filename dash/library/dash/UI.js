@@ -647,6 +647,10 @@ Dash.UI.prototype.initControls = function() {
 	$('#status').click(function() {
 		self.toggleTargetSide();
 	});
+	
+	$('#camera-choice').change(function() {
+		dash.socket.send('<camera-choice:' + $(this).val()+ '>');
+	});
 };
 
 Dash.UI.prototype.initBlobberView = function() {
