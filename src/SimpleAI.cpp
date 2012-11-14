@@ -181,11 +181,11 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	if (goal == NULL) {
-		if (lastGoalDistance >= 1.0f) {
+		//if (lastGoalDistance >= 1.0f) {
 			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 2.0f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
-		} else {
+		/*} else {
 			robot->setTargetDir(0, 0, Config::ballRotateOmega);
-		}
+		}*/
 
 		return;
 	}
