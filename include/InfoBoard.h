@@ -3,7 +3,15 @@
 
 #include "Config.h"
 
+#include <vector>
+
 class Serial;
+
+class InfoBoardListener {
+	public:
+		virtual void onGoRequestedChange(bool isGoRequested) = 0;
+		virtual void onTargetSideChange(Side newTargetSide) = 0;
+};
 
 class InfoBoard {
 	public:
@@ -17,6 +25,7 @@ class InfoBoard {
 		bool isError() { return errorRaised; }
 		bool isGo() { return goRequested; }
 		void setGo(bool mode);
+		void addListener(InfoBoardListener* listener);
 		void step(double dt);
 
 	private:
@@ -26,6 +35,7 @@ class InfoBoard {
 		bool goRequested;
 		Side targetSide;
 		Serial* serial;
+		std::vector<InfoBoardListener*> listeners;
 };
 
 #endif //INFOBOARD_H

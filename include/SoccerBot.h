@@ -2,6 +2,7 @@
 #define SOCCERBOT_H
 
 #include "WebSocketServer.h"
+#include "InfoBoard.h"
 #include "Config.h"
 
 #include <map>
@@ -15,10 +16,9 @@ class Gui;
 class FpsCounter;
 class Camera;
 class Vision;
-class InfoBoard;
 class ImageBuffer;
 
-class SoccerBot : public WebSocketServer::ListenerInterface {
+class SoccerBot : public WebSocketServer::ListenerInterface, public InfoBoardListener {
     public:
         SoccerBot();
         ~SoccerBot();

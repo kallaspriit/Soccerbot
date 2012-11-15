@@ -28,6 +28,10 @@ InfoBoard::~InfoBoard() {
 	}
 }
 
+void InfoBoard::addListener(InfoBoardListener* listener) {
+	listeners.push_back(listener);
+}
+
 void InfoBoard::setTargetSide(Side side) {
 	targetSide = side;
 
@@ -63,28 +67,37 @@ void InfoBoard::step(double dt) {
 
             if (cmd.name == "goal" && cmd.params.size() == 1) {
 				int sideValue = Util::toInt(cmd.params[0]);
+				bool sideChanged = false;
 
 				if (sideValue == 0 && targetSide != Side::BLUE) {
 					targetSide = Side::BLUE;
+					sideChanged = true;
 
 					serial->write("<goal:0>");
 
 					std::cout << "! Target goal changed to blue" << std::endl;
 				} else if (sideValue == 1 && targetSide != Side::YELLOW) {
 					targetSide = Side::YELLOW;
+					sideChanged = true;
 
 					serial->write("<goal:1>");
 
 					std::cout << "! Target goal changed to yellow" << std::endl;
-				}/* else {
-					std::cout << "- Invalid target side: " << sideValue << std::endl;
-				}*/
+				}
+
+				if (sideChanged) {
+					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
+						(*it)->onTargetSideChange(targetSide);
+					}
+				}
 			} else if (cmd.name == "start" && cmd.params.size() == 1) {
 				int startValue = Util::toInt(cmd.params[0]);
+				bool goChanged = false;
 
 				if (startValue == 0 && (!goReceived || goRequested != false)) {
 					goRequested = false;
 					goReceived = true;
+					goChanged = true;
 
 					serial->write("<start:0>");
 
@@ -92,13 +105,18 @@ void InfoBoard::step(double dt) {
 				} else if (startValue == 1 && (!goReceived || goRequested != true)) {
 					goRequested = true;
 					goReceived = true;
+					goChanged = true;
 
 					serial->write("<start:1>");
 
-					std::cout << "! GO GO GO" << std::endl;
-				}/* else {
-					std::cout << "- Invalid start value: " << startValue << std::endl;
-				}*/
+					std::cout << "! Go requested" << std::endl;
+				}
+
+				if (goChanged) {
+					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
+						(*it)->onGoRequestedChange(goRequested);
+					}
+				}
 			} else {
 				std::cout << "- Invalid info-board command: " << cmd.name << " " << Util::toString(cmd.params) << std::endl;
 			}
