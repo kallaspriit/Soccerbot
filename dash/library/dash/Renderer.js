@@ -87,7 +87,7 @@ Dash.Renderer.prototype.renderState = function(state) {
 	
 	this.drawRobot(
 		dash.config.robot.radius,
-		dash.config.robot.color,
+		state.targetGoal == 1 ? '#00F' : '#DD0',
 		state.x,
 		state.y,
 		state.orientation

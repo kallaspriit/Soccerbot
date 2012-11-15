@@ -98,18 +98,16 @@ void InfoBoard::step(double dt) {
 					goReceived = true;
 					goChanged = true;
 
-					serial->write("<start:0>");
-
 					std::cout << "! Stop requested by button" << std::endl;
 				} else if (startValue == 1 && (!goReceived || goRequested != true)) {
 					goRequested = true;
 					goReceived = true;
 					goChanged = true;
 
-					serial->write("<start:1>");
-
 					std::cout << "! Go requested" << std::endl;
 				}
+
+				serial->write("<start:" + Util::toString(startValue) + ">");
 
 				if (goChanged) {
 					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {

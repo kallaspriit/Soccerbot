@@ -7,7 +7,6 @@ Dash.Config = {
 		port: 8000
 	},
 	robot: {
-		color: '#DD0',
 		radius: 0.125
 	},
 	keyboard: {

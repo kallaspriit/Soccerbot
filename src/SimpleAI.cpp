@@ -70,7 +70,7 @@ void SimpleAI::onTargetSideChange(Side newTargetSide) {
 	if (newTargetSide == Side::BLUE) {
 		robot->setPosition(Config::robotRadius, Config::fieldHeight - Config::robotRadius, -Math::PI / 4);
 	} else if (newTargetSide == Side::YELLOW) {
-		robot->setPosition(Config::fieldWidth - Config::robotRadius, Config::robotRadius, Math::PI + Math::PI / 4);
+		robot->setPosition(Config::fieldWidth - Config::robotRadius, Config::robotRadius, Math::PI - Math::PI / 4);
 	}
 }
 
