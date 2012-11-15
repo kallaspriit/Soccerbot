@@ -427,7 +427,7 @@ void SimpleAI::stepRelocate(double dt) {
 
 		return;
 	} else {
-		std::cout << "@ DRIVE TO GOAL" << std::endl;
+		std::cout << "@ DRIVE TO GOAL: "  << goal->angle << std::endl;
 
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speed = Config::ballChaseFarSpeed / 4.0f;
@@ -436,7 +436,7 @@ void SimpleAI::stepRelocate(double dt) {
 
 		speed = speed * (1.0f - speedDecrease);
 
-		robot->setTargetDir(Math::Rad(0), speed, omega);
+		robot->setTargetDir(Math::Rad(0), speed, -omega);
 	}
 }
 
