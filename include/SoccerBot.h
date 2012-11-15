@@ -47,6 +47,9 @@ class SoccerBot : public WebSocketServer::ListenerInterface, public InfoBoardLis
 		void setGo(bool mode);
 		void setTargetSide(Side side);
 
+		void onGoRequestedChange(bool isGoRequested);
+		void onTargetSideChange(Side newTargetSide);
+
 		inline Robot* getRobot() const { return robot; }
         inline Gui* getGui() const { return gui; }
 		inline Vision* getVision() const { return vision; }

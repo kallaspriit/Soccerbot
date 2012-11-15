@@ -290,6 +290,8 @@ void SoccerBot::setupVision() {
 
 void SoccerBot::setupInfoBoard() {
 	infoBoard = new InfoBoard(Config::infoBoardId);
+
+	infoBoard->addListener(this);
 }
 
 void SoccerBot::setupControllers() {
@@ -1196,9 +1198,9 @@ std::string SoccerBot::getStateJSON() const {
 	}
 
 	stream << "\"fps\":" << fpsCounter->getFps()  << ",";
-	stream << "\"targetGoal\":" << infoBoard->getTargetSide() << ",";
+	stream << "\"targetGoal\":" << targetSide << ",";
 	stream << "\"isError\":" << (infoBoard->isError() ? "1" : "0") << ",";
-	stream << "\"isGo\":" << (infoBoard->isGo() ? "1" : "0");
+	stream << "\"isGo\":" << (go ? "1" : "0");
 
     stream << "}";
 
