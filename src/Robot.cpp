@@ -257,6 +257,7 @@ bool Robot::isStalled() {
 void Robot::stop() {
     setTargetDir(0, 0, 0);
 	dribbler->stop();
+	clearTasks();
 }
 
 void Robot::setPosition(float x, float y, float orientation) {

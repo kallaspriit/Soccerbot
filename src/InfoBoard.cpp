@@ -74,17 +74,15 @@ void InfoBoard::step(double dt) {
 					targetSide = Side::BLUE;
 					sideChanged = true;
 
-					serial->write("<goal:0>");
-
 					std::cout << "! Target goal changed to blue" << std::endl;
 				} else if (sideValue == 1 && targetSide != Side::YELLOW) {
 					targetSide = Side::YELLOW;
 					sideChanged = true;
 
-					serial->write("<goal:1>");
-
 					std::cout << "! Target goal changed to yellow" << std::endl;
 				}
+
+				serial->write("<goal:" + Util::toString(sideValue) + ">");
 
 				if (sideChanged) {
 					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {

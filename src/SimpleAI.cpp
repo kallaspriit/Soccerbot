@@ -42,14 +42,15 @@ bool SimpleAI::handleCommand(const Command& cmd) {
 	} else if (cmd.name == "ai-target-side" && cmd.params.size() == 1) {
 		int side = Util::toInt(cmd.params[0]);
 
-		if (side == 2) {
-			bot->setTargetSide(Side::BLUE);
-
-			std::cout << "! New target: BLUE" << std::endl;
-		} else if (side == 1) {
+		if (side == 1) {
 			bot->setTargetSide(Side::YELLOW);
 
 			std::cout << "! New target: YELLOW" << std::endl;
+			
+		} else if (side == 2) {
+			bot->setTargetSide(Side::BLUE);
+
+			std::cout << "! New target: BLUE" << std::endl;
 		}
     } else {
 		return false;
@@ -100,7 +101,7 @@ void SimpleAI::step(double dt) {
 	viewObstructed = false;
 	stalled = false;
 
-	if (!bot->isGo()) {
+	if (!bot->isGo() && state != State::PRESTART) {
 		setState(State::PRESTART);
 	} else if (vision->isViewObstructed()) {
 		setState(State::ESCAPE_OBSTRUCTION);
@@ -203,7 +204,7 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	if (stateDuration > 2.0f) {
+	if (stateDuration > 4.0f) {
 		setState(State::RELOCATE);
 
 		return;
@@ -379,7 +380,7 @@ void SimpleAI::stepRelocate(double dt) {
 		return;
 	}
 
-	if (goal->distance < 1.5f) {
+	if (goal->distance < 1.0f) {
 		robot->turnBy(Math::PI, Math::PI);
 
 		return;
