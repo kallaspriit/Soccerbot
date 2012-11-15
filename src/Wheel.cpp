@@ -72,7 +72,7 @@ void Wheel::step(double dt) {
             if (cmd.name == "s" && cmd.params.size() == 1) {
                 realOmega = speedToOmega(Util::toInt(cmd.params[0]));
 
-				if (Math::abs(targetOmega) > Math::PI && targetOmega / realOmega > 2.0f) {
+				if (Math::abs(targetOmega) > Math::PI && Math::abs(targetOmega / realOmega) > 2.0f) {
 					stallCounter++;
 				} else if (stallCounter > 0) {
 					stallCounter--;
