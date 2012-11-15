@@ -291,6 +291,8 @@ void SoccerBot::setupVision() {
 void SoccerBot::setupInfoBoard() {
 	infoBoard = new InfoBoard(Config::infoBoardId);
 
+	infoBoard->setTargetSide(targetSide);
+	infoBoard->setGo(go);
 	infoBoard->addListener(this);
 }
 
@@ -585,6 +587,25 @@ void SoccerBot::setTargetSide(Side side) {
 	targetSide = side;
 
 	infoBoard->setTargetSide(side);
+}
+
+void SoccerBot::onGoRequestedChange(bool isGoRequested) {
+	go = isGoRequested;
+
+	if (go) {
+		std::cout << "! Go requested" << std::endl;
+	} else {
+		std::cout << "! Stop requested" << std::endl;
+	}
+}
+void SoccerBot::onTargetSideChange(Side newTargetSide) {
+	targetSide = newTargetSide;
+
+	if (targetSide == Side::BLUE) {
+		std::cout << "! Now targeting blue side" << std::endl;
+	} else if (targetSide == Side::YELLOW) {
+		std::cout << "! Now targeting yellow side" << std::endl;
+	}
 }
 
 void SoccerBot::updateLogs() {
