@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include "SoccerBot.h"
+
 #include <string>
 
 class Robot;
@@ -10,7 +12,7 @@ class Command;
 
 class Controller {
     public:
-        Controller(Robot* robot, Vision* vision, InfoBoard* infoBoard) : robot(robot), vision(vision), infoBoard(infoBoard) {}
+        Controller(SoccerBot* bot) : bot(bot), robot(bot->getRobot()), vision(bot->getVision()) {}
 		virtual void onEnter() {}
 		virtual void onExit() {};
 		virtual bool handleRequest(std::string request) { return false; }
@@ -19,9 +21,9 @@ class Controller {
         virtual void step(double dt) = 0;
 
     protected:
+		SoccerBot* bot;
         Robot* robot;
 		Vision* vision;
-		InfoBoard* infoBoard;
 };
 
 #endif // CONTROLLER_H

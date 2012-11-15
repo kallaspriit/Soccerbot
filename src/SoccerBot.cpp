@@ -44,6 +44,8 @@ SoccerBot::SoccerBot() {
 	lastStepDt = 0.01666;
 	totalTime = 0;
 	cameraChoice = 1;
+	targetSide = Side::BLUE;
+	go = false;
 	active = false;
 	stopRequested = false;
 	frameRequested = false;
@@ -293,9 +295,9 @@ void SoccerBot::setupInfoBoard() {
 void SoccerBot::setupControllers() {
 	std::cout << "! Setting up controllers.. ";
 
-    addController("manual", new ManualController(robot, vision, infoBoard));
-    addController("test", new TestController(robot, vision, infoBoard));
-    addController("simple-ai", new SimpleAI(robot, vision, infoBoard));
+    addController("manual", new ManualController(this));
+    addController("test", new TestController(this));
+    addController("simple-ai", new SimpleAI(this));
 
     setController("manual");
 
@@ -364,8 +366,6 @@ void SoccerBot::run() {
 
         //std::cout << "Seeing " << vision->getBalls().size() << " balls" << std::endl;
 
-		robot->setTargetSide(infoBoard->getTargetSide());
-		robot->setIsGo(infoBoard->isGo());
         robot->step(dt);
 
         //usleep(6000); // some long-running thingy test
@@ -571,6 +571,18 @@ bool SoccerBot::setController(std::string name) {
 
 std::string SoccerBot::getActiveControllerName() {
 	return activeControllerName;
+}
+
+void SoccerBot::setGo(bool mode) {
+	go = mode;
+
+	infoBoard->setGo(mode);
+}
+
+void SoccerBot::setTargetSide(Side side) {
+	targetSide = side;
+
+	infoBoard->setTargetSide(side);
 }
 
 void SoccerBot::updateLogs() {

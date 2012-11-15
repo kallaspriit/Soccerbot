@@ -33,20 +33,20 @@ bool SimpleAI::handleCommand(const Command& cmd) {
     } else if (cmd.name == "ai-start") {
 		std::cout << "! Starting AI" << std::endl;
 
-		infoBoard->setGo(true);
+		bot->setGo(true);
     } else if (cmd.name == "ai-stop") {
 		std::cout << "! Stopping AI" << std::endl;
 
-		infoBoard->setGo(false);
+		bot->setGo(false);
 	} else if (cmd.name == "ai-target-side" && cmd.params.size() == 1) {
 		int side = Util::toInt(cmd.params[0]);
 
 		if (side == 1) {
-			infoBoard->setTargetSide(Side::BLUE);
+			bot->setTargetSide(Side::BLUE);
 
 			std::cout << "! New target: BLUE" << std::endl;
 		} else if (side == 2) {
-			infoBoard->setTargetSide(Side::YELLOW);
+			bot->setTargetSide(Side::YELLOW);
 
 			std::cout << "! New target: YELLOW" << std::endl;
 		}
@@ -84,7 +84,7 @@ void SimpleAI::step(double dt) {
 	stateDuration += dt;
 	totalDuration += dt;
 
-	if (!robot->isGo()) {
+	if (!bot->isGo()) {
 		setState(State::PRESTART);
 	}
 
@@ -136,7 +136,7 @@ void SimpleAI::enterPrestart() {
 }
 
 void SimpleAI::stepPrestart(double dt) {
-	if (robot->isGo()) {
+	if (bot->isGo()) {
 		setState(State::FIND_BALL);
 
 		return;
@@ -242,7 +242,7 @@ void SimpleAI::stepFindGoal(double dt) {
 
 	robot->getDribbler().start();
 
-	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
+	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
 	if (stateDuration > 5.0f) {
 		robot->getCoilgun().kick();

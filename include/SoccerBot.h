@@ -2,6 +2,7 @@
 #define SOCCERBOT_H
 
 #include "WebSocketServer.h"
+#include "Config.h"
 
 #include <map>
 #include <string>
@@ -41,6 +42,12 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
         bool setController(std::string name);
         std::string getActiveControllerName();
 
+		bool isGo() { return go; }
+		Side getTargetSide() { return targetSide; }
+		void setGo(bool mode);
+		void setTargetSide(Side side);
+
+		inline Robot* getRobot() const { return robot; }
         inline Gui* getGui() const { return gui; }
 		inline Vision* getVision() const { return vision; }
 		inline Camera* getFrontCamera() const { return frontCamera; }
@@ -73,6 +80,9 @@ class SoccerBot : public WebSocketServer::ListenerInterface {
 		void showCameraInfo(Camera* camera, std::string name);
 		void sendFrame();
 		int updateCameras(double dt);
+
+		Side targetSide;
+		bool go;
 
         Robot* robot;
         WebSocketServer* socket;

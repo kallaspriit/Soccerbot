@@ -13,7 +13,6 @@
 #include <sstream>
 
 Robot::Robot(Vision* vision) : vision(vision) {
-	targetSide = Side::UNKNOWN;
     wheelFL = NULL;
     wheelFR = NULL;
     wheelRL = NULL;
@@ -38,7 +37,6 @@ Robot::Robot(Vision* vision) : vision(vision) {
     orientation = 0.0f;
 
     lastCommandTime = -1;
-	isGoRequested = false;
 	coilgunCharged = false;
 	autostop = true;
 }
@@ -159,17 +157,6 @@ void Robot::initLocalizer() {
 		Config::fieldWidth,
 		Config::fieldHeight / 2.0f
 	);
-}
-
-void Robot::setTargetSide(Side side) {
-	targetSide = side;
-
-	/*if (side == Side::BLUE) {
-		x = Config::fieldWidth - Config::robotRadius;
-		y = Config::robotRadius
-	}*/
-
-	//robotLocalizer->resetDeviation(x, y, orientation);
 }
 
 void Robot::step(double dt) {

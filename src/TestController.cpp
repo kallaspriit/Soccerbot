@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-TestController::TestController(Robot* robot, Vision* vision, InfoBoard* infoBoard) : Controller(robot, vision, infoBoard) {
+TestController::TestController(SoccerBot* bot) : Controller(bot) {
 	activeRoutine = Routine::NONE;
 	focusK = Config::ballFocusP;
 	//lastBallDistance = -1;
@@ -175,7 +175,7 @@ void TestController::findGoalRoutine(double dt) {
 
 	robot->getDribbler().start();
 
-	const Object* goal = vision->getLargestGoal(robot->getTargetSide());
+	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
 	if (goal == NULL) {
 		//robot->setTargetDir(0, 0, focusK * searchDir);
