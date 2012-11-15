@@ -133,6 +133,7 @@ class StopRotationTask : public Task {
 		float startOmega;
 		float currentOmega;
 		float diff;
+		double startTime;
 };
 
 class JumpAngleTask : public Task {
