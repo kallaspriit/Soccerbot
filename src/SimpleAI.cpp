@@ -22,6 +22,8 @@ void SimpleAI::onEnter() {
 	lastGoalDistance = 0.0f;
 	goalTurnDirection = 0;
 
+	onTargetSideChange(bot->getTargetSide()); 
+
 	// @TODO Set go to stop
 }
 
@@ -396,19 +398,25 @@ void SimpleAI::stepRelocate(double dt) {
 		return;
 	}
 
-	Object* goal = vision->getLargestGoal(Side::UNKNOWN);
+	Object* goal = vision->getFurthestGoal();
 
 	if (goal == NULL) {
+		std::cout << "@ No goal, spinning" << std::endl;
+
 		robot->setTargetDir(0, 0, Math::PI);
 
 		return;
 	}
 
 	if (goal->distance < 1.0f) {
+		std::cout << "@ Goal close, turn around" << std::endl;
+
 		robot->turnBy(Math::PI, Math::PI);
 
 		return;
 	} else {
+		std::cout << "@ Driving to goal" << std::endl;
+
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speed = Config::ballChaseFarSpeed;
 	}

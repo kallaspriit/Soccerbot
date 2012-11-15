@@ -1049,7 +1049,7 @@ void Vision::setImage(unsigned char* image, int width, int height) {
 
 Object* Vision::getClosestBall() {
 	const ObjectList& frontBalls = getFrontBalls();
-	float closestDistance;
+	float closestDistance = 100.0f;
 	Object* ball;
 	Object* closestBall = NULL;
 
@@ -1078,7 +1078,7 @@ Object* Vision::getClosestBall() {
 
 Object* Vision::getLargestGoal(Side side) {
 	const ObjectList& frontGoals = getFrontGoals();
-	float largestArea;
+	float largestArea = 0.0f;
 	Object* goal;
 	Object* largestGoal = NULL;
 
@@ -1111,4 +1111,33 @@ Object* Vision::getLargestGoal(Side side) {
 	}
 
 	return largestGoal;
+}
+
+Object* Vision::getFurthestGoal() {
+	const ObjectList& frontGoals = getFrontGoals();
+	float furthestDistance = 0.0f;
+	Object* goal;
+	Object* furthestGoal = NULL;
+
+	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
+		goal = *it;
+
+		if (furthestGoal == NULL || goal->distance > furthestDistance) {
+			furthestGoal = goal;
+			furthestDistance = goal->distance;
+		}
+	}
+
+	const ObjectList& rearGoals = getRearGoals();
+
+	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+		goal = *it;
+
+		if (furthestGoal == NULL || goal->distance > furthestDistance) {
+			furthestGoal = goal;
+			furthestDistance = goal->distance;
+		}
+	}
+
+	return furthestGoal;
 }
