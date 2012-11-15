@@ -355,6 +355,12 @@ void SimpleAI::stepFindGoal(double dt) {
 			return;
 		}
 
+		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
+		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
+		float speed = Config::ballChaseNearSpeed * (1.0f - speedDecrease);
+		
+		robot->setTargetDir(Math::Rad(0), speed, omega);
+
 		//std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
 
 		robot->getCoilgun().kick();
@@ -418,12 +424,9 @@ void SimpleAI::stepRelocate(double dt) {
 		return;
 	} else {
 		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
-		float speed = Config::ballChaseFarSpeed;
-
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
-
-		speed = speed * (1.0f - speedDecrease);
-
+		float speed = Config::ballChaseFarSpeed * (1.0f - speedDecrease);
+		
 		robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
 }
