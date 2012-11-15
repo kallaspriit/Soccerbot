@@ -401,9 +401,7 @@ void SimpleAI::stepRelocate(double dt) {
 	Object* goal = vision->getFurthestGoal();
 
 	if (goal == NULL) {
-		std::cout << "@ No goal, spinning" << std::endl;
-
-		robot->setTargetDir(0, 0, Math::PI);
+		robot->setTargetDir(0, 0, Math::PI / 2.0f);
 
 		return;
 	}
@@ -415,14 +413,10 @@ void SimpleAI::stepRelocate(double dt) {
 	}
 
 	if (goal->distance < 1.0f) {
-		std::cout << "@ Goal close, turn around" << std::endl;
-
 		robot->turnBy(Math::PI, Math::PI);
 
 		return;
 	} else {
-		std::cout << "@ Driving to goal" << std::endl;
-
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speed = Config::ballChaseFarSpeed;
 
