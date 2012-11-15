@@ -74,8 +74,8 @@ void Wheel::step(double dt) {
 
 				if (Math::abs(targetOmega) > Math::PI && Math::abs(targetOmega / realOmega) > 2.0f) {
 					stallCounter++;
-				} else if (stallCounter > 0) {
-					stallCounter--;
+				} else {
+					stallCounter = 0;
 				}
             }
 
