@@ -86,6 +86,10 @@ void SimpleAI::setState(State newState) {
 		case ESCAPE_OBSTRUCTION:
 			enterEscapeObstruction();
 		break;
+
+		case RELOCATE:
+			enterRelocate();
+		break;
 	}
 }
 
@@ -125,6 +129,10 @@ void SimpleAI::step(double dt) {
 		case ESCAPE_OBSTRUCTION:
 			stepEscapeObstruction(dt);
 		break;
+
+		case RELOCATE:
+			stepRelocate(dt);
+		break;
 	}
 }
 
@@ -144,6 +152,9 @@ std::string SimpleAI::getStateName() {
 
 		case ESCAPE_OBSTRUCTION:
 			return "ESCAPE_OBSTRUCTION";
+
+		case RELOCATE:
+			return "RELOCATE";
 	}
 
 	return "UNKNOWN";
@@ -183,6 +194,12 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
+	if (stateDuration > 2.0f) {
+		setState(State::RELOCATE);
+
+		return;
+	}
+
 	robot->setTargetDir(0, 0, Config::ballFocusP * 0.5f * searchDir);
 
 	return;
@@ -209,6 +226,12 @@ void SimpleAI::stepFetchBall(double dt) {
 
 	if (ball == NULL) {
 		setState(State::FIND_BALL);
+
+		return;
+	}
+
+	if (stateDuration > 10.0f) {
+		setState(State::RELOCATE);
 
 		return;
 	}
@@ -263,7 +286,9 @@ void SimpleAI::stepFindGoal(double dt) {
 	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
 	if (stateDuration > 5.0f) {
-		robot->getCoilgun().kick();
+		setState(State::RELOCATE);
+
+		return;
 	}
 
 	if (goal == NULL) {
@@ -317,6 +342,38 @@ void SimpleAI::stepEscapeObstruction(double dt) {
 	}
 
 	setState(FIND_BALL);
+}
+
+void SimpleAI::enterRelocate() {
+	robot->clearTasks();
+	robot->turnBy(Math::PI, Math::PI);
+}
+
+void SimpleAI::stepRelocate(double dt) {
+	const Object* ball = vision->getClosestBall();
+
+	if (ball != NULL) {
+		setState(State::FETCH_BALL);
+
+		return;
+	}
+
+	Object* goal = vision->getLargestGoal(Side::UNKNOWN);
+
+	if (goal == NULL) {
+		robot->setTargetDir(0, 0, Math::PI);
+
+		return;
+	}
+
+	if (goal->distance < 1.5f) {
+		robot->turnBy(Math::PI, Math::PI);
+
+		return;
+	} else {
+		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
+		float speed = Config::ballChaseFarSpeed;
+	}
 }
 
 std::string SimpleAI::getJSON() {

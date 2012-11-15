@@ -305,7 +305,7 @@ void SoccerBot::setupControllers() {
     addController("test", new TestController(this));
     addController("simple-ai", new SimpleAI(this));
 
-    setController("manual");
+    setController("simple-ai");
 
 	std::cout << "done!" << std::endl;
 }

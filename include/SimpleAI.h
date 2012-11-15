@@ -38,6 +38,9 @@ class SimpleAI : public Controller {
 		void enterEscapeObstruction();
 		void stepEscapeObstruction(double dt);
 
+		void enterRelocate();
+		void stepRelocate(double dt);
+
 		std::string getJSON();
 
 	private:
