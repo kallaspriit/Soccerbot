@@ -1092,24 +1092,28 @@ std::string SoccerBot::getStateJSON() const {
 
     // wheels
     stream << "\"wheelFL\": {";
+	stream << "\"stalled\":" << (robot->getWheelFL().isStalled() ? "true" : "false") << ",";
     stream << "\"targetOmega\":" << robot->getWheelFL().getTargetOmega() << ",";
     stream << "\"realOmega\":" << robot->getWheelFL().getRealOmega();
     stream << "},";
 
     // front right wheel
     stream << "\"wheelFR\": {";
+	stream << "\"stalled\":" << (robot->getWheelFR().isStalled() ? "true" : "false") << ",";
     stream << "\"targetOmega\":" << robot->getWheelFR().getTargetOmega() << ",";
     stream << "\"realOmega\":" << robot->getWheelFR().getRealOmega();
     stream << "},";
 
     // rear left wheel
     stream << "\"wheelRL\": {";
+	stream << "\"stalled\":" << (robot->getWheelRL().isStalled() ? "true" : "false") << ",";
     stream << "\"targetOmega\":" << robot->getWheelRL().getTargetOmega() << ",";
     stream << "\"realOmega\":" << robot->getWheelRL().getRealOmega();
     stream << "},";
 
     // rear right wheel
     stream << "\"wheelRR\": {";
+	stream << "\"stalled\":" << (robot->getWheelRR().isStalled() ? "true" : "false") << ",";
     stream << "\"targetOmega\":" << robot->getWheelRR().getTargetOmega() << ",";
     stream << "\"realOmega\":" << robot->getWheelRR().getRealOmega();
     stream << "},";
