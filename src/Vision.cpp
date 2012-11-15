@@ -783,9 +783,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	return PathMetric(percentage, longestInvalidSpree, validColorFound, crossingGreenWhiteBlackGreen);
 }
 
-float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, std::vector<std::string> validColors) {
+float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, std::vector<std::string> validColors, int step) {
 	bool debug = img.data != NULL;
-	int step = 6;
 	int matches = 0;
 	int misses = 0;
 
@@ -1013,7 +1012,8 @@ bool Vision::isViewObstructed() {
 		Config::viewObstructedY,
 		Config::viewObstructedWidth,
 		Config::viewObstructedHeight,
-		viewObstructedValidColors
+		viewObstructedValidColors,
+		20
 	);
 
 	std::cout << "! Front obstructed metric: " << validColorsPercentage << std::endl;
