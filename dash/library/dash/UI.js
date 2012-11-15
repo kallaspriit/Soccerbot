@@ -670,10 +670,10 @@ Dash.UI.prototype.toggleTargetSide = function() {
 	
 	var lastState = this.states[this.states.length - 1];
 	
-	if (lastState.targetSide == 0) {
-		dash.socket.send('<ai-target-side:1>');
-	} else {
+	if (parseInt(lastState.targetGoal) == 1) {
 		dash.socket.send('<ai-target-side:2>');
+	} else {
+		dash.socket.send('<ai-target-side:1>');
 	}
 };
 

@@ -184,6 +184,8 @@ void SoccerBot::init() {
     setupFpsCounter();
 	setupSocket();
 
+	setTargetSide(Side::BLUE);
+
     std::cout << "! SoccerBot ready" << std::endl;
 }
 
@@ -413,6 +415,10 @@ void SoccerBot::run() {
 			socket->broadcast(controllerMsg.toJSON());
 
 			controllerRequested = false;
+		}
+
+		if (targetSide == Side::UNKNOWN) {
+			std::cout << "- Target side is unknown" << std::endl;
 		}
 
         //usleep(16000);
