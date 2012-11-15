@@ -436,7 +436,7 @@ void SimpleAI::stepRelocate(double dt) {
 
 		speed = speed * (1.0f - speedDecrease);
 
-		robot->setTargetDir(Math::Rad(0), speed, -omega);
+		robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
 }
 
