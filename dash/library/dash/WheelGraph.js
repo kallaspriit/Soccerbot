@@ -27,6 +27,11 @@ Dash.WheelGraph.prototype.init = function() {
 Dash.WheelGraph.prototype.render = function(state, name) {
 	this.c.clearRect(0, 0, this.width, this.height);
 	
+	if (state.stalled) {
+		this.c.fillStyle = '#900';
+		this.c.fillRect(0, 0, this.width, this.height);
+	}
+	
 	var x = this.width,
 		currentState = state,
 		multiplier = this.height * 0.007,
