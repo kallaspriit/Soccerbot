@@ -42,11 +42,11 @@ bool SimpleAI::handleCommand(const Command& cmd) {
 	} else if (cmd.name == "ai-target-side" && cmd.params.size() == 1) {
 		int side = Util::toInt(cmd.params[0]);
 
-		if (side == 1) {
+		if (side == 2) {
 			bot->setTargetSide(Side::BLUE);
 
 			std::cout << "! New target: BLUE" << std::endl;
-		} else if (side == 2) {
+		} else if (side == 1) {
 			bot->setTargetSide(Side::YELLOW);
 
 			std::cout << "! New target: YELLOW" << std::endl;
