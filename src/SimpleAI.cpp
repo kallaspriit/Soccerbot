@@ -408,6 +408,12 @@ void SimpleAI::stepRelocate(double dt) {
 		return;
 	}
 
+	if (Math::abs(robot->getMovement().omega) > Config::rotationStoppedOmegaThreshold) {
+		robot->stopRotation();
+
+		return;
+	}
+
 	if (goal->distance < 1.0f) {
 		std::cout << "@ Goal close, turn around" << std::endl;
 
