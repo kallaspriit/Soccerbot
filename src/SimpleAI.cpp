@@ -359,6 +359,10 @@ void SimpleAI::enterRelocate() {
 }
 
 void SimpleAI::stepRelocate(double dt) {
+	if (robot->hasTasks()) {
+		return;
+	}
+
 	const Object* ball = vision->getClosestBall();
 
 	if (ball != NULL) {
