@@ -770,8 +770,6 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 		crossingGreenWhiteBlackGreen = true;
 	}
 
-	// @TODO Does not work from outside-in
-
 	float percentage = (float)matches / (float)senseCounter;
 	bool validColorFound = requiredColor == "" || requiredColorFound;
 
