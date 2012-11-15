@@ -45,6 +45,7 @@ class Robot {
 		inline bool isBraking() { return velocity < lastVelocity; }
 		inline void setAutostop(bool mode) { autostop = mode; }
 		inline bool usingAutostop() { return autostop; }
+		bool isStalled();
 
         Wheel& getWheelFL() const { return *wheelFL; }
         Wheel& getWheelFR() const { return *wheelFR; }

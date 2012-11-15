@@ -2,13 +2,14 @@
 #include "Maths.h"
 #include "Command.h"
 #include "Util.h"
+#include "Config.h"
 
 #include <iostream>
 
 const float Wheel::pidFrequency = 62.5f;
 const float Wheel::ticksPerRevolution = 64.0f * 18.75f;
 
-Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), lastMessageTime(-1) {
+Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), lastMessageTime(-1), stallCounter(0) {
     serial = new Serial();
 
     if (serial->open(id) == Serial::OK) {
@@ -42,6 +43,14 @@ float Wheel::getRealOmega() const {
     return realOmega;
 }
 
+bool Wheel::isStalled() {
+	if (stallCounter > Config::wheelStalledThreshold) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 void Wheel::step(double dt) {
     // write speed and request speed
     //serial->write("sd" + Util::toString(omegaToSpeed(targetOmega)) + "\ngs1\n");
@@ -61,15 +70,13 @@ void Wheel::step(double dt) {
             Command cmd = Command::parse(message);
 
             if (cmd.name == "s" && cmd.params.size() == 1) {
-                float omega = speedToOmega(Util::toInt(cmd.params[0]));
+                realOmega = speedToOmega(Util::toInt(cmd.params[0]));
 
-                //if (Math::abs(omega) < 60.0f) {
-                    realOmega = omega;
-                //} else {
-                //    std::cout << "Invalid omega for #" << id << ": " << omega << " - '" << cmd.params[0] << "'" << std::endl;
-                //}
-
-                //std::cout << "Read speed #" << id << ": " << realOmega << std::endl;
+				if (Math::abs(targetOmega) > Math::PI && targetOmega / realOmega > 2.0f) {
+					stallCounter++;
+				} else if (stallCounter > 0) {
+					stallCounter--;
+				}
             }
 
 			lastMessageTime = currentTime;

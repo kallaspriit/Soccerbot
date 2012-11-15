@@ -957,6 +957,8 @@ Dash.UI.prototype.showSimpleAiState = function(state) {
 	dash.dbg.box('Total duration', state.totalDuration);
 	dash.dbg.box('Search dir', state.searchDir);
 	dash.dbg.box('Near speed reached', state.nearSpeedReached ? 'yes' : 'no');
+	dash.dbg.box('View obstructed', state.viewObstructed ? 'yes' : 'no');
+	dash.dbg.box('Stalled', state.stalled ? 'yes' : 'no');
 	dash.dbg.box('Last velocity', state.lastVelocityX);
 	dash.dbg.box('Last goal distance', state.lastGoalDistance);
 };

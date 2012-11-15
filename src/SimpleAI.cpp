@@ -97,10 +97,19 @@ void SimpleAI::step(double dt) {
 	stateDuration += dt;
 	totalDuration += dt;
 
+	viewObstructed = false;
+	stalled = false;
+
 	if (!bot->isGo()) {
 		setState(State::PRESTART);
 	} else if (vision->isViewObstructed()) {
 		setState(State::ESCAPE_OBSTRUCTION);
+
+		viewObstructed = true;
+	} else if (robot->isStalled()) {
+		setState(State::ESCAPE_OBSTRUCTION);
+
+		stalled = true;
 	}
 
 	const Object* goal = vision->getLargestGoal(Side::UNKNOWN);
@@ -385,6 +394,8 @@ std::string SimpleAI::getJSON() {
 	stream << "\"totalDuration\": " << totalDuration << ",";
 	stream << "\"searchDir\": " << searchDir << ",";
 	stream << "\"nearSpeedReached\": " << (nearSpeedReached ? "true" : "false") << ",";
+	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
+	stream << "\"stalled\": " << (stalled ? "true" : "false") << ",";
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
 	stream << "\"lastGoalDistance\": " << lastGoalDistance;
 	stream << "}";

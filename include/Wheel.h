@@ -15,6 +15,7 @@ class Wheel
         float getTargetOmega() const;
         float getRealOmega() const;
 		bool isReady() const { return serial->isOpen(); }
+		bool isStalled();
         void step(double dt);
 
         static float omegaToSpeed(float omega);
@@ -29,6 +30,7 @@ class Wheel
         float realOmega;
         bool ready;
 		double lastMessageTime;
+		int stallCounter;
 
         static const float pidFrequency;
         static const float ticksPerRevolution;

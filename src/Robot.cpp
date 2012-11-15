@@ -247,6 +247,13 @@ void Robot::spinAroundDribbler(float period, float radius, float forwardSpeed) {
 	setTargetDir(forwardSpeed, speed, -omega);
 }
 
+bool Robot::isStalled() {
+	return wheelFL->isStalled()
+		|| wheelFR->isStalled()
+		|| wheelRL->isStalled()
+		|| wheelRR->isStalled();
+}
+
 void Robot::stop() {
     setTargetDir(0, 0, 0);
 	dribbler->stop();

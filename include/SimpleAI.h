@@ -49,6 +49,8 @@ class SimpleAI : public Controller {
 		double totalDuration;
 		float searchDir;
 		bool nearSpeedReached;
+		bool viewObstructed;
+		bool stalled;
 		float lastVelocityX;
 		float lastGoalDistance;
 };
