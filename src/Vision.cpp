@@ -1008,7 +1008,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 }
 
 bool Vision::isViewObstructed() {
-	float metric = getBlockMetric(
+	float validColorsPercentage = getBlockMetric(
 		Config::viewObstructedX,
 		Config::viewObstructedY,
 		Config::viewObstructedWidth,
@@ -1016,9 +1016,9 @@ bool Vision::isViewObstructed() {
 		viewObstructedValidColors
 	);
 
-	std::cout << "! Front obstructed metric: " << metric << std::endl;
+	std::cout << "! Front obstructed metric: " << validColorsPercentage << std::endl;
 
-	if (metric < Config::viewObstructedThreshold) {
+	if (validColorsPercentage < Config::viewObstructedThreshold) {
 		return true;
 	} else {
 		return false;

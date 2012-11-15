@@ -59,6 +59,10 @@ bool SimpleAI::handleCommand(const Command& cmd) {
 }
 
 void SimpleAI::setState(State newState) {
+	if (newState == state) {
+		return;
+	}
+
 	state = newState;
 	stateDuration = 0;
 
