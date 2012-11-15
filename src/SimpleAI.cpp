@@ -78,6 +78,10 @@ void SimpleAI::setState(State newState) {
 		case FIND_GOAL:
 			enterFindGoal();
 		break;
+
+		case ESCAPE_OBSTRUCTION:
+			enterEscapeObstruction();
+		break;
 	}
 }
 
@@ -87,6 +91,8 @@ void SimpleAI::step(double dt) {
 
 	if (!bot->isGo()) {
 		setState(State::PRESTART);
+	} else if (vision->isViewObstructed()) {
+		setState(State::ESCAPE_OBSTRUCTION);
 	}
 
 	const Object* goal = vision->getLargestGoal(Side::UNKNOWN);
@@ -111,6 +117,10 @@ void SimpleAI::step(double dt) {
 		case FIND_GOAL:
 			stepFindGoal(dt);
 		break;
+
+		case ESCAPE_OBSTRUCTION:
+			stepEscapeObstruction(dt);
+		break;
 	}
 }
 
@@ -127,6 +137,9 @@ std::string SimpleAI::getStateName() {
 
 		case FIND_GOAL:
 			return "FIND_GOAL";
+
+		case ESCAPE_OBSTRUCTION:
+			return "ESCAPE_OBSTRUCTION";
 	}
 
 	return "UNKNOWN";
@@ -287,6 +300,18 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		robot->setTargetDir(Math::Rad(0), 0, omega);
 	}
+}
+
+void SimpleAI::enterEscapeObstruction() {
+	robot->turnBy(Math::PI, Math::PI);
+}
+
+void SimpleAI::stepEscapeObstruction(double dt) {
+	if (robot->hasTasks()) {
+		return;
+	}
+
+	setState(FIND_BALL);
 }
 
 std::string SimpleAI::getJSON() {

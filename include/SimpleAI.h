@@ -9,7 +9,8 @@ class SimpleAI : public Controller {
 			PRESTART,
 			FIND_BALL,
 			FETCH_BALL,
-			FIND_GOAL
+			FIND_GOAL,
+			ESCAPE_OBSTRUCTION
 		};
 
         SimpleAI(SoccerBot* bot) : Controller(bot) {};
@@ -32,6 +33,9 @@ class SimpleAI : public Controller {
 
 		void enterFindGoal();
 		void stepFindGoal(double dt);
+
+		void enterEscapeObstruction();
+		void stepEscapeObstruction(double dt);
 
 		std::string getJSON();
 

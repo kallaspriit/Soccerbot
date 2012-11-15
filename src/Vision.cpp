@@ -32,6 +32,13 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     validBallPathColors.push_back("yellow-goal");
     validBallPathColors.push_back("blue-goal");
 
+	viewObstructedValidColors.push_back("green");
+    viewObstructedValidColors.push_back("white");
+    viewObstructedValidColors.push_back("black");
+    viewObstructedValidColors.push_back("ball");
+    viewObstructedValidColors.push_back("yellow-goal");
+    viewObstructedValidColors.push_back("blue-goal");
+
     validGoalPathColors.push_back("green");
     validGoalPathColors.push_back("white");
     validGoalPathColors.push_back("black");
@@ -998,6 +1005,24 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	int points = matches + misses;
 
 	return (float)matches / (float)points;
+}
+
+bool Vision::isViewObstructed() {
+	float metric = getBlockMetric(
+		Config::viewObstructedX,
+		Config::viewObstructedY,
+		Config::viewObstructedWidth,
+		Config::viewObstructedHeight,
+		viewObstructedValidColors
+	);
+
+	std::cout << "! Front obstructed metric: " << metric << std::endl;
+
+	if (metric < Config::viewObstructedThreshold) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 ImageBuffer* Vision::classify() {

@@ -39,6 +39,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         PathMetric getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
 		float getBlockMetric(int x, int y, int width, int height, std::vector<std::string> validColors);
 		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::vector<std::string> validColors);
+		bool isViewObstructed();
 
         const ObjectList& getFrontBalls() const { return frontBalls; }
         const ObjectList& getFrontGoals() const { return frontGoals; }
@@ -68,6 +69,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         std::vector<std::string> validBallBgColors;
         std::vector<std::string> validBallPathColors;
         std::vector<std::string> validGoalPathColors;
+        std::vector<std::string> viewObstructedValidColors;
         int width;
         int height;
         unsigned char* lastFrame;
