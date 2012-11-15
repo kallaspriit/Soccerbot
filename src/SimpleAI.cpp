@@ -150,7 +150,7 @@ std::string SimpleAI::getStateName() {
 }
 
 void SimpleAI::enterPrestart() {
-	
+	robot->clearTasks();
 }
 
 void SimpleAI::stepPrestart(double dt) {
@@ -307,6 +307,7 @@ void SimpleAI::stepFindGoal(double dt) {
 }
 
 void SimpleAI::enterEscapeObstruction() {
+	robot->clearTasks();
 	robot->turnBy(Math::PI, Math::PI);
 }
 

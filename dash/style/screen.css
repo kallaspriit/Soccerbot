@@ -339,7 +339,7 @@ A:hover {
 #debug-wrap {
     position: absolute;
     left: 20px;
-    top: 20px;
+    top: 200px;
     list-style: none;
     margin: 0;
     padding: 0;

@@ -1016,8 +1016,6 @@ bool Vision::isViewObstructed() {
 		20
 	);
 
-	std::cout << "! Front obstructed metric: " << validColorsPercentage << std::endl;
-
 	if (validColorsPercentage < Config::viewObstructedThreshold) {
 		return true;
 	} else {

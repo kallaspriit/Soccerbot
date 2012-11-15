@@ -64,6 +64,7 @@ class Robot {
         Task* getCurrentTask();
         TaskQueue getTasks() { return tasks; }
         bool hasTasks() { return getCurrentTask() != NULL; }
+		void clearTasks() { tasks.clear(); }
         void handleTasks(double dt);
 
         void turnBy(float angle, float speed = 1.0f);
