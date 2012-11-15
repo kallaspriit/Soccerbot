@@ -292,6 +292,21 @@ class Polygon {
         PointList points;
 };
 
+static float getAngleBetween(Math::Position pointA, Math::Position pointB, float orientationA) {
+	Vector forwardVec = Vector::createForwardVec(orientationA);
+	Vector dirVec = Vector::createDirVec(pointA, pointB);
+
+	float angle = atan2(dirVec.y, dirVec.x) - atan2(forwardVec.y, forwardVec.x);
+
+	if (angle < -Math::PI) {
+		angle += Math::PI * 2;
+	} else if (angle > Math::PI) {
+		angle -= Math::PI * 2;
+	}
+
+	return angle;
+};
+
 } // namespace Math
 
 #endif // MATHS_H

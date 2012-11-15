@@ -20,6 +20,7 @@ void SimpleAI::onEnter() {
 	nearSpeedReached = false;
 	lastVelocityX = 0.0f;
 	lastGoalDistance = 0.0f;
+	goalTurnDirection = 0;
 
 	// @TODO Set go to stop
 }
@@ -295,7 +296,7 @@ void SimpleAI::stepFetchBall(double dt) {
 }
 
 void SimpleAI::enterFindGoal() {
-	
+	goalTurnDirection = 0;
 }
 
 void SimpleAI::stepFindGoal(double dt) {
@@ -316,10 +317,19 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	if (goal == NULL) {
+		if (goalTurnDirection == 0) {
+			Math::Position goalPos = getGoalPosition(bot->getTargetSide());
+			Math::Position robotPos = robot->getPosition();
+
+			float angle = Math::getAngleBetween(goalPos, robotPos, robotPos.orientation);
+		
+			goalTurnDirection = angle >= 0 ? 1 : -1;
+		}
+
 		if (lastGoalDistance >= 1.0f && lastGoalDistance <= 3.5f) {
-			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 1.5f, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
+			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 1.5f * goalTurnDirection, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
 		} else {
-			robot->setTargetDir(0, 0, Config::ballRotateOmega);
+			robot->setTargetDir(0, 0, Config::ballRotateOmega * goalTurnDirection);
 		}
 
 		return;
@@ -402,6 +412,20 @@ void SimpleAI::stepRelocate(double dt) {
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speed = Config::ballChaseFarSpeed;
 	}
+}
+
+Math::Position SimpleAI::getGoalPosition(Side side) {
+	switch (side) {
+		case Side::BLUE:
+			return Math::Position(Config::fieldWidth, Config::fieldHeight / 2.0f);
+
+		case Side::YELLOW:
+			return Math::Position(0.0f, Config::fieldHeight / 2.0f);
+	}
+
+	std::cout << "- Goal position invalid side, this should not happen" << std::endl;
+
+	return Math::Position(Config::fieldWidth, Config::fieldHeight / 2.0f);
 }
 
 std::string SimpleAI::getJSON() {

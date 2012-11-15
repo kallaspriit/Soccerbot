@@ -2,6 +2,7 @@
 #define SIMPLEAI_H
 
 #include "Controller.h"
+#include "Maths.h"
 
 class SimpleAI : public Controller {
     public:
@@ -43,6 +44,7 @@ class SimpleAI : public Controller {
 		void enterRelocate();
 		void stepRelocate(double dt);
 
+		Math::Position getGoalPosition(Side side);
 		std::string getJSON();
 
 	private:
@@ -55,6 +57,7 @@ class SimpleAI : public Controller {
 		bool stalled;
 		float lastVelocityX;
 		float lastGoalDistance;
+		int goalTurnDirection;
 };
 
 #endif // SIMPLEAI_H
