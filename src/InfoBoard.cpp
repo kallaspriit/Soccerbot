@@ -43,9 +43,10 @@ void InfoBoard::setTargetSide(Side side) {
 }
 
 void InfoBoard::setGo(bool mode) {
-	goReceived = mode;
+	goRequested = mode;
+	goReceived = true;
 
-	if (goReceived) {
+	if (goRequested) {
 		serial->write("<start:1>");
 	} else {
 		serial->write("<start:0>");
