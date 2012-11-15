@@ -27,7 +27,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
         return false;
     }
 
-    robot.setTargetOmega(speed);
+    robot.setTargetDir(Math::Rad(0), 0, speed);
 
     return true;
 }
