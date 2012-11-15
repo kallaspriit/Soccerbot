@@ -16,9 +16,9 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
     currentAngle = robot.getOrientation();
     diff = Math::abs(Math::floatModulus(currentAngle - targetAngle, Math::TWO_PI));
 
-    if (turnAngle < Math::PI && diff > Math::PI) {
+    /*if (turnAngle < Math::PI && diff > Math::PI) {
         diff -= Math::PI;
-    }
+    }*/
 
     if (
 		diff < threshold
