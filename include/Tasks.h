@@ -42,6 +42,8 @@ class TurnByTask : public Task {
         float targetAngle;
         float currentAngle;
         float diff;
+		double startTime;
+		double maxTurnTime;
 };
 
 class DriveToTask : public Task {

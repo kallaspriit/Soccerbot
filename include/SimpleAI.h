@@ -10,7 +10,8 @@ class SimpleAI : public Controller {
 			FIND_BALL,
 			FETCH_BALL,
 			FIND_GOAL,
-			ESCAPE_OBSTRUCTION
+			ESCAPE_OBSTRUCTION,
+			RELOCATE
 		};
 
         SimpleAI(SoccerBot* bot) : Controller(bot) {};

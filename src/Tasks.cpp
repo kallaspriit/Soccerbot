@@ -7,6 +7,8 @@
 // TurnBy angle task
 void TurnByTask::onStart(Robot& robot, double dt) {
     startAngle = robot.getOrientation();
+	startTime = Util::millitime();
+	maxTurnTime = turnAngle / speed * 2.0;
 }
 
 bool TurnByTask::onStep(Robot& robot, double dt) {
@@ -18,7 +20,10 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
         diff -= Math::PI;
     }
 
-    if (diff < threshold) {
+    if (
+		diff < threshold
+		|| Util::duration(startTime) > maxTurnTime
+	) {
         return false;
     }
 

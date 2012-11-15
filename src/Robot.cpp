@@ -166,7 +166,8 @@ void Robot::step(double dt) {
 	updateMovement();
 	updateMeasurements();
 
-    /*orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
+	// odometer only
+    orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
 
     if (orientation < 0.0f) {
         orientation += Math::TWO_PI;
@@ -176,16 +177,17 @@ void Robot::step(double dt) {
     float globalVelocityY = movement.velocityX * Math::sin(orientation) + movement.velocityY * Math::cos(orientation);
 
     x += globalVelocityX * dt;
-    y += globalVelocityY * dt;*/
+    y += globalVelocityY * dt;
 
-	robotLocalizer->update(measurements);
+	// using localization
+	/*robotLocalizer->update(measurements);
 	robotLocalizer->move(movement.omega, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
 	Math::Position position = robotLocalizer->getPosition();
 
 	x = position.x;
 	y = position.y;
-	orientation = position.orientation;
+	orientation = position.orientation;*/
 
     //std::cout << "Vx: " << movement.velocityX << "; Vy: " << movement.velocityY << "; omega: " << movement.omega << std::endl;
 
