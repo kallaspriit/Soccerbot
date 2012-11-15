@@ -419,6 +419,8 @@ void SimpleAI::stepRelocate(double dt) {
 
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speed = Config::ballChaseFarSpeed;
+
+		robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
 }
 
