@@ -21,6 +21,8 @@ class SimpleAI : public Controller {
 		State getState() { return state; }
 		std::string getStateName();
 		bool handleCommand(const Command& cmd);
+		void onGoRequestedChange(bool isGoRequested);
+		void onTargetSideChange(Side newTargetSide);
         void step(double dt);
 
 		void enterPrestart();

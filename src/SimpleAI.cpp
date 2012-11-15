@@ -59,6 +59,20 @@ bool SimpleAI::handleCommand(const Command& cmd) {
 	return true;
 }
 
+void SimpleAI::onGoRequestedChange(bool isGoRequested) {
+
+}
+
+void SimpleAI::onTargetSideChange(Side newTargetSide) {
+	std::cout << "! Target side changed, resetting robot position" << std::endl;
+
+	if (newTargetSide == Side::BLUE) {
+		robot->setPosition(Config::robotRadius, Config::fieldHeight - Config::robotRadius, -Math::PI / 4);
+	} else if (newTargetSide == Side::YELLOW) {
+		robot->setPosition(Config::fieldWidth - Config::robotRadius, Config::robotRadius, Math::PI + Math::PI / 4);
+	}
+}
+
 void SimpleAI::setState(State newState) {
 	if (newState == state) {
 		return;

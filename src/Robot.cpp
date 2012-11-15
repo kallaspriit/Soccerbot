@@ -263,7 +263,7 @@ void Robot::stop() {
 void Robot::setPosition(float x, float y, float orientation) {
     this->x = x;
     this->y = y;
-    this->orientation = orientation;
+	this->orientation = Math::floatModulus(orientation, Math::TWO_PI);
 }
 
 Task* Robot::getCurrentTask() {

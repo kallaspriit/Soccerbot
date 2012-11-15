@@ -603,6 +603,10 @@ void SoccerBot::onGoRequestedChange(bool isGoRequested) {
 	} else {
 		std::cout << "! Stop requested" << std::endl;
 	}
+
+	if (activeController != NULL) {
+		activeController->onGoRequestedChange(isGoRequested);
+	}
 }
 void SoccerBot::onTargetSideChange(Side newTargetSide) {
 	targetSide = newTargetSide;
@@ -611,6 +615,10 @@ void SoccerBot::onTargetSideChange(Side newTargetSide) {
 		std::cout << "! Now targeting blue side" << std::endl;
 	} else if (targetSide == Side::YELLOW) {
 		std::cout << "! Now targeting yellow side" << std::endl;
+	}
+
+	if (activeController != NULL) {
+		activeController->onTargetSideChange(newTargetSide);
 	}
 }
 
