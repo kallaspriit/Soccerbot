@@ -84,8 +84,6 @@ void SimpleAI::setState(State newState) {
 	state = newState;
 	stateDuration = 0;
 
-	std::cout << "@ SET STATE: " << getStateName() << std::endl;
-
 	switch (state) {
 		case PRESTART:
 			enterPrestart();
@@ -383,16 +381,12 @@ void SimpleAI::stepEscapeObstruction(double dt) {
 }
 
 void SimpleAI::enterRelocate() {
-	std::cout << "@ ENTER RELOCATE" << std::endl;
-
 	robot->clearTasks();
 	robot->turnBy(Math::PI, Math::PI);
 }
 
 void SimpleAI::stepRelocate(double dt) {
 	if (robot->hasTasks()) {
-		std::cout << "@ WAITING FOR TASKS" << std::endl;
-
 		return;
 	}
 
@@ -407,8 +401,6 @@ void SimpleAI::stepRelocate(double dt) {
 	Object* goal = vision->getFurthestGoal();
 
 	if (goal == NULL) {
-		std::cout << "@ NO GOAL, SPIN" << std::endl;
-
 		robot->setTargetDir(0, 0, Math::PI / 4.0f);
 
 		return;
@@ -421,16 +413,12 @@ void SimpleAI::stepRelocate(double dt) {
 	}*/
 
 	if (goal->distance < 1.0f) {
-		std::cout << "@ TURN AROUND" << std::endl;
-
 		robot->turnBy(Math::PI, Math::PI);
 
 		return;
 	} else {
-		std::cout << "@ DRIVE TO GOAL: "  << goal->angle << std::endl;
-
-		float omega = Math::limit(goal->angle * Config::ballFocusP * 0.5f, Config::focusMaxOmega);
-		float speed = Config::ballChaseFarSpeed / 4.0f;
+		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
+		float speed = Config::ballChaseFarSpeed;
 
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 

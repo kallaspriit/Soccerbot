@@ -27,6 +27,10 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
         return false;
     }
 
+	if (diff < threshold * 4.0) {
+		speed /= 2.0f;
+	}
+
     robot.setTargetDir(Math::Rad(0), 0, speed);
 
     return true;
