@@ -1222,6 +1222,24 @@ std::string SoccerBot::getStateJSON() const {
 
 	stream << "],";
 
+	stream << "\"measurements\": [";
+
+	const Measurements measurements = robot->getMeasurements();
+
+	first = true;
+
+	for (Measurements::const_iterator it = measurements.begin(); it != measurements.end(); it++) {
+		if (!first) {
+			stream << ",";
+		} else {
+			first = false;
+		}
+
+		stream << "\"" + it->first + "\": \"" + Util::toString(it->second) + "\"";
+	}
+
+	stream << "],";
+
 	if (activeController != NULL) {
 		stream << "\"controllerName\": \"" + activeControllerName + "\",";
 		std::string controllerInfo = activeController->getJSON();
