@@ -39,7 +39,7 @@ void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
 }
 
 void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt, bool exact) {
-	velocityX = 1.0f;
+	velocityX = 0.01f;
 	velocityY = 0.0f;
 	omega = 0.0f;
 
