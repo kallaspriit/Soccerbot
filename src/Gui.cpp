@@ -116,7 +116,7 @@ void Gui::setRearCamera(unsigned char* rgb, unsigned char* classification, const
 void Gui::debugParticles(const ParticleFilterLocalizer& localizer) {
 	ParticleList particles = localizer.getParticles();
 	Particle* particle;
-	float screenX, screenY;
+	int screenX, screenY;
 
 	for (ParticleList::const_iterator it = particles.begin(); it != particles.end(); it++) {
 		particle = *it;
@@ -124,7 +124,7 @@ void Gui::debugParticles(const ParticleFilterLocalizer& localizer) {
 		screenX = particle->x * 100;
 		screenY = particle->y * 100;
 
-		particlesImg.setPixelAt(screenX, screenY);
+		particlesImg.drawMarker(screenX, screenY);
 	}
 
 	particlesWindow->setImage(particlesImg.data);

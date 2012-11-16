@@ -264,7 +264,7 @@ void Robot::setPosition(float x, float y, float orientation) {
     this->y = y;
 	this->orientation = Math::floatModulus(orientation, Math::TWO_PI);
 
-	robotLocalizer->resetDeviation(x, y, orientation);
+	//robotLocalizer->resetDeviation(x, y, orientation);
 }
 
 Task* Robot::getCurrentTask() {
