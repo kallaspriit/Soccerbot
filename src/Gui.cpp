@@ -118,6 +118,8 @@ void Gui::debugParticles(const ParticleFilterLocalizer& localizer) {
 	Particle* particle;
 	int screenX, screenY;
 
+	particlesImg.data = new unsigned char[particlesImg.width * particlesImg.height * 3];
+
 	for (ParticleList::const_iterator it = particles.begin(); it != particles.end(); it++) {
 		particle = *it;
 
