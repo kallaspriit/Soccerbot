@@ -1073,7 +1073,9 @@ Object* Vision::getClosestBall() {
 		}
 	}
 
-	if (closestBall != NULL) {
+	return closestBall;
+
+	/*if (closestBall != NULL) {
 		lastClosestBall.copyFrom(closestBall);
 
 		return closestBall;
@@ -1086,7 +1088,7 @@ Object* Vision::getClosestBall() {
 		return &lastClosestBall;
 	} else {
 		return NULL;
-	}
+	}*/
 }
 
 Object* Vision::getLargestGoal(Side side) {

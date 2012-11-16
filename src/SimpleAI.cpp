@@ -408,7 +408,7 @@ void SimpleAI::stepRelocate(double dt) {
 	Object* goal = vision->getFurthestGoal();
 
 	if (goal == NULL) {
-		robot->setTargetDir(0, 0, Math::PI / 4.0f);
+		robot->setTargetDir(0, 0, Math::PI / 2.0f);
 
 		return;
 	}
