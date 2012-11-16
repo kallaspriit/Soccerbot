@@ -181,7 +181,7 @@ void Robot::step(double dt) {
 
 	// using localization
 	robotLocalizer->update(measurements);
-	robotLocalizer->move(movement.omega, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
+	robotLocalizer->move(movement.velocityX, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
 	/*Math::Position position = robotLocalizer->getPosition();
 
