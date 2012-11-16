@@ -180,10 +180,10 @@ void Robot::step(double dt) {
     y += globalVelocityY * dt;
 
 	// using localization
-	/*robotLocalizer->update(measurements);
+	robotLocalizer->update(measurements);
 	robotLocalizer->move(movement.omega, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
-	Math::Position position = robotLocalizer->getPosition();
+	/*Math::Position position = robotLocalizer->getPosition();
 
 	x = position.x;
 	y = position.y;
