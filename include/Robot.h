@@ -53,6 +53,7 @@ class Robot {
         Wheel& getWheelRR() const { return *wheelRR; }
 		Dribbler& getDribbler() const { return *dribbler; }
 		Coilgun& getCoilgun() const { return *coilgun; }
+		const Measurements& getMeasurements() const { return measurements; }
 
         void setTargetDir(float x, float y, float omega = 0.0f);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);

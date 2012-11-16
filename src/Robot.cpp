@@ -263,6 +263,8 @@ void Robot::setPosition(float x, float y, float orientation) {
     this->x = x;
     this->y = y;
 	this->orientation = Math::floatModulus(orientation, Math::TWO_PI);
+
+	robotLocalizer->resetDeviation(x, y, orientation);
 }
 
 Task* Robot::getCurrentTask() {
@@ -288,7 +290,6 @@ void Robot::driveFacing(float targetX, float targetY, float faceX, float faceY, 
 void Robot::drivePath(const Math::PositionQueue positions, float speed) {
     addTask(new DrivePathTask(positions, speed));
 }
-
 
 void Robot::stopRotation() {
     addTask(new StopRotationTask());

@@ -312,7 +312,7 @@ void SimpleAI::stepFindGoal(double dt) {
 
 	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
-	if (stateDuration > 6.0f) {
+	if (stateDuration > 8.0f) {
 		robot->getCoilgun().kick();
 		setState(State::RELOCATE);
 
@@ -377,6 +377,8 @@ void SimpleAI::stepFindGoal(double dt) {
 		}
 
 		robot->getCoilgun().kick();
+
+		setState(State::FIND_BALL);
 	} else {
 		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
