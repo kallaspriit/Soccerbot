@@ -329,7 +329,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			goalTurnDirection = angle >= 0 ? 1 : -1;
 		}
 
-		if (lastGoalDistance >= 1.0f && lastGoalDistance <= 3.5f) {
+		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 1.5f * goalTurnDirection, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
 		} else {
 			robot->setTargetDir(0, 0, Config::ballRotateOmega * goalTurnDirection);
@@ -341,38 +341,48 @@ void SimpleAI::stepFindGoal(double dt) {
 	int halfWidth = Config::cameraWidth / 2;
 	int leftEdge = goal->x - goal->width / 2;
 	int rightEdge = goal->x + goal->width / 2;
-	
 	int goalKickThresholdPixels = goal->width * Config::goalKickThreshold;
+	bool shouldKick = false;
+
+	if (goal->width >= Config::wideGoalThreshold) {
+		if (
+			leftEdge + goalKickThresholdPixels < halfWidth
+			&& rightEdge - goalKickThresholdPixels > halfWidth
+		) {
+			std::cout << "@ SHOOTING WIDE GOAL";
+
+			shouldKick = true;
+		}
+	} else {
+		float absGoalAngleDeg = Math::radToDeg(Math::abs(goal->angle));
+
+		if (absGoalAngleDeg < 4.0f / goal->distance) {
+			std::cout << "@ SHOOTING NARROW GOAL AT ANGLE: " << absGoalAngleDeg << std::endl;
+
+			shouldKick = true;
+		}
+	}
 
 	if (
-		leftEdge + goalKickThresholdPixels < halfWidth
-		&& rightEdge - goalKickThresholdPixels > halfWidth
+		shouldKick
 	) {
 		float currentOmega = robot->getMovement().omega;
 
 		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks()) {
+			std::cout << "@ KICK REQUSTED, BUT STOPPING ROTATION FIRST" << std::endl;
+
 			robot->stopRotation();
 
 			return;
 		}
 
+		robot->getCoilgun().kick();
+	} else {
 		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::ballChaseNearSpeed * (1.0f - speedDecrease);
-		
+
 		robot->setTargetDir(Math::Rad(0), speed, omega);
-
-		//std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
-
-		std::cout << "! Search goal: " << bot->getTargetSide() << ", found with type: " << goal->type << std::endl;
-
-		robot->getCoilgun().kick();
-	} else {
-		//robot->spinAroundDribbler(4.0f * ());
-
-		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
-
-		robot->setTargetDir(Math::Rad(0), 0, omega);
 	}
 }
 
