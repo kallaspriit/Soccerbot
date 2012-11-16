@@ -150,6 +150,14 @@ void Vision::processBalls(Dir dir) {
 		distance = getDistance(dir, blob->centerX, blob->y2);
         angle = getAngle(dir, blob->centerX, blob->y2);
 
+		if (dir == Dir::DIR_REAR) {
+			if (angle > 0.0f) {
+				angle -= Math::PI;
+			} else {
+				angle += Math::PI;
+			}
+		}
+
 		if (blob->x1 < 0) blob->x1 = 0;
 		if (blob->x2 > width - 1) blob->x2 = width - 1;
 		if (blob->y1 < 0) blob->y1 = 0;
