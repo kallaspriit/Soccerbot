@@ -364,6 +364,8 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		//std::cout << "! Robot omega during kick: " << robot->getMovement().omega << std::endl;
 
+		std::cout << "! Search goal: " << bot->getTargetSide() << ", found with type: " << goal->type << std::endl;
+
 		robot->getCoilgun().kick();
 	} else {
 		//robot->spinAroundDribbler(4.0f * ());
