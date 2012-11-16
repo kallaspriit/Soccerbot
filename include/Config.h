@@ -53,7 +53,7 @@ const int viewObstructedY = 100;
 const int viewObstructedWidth = cameraWidth - viewObstructedX * 2;
 const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 const float viewObstructedThreshold = 0.5f;
-const float fakeObjectLifetime = 0.5f;
+const float fakeObjectLifetime = 1.0f;
 const int wheelStalledThreshold = 60;
 
 const double kickBackoffTime = 1.0;
@@ -68,7 +68,7 @@ const float validBallSurroundThreshold = 0.5f;
 const float validBallPathThreshold = 0.65f;			//< which percentage of pixels need to be valid on ball path
 const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels need to be valid on goal path
 const float blobberPickerStdDevMultiplier = 1.5f;
-const int undersideMetricBaseSteps = 12;
+const int undersideMetricBaseSteps = 20;
 
 const float ballFocusP = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
