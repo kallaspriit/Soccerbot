@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrame(NULL), classification(NULL) {
+Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL) {
     blobber = new Blobber();
 
     blobber->initialize(width, height);
@@ -108,15 +108,23 @@ Vision::~Vision() {
         blobber = NULL;
     }
 
-    if (classification != NULL) {
-        delete classification;
+    if (classificationFront != NULL) {
+        delete classificationFront;
+    }
+
+	if (classificationRear != NULL) {
+        delete classificationRear;
     }
 }
 
-void Vision::setFrame(unsigned char* frame) {
+void Vision::setFrame(unsigned char* frame, Dir dir) {
     blobber->processFrame((Blobber::Pixel*)frame);
 
-    lastFrame = frame;
+	if (dir == Dir::DIR_FRONT) {
+		lastFrameFront = frame;
+	} else {
+		lastFrameRear = frame;
+	}
 }
 
 void Vision::process(Dir dir) {
@@ -777,6 +785,10 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 		crossingGreenWhiteBlackGreen = true;
 	}
 
+	if (senseCounter < 6) {
+		return PathMetric(1.0f, 0, true, false);
+	}
+
 	float percentage = (float)matches / (float)senseCounter;
 	bool validColorFound = requiredColor == "" || requiredColorFound;
 
@@ -1023,7 +1035,10 @@ bool Vision::isViewObstructed() {
 	}
 }
 
-ImageBuffer* Vision::classify() {
+ImageBuffer* Vision::classify(Dir dir) {
+	unsigned char* lastFrame = getLastFrame(dir);
+	unsigned char* classification = getClassification(dir);
+
     if (lastFrame == NULL) {
         return NULL;
     }

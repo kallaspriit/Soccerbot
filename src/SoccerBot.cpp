@@ -446,12 +446,12 @@ int SoccerBot::updateCameras(double dt) {
 
 		if (image != NULL) {
 			//s = Util::millitime();
-			vision->setFrame(image->dataYUYV);
+			vision->setFrame(image->dataYUYV, Vision::Dir::DIR_FRONT);
 			//printf("@ Blobber: %.4f\n", Util::duration(s));
 
 			if (gui != NULL || lastFrameRequested) {
 				//s = Util::millitime();
-				classification = vision->classify();
+				classification = vision->classify(Vision::Dir::DIR_FRONT);
 				//printf("@ Classification: %.4f\n", Util::duration(s));
 			}
 
@@ -500,10 +500,10 @@ int SoccerBot::updateCameras(double dt) {
 		//gui->setFrontCamera(rgbBuffer);
 
 		if (image != NULL) {
-			vision->setFrame(image->dataYUYV);
+			vision->setFrame(image->dataYUYV, Vision::Dir::DIR_REAR);
 
 			if (gui != NULL) {
-				classification = vision->classify();
+				classification = vision->classify(Vision::Dir::DIR_REAR);
 			}
 
 			vision->process(Vision::DIR_REAR);
@@ -1042,8 +1042,8 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
 }
 
 void SoccerBot::sendFrame() {
-	// @TODO Fetch frame based on cameraChoice
-	unsigned char* frame = vision->getLastFrame();
+	Vision::Dir dir = cameraChoice == 1 ? Vision::Dir::DIR_FRONT : Vision::Dir::DIR_REAR;
+	unsigned char* frame = vision->getLastFrame(dir);
 
     if (frame == NULL) {
         std::cout << "- Unable to send frame, none captured" << std::endl;
@@ -1070,7 +1070,7 @@ void SoccerBot::sendFrame() {
 	jpegBufferSize = 1024 * 1000;
 
 	if (classification == NULL) {
-		classification = vision->classify();
+		classification = vision->classify(dir);
 	}
 
 	vision->setImage(classification->data);

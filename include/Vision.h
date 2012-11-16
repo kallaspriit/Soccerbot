@@ -25,13 +25,14 @@ class Vision/* : public Blobber::MapFilter*/ {
         Vision(int width, int height);
         ~Vision();
 
-        void setFrame(unsigned char* frame);
+        void setFrame(unsigned char* frame, Dir dir);
         void process(Dir dir);
 		void setImage(unsigned char* image, int width = Config::cameraWidth, int height = Config::cameraHeight);
         //void filterMap(unsigned int* map);
         unsigned int* getColorMap() { return blobber->getMap(); }
-        ImageBuffer* classify();
-        unsigned char* getLastFrame() { return lastFrame; }
+        ImageBuffer* classify(Dir dir);
+		unsigned char* getLastFrame(Dir dir) { return dir == Dir::DIR_FRONT ? lastFrameFront : lastFrameRear; }
+		unsigned char* getClassification(Dir dir) { return dir == Dir::DIR_FRONT ? classificationFront : classificationRear; }
         Blobber* getBlobber() { return blobber; }
 
         Blobber::Color* getColorAt(int x, int y);
@@ -76,8 +77,10 @@ class Vision/* : public Blobber::MapFilter*/ {
 		Object lastFurthestGoal;
         int width;
         int height;
-        unsigned char* lastFrame;
-        unsigned char* classification;
+        unsigned char* lastFrameFront;
+        unsigned char* lastFrameRear;
+        unsigned char* classificationFront;
+        unsigned char* classificationRear;
 
         void processBalls(Dir dir);
         void processGoals(Dir dir);
