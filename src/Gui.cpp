@@ -25,10 +25,6 @@ Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
 	particlesWindow(NULL),
 	bot(bot)
 {
-	img.width = width;
-	img.height = height;
-	img.swapRB = true;
-
 	WNDCLASSEX wClass;
 	ZeroMemory(&wClass, sizeof(WNDCLASSEX));
 	wClass.cbClsExtra = NULL;
@@ -55,6 +51,8 @@ Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
 		);
 	}
 
+	ZeroMemory(&msg, sizeof(MSG));
+
 	frontCameraClassification = createWindow(width, height, "Front Camera Classification");
     rearCameraClassification = createWindow(width, height, "Rear Camera Classification");
 	frontCameraRGB = createWindow(width, height, "Front Camera RGB");
@@ -64,8 +62,6 @@ Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
 	particlesImg.width = 450;
 	particlesImg.height = 300;
 	particlesImg.data = new unsigned char[particlesImg.width * particlesImg.height * 3];
-
-	ZeroMemory(&msg, sizeof(MSG));
 }
 
 Gui::~Gui() {
@@ -118,7 +114,7 @@ void Gui::debugParticles(const ParticleFilterLocalizer& localizer) {
 	Particle* particle;
 	int screenX, screenY;
 
-	memset(particlesImg.data, 0, particlesImg.width * particlesImg.height * 3);
+	memset(particlesImg.data, 128, particlesImg.width * particlesImg.height * 3);
 
 	for (ParticleList::const_iterator it = particles.begin(); it != particles.end(); it++) {
 		particle = *it;

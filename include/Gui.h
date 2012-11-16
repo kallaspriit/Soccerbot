@@ -32,7 +32,6 @@ class Gui {
         int height;
 		HINSTANCE instance;
 		MSG msg;
-		ImageBuffer img;
         DisplayWindow* frontCameraClassification;
         DisplayWindow* rearCameraClassification;
 		DisplayWindow* frontCameraRGB;
