@@ -1224,7 +1224,7 @@ std::string SoccerBot::getStateJSON() const {
 
 	stream << "],";
 
-	/*stream << "\"measurements\": [";
+	/*stream << "\"measurements\": {";
 
 	const Measurements measurements = robot->getMeasurements();
 
@@ -1240,7 +1240,7 @@ std::string SoccerBot::getStateJSON() const {
 		stream << "\"" + it->first + "\": \"" + Util::toString(it->second) + "\"";
 	}
 
-	stream << "],";*/
+	stream << "},";*/
 
 	if (activeController != NULL) {
 		stream << "\"controllerName\": \"" + activeControllerName + "\",";
