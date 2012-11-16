@@ -97,8 +97,6 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     std::cout << "Distance  75: " << d5 << " / 3.25" << std::endl;
     std::cout << "Distance 125: " << d6 << " / 2.50" << std::endl;
     std::cout << "Distance 200: " << d7 << " / 2.00" << std::endl;*/
-
-	lastFurthestGoalTime = 0.0;
 }
 
 Vision::~Vision() {
@@ -1075,7 +1073,20 @@ Object* Vision::getClosestBall() {
 		}
 	}
 
-	return closestBall;
+	if (closestBall != NULL) {
+		lastClosestBall.copyFrom(closestBall);
+
+		return closestBall;
+	} else if (
+		lastClosestBall.width > 0
+		&& Util::duration(lastClosestBall.lastSeenTime) < Config::fakeObjectLifetime
+	) {
+		std::cout << "@ RETURNING FAKE CLOSEST BALL " << Util::duration(lastClosestBall.lastSeenTime) << std::endl;
+
+		return &lastClosestBall;
+	} else {
+		return NULL;
+	}
 }
 
 Object* Vision::getLargestGoal(Side side) {
@@ -1112,7 +1123,20 @@ Object* Vision::getLargestGoal(Side side) {
 		}
 	}
 
-	return largestGoal;
+	if (largestGoal != NULL) {
+		lastLargestGoal.copyFrom(largestGoal);
+
+		return largestGoal;
+	} else if (
+		lastLargestGoal.width > 0
+		&& Util::duration(lastLargestGoal.lastSeenTime) < Config::fakeObjectLifetime
+	) {
+		std::cout << "@ RETURNING FAKE LARGEST GOAL " << Util::duration(lastLargestGoal.lastSeenTime) << std::endl;
+
+		return &lastLargestGoal;
+	} else {
+		return NULL;
+	}
 }
 
 Object* Vision::getFurthestGoal() {
