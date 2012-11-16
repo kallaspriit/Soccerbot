@@ -389,7 +389,7 @@ void SimpleAI::stepEscapeObstruction(double dt) {
 
 void SimpleAI::enterRelocate() {
 	robot->clearTasks();
-	robot->turnBy(Math::PI, Math::PI);
+	robot->turnBy(Math::degToRad(60.0f), Math::PI);
 }
 
 void SimpleAI::stepRelocate(double dt) {

@@ -68,7 +68,7 @@ const float validBallSurroundThreshold = 0.5f;
 const float validBallPathThreshold = 0.65f;			//< which percentage of pixels need to be valid on ball path
 const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels need to be valid on goal path
 const float blobberPickerStdDevMultiplier = 1.5f;
-const int undersideMetricBaseSteps = 10;
+const int undersideMetricBaseSteps = 12;
 
 const float ballFocusP = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
@@ -90,7 +90,7 @@ const int dribblerSpeed = 100;						//< normal dribbler operating speed
 const float spinAroundDribblerPeriod = 2.0f;		//< in how many seconds to spin around the dribbler
 const float spinAroundDribblerRadius = 0.15f;		//< radius at which to spin around the dribbler
 const float spinAroundDribblerForwardSpeed = 0.5f;	//< radius at which to spin around the dribbler
-const float goalMinUndersideMetric = 0.55f;			//< minimum amount of valid pixels under goal
+const float goalMinUndersideMetric = 0.50f;			//< minimum amount of valid pixels under goal
 const int goalMinArea = 64;
 const int goalTopMaxY = 10;
 const int validGoalMinMatches = 10;
