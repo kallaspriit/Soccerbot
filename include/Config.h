@@ -53,7 +53,7 @@ const int viewObstructedY = 100;
 const int viewObstructedWidth = cameraWidth - viewObstructedX * 2;
 const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 const float viewObstructedThreshold = 0.5f;
-
+const float fakeObjectLifetime = 1.0f;
 const int wheelStalledThreshold = 60;
 
 const double kickBackoffTime = 1.0;

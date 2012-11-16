@@ -97,6 +97,8 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     std::cout << "Distance  75: " << d5 << " / 3.25" << std::endl;
     std::cout << "Distance 125: " << d6 << " / 2.50" << std::endl;
     std::cout << "Distance 200: " << d7 << " / 2.00" << std::endl;*/
+
+	lastFurthestGoalTime = 0.0;
 }
 
 Vision::~Vision() {
@@ -1139,5 +1141,18 @@ Object* Vision::getFurthestGoal() {
 		}
 	}
 
-	return furthestGoal;
+	if (furthestGoal != NULL) {
+		lastFurthestGoal.copyFrom(furthestGoal);
+
+		return furthestGoal;
+	} else if (
+		lastFurthestGoal.width > 0
+		&& Util::duration(lastFurthestGoal.lastSeenTime) < Config::fakeObjectLifetime
+	) {
+		std::cout << "@ RETURNING FAKE FURTHEST GOAL " << Util::duration(lastFurthestGoal.lastSeenTime) << std::endl;
+
+		return &lastFurthestGoal;
+	} else {
+		return NULL;
+	}
 }

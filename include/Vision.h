@@ -71,6 +71,8 @@ class Vision/* : public Blobber::MapFilter*/ {
         std::vector<std::string> validBallPathColors;
         std::vector<std::string> validGoalPathColors;
         std::vector<std::string> viewObstructedValidColors;
+		Object lastFurthestGoal;
+		double lastFurthestGoalTime;
         int width;
         int height;
         unsigned char* lastFrame;

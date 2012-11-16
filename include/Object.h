@@ -5,7 +5,8 @@
 
 class Object {
     public:
-        Object(int x, int y, int width, int height, int area, float distance, float angle, int type = -1) : x(x), y(y), width(width), height(height), area(area), distance(distance), angle(angle), type(type) {}
+		Object(int x = 0, int y = 0, int width = 0, int height = 0, int area = 0, float distance = 0.0f, float angle = 0.0f, int type = -1);
+		void copyFrom(Object* other);
 
         int x;
         int y;
@@ -15,6 +16,7 @@ class Object {
         float distance;
         float angle;
         int type;
+		double lastSeenTime;
 };
 
 typedef std::vector<Object*> ObjectList;
