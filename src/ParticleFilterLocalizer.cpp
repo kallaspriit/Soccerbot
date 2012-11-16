@@ -39,6 +39,10 @@ void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
 }
 
 void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt, bool exact) {
+	velocityX = 0.05f;
+	velocityY = 0.0f;
+	omega = 0.0f;
+
 	if (exact) {
 		for (unsigned int i = 0; i < particles.size(); i++) {
 			particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt, Math::TWO_PI);
