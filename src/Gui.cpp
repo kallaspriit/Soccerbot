@@ -8,6 +8,7 @@
 #include "SoccerBot.h"
 #include "Camera.h"
 #include "DebugRenderer.h"
+#include "ParticleFilterLocalizer.h"
 
 #include <iostream>
 
@@ -21,6 +22,7 @@ Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
     rearCameraClassification(NULL),
 	frontCameraRGB(NULL),
     rearCameraRGB(NULL),
+	particlesWindow(NULL),
 	bot(bot)
 {
 	img.width = width;
@@ -57,12 +59,21 @@ Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
     rearCameraClassification = createWindow(width, height, "Rear Camera Classification");
 	frontCameraRGB = createWindow(width, height, "Front Camera RGB");
     rearCameraRGB = createWindow(width, height, "Rear Camera RGB");
+    particlesWindow = createWindow(450, 300, "Particles");
+
+	particlesImg.width = 450;
+	particlesImg.height = 300;
+	particlesImg.data = new unsigned char[particlesImg.width * particlesImg.height * 3];
 
 	ZeroMemory(&msg, sizeof(MSG));
-
 }
 
 Gui::~Gui() {
+	if (particlesWindow != NULL) {
+		delete particlesWindow;
+		particlesWindow = NULL;
+	}
+
 	if (frontCameraClassification != NULL) {
 		delete frontCameraClassification;
 		frontCameraClassification = NULL;
@@ -100,6 +111,23 @@ void Gui::setRearCamera(unsigned char* rgb, unsigned char* classification, const
 
 	rearCameraRGB->setImage(rgb, false);
     rearCameraClassification->setImage(classification);
+}
+
+void Gui::debugParticles(const ParticleFilterLocalizer& localizer) {
+	ParticleList particles = localizer.getParticles();
+	Particle* particle;
+	float screenX, screenY;
+
+	for (ParticleList::const_iterator it = particles.begin(); it != particles.end(); it++) {
+		particle = *it;
+
+		screenX = particle->x * 100;
+		screenY = particle->y * 100;
+
+		particlesImg.setPixelAt(screenX, screenY);
+	}
+
+	particlesWindow->setImage(particlesImg.data);
 }
 
 bool Gui::update() {

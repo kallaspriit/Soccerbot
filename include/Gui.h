@@ -11,6 +11,7 @@
 class Command;
 class Vision;
 class SoccerBot;
+class ParticleFilterLocalizer;
 
 class Gui {
     public:
@@ -19,6 +20,7 @@ class Gui {
 
         void setFrontCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision);
         void setRearCamera(unsigned char* rgb, unsigned char* classification, const Vision& vision);
+		void debugParticles(const ParticleFilterLocalizer& localizer);
         bool update();
         bool handleCommand(const Command& cmd);
 		void onMouseClick(int x, int y);
@@ -35,6 +37,8 @@ class Gui {
         DisplayWindow* rearCameraClassification;
 		DisplayWindow* frontCameraRGB;
         DisplayWindow* rearCameraRGB;
+        DisplayWindow* particlesWindow;
+		ImageBuffer particlesImg;
 		SoccerBot* bot;
 };
 

@@ -367,6 +367,8 @@ void SoccerBot::run() {
 		//std::cout << "! Updating cameras took " << Util::duration(s) << " seconds" << std::endl;
 
         if (gui != NULL) {
+			gui->debugParticles(robot->getRobotLocalizer());
+
             gui->update();
         }
 

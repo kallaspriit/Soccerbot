@@ -42,6 +42,7 @@ class ParticleFilterLocalizer {
         void update(const Measurements& measurements);
         void resample(float probabilities[], int count);
         Math::Position getPosition();
+		const ParticleList& getParticles() const { return particles; }
 
     private:
         const int particleCount;
