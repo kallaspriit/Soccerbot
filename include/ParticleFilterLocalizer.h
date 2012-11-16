@@ -46,9 +46,9 @@ class ParticleFilterLocalizer {
 
     private:
         const int particleCount;
-        int forwardNoise;
-        int turnNoise;
-        int senseNoise;
+        float forwardNoise;
+        float turnNoise;
+        float senseNoise;
         LandmarkMap landmarks;
         ParticleList particles;
 };
