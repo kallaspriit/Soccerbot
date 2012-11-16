@@ -46,12 +46,10 @@ void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega
 			particles[i]->y += (velocityX * Math::sin(particles[i]->orientation) + velocityY * Math::cos(particles[i]->orientation)) * dt;
 		}
 	} else {
-		float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
-		float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
-
-		std::cout << "@ NOISY VELOCITY FROM " << velocityX << ", " << velocityY << " TO " << velocityX << ", " << velocityY << std::endl;
-
 		for (unsigned int i = 0; i < particles.size(); i++) {
+			float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
+			float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
+
 			particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt, Math::TWO_PI);
 			particles[i]->x += (noisyVelocityX * Math::cos(particles[i]->orientation) - noisyVelocityY * Math::sin(particles[i]->orientation)) * dt;
 			particles[i]->y += (noisyVelocityX * Math::sin(particles[i]->orientation) + noisyVelocityY * Math::cos(particles[i]->orientation)) * dt;
