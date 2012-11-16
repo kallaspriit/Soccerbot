@@ -267,8 +267,9 @@ void SimpleAI::stepFetchBall(double dt) {
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
 	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * Config::brakeDistanceMultiplier, Config::ballCloseThreshold);
+	float distance = ball->distance - Config::robotRadius;
 
-	if (ball->distance > brakeDistance) {
+	if (distance > brakeDistance) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
 		speed = Config::ballChaseNearSpeed;
@@ -286,7 +287,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 	speed = speed * (1.0f - speedDecrease);
 
-	if (ball->distance <= Config::dribblerOnThreshold) {
+	if (distance <= Config::dribblerOnThreshold) {
 		robot->getDribbler().start();
 	} else {
 		robot->getDribbler().stop();

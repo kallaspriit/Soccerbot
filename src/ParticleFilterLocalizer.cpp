@@ -112,7 +112,13 @@ void ParticleFilterLocalizer::update(const Measurements& measurements) {
     }
 
     for (unsigned int i = 0; i < particles.size(); i++) {
-        probabilities[i] /= maxProbability;
+		if (maxProbability != 0) {
+			probabilities[i] /= maxProbability;
+		} else {
+			std::cout << "@ MAX PROBABILITY ZERO" << std::endl;
+
+			probabilities[i] =  1;
+		}
 
         particles[i]->probability = probabilities[i];
     }
@@ -159,6 +165,12 @@ Math::Position ParticleFilterLocalizer::getPosition() {
     float orientationSum = 0.0f;
     unsigned int particleCount = particles.size();
     Particle* particle;
+
+	if (particleCount == 0) {
+		std::cout << "@ NO PARTICLES FOR POSITION" << std::endl;
+
+		return Math::Position();
+	}
 
     for (unsigned int i = 0; i < particleCount; i++) {
         particle = particles[i];
