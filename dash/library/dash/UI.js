@@ -946,18 +946,18 @@ Dash.UI.prototype.showStateStats = function(state) {
 		$('#status').addClass('stop');
 	}
 	
-	if (state.controllerName == "simple-ai") {
-		this.showSimpleAiState(state.controllerState);
-	}
+	this.showControllerState(state.controllerState);
 };
 
-Dash.UI.prototype.showSimpleAiState = function(state) {
+Dash.UI.prototype.showControllerState = function(state) {
 	var wrap = $('#controller-state');
 	
 	wrap.html('');
 	
-	for (var key in state) {
-		wrap.append('<li><strong>' + key + '</strong>: ' + state[key] + '</li>');
+	if (state != null && typeof(state) == 'object') {
+		for (var key in state) {
+			wrap.append('<li><strong>' + key + '</strong>: ' + state[key] + '</li>');
+		}
 	}
 };
 

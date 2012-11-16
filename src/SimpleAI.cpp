@@ -312,7 +312,8 @@ void SimpleAI::stepFindGoal(double dt) {
 
 	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
-	if (stateDuration > 5.0f) {
+	if (stateDuration > 6.0f) {
+		robot->getCoilgun().kick();
 		setState(State::RELOCATE);
 
 		return;
@@ -349,7 +350,7 @@ void SimpleAI::stepFindGoal(double dt) {
 	) {
 		float currentOmega = robot->getMovement().omega;
 
-		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold) {
+		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks()) {
 			robot->stopRotation();
 
 			return;
