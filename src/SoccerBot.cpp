@@ -264,7 +264,7 @@ void SoccerBot::setupCameras() {
 		//frontCamera = NULL;
 	}
 
-	/*if (rearCamera->open(Config::rearCameraSerial)) {
+	if (rearCamera->open(Config::rearCameraSerial)) {
         configureCamera(rearCamera);
 		showCameraInfo(rearCamera, "! Rear camera");
 
@@ -277,7 +277,7 @@ void SoccerBot::setupCameras() {
 		//delete rearCamera;
 
 		//rearCamera = NULL;
-	}*/
+	}
 
 	std::cout << "! Cameras ready" << std::endl;
 }
