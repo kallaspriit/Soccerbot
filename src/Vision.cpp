@@ -1133,8 +1133,6 @@ Object* Vision::getLargestGoal(Side side) {
 		lastLargestGoal.width > 0
 		&& Util::duration(lastLargestGoal.lastSeenTime) < Config::fakeObjectLifetime
 	) {
-		std::cout << "@ RETURNING FAKE LARGEST GOAL " << Util::duration(lastLargestGoal.lastSeenTime) << std::endl;
-
 		return &lastLargestGoal;
 	} else {
 		return NULL;
@@ -1175,8 +1173,6 @@ Object* Vision::getFurthestGoal() {
 		lastFurthestGoal.width > 0
 		&& Util::duration(lastFurthestGoal.lastSeenTime) < Config::fakeObjectLifetime
 	) {
-		std::cout << "@ RETURNING FAKE FURTHEST GOAL " << Util::duration(lastFurthestGoal.lastSeenTime) << std::endl;
-
 		return &lastFurthestGoal;
 	} else {
 		return NULL;
