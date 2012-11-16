@@ -57,10 +57,10 @@ Gui::Gui(HINSTANCE instance, int width, int height, SoccerBot* bot) :
     rearCameraClassification = createWindow(width, height, "Rear Camera Classification");
 	frontCameraRGB = createWindow(width, height, "Front Camera RGB");
     rearCameraRGB = createWindow(width, height, "Rear Camera RGB");
-    particlesWindow = createWindow(450, 300, "Particles");
+    particlesWindow = createWindow(512, 320, "Particles");
 
-	particlesImg.width = 450;
-	particlesImg.height = 300;
+	particlesImg.width = 512;
+	particlesImg.height = 320;
 	particlesImg.data = new unsigned char[particlesImg.width * particlesImg.height * 3];
 }
 
