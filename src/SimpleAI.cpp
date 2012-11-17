@@ -420,6 +420,7 @@ void SimpleAI::stepFindGoal(double dt) {
 void SimpleAI::enterEscapeObstruction() {
 	robot->clearTasks();
 	robot->turnBy(Math::degToRad(60.0f), Math::PI);
+	searchDir = 1.0f;
 }
 
 void SimpleAI::stepEscapeObstruction(double dt) {
