@@ -11,26 +11,30 @@ void TurnByTask::onStart(Robot& robot, double dt) {
 	dir = turnAngle < 0.0f ? -1.0f : 1.0f;
 	startTime = Util::millitime();
 	maxTurnTime = (turnAngle / speed) * 2.0;
-
-	std::cout << "@ TURNBY " << Math::radToDeg(turnAngle) << "; START: " << Math::radToDeg(startAngle) << "; THRESHOLD: " << Math::radToDeg(threshold) << "; MAX TIME: " << maxTurnTime << std::endl;
 }
 
 bool TurnByTask::onStep(Robot& robot, double dt) {
     currentAngle = robot.getOrientation();
 
-	//float diff;
-
-	std::cout << "  > TURN";
+	diff = Math::abs(targetAngle - startAngle);
 
 	if (dir == 1.0f) {
-		std::cout << "; DIR: 1";
-
 		if (targetAngle > startAngle) {
 			if (currentAngle >= targetAngle) {
 				return false;
 			}
 		} else {
 			if (currentAngle >= targetAngle && currentAngle - targetAngle < Math::PI) {
+				return false;
+			}
+		}
+	} else {
+		if (targetAngle < startAngle) {
+			if (currentAngle <= targetAngle) {
+				return false;
+			}
+		} else {
+			if (currentAngle <= targetAngle && targetAngle - currentAngle < Math::PI) {
 				return false;
 			}
 		}
