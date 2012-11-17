@@ -365,7 +365,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		}
 
 		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
-			robot->spinAroundDribbler(Config::spinAroundDribblerPeriod * 1.5f * goalTurnDirection, Config::spinAroundDribblerRadius, Config::spinAroundDribblerForwardSpeed / 2.0f);
+			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
 			robot->setTargetDir(0, 0, Config::ballRotateOmega * goalTurnDirection);
 		}
@@ -400,7 +400,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			}
 		}*/
 	} else {
-		goalTurnDirection = goal->angle > 0 ? -1.0f : 1.0f;
+		goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
 
 		std::cout << "! SWITCHED DIR BEHIND: " << goalTurnDirection << std::endl;
 	}

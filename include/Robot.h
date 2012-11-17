@@ -61,7 +61,7 @@ class Robot {
         void setTargetOmega(float omega);
         void stop();
         void setPosition(float x, float y, float orientation);
-		void spinAroundDribbler(float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed);
+		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed);
 
         void addTask(Task* task) { tasks.push_back(task); }
         Task* getCurrentTask();

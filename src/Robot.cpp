@@ -240,11 +240,16 @@ void Robot::setTargetOmega(float omega) {
     lastCommandTime = Util::millitime();
 }
 
-void Robot::spinAroundDribbler(float period, float radius, float forwardSpeed) {
+void Robot::spinAroundDribbler(bool reverse, float period, float radius, float forwardSpeed) {
 	float speed = (2 * Math::PI * radius) / period;
 	float omega = (2 * Math::PI) / period;
 
-	setTargetDir(forwardSpeed, speed, -omega);
+	if (reverse) {
+		speed *= -1.0f;
+		omega *= -1.0f;
+	}
+
+	setTargetDir(forwardSpeed, -speed, omega);
 }
 
 bool Robot::isStalled() {
