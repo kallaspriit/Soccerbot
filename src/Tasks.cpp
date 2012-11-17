@@ -16,7 +16,7 @@ void TurnByTask::onStart(Robot& robot, double dt) {
 bool TurnByTask::onStep(Robot& robot, double dt) {
     currentAngle = robot.getOrientation();
 
-	diff = Math::abs(targetAngle - startAngle);
+	diff = Math::abs(currentAngle - targetAngle);
 
 	if (dir == 1.0f) {
 		if (targetAngle > startAngle) {
@@ -24,7 +24,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 				return false;
 			}
 		} else {
-			if (currentAngle >= targetAngle && currentAngle - targetAngle < Math::PI) {
+			if (currentAngle >= targetAngle && Math::abs(currentAngle - targetAngle) < Math::PI) {
 				return false;
 			}
 		}
@@ -34,7 +34,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 				return false;
 			}
 		} else {
-			if (currentAngle <= targetAngle && targetAngle - currentAngle < Math::PI) {
+			if (currentAngle <= targetAngle && Math::abs(currentAngle - targetAngle) < Math::PI) {
 				return false;
 			}
 		}
