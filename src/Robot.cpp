@@ -164,7 +164,6 @@ void Robot::step(double dt) {
     totalTime += dt;
 
 	updateMovement();
-	updateMeasurements();
 
 	// odometer only
 	orientation = Math::floatModulus(orientation + movement.omega * dt, Math::TWO_PI);
@@ -180,10 +179,12 @@ void Robot::step(double dt) {
     y += globalVelocityY * dt;
 
 	// using localization
-	robotLocalizer->update(measurements);
-	robotLocalizer->move(movement.velocityX, movement.velocityY, movement.omega, dt/*, measurements.size() == 0 ? true : false*/);
+	/*updateMeasurements();
 
-	/*Math::Position position = robotLocalizer->getPosition();
+	robotLocalizer->update(measurements);
+	robotLocalizer->move(movement.velocityX, movement.velocityY, movement.omega, dt/, measurements.size() == 0 ? true : false/);
+
+	Math::Position position = robotLocalizer->getPosition();
 
 	x = position.x;
 	y = position.y;
