@@ -120,11 +120,11 @@ void SimpleAI::step(double dt) {
 
 	if (!bot->isGo()) {
 		setState(State::PRESTART);
-	} else if (vision->isViewObstructed()) {
+	}/* else if (vision->isViewObstructed()) {
 		setState(State::ESCAPE_OBSTRUCTION);
 
 		viewObstructed = true;
-	} else if (robot->isStalled()) {
+	}*/ else if (robot->isStalled()) {
 		setState(State::ESCAPE_OBSTRUCTION);
 
 		stalled = true;
@@ -283,7 +283,7 @@ void SimpleAI::stepFetchBall(double dt) {
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
 	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * Config::brakeDistanceMultiplier, Config::ballCloseThreshold);
-	float distance = ball->distance - Config::robotRadius;
+	float distance = ball->distance + Config::robotRadius;
 
 	if (ball->behind) {
 		speed = 0.0f;
@@ -424,7 +424,8 @@ void SimpleAI::stepFindGoal(double dt) {
 
 void SimpleAI::enterEscapeObstruction() {
 	robot->clearTasks();
-	robot->turnBy(Math::degToRad(60.0f), Math::PI);
+	//robot->turnBy(Math::degToRad(60.0f), Math::PI);
+	robot->turnBy(Math::PI, Math::PI);
 	searchDir = 1.0f;
 }
 
