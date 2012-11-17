@@ -313,6 +313,10 @@ void SimpleAI::enterFindGoal() {
 }
 
 void SimpleAI::stepFindGoal(double dt) {
+	if (robot->hasTasks()) {
+		return;
+	}
+
 	if (!robot->getDribbler().gotBall()) {
 		setState(State::FIND_BALL);
 
