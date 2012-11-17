@@ -18,7 +18,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 
 	diff = Math::abs(currentAngle - targetAngle);
 
-	if (dir == 1.0f) {
+	/*if (dir == 1.0f) {
 		if (targetAngle > startAngle) {
 			if (currentAngle >= targetAngle) {
 				return false;
@@ -38,6 +38,13 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 				return false;
 			}
 		}
+	}*/
+
+	if (
+		(dir == 1.0f && currentAngle >= targetAngle && Math::abs(currentAngle - targetAngle) < Math::PI)
+		|| (dir == -1.0f && currentAngle <= targetAngle && Math::abs(currentAngle - targetAngle) < Math::PI)
+	) {
+		return false;
 	}
 
 	/*if (targetDiff > 0) {
