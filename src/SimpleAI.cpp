@@ -492,7 +492,7 @@ void SimpleAI::stepRelocate(double dt) {
 		return;
 	}*/
 
-	if (goal->distance < 1.0f) {
+	if (goal->distance < 1.5f) {
 		robot->turnBy(Math::degToRad(165.0f), Math::PI);
 
 		return;
