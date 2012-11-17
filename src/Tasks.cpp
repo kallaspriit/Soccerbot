@@ -10,26 +10,40 @@ void TurnByTask::onStart(Robot& robot, double dt) {
 	targetAngle = Math::floatModulus(startAngle + turnAngle, Math::TWO_PI);
 	dir = targetAngle > startAngle ? 1 : -1;
 	startTime = Util::millitime();
-	maxTurnTime = turnAngle / speed * 2.0;
+	maxTurnTime = (turnAngle / speed) * 2.0;
+
+	std::cout << "@ TURNBY " << Math::radToDeg(turnAngle) << "; START: " << Math::radToDeg(startAngle) << "; TARGET: " << Math::radToDeg(targetAngle) << "; TARGET: " << Math::radToDeg(targetAngle) << "; THRESHOLD: " << Math::radToDeg(threshold) << "; MAX TIME: " << maxTurnTime << std::endl;
 }
 
 bool TurnByTask::onStep(Robot& robot, double dt) {
     currentAngle = robot.getOrientation();
 
+	std::cout << "  > STEP CURRENT: " << Math::radToDeg(currentAngle);
+
 	if (dir == 1) {
 		diff = targetAngle - currentAngle;
+
+		std::cout << "; SIMPLE DIFF: " << Math::radToDeg(diff);
 	} else {
 		diff = targetAngle - currentAngle;
 
-		if (currentAngle > startAngle && currentAngle < Math::TWO_PI) {
+		std::cout << "; CROSSING DIFF: " << Math::radToDeg(diff);
+
+		if (currentAngle < Math::TWO_PI) {
 			diff += Math::TWO_PI;
+
+			std::cout << "; SMALLER THAN 360, ADD 360: " << Math::radToDeg(diff);
 		}
 	}
 
+	std::cout << "; DIFF: " << Math::radToDeg(diff) << " VS " << Math::radToDeg(threshold);
+
     if (
 		diff < threshold
-		|| Util::duration(startTime) > maxTurnTime
+		//|| Util::duration(startTime) > maxTurnTime
 	) {
+		std::cout << "; GOOD ENOUGH";
+
         return false;
     }
 
@@ -37,7 +51,11 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 
 	if (diff < threshold * 4.0) {
 		useSpeed = speed / 2.0f;
+
+		std::cout << "; CUT SPEED: " << useSpeed;
 	}
+
+	std::cout << std::endl;
 
     robot.setTargetDir(Math::Rad(0), 0, useSpeed);
 
