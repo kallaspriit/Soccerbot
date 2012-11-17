@@ -177,7 +177,7 @@ void Vision::processBalls(Dir dir) {
 			0,
 			dir == Dir::DIR_FRONT ? false : true
         );
-
+		
         if (isValidBall(ball)) {
             balls->push_back(ball);
         }
