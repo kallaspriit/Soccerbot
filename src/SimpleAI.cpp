@@ -360,6 +360,8 @@ void SimpleAI::stepFindGoal(double dt) {
 			float angle = Math::getAngleBetween(goalPos, robotPos, robotPos.orientation);
 		
 			goalTurnDirection = angle >= 0 ? 1 : -1;
+
+			std::cout << "! SWITCHED DIR LOCALIZATION: " << goalTurnDirection << std::endl;
 		}
 
 		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
@@ -398,7 +400,9 @@ void SimpleAI::stepFindGoal(double dt) {
 			}
 		}*/
 	} else {
-		goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
+		goalTurnDirection = goal->angle > 0 ? -1.0f : 1.0f;
+
+		std::cout << "! SWITCHED DIR BEHIND: " << goalTurnDirection << std::endl;
 	}
 
 	if (
