@@ -231,7 +231,7 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	robot->setTargetDir(0, 0, Config::ballSearchOmega * searchDir);
+	robot->setTargetDir(Math::Deg(0), 0, Config::ballSearchOmega * searchDir);
 
 	return;
 }
@@ -382,7 +382,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
-			robot->setTargetDir(0, 0, Config::ballRotateOmega * goalTurnDirection);
+			robot->setTargetDir(Math::Deg(0), 0, Config::ballRotateOmega * goalTurnDirection);
 		}
 
 		return;
@@ -479,7 +479,7 @@ void SimpleAI::stepRelocate(double dt) {
 	Object* goal = vision->getFurthestGoal(true);
 
 	if (goal == NULL) {
-		robot->setTargetDir(0, 0, Math::PI / 2.0f);
+		robot->setTargetDir(Math::Rad(0), 0, Math::PI / 2.0f);
 
 		return;
 	}
