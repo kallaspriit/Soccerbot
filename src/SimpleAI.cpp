@@ -395,6 +395,8 @@ void SimpleAI::stepFindGoal(double dt) {
 				shouldKick = true;
 			}
 		}*/
+	} else {
+		goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
 	}
 
 	if (
