@@ -237,7 +237,13 @@ void SimpleAI::stepFindBall(double dt) {
 }
 
 void SimpleAI::enterFetchBall() {
-	robot->stopRotation();
+	const Object* ball = vision->getClosestBall();
+
+	if (ball != NULL && !ball->behind) {
+		robot->clearTasks();
+		robot->stopRotation();
+	}
+
 	nearSpeedReached = false;
 	lastVelocityX = robot->getMovement().velocityX;
 }
@@ -267,11 +273,11 @@ void SimpleAI::stepFetchBall(double dt) {
 		return;
 	}
 
-	if (ball->behind) {
+	/*if (ball->behind) {
 		robot->turnBy(ball->angle, Math::PI);
 
 		return;
-	}
+	}*/
 
 	float omega = Math::limit(ball->angle * Config::ballFocusP, Config::focusMaxOmega);
 	float speed;
