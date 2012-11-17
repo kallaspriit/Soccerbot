@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL) {
+Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL), viewObstructed(false) {
     blobber = new Blobber();
 
     blobber->initialize(width, height);
@@ -133,6 +133,10 @@ void Vision::setFrame(unsigned char* frame, Dir dir) {
 void Vision::process(Dir dir) {
     processBalls(dir);
 	processGoals(dir);
+
+	if (dir == Dir::DIR_FRONT) {
+		updateViewObstructed();
+	}
 }
 
 void Vision::processBalls(Dir dir) {
@@ -1081,7 +1085,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	return (float)matches / (float)points;
 }
 
-bool Vision::isViewObstructed() {
+void Vision::updateViewObstructed() {
 	float validColorsPercentage = getBlockMetric(
 		Config::viewObstructedX,
 		Config::viewObstructedY,
@@ -1092,9 +1096,9 @@ bool Vision::isViewObstructed() {
 	);
 
 	if (validColorsPercentage < Config::viewObstructedThreshold) {
-		return true;
+		viewObstructed = true;
 	} else {
-		return false;
+		viewObstructed = false;
 	}
 }
 
