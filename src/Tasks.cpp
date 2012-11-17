@@ -11,6 +11,7 @@ void TurnByTask::onStart(Robot& robot, double dt) {
 	dir = turnAngle < 0.0f ? -1.0f : 1.0f;
 	startTime = -1;
 	maxTurnTime = (turnAngle / speed) * 1.5;
+	currentAngle = robot.getOrientation();
 	diff = Math::abs(currentAngle - targetAngle);
 }
 
