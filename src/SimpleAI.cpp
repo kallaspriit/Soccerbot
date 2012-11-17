@@ -438,7 +438,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		if (goal->behind && lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
-			robot->setTargetDir(0, speed, omega);
+			robot->setTargetDir(Math::Rad(0), speed, omega);
 		}
 	}
 }
