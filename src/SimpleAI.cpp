@@ -283,7 +283,7 @@ void SimpleAI::stepFetchBall(double dt) {
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
 	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * Config::brakeDistanceMultiplier, Config::ballCloseThreshold);
-	float distance = ball->distance + Config::robotRadius;
+	float distance = ball->distance - Config::robotRadius;
 
 	if (ball->behind) {
 		speed = 0.0f;
