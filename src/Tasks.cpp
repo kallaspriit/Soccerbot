@@ -11,7 +11,7 @@ void TurnByTask::onStart(Robot& robot, double dt) {
 	dir = turnAngle < 0.0f ? -1.0f : 1.0f;
 	startTime = -1;
 	maxTurnTime = (turnAngle / speed) * 1.5;
-	diff = 0;
+	diff = Math::abs(currentAngle - targetAngle);
 }
 
 bool TurnByTask::onStep(Robot& robot, double dt) {
