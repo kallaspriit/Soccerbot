@@ -286,26 +286,30 @@ void SimpleAI::stepFetchBall(double dt) {
 	float distance = ball->distance + Config::chaseDistanceCorrection;
 
 	if (ball->behind) {
-		speed = 0.0f;
+		//robot->turnBy(ball->angle, Math::PI);
 
-		robot->turnBy(ball->angle, Math::PI);
+		robot->setTargetDir(Math::Rad(0), 0, omega);
 
-		return;
-	} else if (distance > brakeDistance) {
-		speed = Config::ballChaseFarSpeed;
+		if (omega < 0.0f) {
+			searchDir = -1.0f;
+		} else {
+			searchDir = 1.0f;
+		}
 	} else {
-		speed = Config::ballChaseNearSpeed;
+		if (distance > brakeDistance) {
+			speed = Config::ballChaseFarSpeed;
+		} else {
+			speed = Config::ballChaseNearSpeed;
 
-		if (!nearSpeedReached) {
-			if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
-				speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
-			} else {
-				nearSpeedReached = true;
+			if (!nearSpeedReached) {
+				if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+					speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
+				} else {
+					nearSpeedReached = true;
+				}
 			}
 		}
-	}
 
-	if (!ball->behind) {
 		float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 
 		speed = speed * (1.0f - speedDecrease);
@@ -315,15 +319,9 @@ void SimpleAI::stepFetchBall(double dt) {
 		} else {
 			robot->getDribbler().stop();
 		}
-	}
 
-	if (omega < 0.0f) {
-		searchDir = -1.0f;
-	} else {
-		searchDir = 1.0f;
+		robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
-	
-	robot->setTargetDir(Math::Rad(0), speed, omega);
 
 	lastVelocityX = currentVelocityX;
 }
