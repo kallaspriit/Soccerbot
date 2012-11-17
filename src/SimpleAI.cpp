@@ -418,14 +418,10 @@ void SimpleAI::stepFindGoal(double dt) {
 		goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
 	}
 
-	if (
-		shouldKick
-	) {
+	if (shouldKick) {
 		float currentOmega = robot->getMovement().omega;
 
-		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks()) {
-			std::cout << "@ KICK REQUSTED, BUT STOPPING ROTATION FIRST" << std::endl;
-
+		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks())  {
 			robot->stopRotation();
 
 			return;
@@ -439,7 +435,13 @@ void SimpleAI::stepFindGoal(double dt) {
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
 
-		robot->setTargetDir(Math::Rad(0), speed, omega);
+		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
+			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
+		} else {
+			robot->setTargetDir(0, speed, omega);
+		}
+
+		//robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
 }
 
@@ -491,7 +493,7 @@ void SimpleAI::stepRelocate(double dt) {
 	}*/
 
 	if (goal->distance < 1.0f) {
-		robot->turnBy(Math::PI, Math::PI);
+		robot->turnBy(Math::degToRad(165.0f), Math::PI);
 
 		return;
 	} else {
