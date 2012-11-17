@@ -23,7 +23,11 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 
 	float newDiff = Math::abs(currentAngle - targetAngle);
 
-	if (newDiff < threshold || newDiff > diff) {
+	if (
+		newDiff < threshold
+		|| newDiff > diff
+		|| Util::duration(startTime) > maxTurnTime
+	) {
 		return false;
 	}
 
