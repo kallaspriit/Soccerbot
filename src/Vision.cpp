@@ -205,6 +205,14 @@ void Vision::processGoals(Dir dir) {
 			distance = getDistance(dir, blob->centerX, blob->y2);
             angle = getAngle(dir, blob->centerX, blob->y2);
 
+			if (dir == Dir::DIR_REAR) {
+				if (angle > 0.0f) {
+					angle -= Math::PI;
+				} else {
+					angle += Math::PI;
+				}
+			}
+
 			if (blob->x1 < 0) blob->x1 = 0;
 			if (blob->x2 > width - 1) blob->x2 = width - 1;
 			if (blob->y1 < 0) blob->y1 = 0;
@@ -1096,7 +1104,7 @@ Object* Vision::getClosestBall() {
 		
 		if (closestBall == NULL || ball->distance < closestDistance) {
 			closestBall = ball;
-			closestDistance = ball->distance;
+			closestDistance = ball->behind ? ball->distance * 1.25f : ball->distance;
 		}
 	}
 
@@ -1107,7 +1115,7 @@ Object* Vision::getClosestBall() {
 		
 		if (closestBall == NULL || ball->distance < closestDistance) {
 			closestBall = ball;
-			closestDistance = ball->distance;
+			closestDistance = ball->behind ? ball->distance * 1.25f : ball->distance;
 		}
 	}
 
@@ -1129,7 +1137,7 @@ Object* Vision::getClosestBall() {
 	}*/
 }
 
-Object* Vision::getLargestGoal(Side side) {
+Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 	const ObjectList& frontGoals = getFrontGoals();
 	float largestArea = 0.0f;
 	Object* goal;
@@ -1138,10 +1146,13 @@ Object* Vision::getLargestGoal(Side side) {
 	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
 		goal = *it;
 
-		if (side != Side::UNKNOWN && goal->type != (int)side) {
+		if (
+			(side != Side::UNKNOWN && goal->type != (int)side)
+			|| (frontOnly && goal->behind)
+		) {
 			continue;
 		}
-		
+
 		if (largestGoal == NULL || goal->area < largestArea) {
 			largestGoal = goal;
 			largestArea = goal->area;
@@ -1153,7 +1164,10 @@ Object* Vision::getLargestGoal(Side side) {
 	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
 		goal = *it;
 
-		if (side != Side::UNKNOWN && goal->type != (int)side) {
+		if (
+			(side != Side::UNKNOWN && goal->type != (int)side)
+			|| (frontOnly && goal->behind)
+		) {
 			continue;
 		}
 		

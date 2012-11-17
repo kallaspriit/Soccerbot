@@ -48,7 +48,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         const ObjectList& getRearGoals() const { return rearGoals; }
 
 		Object* getClosestBall();
-		Object* getLargestGoal(Side side);
+		Object* getLargestGoal(Side side, bool frontOnly = false);
 		Object* getFurthestGoal();
 
         float getDistance(Dir dir, int x, int y);
