@@ -8,16 +8,45 @@
 void TurnByTask::onStart(Robot& robot, double dt) {
     startAngle = robot.getOrientation();
 	targetAngle = Math::floatModulus(startAngle + turnAngle, Math::TWO_PI);
-	targetDiff = targetAngle - startAngle;
+	dir = turnAngle < 0.0f ? -1.0f : 1.0f;
 	startTime = Util::millitime();
 	maxTurnTime = (turnAngle / speed) * 2.0;
 
-	std::cout << "@ TURNBY " << Math::radToDeg(turnAngle) << "; START: " << Math::radToDeg(startAngle) << "; TARGET: " << Math::radToDeg(targetAngle) << "; TARGET DIFF: " << Math::radToDeg(targetDiff) << "; THRESHOLD: " << Math::radToDeg(threshold) << "; MAX TIME: " << maxTurnTime << std::endl;
+	std::cout << "@ TURNBY " << Math::radToDeg(turnAngle) << "; START: " << Math::radToDeg(startAngle) << "; THRESHOLD: " << Math::radToDeg(threshold) << "; MAX TIME: " << maxTurnTime << std::endl;
 }
 
 bool TurnByTask::onStep(Robot& robot, double dt) {
     currentAngle = robot.getOrientation();
 
+	//float diff;
+
+	std::cout << "  > TURN";
+
+	if (dir == 1.0f) {
+		std::cout << "; DIR: 1";
+
+		if (targetAngle > startAngle) {
+			if (currentAngle >= targetAngle) {
+				return false;
+			}
+		} else {
+			if (currentAngle >= targetAngle && currentAngle - targetAngle < Math::PI) {
+				return false;
+			}
+		}
+	}
+
+	/*if (targetDiff > 0) {
+		if (currentAngle > targetAngle) {
+			return false;
+		}
+	} else {
+		if (currentAngle > targetAngle) {
+			return false;
+		}
+	}*/
+
+	/*
 	std::cout << "  > CURRENT: " << Math::radToDeg(currentAngle) << "; TARGET: " << Math::radToDeg(targetAngle);
 
 	if (targetDiff > 0) {
@@ -36,8 +65,6 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 		std::cout << "; DIFF 2: " << Math::radToDeg(diff);
 	}
 
-	std::cout << "; DIFF: " << Math::radToDeg(diff) << " VS " << Math::radToDeg(threshold);
-
     if (
 		diff < threshold
 		//|| Util::duration(startTime) > maxTurnTime
@@ -46,14 +73,14 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 
         return false;
     }
+	*/
+	float useSpeed = speed * dir;
 
-	float useSpeed = speed;
-
-	if (diff < threshold * 4.0) {
-		useSpeed = speed / 2.0f;
+	/*if (Math::abs(diff) < threshold * 4.0) {
+		useSpeed /= 2.0f;
 
 		std::cout << "; CUT SPEED: " << useSpeed;
-	}
+	}*/
 
 	std::cout << std::endl;
 
