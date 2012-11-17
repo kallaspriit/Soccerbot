@@ -287,6 +287,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 	if (ball->behind) {
 		speed = 0.0f;
+		omega *= -1.0f;
 	} else if (distance > brakeDistance) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
