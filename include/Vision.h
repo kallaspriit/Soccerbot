@@ -49,7 +49,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 
 		Object* getClosestBall();
 		Object* getLargestGoal(Side side, bool frontOnly = false);
-		Object* getFurthestGoal();
+		Object* getFurthestGoal(bool frontOnly = false);
 
         float getDistance(Dir dir, int x, int y);
 		float getHorizontalDistance(Dir dir, int x, int y);
