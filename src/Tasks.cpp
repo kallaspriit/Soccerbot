@@ -44,10 +44,22 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 		}
 	}*/
 
+	float angleDiff;
+
+	if (dir == 1.0f) {
+		angleDiff = targetAngle - currentAngle;
+	} else {
+		angleDiff = currentAngle - targetAngle;
+	}
+
+	if (angleDiff < 0.0f) {
+		angleDiff += Math::TWO_PI;
+	}
+
 	if (
-		(dir == 1.0f && currentAngle >= targetAngle && Math::abs(currentAngle - targetAngle) < turnAngle)
-		|| (dir == -1.0f && currentAngle <= targetAngle && Math::abs(currentAngle - targetAngle) < turnAngle)
-		|| Util::duration(startTime) > maxTurnTime
+		(dir == 1.0f && currentAngle >= targetAngle && angleDiff < turnAngle)
+		|| (dir == -1.0f && currentAngle <= targetAngle && angleDiff < turnAngle)
+		//|| Util::duration(startTime) > maxTurnTime
 	) {
 		return false;
 	}
