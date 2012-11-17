@@ -435,13 +435,11 @@ void SimpleAI::stepFindGoal(double dt) {
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
 
-		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
+		if (goal->behind && lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
 			robot->setTargetDir(0, speed, omega);
 		}
-
-		//robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
 }
 
