@@ -203,7 +203,7 @@ void SimpleAI::stepPrestart(double dt) {
 }
 
 void SimpleAI::enterFindBall() {
-	searchDir = 1.0f;
+	
 }
 
 void SimpleAI::stepFindBall(double dt) {
@@ -231,7 +231,7 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	robot->setTargetDir(0, 0, Config::ballFocusP * 0.5f * searchDir);
+	robot->setTargetDir(0, 0, Config::ballSearchOmega * searchDir);
 
 	return;
 }
@@ -307,6 +307,12 @@ void SimpleAI::stepFetchBall(double dt) {
 		robot->getDribbler().start();
 	} else {
 		robot->getDribbler().stop();
+	}
+
+	if (omega < 0.0f) {
+		searchDir = -1.0f;
+	} else {
+		searchDir = 1.0f;
 	}
 	
 	robot->setTargetDir(Math::Rad(0), speed, omega);

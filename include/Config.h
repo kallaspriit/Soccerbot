@@ -75,6 +75,7 @@ const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angl
 const float ballFocusD = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 
 const float goalFocusP = ballFocusP;				//< how fast to yaw to focus on a goal (angle multiplier)
+const float ballSearchOmega = 3.14f;				//< how fast to spin to search for ball
 const float ballRotateOmega = 1.5f;					//< how fast to rotate while searching for goal
 //const float ballChaseK = 1.0f;					//< distance multiplier to chase speed
 const float focusMaxOmega = 6.28f;					//< maximum omega to apply while focusing on an object
