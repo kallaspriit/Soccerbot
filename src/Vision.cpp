@@ -173,7 +173,9 @@ void Vision::processBalls(Dir dir) {
             height,
             blob->area,
             distance,
-            angle
+            angle,
+			0,
+			dir == Dir::DIR_FRONT ? false : true
         );
 
         if (isValidBall(ball)) {
@@ -219,7 +221,8 @@ void Vision::processGoals(Dir dir) {
 				blob->area,
 				distance,
 				angle,
-				i == 0 ? Side::YELLOW : Side::BLUE
+				i == 0 ? Side::YELLOW : Side::BLUE,
+				dir == Dir::DIR_FRONT ? false : true
 			);
 
             if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {

@@ -263,6 +263,12 @@ void SimpleAI::stepFetchBall(double dt) {
 		return;
 	}
 
+	if (ball->behind) {
+		robot->turnBy(ball->angle, Math::PI);
+
+		return;
+	}
+
 	float omega = Math::limit(ball->angle * Config::ballFocusP, Config::focusMaxOmega);
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
