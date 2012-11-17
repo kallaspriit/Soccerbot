@@ -286,15 +286,17 @@ void SimpleAI::stepFetchBall(double dt) {
 	float distance = ball->distance + Config::chaseDistanceCorrection;
 
 	if (ball->behind) {
-		//robot->turnBy(ball->angle, Math::PI);
+		robot->turnBy(ball->angle, Math::PI);
 
-		robot->setTargetDir(Math::Rad(0), 0, omega);
+		return;
+
+		/*robot->setTargetDir(Math::Rad(0), 0, omega);
 
 		if (omega < 0.0f) {
 			searchDir = -1.0f;
 		} else {
 			searchDir = 1.0f;
-		}
+		}*/
 	} else {
 		if (distance > brakeDistance) {
 			speed = Config::ballChaseFarSpeed;
