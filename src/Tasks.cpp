@@ -26,7 +26,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 
 	if (
 		newDiff < threshold
-		|| newDiff > diff
+		|| newDiff - diff > threshold
 		|| Util::duration(startTime) > maxTurnTime
 	) {
 		return false;
