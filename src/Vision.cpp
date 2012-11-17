@@ -744,7 +744,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 
 					break;
 				}
-			} else if (!sawWhite && sawGreen && strcmp(color->name, "white") == 0) {
+			} else if (!sawWhite /*&& sawGreen*/ && strcmp(color->name, "white") == 0) {
 				sawWhite = true;
 
 				if (debug) {
