@@ -46,6 +46,9 @@ Vision::Vision(int width, int height) : blobber(NULL), width(width), height(heig
     //validGoalPathColors.push_back("yellow-goal");
     //validGoalPathColors.push_back("blue-goal");
 
+	goalColors.push_back("yellow-goal");
+    goalColors.push_back("blue-goal");
+
     //blobber->enable(BLOBBER_DUAL_THRESHOLD);
     //blobber->setMapFilter(this);
 
@@ -256,7 +259,7 @@ bool Vision::isValidBall(Object* ball) {
         senseRadius,
         validBallBgColors,
 		"green",
-		true
+		1
     );
 
     //std::cout << "Surround: " << surroundMetric << std::endl;
@@ -289,7 +292,31 @@ bool Vision::isValidBall(Object* ball) {
 		}
 	}
 
+	if (isBallInGoal(ball)) {
+		return false;
+	}
+
     return true;
+}
+
+bool Vision::isBallInGoal(Object* ball) {
+	int ballRadius = Math::max(ball->width, ball->height) / 2;
+    int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
+
+	float surroundMetric = getSurroundMetric(
+        ball->x,
+        ball->y + ballRadius,
+        senseRadius,
+        goalColors,
+		"",
+		-1
+    );
+
+	if (surroundMetric > Config::ballInGoalThreshold) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 int Vision::getBallMaxInvalidSpree(int y) {
@@ -344,6 +371,7 @@ bool Vision::isValidGoal(Object* goal, int side) {
 
 		//std::cout << "! Goal underside: " << undersideMetric << std::endl;
 	//}
+
 
 	/*if (
 		pathMetric.percentage < Config::validGoalPathThreshold
@@ -446,7 +474,7 @@ Blobber::Color* Vision::getColorAt(int x, int y) {
     return blobber->getColorAt(x, y);
 }
 
-float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor, bool undersideOnly) {
+float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor, int side) {
     if (y > Config::maxSurroundSenseY) {
 		return 1.0f;
 	}
@@ -460,8 +488,10 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
 	int start = 0;
 	int sensePoints = points;
 	
-	if (undersideOnly) {
+	if (side == 1) {
 		start = points / 2;
+		sensePoints = points / 2 + 1;
+	} else if (side == -1) {
 		sensePoints = points / 2 + 1;
 	}
 

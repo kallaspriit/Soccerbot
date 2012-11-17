@@ -36,7 +36,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         Blobber* getBlobber() { return blobber; }
 
         Blobber::Color* getColorAt(int x, int y);
-        float getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor = "", bool undersideOnly = false);
+        float getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor = "", int side = 0);
         PathMetric getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
 		float getBlockMetric(int x, int y, int width, int height, std::vector<std::string> validColors, int step = 6);
 		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::vector<std::string> validColors);
@@ -72,6 +72,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         std::vector<std::string> validBallPathColors;
         std::vector<std::string> validGoalPathColors;
         std::vector<std::string> viewObstructedValidColors;
+        std::vector<std::string> goalColors;
 		Object lastClosestBall;
 		Object lastLargestGoal;
 		Object lastFurthestGoal;
@@ -87,6 +88,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 
         bool isValidBall(Object* ball);
         bool isValidGoal(Object* goal, int side);
+		bool isBallInGoal(Object* ball);
 };
 
 #endif // VISION_H

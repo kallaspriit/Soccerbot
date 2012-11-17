@@ -53,6 +53,7 @@ const int viewObstructedY = 100;
 const int viewObstructedWidth = cameraWidth - viewObstructedX * 2;
 const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 const float viewObstructedThreshold = 0.5f;
+const float ballInGoalThreshold = 0.5f;
 const float fakeObjectLifetime = 1.0f;
 const float fakeBallLifetime = 0.1f;
 const int wheelStalledThreshold = 60;
