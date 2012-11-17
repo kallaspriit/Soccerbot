@@ -286,7 +286,16 @@ void SimpleAI::stepFetchBall(double dt) {
 	float distance = ball->distance + Config::chaseDistanceCorrection;
 
 	if (ball->behind) {
-		robot->turnBy(ball->angle * 0.75f, Math::PI);
+		float turnAngle = ball->angle;
+		float underturnAngle = Math::degToRad(15.0f);
+
+		if (turnAngle < 0.0f) {
+			turnAngle += underturnAngle;
+		} else {
+			turnAngle -= underturnAngle;
+		}
+
+		robot->turnBy(turnAngle, Math::PI);
 
 		return;
 
