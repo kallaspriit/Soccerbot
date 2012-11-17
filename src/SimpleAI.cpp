@@ -287,7 +287,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 	if (ball->behind) {
 		float turnAngle = ball->angle;
-		float underturnAngle = Math::degToRad(15.0f);
+		float underturnAngle = Math::degToRad(10.0f);
 
 		if (turnAngle < 0.0f) {
 			turnAngle += underturnAngle;
@@ -296,6 +296,12 @@ void SimpleAI::stepFetchBall(double dt) {
 		}
 
 		robot->turnBy(turnAngle, Math::PI);
+
+		if (turnAngle < 0.0f) {
+			searchDir = -1.0f;
+		} else {
+			searchDir = 1.0f;
+		}
 
 		return;
 
