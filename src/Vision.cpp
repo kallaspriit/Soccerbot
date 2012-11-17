@@ -1048,13 +1048,13 @@ bool Vision::isViewObstructed() {
 
 unsigned char* Vision::getClassification(Dir dir) {
 	if (dir == Dir::DIR_FRONT) {
-		if (classificationFront = NULL) {
+		if (classificationFront == NULL) {
 			classificationFront = new unsigned char[width * height * 3];
 		}
 
 		return classificationFront;
 	} else {
-		if (classificationRear = NULL) {
+		if (classificationRear == NULL) {
 			classificationRear = new unsigned char[width * height * 3];
 		}
 
