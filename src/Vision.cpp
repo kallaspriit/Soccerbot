@@ -254,23 +254,25 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
         return false;
     }
 
-    int ballRadius = Math::max(ball->width, ball->height) / 2;
-    int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
+	int ballRadius = Math::max(ball->width, ball->height) / 2;
+	int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
 
-    float surroundMetric = getSurroundMetric(
-        ball->x,
-        ball->y + ballRadius,
-        senseRadius,
-        validBallBgColors,
-		"green",
-		1
-    );
+	if (ball->y + ballRadius < Config::maxSurroundSenseY) {
+		float surroundMetric = getSurroundMetric(
+			ball->x,
+			ball->y + ballRadius,
+			senseRadius,
+			validBallBgColors,
+			"green",
+			1
+		);
 
-    //std::cout << "Surround: " << surroundMetric << std::endl;
+		//std::cout << "Surround: " << surroundMetric << std::endl;
 
-    if (surroundMetric < Config::validBallSurroundThreshold) {
-        return false;
-    }
+		if (surroundMetric < Config::validBallSurroundThreshold) {
+			return false;
+		}
+	}
 
 	if (ball->y < Config::cameraPathStartY) {
 		PathMetric pathMetric = getPathMetric(
@@ -313,7 +315,8 @@ bool Vision::isBallInGoal(Object* ball, Dir dir) {
         senseRadius,
         goalColors,
 		"",
-		-1
+		-1,
+		true
     );
 
 	if (surroundMetric > Config::ballInGoalThreshold) {
@@ -492,11 +495,7 @@ Blobber::Color* Vision::getColorAt(int x, int y) {
     return blobber->getColorAt(x, y);
 }
 
-float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor, int side) {
-    if (y > Config::maxSurroundSenseY) {
-		return 1.0f;
-	}
-	
+float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor, int side, bool allowNone) {
 	int matches = 0;
 	int misses = 0;
     int points = radius * 2;
@@ -545,11 +544,17 @@ float Vision::getSurroundMetric(int x, int y, float radius, std::vector<std::str
                 requiredColorFound = true;
             }
         } else {
-			misses++;
+			if (!allowNone) {
+				misses++;
 
-            if (debug) {
-                img.drawMarker(senseX, senseY, 200, 0, 0);
-            }
+				if (debug) {
+					img.drawMarker(senseX, senseY, 200, 0, 0);
+				}
+			} else {
+				if (debug) {
+					img.drawMarker(senseX, senseY, 128, 128, 128);
+				}
+			}
         }
     }
 
