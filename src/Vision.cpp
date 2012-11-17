@@ -1127,7 +1127,7 @@ Object* Vision::getClosestBall() {
 		return closestBall;
 	} else if (
 		lastClosestBall.width > 0
-		&& Util::duration(lastClosestBall.lastSeenTime) < Config::fakeObjectLifetime
+		&& Util::duration(lastClosestBall.lastSeenTime) < Config::fakeBallLifetime
 	) {
 		std::cout << "@ RETURNING FAKE CLOSEST BALL " << Util::duration(lastClosestBall.lastSeenTime) << std::endl;
 

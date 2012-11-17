@@ -371,22 +371,24 @@ void SimpleAI::stepFindGoal(double dt) {
 	int goalKickThresholdPixels = goal->width * Config::goalKickThreshold;
 	bool shouldKick = false;
 
-	if (goal->width >= Config::wideGoalThreshold) {
-		if (
-			leftEdge + goalKickThresholdPixels < halfWidth
-			&& rightEdge - goalKickThresholdPixels > halfWidth
-		) {
-			std::cout << "@ SHOOTING WIDE GOAL";
+	if (!goal->behind) {
+		if (goal->width >= Config::wideGoalThreshold) {
+			if (
+				leftEdge + goalKickThresholdPixels < halfWidth
+				&& rightEdge - goalKickThresholdPixels > halfWidth
+			) {
+				std::cout << "@ SHOOTING WIDE GOAL";
 
-			shouldKick = true;
-		}
-	} else {
-		float absGoalAngleDeg = Math::radToDeg(Math::abs(goal->angle));
+				shouldKick = true;
+			}
+		} else {
+			float absGoalAngleDeg = Math::radToDeg(Math::abs(goal->angle));
 
-		if (absGoalAngleDeg < 4.0f / goal->distance) {
-			std::cout << "@ SHOOTING NARROW GOAL AT ANGLE: " << absGoalAngleDeg << std::endl;
+			if (absGoalAngleDeg < 4.0f / goal->distance) {
+				std::cout << "@ SHOOTING NARROW GOAL AT ANGLE: " << absGoalAngleDeg << std::endl;
 
-			shouldKick = true;
+				shouldKick = true;
+			}
 		}
 	}
 
