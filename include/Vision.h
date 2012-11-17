@@ -32,7 +32,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         unsigned int* getColorMap() { return blobber->getMap(); }
         ImageBuffer* classify(Dir dir);
 		unsigned char* getLastFrame(Dir dir) { return dir == Dir::DIR_FRONT ? lastFrameFront : lastFrameRear; }
-		unsigned char* getClassification(Dir dir) { return dir == Dir::DIR_FRONT ? classificationFront : classificationRear; }
+		unsigned char* getClassification(Dir dir);
         Blobber* getBlobber() { return blobber; }
 
         Blobber::Color* getColorAt(int x, int y);

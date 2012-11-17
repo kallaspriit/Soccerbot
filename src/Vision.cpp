@@ -1046,16 +1046,28 @@ bool Vision::isViewObstructed() {
 	}
 }
 
+unsigned char* Vision::getClassification(Dir dir) {
+	if (dir == Dir::DIR_FRONT) {
+		if (classificationFront = NULL) {
+			classificationFront = new unsigned char[width * height * 3];
+		}
+
+		return classificationFront;
+	} else {
+		if (classificationRear = NULL) {
+			classificationRear = new unsigned char[width * height * 3];
+		}
+
+		return classificationRear;
+	}
+}
+
 ImageBuffer* Vision::classify(Dir dir) {
 	unsigned char* lastFrame = getLastFrame(dir);
 	unsigned char* classification = getClassification(dir);
 
     if (lastFrame == NULL) {
         return NULL;
-    }
-
-    if (classification == NULL) {
-        classification = new unsigned char[width * height * 3];
     }
 
     blobber->classify((Blobber::Rgb*)classification, (Blobber::Pixel*)lastFrame);
