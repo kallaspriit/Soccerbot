@@ -286,7 +286,7 @@ void SimpleAI::stepFetchBall(double dt) {
 	float distance = ball->distance + Config::chaseDistanceCorrection;
 
 	if (ball->behind) {
-		robot->turnBy(ball->angle, Math::PI);
+		robot->turnBy(ball->angle * 0.75f, Math::PI);
 
 		return;
 
@@ -362,8 +362,6 @@ void SimpleAI::stepFindGoal(double dt) {
 			float angle = Math::getAngleBetween(goalPos, robotPos, robotPos.orientation);
 		
 			goalTurnDirection = angle >= 0 ? 1 : -1;
-
-			std::cout << "! SWITCHED DIR LOCALIZATION: " << goalTurnDirection << std::endl;
 		}
 
 		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
@@ -403,8 +401,6 @@ void SimpleAI::stepFindGoal(double dt) {
 		}*/
 	} else {
 		goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
-
-		std::cout << "! SWITCHED DIR BEHIND: " << goalTurnDirection << std::endl;
 	}
 
 	if (
@@ -424,9 +420,9 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		setState(State::FIND_BALL);
 	} else {
-		float omega = Math::limit(goal->angle * Config::ballFocusP, Config::focusMaxOmega);
+		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
-		float speed = Config::ballChaseNearSpeed * (1.0f - speedDecrease);
+		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
 
 		robot->setTargetDir(Math::Rad(0), speed, omega);
 	}

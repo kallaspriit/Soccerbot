@@ -77,14 +77,15 @@ const float ballFocusD = 0.0f;						//< how fast to yaw to focus on a ball (angl
 
 const float goalFocusP = ballFocusP;				//< how fast to yaw to focus on a goal (angle multiplier)
 const float ballSearchOmega = 1.58f;				//< how fast to spin to search for ball
-const float ballRotateOmega = 1.5f;					//< how fast to rotate while searching for goal
+const float ballRotateOmega = 2.0f;					//< how fast to rotate while searching for goal
 //const float ballChaseK = 1.0f;					//< distance multiplier to chase speed
 const float focusMaxOmega = ballSearchOmega;		//< maximum omega to apply while focusing on an object
 //const float ballChaseMaxSpeed = 0.75f;			//< maximum speed to chase a ball at
-const float ballCloseThreshold = 0.25f;				//< balls closer than this are considered to be close
+const float ballCloseThreshold = 0.3f;				//< balls closer than this are considered to be close
 const float dribblerOnThreshold = 0.3f;				//< distance at which to turn on the dribbler
 const float ballChaseFarSpeed = 1.7f;				//< how fast to chase far-away balls
 const float ballChaseNearSpeed = 0.45f;				//< how fast to chase near balls
+const float goalAimSpeed = 0.25f;					//< how fast to move forward while aiming
 //const float ballSlowDownAngleThreshold = 20.0f;	//< if the ball angle is larger than this then drive slower
 //const float ballCircleSideSpeed = 0.5f;			//< how fast to turn to the side while circling ball
 //const float ballCircleOmega = 2.0f;				//< how fast to yaw while circling ball
