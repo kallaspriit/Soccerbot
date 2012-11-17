@@ -9,11 +9,15 @@ void TurnByTask::onStart(Robot& robot, double dt) {
     startAngle = robot.getOrientation();
 	targetAngle = Math::floatModulus(startAngle + turnAngle, Math::TWO_PI);
 	dir = turnAngle < 0.0f ? -1.0f : 1.0f;
-	startTime = Util::millitime();
+	startTime = -1;
 	maxTurnTime = (turnAngle / speed) * 1.5;
 }
 
 bool TurnByTask::onStep(Robot& robot, double dt) {
+	if (startTime == -1) {
+		startTime = Util::millitime();
+	}
+
     currentAngle = robot.getOrientation();
 
 	diff = Math::abs(currentAngle - targetAngle);
@@ -41,9 +45,8 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 	}*/
 
 	if (
-		diff < threshold
-		|| (dir == 1.0f && currentAngle >= targetAngle && Math::abs(currentAngle - targetAngle) < Math::PI)
-		|| (dir == -1.0f && currentAngle <= targetAngle && Math::abs(currentAngle - targetAngle) < Math::PI)
+		(dir == 1.0f && currentAngle >= targetAngle && Math::abs(currentAngle - targetAngle) < turnAngle)
+		|| (dir == -1.0f && currentAngle <= targetAngle && Math::abs(currentAngle - targetAngle) < turnAngle)
 		|| Util::duration(startTime) > maxTurnTime
 	) {
 		return false;
