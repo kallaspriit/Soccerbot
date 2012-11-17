@@ -283,12 +283,11 @@ void SimpleAI::stepFetchBall(double dt) {
 	float speed;
 	float currentVelocityX = robot->getMovement().velocityX;
 	float brakeDistance = Math::max(Config::ballCloseThreshold * currentVelocityX * Config::brakeDistanceMultiplier, Config::ballCloseThreshold);
-	float distance = ball->distance - Config::robotRadius;
+	float distance = ball->distance + Config::chaseDistanceCorrection;
 
 	if (ball->behind) {
 		speed = 0.0f;
-	}
-	else if (distance > brakeDistance) {
+	} else if (distance > brakeDistance) {
 		speed = Config::ballChaseFarSpeed;
 	} else {
 		speed = Config::ballChaseNearSpeed;
@@ -388,7 +387,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			}
 		} else {*/
 			float absGoalAngleDeg = Math::radToDeg(Math::abs(goal->angle));
-			float targetAngle = Math::max(2.0f / goal->distance, 1.0f);
+			float targetAngle = Math::max(4.0f / goal->distance, 1.0f);
 
 			if (absGoalAngleDeg < targetAngle) {
 				std::cout << "@ SHOOTING NARROW GOAL AT ANGLE: " << absGoalAngleDeg << std::endl;
