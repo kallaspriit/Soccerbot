@@ -1,0 +1,1 @@
+C:/soccerbot/util/devcon.exe restart "USB\VID_20F7&PID_3001&REV_0000"
