@@ -213,6 +213,10 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
+	if (robot->hasTasks()) {
+		return;
+	}
+
 	const Object* ball = vision->getClosestBall();
 
 	if (ball != NULL) {
@@ -319,7 +323,7 @@ void SimpleAI::stepFindGoal(double dt) {
 
 	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
-	if (stateDuration > 8.0f) {
+	if (stateDuration > 20.0f) { // @TODO Too big
 		robot->getCoilgun().kick();
 		setState(State::RELOCATE);
 
