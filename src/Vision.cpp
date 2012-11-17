@@ -315,6 +315,18 @@ bool Vision::isBallInGoal(Object* ball) {
 	if (surroundMetric > Config::ballInGoalThreshold) {
 		return true;
 	} else {
+		for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
+			if (ball->intersects(*it)) {
+				return true;
+			}
+		}
+
+		for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+			if (ball->intersects(*it)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

@@ -16,3 +16,17 @@ void Object::copyFrom(Object* other) {
 	type = other->type;
 	lastSeenTime = other->lastSeenTime;
 }
+
+bool Object::intersects(Object* other) {
+	int ax1 = x - width / 2;
+	int ax2 = x + width / 2;
+	int ay1 = y - height / 2;
+	int ay2 = y + height / 2;
+
+	int bx1 = other->x - other->width / 2;
+	int bx2 = other->x + other->width / 2;
+	int by1 = other->y - other->height / 2;
+	int by2 = other->y + other->height / 2;
+
+	return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 >by1;
+}
