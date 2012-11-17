@@ -181,7 +181,7 @@ void Vision::processBalls(Dir dir) {
 			dir == Dir::DIR_FRONT ? false : true
         );
 		
-        if (isValidBall(ball)) {
+        if (isValidBall(ball, dir)) {
             balls->push_back(ball);
         }
 
@@ -245,7 +245,7 @@ void Vision::processGoals(Dir dir) {
     }
 }
 
-bool Vision::isValidBall(Object* ball) {
+bool Vision::isValidBall(Object* ball, Dir dir) {
     if (ball->area < Config::ballMinArea) {
         return false;
     }
@@ -292,14 +292,14 @@ bool Vision::isValidBall(Object* ball) {
 		}
 	}
 
-	if (isBallInGoal(ball)) {
+	if (isBallInGoal(ball, dir)) {
 		return false;
 	}
 
     return true;
 }
 
-bool Vision::isBallInGoal(Object* ball) {
+bool Vision::isBallInGoal(Object* ball, Dir dir) {
 	int ballRadius = Math::max(ball->width, ball->height) / 2;
     int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
 
@@ -315,15 +315,17 @@ bool Vision::isBallInGoal(Object* ball) {
 	if (surroundMetric > Config::ballInGoalThreshold) {
 		return true;
 	} else {
-		for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
-			if (ball->intersects(*it)) {
-				return true;
+		if (dir == Dir::DIR_FRONT) {
+			for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
+				if (ball->intersects(*it)) {
+					return true;
+				}
 			}
-		}
-
-		for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
-			if (ball->intersects(*it)) {
-				return true;
+		} else if (dir == Dir::DIR_REAR) {
+			for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+				if (ball->intersects(*it)) {
+					return true;
+				}
 			}
 		}
 
@@ -339,7 +341,7 @@ int Vision::getGoalMaxInvalidSpree(int y) {
 	return y / 20.0f;
 }
 
-bool Vision::isValidGoal(Object* goal, int side) {
+bool Vision::isValidGoal(Object* goal, Side side) {
 	if (goal->area < Config::goalMinArea) {
 		return false;
 	}

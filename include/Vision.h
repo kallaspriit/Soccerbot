@@ -86,9 +86,9 @@ class Vision/* : public Blobber::MapFilter*/ {
         void processBalls(Dir dir);
         void processGoals(Dir dir);
 
-        bool isValidBall(Object* ball);
-        bool isValidGoal(Object* goal, int side);
-		bool isBallInGoal(Object* ball);
+        bool isValidBall(Object* ball, Dir dir);
+        bool isValidGoal(Object* goal, Side side);
+		bool isBallInGoal(Object* ball, Dir dir);
 };
 
 #endif // VISION_H

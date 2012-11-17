@@ -120,11 +120,11 @@ void SimpleAI::step(double dt) {
 
 	if (!bot->isGo()) {
 		setState(State::PRESTART);
-	}/* else if (vision->isViewObstructed()) {
+	} else if (vision->isViewObstructed()) {
 		setState(State::ESCAPE_OBSTRUCTION);
 
 		viewObstructed = true;
-	}*/ else if (robot->isStalled()) {
+	} else if (robot->isStalled()) {
 		setState(State::ESCAPE_OBSTRUCTION);
 
 		stalled = true;
