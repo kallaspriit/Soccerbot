@@ -365,6 +365,9 @@ void Camera::close() {
         device = NULL;
 
 		opened = false;
+		running = false;
+
+		join();
     }
 }
 
