@@ -447,9 +447,9 @@ int SoccerBot::updateCameras(double dt) {
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
 
-		if (image != NULL) {
+		/*if (image != NULL) {
 			std::cout << "@ FRONT " << image->number << " VS " << lastFrontFrameNr << std::endl;
-		}
+		}*/
 
 		if (image != NULL && image->number != lastFrontFrameNr) {
 			//s = Util::millitime();
@@ -498,7 +498,7 @@ int SoccerBot::updateCameras(double dt) {
 			lastFrontFrameNr = image->number;
 			captures++;
 		} else {
-			std::cout << "- Failed to get image from the front camera" << std::endl;
+			//std::cout << "- Failed to get image from the front camera" << std::endl;
 		}
 	}
 
@@ -508,9 +508,9 @@ int SoccerBot::updateCameras(double dt) {
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
 
-		if (image != NULL) {
+		/*if (image != NULL) {
 			std::cout << "@ REAR " << image->number << " VS " << lastRearFrameNr << std::endl;
-		}
+		}*/
 
 		if (image != NULL && image->number != lastRearFrameNr) {
 			vision->setFrame(image->dataYUYV, Vision::Dir::DIR_REAR);
@@ -542,7 +542,7 @@ int SoccerBot::updateCameras(double dt) {
 			lastRearFrameNr = image->number;
 			captures++;
 		} else {
-			std::cout << "- Failed to get image from the rear camera" << std::endl;
+			//std::cout << "- Failed to get image from the rear camera" << std::endl;
 		}
 	}
 
