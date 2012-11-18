@@ -1159,7 +1159,7 @@ void Vision::setImage(unsigned char* image, int width, int height) {
     img.data = image;
 }
 
-Object* Vision::getClosestBall() {
+Object* Vision::getClosestBall(bool frontOnly) {
 	const ObjectList& frontBalls = getFrontBalls();
 	float closestDistance = 100.0f;
 	float distance;
@@ -1176,15 +1176,17 @@ Object* Vision::getClosestBall() {
 		}
 	}
 
-	const ObjectList& rearBalls = getRearBalls();
+	if (!frontOnly) {
+		const ObjectList& rearBalls = getRearBalls();
 
-	for (ObjectListItc it = rearBalls.begin(); it != rearBalls.end(); it++) {
-		ball = *it;
-		distance = ball->behind ? ball->distance * 1.25f : ball->distance;
+		for (ObjectListItc it = rearBalls.begin(); it != rearBalls.end(); it++) {
+			ball = *it;
+			distance = ball->behind ? ball->distance * 1.25f : ball->distance;
 		
-		if (closestBall == NULL || distance < closestDistance) {
-			closestBall = ball;
-			closestDistance = distance;
+			if (closestBall == NULL || distance < closestDistance) {
+				closestBall = ball;
+				closestDistance = distance;
+			}
 		}
 	}
 

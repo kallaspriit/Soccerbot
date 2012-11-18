@@ -55,6 +55,7 @@ class SimpleAI : public Controller {
 		bool nearSpeedReached;
 		bool viewObstructed;
 		bool stalled;
+		bool frontBallChosen;
 		float lastVelocityX;
 		float lastGoalDistance;
 		int goalTurnDirection;

@@ -18,6 +18,7 @@ void SimpleAI::onEnter() {
 	totalDuration = 0.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
+	frontBallChosen = false;
 	lastVelocityX = 0.0f;
 	lastGoalDistance = 0.0f;
 	goalTurnDirection = 0;
@@ -245,6 +246,7 @@ void SimpleAI::enterFetchBall() {
 	}
 
 	nearSpeedReached = false;
+	frontBallChosen = false;
 	lastVelocityX = robot->getMovement().velocityX;
 }
 
@@ -259,7 +261,7 @@ void SimpleAI::stepFetchBall(double dt) {
 		return;
 	}
 
-	const Object* ball = vision->getClosestBall();
+	const Object* ball = vision->getClosestBall(frontBallChosen ? true : false);
 
 	if (ball == NULL) {
 		setState(State::FIND_BALL);
@@ -271,6 +273,10 @@ void SimpleAI::stepFetchBall(double dt) {
 		setState(State::RELOCATE);
 
 		return;
+	}
+
+	if (!ball->behind) {
+		frontBallChosen = true;
 	}
 
 	/*if (ball->behind) {
