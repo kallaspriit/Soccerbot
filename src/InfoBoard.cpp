@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), firstAngle(true), targetSide(Side::UNKNOWN) {
+InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), firstAngle(true), lastGyroTime(-1.0), targetSide(Side::UNKNOWN) {
 	serial = new Serial();
 
 	if (serial->open(serialId) == Serial::OK) {
@@ -118,17 +118,25 @@ void InfoBoard::step(double dt) {
 					}
 				}
 			} else if (cmd.name == "Gyroscope" && cmd.params.size() == 1) {
-				float angle = Util::toFloat(cmd.params[0]) * -1.0f * dt;
+				if (firstAngle) {
+					std::cout << "! Ignoring first gyro angle reading" << std::endl;
+
+					firstAngle = false;
+
+					continue;
+				}
+
+				double currentTime = Util::millitime();
+
+				float angle = Util::toFloat(cmd.params[0]) * -1.0f * (currentTime - lastGyroTime);
+
+				lastGyroTime = currentTime;
 
 				if (Math::abs(angle) < 0.005f) {
 					angle = 0.0f;
 				}
 
-				if (firstAngle) {
-					std::cout << "! Ignoring first gyro angle reading of " << angle << std::endl;
-
-					firstAngle = false;
-				} else if (angle != 0.0f) {
+				if (angle != 0.0f) {
 					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
 						(*it)->onGyroChange(angle);
 					}

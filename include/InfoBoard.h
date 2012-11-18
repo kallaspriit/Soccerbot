@@ -35,6 +35,7 @@ class InfoBoard {
 		bool goReceived;
 		bool goRequested;
 		bool firstAngle;
+		double lastGyroTime;
 		Side targetSide;
 		Serial* serial;
 		std::vector<InfoBoardListener*> listeners;
