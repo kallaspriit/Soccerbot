@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Camera::Camera() : opened(false), yuvInitialized(false) {
+Camera::Camera() : opened(false), yuvInitialized(false), acquisitioning(false) {
     image.size = sizeof(XI_IMG);
     image.bp = NULL;
     image.bp_size = 0;
@@ -344,6 +344,7 @@ void Camera::startAcquisition() {
     xiStartAcquisition(device);
 
 	running = true;
+	acquisitioning = true;
 
 	start();
 }
@@ -356,18 +357,24 @@ void Camera::stopAcquisition() {
 	running = false;
 
     xiStopAcquisition(device);
+
+	running = false;
+	acquisitioning = false;
+
+	join();
 }
 
 void Camera::close() {
     if (opened) {
+		if (acquisitioning) {
+			stopAcquisition();
+		}
+
         xiCloseDevice(device);
 
         device = NULL;
 
 		opened = false;
-		running = false;
-
-		join();
     }
 }
 

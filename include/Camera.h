@@ -112,6 +112,7 @@ class Camera : private Thread {
         bool opened;
         bool yuvInitialized;
 		bool running;
+		bool acquisitioning;
 		int serialNumber;
         int lastFrameNumber;
 };
