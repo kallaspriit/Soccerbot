@@ -128,7 +128,8 @@ void InfoBoard::step(double dt) {
 
 				double currentTime = Util::millitime();
 
-				float angle = Util::toFloat(cmd.params[0]) * -1.0f * (currentTime - lastGyroTime);
+				//float angle = Util::toFloat(cmd.params[0]) * -1.0f * (currentTime - lastGyroTime);
+				float angle = Math::degToRad(Util::toFloat(cmd.params[0])) * -1.0f;
 
 				lastGyroTime = currentTime;
 
