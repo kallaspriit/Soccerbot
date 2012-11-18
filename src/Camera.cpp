@@ -77,7 +77,7 @@ bool Camera::open(int serial) {
     //xiSetParamFloat(device, XI_PRM_GAIN, 5.0f);
     //xiSetParamInt(device, XI_PRM_ACQ_BUFFER_SIZE, 70*1000*1000);
     xiSetParamInt(device, XI_PRM_BUFFERS_QUEUE_SIZE, 1);
-    xiSetParamInt(device, XI_PRM_RECENT_FRAME, 1);
+    //xiSetParamInt(device, XI_PRM_RECENT_FRAME, 1);
     xiSetParamInt(device, XI_PRM_AUTO_WB, 0);
     //xiSetParamFloat(device, XI_PRM_WB_KR, 1.0f);
     //xiSetParamFloat(device, XI_PRM_WB_KG, 1.0f);
