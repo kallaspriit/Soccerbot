@@ -365,6 +365,8 @@ void SimpleAI::stepFetchBall(double dt) {
 				if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
 					speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
 					braking = true;
+
+					std::cout << "@ BRAKING SPEED: " << speed << std::endl;
 				} else {
 					nearSpeedReached = true;
 				}
