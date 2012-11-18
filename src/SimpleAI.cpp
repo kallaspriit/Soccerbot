@@ -437,9 +437,13 @@ void SimpleAI::stepFindGoal(double dt) {
 			return;
 		}
 
-		robot->getCoilgun().kick();
+		if (!vision->isBallInWay(goal->y + goal->height / 2)) {
+			robot->getCoilgun().kick();
 
-		setState(State::FIND_BALL);
+			setState(State::FIND_BALL);
+		} else {
+			robot->setTargetDir(0.0f, goal->angle > 0 ? Config::kickBallAvoidSideSpeed : -Config::kickBallAvoidSideSpeed, 0.0f);
+		}
 	} else {
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);

@@ -866,6 +866,32 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	return PathMetric(percentage, longestInvalidSpree, validColorFound, crossingGreenWhiteBlackGreen);
 }
 
+bool Vision::isBallInWay(int goalY) {
+	int startY = Config::cameraHeight - 100;
+	int halfWidth = Config::cameraWidth / 2;
+	const ObjectList& frontBalls = getFrontBalls();
+	Object* ball;
+
+	for (ObjectListItc it = frontBalls.begin(); it != frontBalls.end(); it++) {
+		ball = *it;
+		
+		if (
+			ball->x - ball->width / 2 < halfWidth && ball->x + ball->width / 2 > halfWidth
+			&& ball->y - ball->height / 2 < startY && ball->y  + ball->height / 2 > goalY
+		) {
+			return true;
+		}
+	}
+
+	return false;
+
+	/*int step = 6;
+
+	for (int y = Config::cameraHeight - 50; y >= goalY; y -= step) {
+
+	}*/
+}
+
 float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, std::vector<std::string> validColors, int step) {
 	bool debug = img.data != NULL;
 	int matches = 0;
@@ -1252,7 +1278,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 	}
 
 	if (largestGoal != NULL) {
-		int minX, minY, maxX, maxY;
+		/*int minX, minY, maxX, maxY;
 		const ObjectList& goals = largestGoal->behind ? getRearGoals() : getFrontGoals();
 
 		for (ObjectListItc it = goals.begin(); it != goals.end(); it++) {
@@ -1271,7 +1297,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 			largestGoal->height = maxY - minY;
 			largestGoal->x = minX + largestGoal->width / 2;
 			largestGoal->y = minY + largestGoal->height / 2;
-		}
+		}*/
 
 		lastLargestGoal.copyFrom(largestGoal);
 

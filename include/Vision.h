@@ -42,6 +42,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::vector<std::string> validColors);
 		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY);
 		bool isViewObstructed() { return viewObstructed; }
+		bool isBallInWay(int goalY);
 
         const ObjectList& getFrontBalls() const { return frontBalls; }
         const ObjectList& getFrontGoals() const { return frontGoals; }
