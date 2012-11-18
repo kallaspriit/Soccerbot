@@ -356,16 +356,21 @@ void SoccerBot::run() {
 
         time = Util::millitime();
         dt = time - lastStepTime;
-        lastStepTime = time;
-        lastStepDt = dt;
-        totalTime += dt;
+        
 
 		//double s = Util::millitime();
 		if (updateCameras(dt) == 0) {
-			std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
+			//std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
-			Util::sleep(16);
+			Util::sleep(8);
+
+			continue;
 		}
+
+		lastStepTime = time;
+        lastStepDt = dt;
+        totalTime += dt;
+
 		//std::cout << "! Updating cameras took " << Util::duration(s) << " seconds" << std::endl;
 
         if (gui != NULL) {
