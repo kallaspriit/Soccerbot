@@ -86,6 +86,8 @@ void Wheel::step(double dt) {
 	if (serial->isOpen() && currentTime - lastMessageTime > 1.0f) {
 		std::cout << "- Wheel #" << id << " seems to have lost connection" << std::endl;
 
+		realOmega = 0.0f;
+
 		//serial->reconnect();
 	}
 }

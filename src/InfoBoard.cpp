@@ -58,6 +58,8 @@ void InfoBoard::step(double dt) {
 		return;
 	}
 
+	serial->write("<angle>");
+
 	std::string message;
 
 	 while (serial->available() > 0) {
@@ -114,6 +116,10 @@ void InfoBoard::step(double dt) {
 						(*it)->onGoRequestedChange(goRequested);
 					}
 				}
+			} else if (cmd.name == "angle" && cmd.params.size() == 1) {
+				float angle = Util::toFloat(cmd.params[0]);
+
+				std::cout << "@ ANGLE: " << angle << std::endl;
 			} else {
 				std::cout << "- Invalid info-board command: " << cmd.name << " " << Util::toString(cmd.params) << std::endl;
 			}
