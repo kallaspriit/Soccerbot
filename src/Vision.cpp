@@ -975,7 +975,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 
 				if (color != NULL && strcmp(color->name, targetColorName) == 0) {
 					if (senseY > maxValidY) {
-						maxValidY = y;
+						maxValidY = senseY;
 					}
 
 					if (debug) {
