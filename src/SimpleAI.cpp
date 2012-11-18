@@ -21,7 +21,9 @@ void SimpleAI::onEnter() {
 	frontBallChosen = false;
 	lastVelocityX = 0.0f;
 	lastGoalDistance = 0.0f;
-	goalTurnDirection = 0;
+	goalTurnDirection = 1;
+	targetGoalFrontDir = 1;
+	targetGoalRearDir = 1;
 
 	onTargetSideChange(bot->getTargetSide()); 
 
@@ -127,10 +129,20 @@ void SimpleAI::step(double dt) {
 		stalled = true;
 	}
 
-	const Object* goal = vision->getLargestGoal(Side::UNKNOWN);
+	Object* largestGoal = vision->getLargestGoal(Side::UNKNOWN);
 
-	if (goal != NULL) {
-		lastGoalDistance = goal->distance;
+	if (largestGoal != NULL) {
+		lastGoalDistance = largestGoal->distance;
+	}
+
+	Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
+
+	if (targetGoal != NULL) {
+		if (targetGoal->angle > 0) {
+			goalTurnDirection = 1;
+		} else {
+			goalTurnDirection = -1;
+		}
 	}
 
 	switch (state) {
@@ -354,7 +366,7 @@ void SimpleAI::stepFetchBall(double dt) {
 }
 
 void SimpleAI::enterFindGoal() {
-	goalTurnDirection = 0;
+	//goalTurnDirection = 0;
 	ballKickAvoidDir = 0;
 }
 
@@ -381,14 +393,14 @@ void SimpleAI::stepFindGoal(double dt) {
 	}
 
 	if (goal == NULL) {
-		if (goalTurnDirection == 0) {
+		/*if (goalTurnDirection == 0) {
 			Math::Position goalPos = getGoalPosition(bot->getTargetSide());
 			Math::Position robotPos = robot->getPosition();
 
 			float angle = Math::getAngleBetween(goalPos, robotPos, robotPos.orientation);
 		
 			goalTurnDirection = angle >= 0 ? 1 : -1;
-		}
+		}*/
 
 		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
@@ -426,7 +438,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			}
 		}*/
 	} else {
-		goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
+		//goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
 	}
 
 	if (shouldKick) {

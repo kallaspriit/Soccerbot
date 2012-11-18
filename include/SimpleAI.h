@@ -60,6 +60,8 @@ class SimpleAI : public Controller {
 		float lastGoalDistance;
 		int goalTurnDirection;
 		int ballKickAvoidDir;
+		int targetGoalFrontDir;
+		int targetGoalRearDir;
 };
 
 #endif // SIMPLEAI_H
