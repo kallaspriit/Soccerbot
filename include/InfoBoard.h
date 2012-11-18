@@ -11,6 +11,7 @@ class InfoBoardListener {
 	public:
 		virtual void onGoRequestedChange(bool isGoRequested) = 0;
 		virtual void onTargetSideChange(Side newTargetSide) = 0;
+		virtual void onGyroChange(float deltaAngle) = 0;
 };
 
 class InfoBoard {

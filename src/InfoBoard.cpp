@@ -2,6 +2,7 @@
 #include "Serial.h"
 #include "Command.h"
 #include "Util.h"
+#include "Maths.h"
 
 #include <iostream>
 
@@ -118,6 +119,10 @@ void InfoBoard::step(double dt) {
 				}
 			} else if (cmd.name == "angle" && cmd.params.size() == 1) {
 				float angle = Util::toFloat(cmd.params[0]);
+
+				if (Math::abs(angle) < 0.05f) {
+					angle = 0;
+				}
 
 				std::cout << "@ ANGLE: " << angle << std::endl;
 			} else {

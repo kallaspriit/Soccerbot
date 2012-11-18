@@ -35,6 +35,7 @@ Robot::Robot(Vision* vision) : vision(vision) {
     x = 0.125f;
     y = 0.125f;
     orientation = 0.0f;
+	gyroOrientation = 0.0f;
 
     lastCommandTime = -1;
 	coilgunCharged = false;
@@ -269,8 +270,13 @@ void Robot::setPosition(float x, float y, float orientation) {
     this->x = x;
     this->y = y;
 	this->orientation = Math::floatModulus(orientation, Math::TWO_PI);
+	this->gyroOrientation = this->orientation;
 
 	robotLocalizer->resetDeviation(x, y, orientation);
+}
+
+void Robot::updateGyroOrientation(float deltaAngle) {
+	gyroOrientation = Math::floatModulus(gyroOrientation + deltaAngle, Math::TWO_PI);
 }
 
 Task* Robot::getCurrentTask() {

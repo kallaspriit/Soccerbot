@@ -20,6 +20,7 @@ class Controller : public InfoBoardListener {
 		virtual std::string getJSON() { return ""; }
 		virtual void onGoRequestedChange(bool isGoRequested) {}
 		virtual void onTargetSideChange(Side newTargetSide) {}
+		virtual void onGyroChange(float deltaAngle) {}
         virtual void step(double dt) = 0;
 
     protected:

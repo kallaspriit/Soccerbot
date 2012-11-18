@@ -614,6 +614,7 @@ void SoccerBot::onGoRequestedChange(bool isGoRequested) {
 		std::cout << "! Stop requested" << std::endl;
 	}
 }
+
 void SoccerBot::onTargetSideChange(Side newTargetSide) {
 	setTargetSide(newTargetSide);
 
@@ -622,6 +623,10 @@ void SoccerBot::onTargetSideChange(Side newTargetSide) {
 	} else if (targetSide == Side::YELLOW) {
 		std::cout << "! Now targeting yellow side" << std::endl;
 	}
+}
+
+void SoccerBot::onGyroChange(float deltaAngle) {
+	
 }
 
 void SoccerBot::updateLogs() {
@@ -1094,6 +1099,7 @@ std::string SoccerBot::getStateJSON() const {
     stream << "\"x\":" << pos.x << ",";
     stream << "\"y\":" << pos.y << ",";
     stream << "\"orientation\":" << pos.orientation << ",";
+	stream << "\"gyroOrientation\":" << robot->getGyroOrientation() << ",";
     stream << "\"dt\":" << lastStepDt << ",";
     stream << "\"load\":" << lastStepLoad << ",";
     stream << "\"duration\":" << lastStepDuration << ",";
