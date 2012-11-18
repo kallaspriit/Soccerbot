@@ -336,7 +336,7 @@ void SimpleAI::stepFetchBall(double dt) {
 			turnAngle -= underturnAngle;
 		}
 
-		robot->turnBy(turnAngle, Math::PI);
+		robot->turnBy(turnAngle, Math::TWO_PI);
 
 		if (turnAngle < 0.0f) {
 			searchDir = -1.0f;
