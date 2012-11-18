@@ -328,7 +328,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 	if (ball->behind) {
 		float turnAngle = ball->angle;
-		float underturnAngle = Math::degToRad(40.0f);
+		float underturnAngle = Math::degToRad(60.0f);
 
 		if (turnAngle < 0.0f) {
 			turnAngle += underturnAngle;
