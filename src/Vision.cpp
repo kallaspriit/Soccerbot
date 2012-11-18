@@ -251,7 +251,7 @@ void Vision::processGoals(Dir dir) {
 
 bool Vision::isValidBall(Object* ball, Dir dir) {
     if (ball->area < Config::ballMinArea) {
-		std::cout << "@ BALL AREA TOO SMALL: " << ball->area << " VS " << Config::ballMinArea << std::endl;
+		//std::cout << "@ BALL AREA TOO SMALL: " << ball->area << " VS " << Config::ballMinArea << std::endl;
 
         return false;
     }
@@ -272,7 +272,7 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 		//std::cout << "Surround: " << surroundMetric << std::endl;
 
 		if (surroundMetric < Config::validBallSurroundThreshold) {
-			std::cout << "@ BALL SURROUND FAIL: " << surroundMetric << " VS " << Config::validBallSurroundThreshold << std::endl;
+			//std::cout << "@ BALL SURROUND FAIL: " << surroundMetric << " VS " << Config::validBallSurroundThreshold << std::endl;
 
 			return false;
 		}
@@ -298,7 +298,7 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 			//|| !pathMetric.validColorFound
 			//|| pathMetric.invalidSpree > getBallMaxInvalidSpree(ball->y + ball->height / 2)
 		) {
-			std::cout << "@ BALL PATH FAILS: " << pathMetric.percentage << " VS " << Config::validBallPathThreshold << ", OUT: " << (pathMetric.out ? "YES" : "NO") << std::endl;
+			//std::cout << "@ BALL PATH FAILS: " << pathMetric.percentage << " VS " << Config::validBallPathThreshold << ", OUT: " << (pathMetric.out ? "YES" : "NO") << std::endl;
 
 			return false;
 		}
@@ -326,14 +326,14 @@ bool Vision::isBallInGoal(Object* ball, Dir dir) {
     );
 
 	if (surroundMetric > Config::ballInGoalThreshold) {
-		std::cout << "@ BALL IN GOAL SURROUND: " << surroundMetric << " VS " << Config::ballInGoalThreshold << std::endl;
+		//std::cout << "@ BALL IN GOAL SURROUND: " << surroundMetric << " VS " << Config::ballInGoalThreshold << std::endl;
 
 		return true;
 	} else {
 		if (dir == Dir::DIR_FRONT) {
 			for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
 				if (ball->intersects(*it)) {
-					std::cout << "@ BALL IN GOAL INTERSECTS FRONT" << std::endl;
+					//std::cout << "@ BALL IN GOAL INTERSECTS FRONT" << std::endl;
 
 					return true;
 				}
@@ -341,7 +341,7 @@ bool Vision::isBallInGoal(Object* ball, Dir dir) {
 		} else if (dir == Dir::DIR_REAR) {
 			for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
 				if (ball->intersects(*it)) {
-					std::cout << "@ BALL IN GOAL INTERSECTS REAR" << std::endl;
+					//std::cout << "@ BALL IN GOAL INTERSECTS REAR" << std::endl;
 
 					return true;
 				}
@@ -362,13 +362,13 @@ int Vision::getGoalMaxInvalidSpree(int y) {
 
 bool Vision::isValidGoal(Object* goal, Side side) {
 	if (goal->area < Config::goalMinArea) {
-		//std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
+		////std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
 
 		return false;
 	}
 
 	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
-		//std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
+		////std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
 
 		return false;
 	}
@@ -394,7 +394,7 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 	}
 
 	if (undersideMetric < Config::goalMinUndersideMetric) {
-		//std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
+		////std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
 
 		return false;
 	}
@@ -849,8 +849,11 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 
 	if (
 		lastColor == "black"
-		|| (sawWhiteBeforeBlack && lastColor == "green")
+		&& sawWhiteBeforeBlack
+		&& lastColor == "green"
 	) {
+		//std::cout << "@ OUT LATE" << std::endl;
+
 		crossingGreenWhiteBlackGreen = true;
 	}
 
@@ -1196,7 +1199,7 @@ Object* Vision::getClosestBall() {
 		lastClosestBall.width > 0
 		&& Util::duration(lastClosestBall.lastSeenTime) < Config::fakeBallLifetime
 	) {
-		std::cout << "@ RETURNING FAKE CLOSEST BALL " << Util::duration(lastClosestBall.lastSeenTime) << std::endl;
+		//std::cout << "@ RETURNING FAKE CLOSEST BALL " << Util::duration(lastClosestBall.lastSeenTime) << std::endl;
 
 		return &lastClosestBall;
 	} else {
