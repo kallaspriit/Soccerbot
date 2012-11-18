@@ -259,7 +259,7 @@ void SimpleAI::stepFindBall(double dt) {
 }
 
 void SimpleAI::enterFetchBall() {
-	const Object* ball = vision->getClosestBall();
+	const Object* ball = vision->getClosestBall(isSearchingFrontOnly());
 
 	if (ball != NULL && !ball->behind) {
 		robot->clearTasks();
@@ -518,7 +518,7 @@ void SimpleAI::stepRelocate(double dt) {
 		return;
 	}
 
-	const Object* ball = vision->getClosestBall();
+	const Object* ball = vision->getClosestBall(isSearchingFrontOnly());
 
 	if (ball != NULL) {
 		setState(State::FETCH_BALL);
