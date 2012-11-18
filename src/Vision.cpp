@@ -848,9 +848,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     }
 
 	if (
-		lastColor == "black"
-		&& sawWhiteBeforeBlack
-		&& lastColor == "green"
+		(lastColor == "black" && sawWhite)
+		|| (sawWhiteBeforeBlack && lastColor == "green")
 	) {
 		//std::cout << "@ OUT LATE" << std::endl;
 
