@@ -121,10 +121,16 @@ void InfoBoard::step(double dt) {
 				float angle = Util::toFloat(cmd.params[0]);
 
 				if (Math::abs(angle) < 0.05f) {
-					angle = 0;
+					angle = 0.0f;
 				}
 
-				std::cout << "@ ANGLE: " << angle << std::endl;
+				if (angle != 0.0f) {
+					std::cout << "@ ANGLE: " << angle << std::endl;
+
+					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
+						(*it)->onGyroChange(angle);
+					}
+				}
 			} else {
 				std::cout << "- Invalid info-board command: " << cmd.name << " " << Util::toString(cmd.params) << std::endl;
 			}
