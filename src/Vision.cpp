@@ -332,7 +332,7 @@ bool Vision::isBallInGoal(Object* ball, Dir dir) {
 	} else {
 		if (dir == Dir::DIR_FRONT) {
 			for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
-				if (ball->intersects(*it)) {
+				if (ball->contains(*it)) {
 					//std::cout << "@ BALL IN GOAL INTERSECTS FRONT" << std::endl;
 
 					return true;
@@ -340,7 +340,7 @@ bool Vision::isBallInGoal(Object* ball, Dir dir) {
 			}
 		} else if (dir == Dir::DIR_REAR) {
 			for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
-				if (ball->intersects(*it)) {
+				if (ball->contains(*it)) {
 					//std::cout << "@ BALL IN GOAL INTERSECTS REAR" << std::endl;
 
 					return true;
