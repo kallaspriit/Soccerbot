@@ -355,18 +355,18 @@ void SoccerBot::run() {
 		}
 
         time = Util::millitime();
-        dt = time - lastStepTime;
+        float currentDt = time - lastStepTime;
         
-
 		//double s = Util::millitime();
-		if (updateCameras(dt) == 0) {
+		if (updateCameras(currentDt) == 0) {
 			//std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
-			Util::sleep(8);
+			Util::sleep(14);
 
 			continue;
 		}
 
+		dt = currentDt;
 		lastStepTime = time;
         lastStepDt = dt;
         totalTime += dt;
