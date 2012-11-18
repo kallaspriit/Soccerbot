@@ -1230,7 +1230,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 	}
 
 	if (largestGoal != NULL) {
-		int minX, minY, maxX, maxY;
+		/*int minX, minY, maxX, maxY;
 		const ObjectList& goals = largestGoal->behind ? getRearGoals() : getFrontGoals();
 
 		for (ObjectListItc it = goals.begin(); it != goals.end(); it++) {
@@ -1249,7 +1249,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 			largestGoal->height = maxY - minY;
 			largestGoal->x = minX + largestGoal->width / 2;
 			largestGoal->y = minY + largestGoal->height / 2;
-		}
+		}*/
 
 		lastLargestGoal.copyFrom(largestGoal);
 
