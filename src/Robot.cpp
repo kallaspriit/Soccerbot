@@ -277,7 +277,7 @@ void Robot::setPosition(float x, float y, float orientation) {
 
 void Robot::updateGyroOrientation(float deltaAngle) {
 	//gyroOrientation = Math::floatModulus(gyroOrientation + deltaAngle, Math::TWO_PI);
-	orientation = Math::floatModulus(gyroOrientation + deltaAngle, Math::TWO_PI);
+	orientation = Math::floatModulus(orientation + deltaAngle, Math::TWO_PI);
 }
 
 Task* Robot::getCurrentTask() {
