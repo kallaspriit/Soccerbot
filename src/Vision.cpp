@@ -940,12 +940,12 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 				minValidX = x;
 			}
 
-			if (x > maxValidX) {
-				maxValidX = x;
-			}
-
 			if (minValidY == -1 || y < minValidY) {
 				minValidY = y;
+			}
+
+			if (x > maxValidX) {
+				maxValidX = x;
 			}
 
 			if (y > maxValidY) {
@@ -961,6 +961,10 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 			for (int senseY = y + yStep; senseY < Math::min(y + blockHeight * 4, height); senseY += yStep) {
 				if (senseY > height - 1) {
 					break;
+				}
+
+				if (senseY > maxValidY) {
+					maxValidY = senseY;
 				}
 						
 				color = getColorAt(x, senseY);
@@ -988,6 +992,10 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 					for (int gapY = senseY + gapStep; gapY < Math::min(senseY + senseSteps * yStep, height); gapY += gapStep) {
 						if (gapY > height - 1) {
 							break;
+						}
+
+						if (gapY > maxValidY) {
+							maxValidY = gapY;
 						}
 								
 						color = getColorAt(x, gapY);
