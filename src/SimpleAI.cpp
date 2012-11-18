@@ -121,10 +121,6 @@ void SimpleAI::step(double dt) {
 
 	if (!bot->isGo()) {
 		setState(State::PRESTART);
-	} else if (vision->isViewObstructed()) {
-		setState(State::ESCAPE_OBSTRUCTION);
-
-		viewObstructed = true;
 	} else if (robot->isStalled()) {
 		setState(State::ESCAPE_OBSTRUCTION);
 
@@ -257,6 +253,14 @@ void SimpleAI::stepFetchBall(double dt) {
 
 	if (robot->getDribbler().gotBall()) {
 		setState(State::FIND_GOAL);
+
+		return;
+	}
+
+	if (vision->isViewObstructed()) {
+		setState(State::ESCAPE_OBSTRUCTION);
+
+		viewObstructed = true;
 
 		return;
 	}
