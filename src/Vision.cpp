@@ -283,7 +283,7 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 			Config::cameraPathStartX,
 			Config::cameraPathStartY,
 			ball->x,
-			ball->y + ballRadius + senseRadius / 2,
+			ball->y + ballRadius + senseRadius / 2 + 6,
 			validBallPathColors
 			//,"green"
 		);
