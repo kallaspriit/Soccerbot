@@ -115,6 +115,8 @@ class SoccerBot : public WebSocketServer::ListenerInterface, public InfoBoardLis
 		bool frameRequested;
 		bool controllerRequested;
 		bool lastFrameRequested;
+		int lastFrontFrameNr;
+		int lastRearFrameNr;
         std::string endCommand;
 		int cameraChoice;
 

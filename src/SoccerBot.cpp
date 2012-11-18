@@ -51,6 +51,8 @@ SoccerBot::SoccerBot() {
 	frameRequested = false;
 	controllerRequested = false;
 	lastFrameRequested = false;
+	lastFrontFrameNr = -1;
+	lastRearFrameNr = -1;
     lastStepTime = Util::millitime();
 
     //originalCoutStream = std::cout.rdbuf();
@@ -489,6 +491,9 @@ int SoccerBot::updateCameras(double dt) {
 				//printf("@ GUI: %.4f\n", Util::duration(s));
 			}
 
+			std::cout << "@ FRONT " << image->number << " VS " << lastFrontFrameNr << std::endl;
+
+			lastFrontFrameNr = image->number;
 			captures++;
 		} else {
 			std::cout << "- Failed to get image from the front camera" << std::endl;
@@ -528,6 +533,9 @@ int SoccerBot::updateCameras(double dt) {
 				gui->setRearCamera(rgbBuffer, classification->data, *vision);
 			}
 
+			std::cout << "@ REAR " << image->number << " VS " << lastRearFrameNr << std::endl;
+
+			lastRearFrameNr = image->number;
 			captures++;
 		} else {
 			std::cout << "- Failed to get image from the rear camera" << std::endl;
