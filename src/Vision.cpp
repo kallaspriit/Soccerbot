@@ -876,8 +876,8 @@ bool Vision::isBallInWay(int goalY) {
 		ball = *it;
 		
 		if (
-			ball->x - ball->width / 2 < halfWidth && ball->x + ball->width / 2 > halfWidth
-			&& ball->y - ball->height / 2 < startY && ball->y  + ball->height / 2 > goalY
+			ball->x - ball->width < halfWidth && ball->x + ball->width > halfWidth
+			&& ball->y - ball->height < startY && ball->y  + ball->height > goalY
 		) {
 			return true;
 		}
