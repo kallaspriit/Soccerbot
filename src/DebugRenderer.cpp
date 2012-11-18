@@ -89,14 +89,14 @@ void DebugRenderer::renderGoals(ImageBuffer* img, const ObjectList& goals) {
         img->drawLine(goal->x - goal->width / 2, goal->y + goal->height / 2, goal->x + goal->width / 2, goal->y - goal->height / 2, r, g, b);
 
         sprintf(buf, "%.2fm %.1f deg", goal->distance, Math::radToDeg(goal->angle));
-        img->drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 19, buf);
+        img->drawText(goal->x - goal->width / 2 + 2, goal->y + goal->height / 2 + 2, buf);
 
-		sprintf(buf, "%d x %d", goal->x, goal->y + goal->height / 2);
-        img->drawText(goal->x - goal->width / 2 + 2, goal->y - goal->height / 2 - 9, buf);
+		sprintf(buf, "%d x %d, %d", goal->x, goal->y + goal->height / 2, goal->area);
+        img->drawText(goal->x - goal->width / 2 + 2, goal->y + goal->height / 2 + 12, buf);
 
-        int boxArea = goal->width * goal->height;
+        /*int boxArea = goal->width * goal->height;
 
-		/*if (boxArea == 0) {
+		if (boxArea == 0) {
 			continue;
 		}
 
