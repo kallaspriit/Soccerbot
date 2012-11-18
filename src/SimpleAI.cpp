@@ -247,13 +247,19 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	if (stateDuration > 4.0f) {
+	if (stateDuration > 6.0f) {
 		setState(State::RELOCATE);
 
 		return;
 	}
 
-	robot->setTargetDir(Math::Deg(0), 0, Config::ballSearchOmega * searchDir);
+	float omega = Config::ballSearchOmega * searchDir;
+
+	if (stateDuration > 2.0f) {
+		omega /= 2.0f;
+	}
+
+	robot->setTargetDir(Math::Deg(0), 0, omega);
 
 	return;
 }
