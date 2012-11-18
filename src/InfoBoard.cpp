@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), firstAngle(true), lastGyroTime(-1.0), targetSide(Side::UNKNOWN) {
+InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), firstAngle(true), targetSide(Side::UNKNOWN) {
 	serial = new Serial();
 
 	if (serial->open(serialId) == Serial::OK) {
@@ -126,21 +126,10 @@ void InfoBoard::step(double dt) {
 					continue;
 				}
 
-				double currentTime = Util::millitime();
-
-				//float angle = Util::toFloat(cmd.params[0]) * -1.0f * (currentTime - lastGyroTime);
 				float angle = Math::degToRad(Util::toFloat(cmd.params[0])) * -1.0f;
 
-				lastGyroTime = currentTime;
-
-				if (Math::abs(angle) < 0.005f) {
-					angle = 0.0f;
-				}
-
-				if (angle != 0.0f) {
-					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
-						(*it)->onGyroChange(angle);
-					}
+				for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
+					(*it)->onGyroChange(angle);
 				}
 			} else {
 				std::cout << "- Invalid info-board command: " << cmd.name << " " << Util::toString(cmd.params) << std::endl;
