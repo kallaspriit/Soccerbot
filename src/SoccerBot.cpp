@@ -626,7 +626,7 @@ void SoccerBot::onTargetSideChange(Side newTargetSide) {
 }
 
 void SoccerBot::onGyroChange(float deltaAngle) {
-	
+	robot->updateGyroOrientation(deltaAngle);
 }
 
 void SoccerBot::updateLogs() {

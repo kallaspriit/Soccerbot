@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), targetSide(Side::UNKNOWN) {
+InfoBoard::InfoBoard(int serialId) : serialId(serialId), serial(NULL), errorRaised(false), goReceived(false), goRequested(false), firstAngle(true), targetSide(Side::UNKNOWN) {
 	serial = new Serial();
 
 	if (serial->open(serialId) == Serial::OK) {
@@ -124,9 +124,11 @@ void InfoBoard::step(double dt) {
 					angle = 0.0f;
 				}
 
-				if (angle != 0.0f) {
-					std::cout << "@ ANGLE: " << angle << std::endl;
+				if (firstAngle) {
+					std::cout << "! Ignoring first gyro angle reading of " << angle << std::endl;
 
+					firstAngle = false;
+				} else if (angle != 0.0f) {
 					for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
 						(*it)->onGyroChange(angle);
 					}

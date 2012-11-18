@@ -34,6 +34,7 @@ class InfoBoard {
 		bool errorRaised;
 		bool goReceived;
 		bool goRequested;
+		bool firstAngle;
 		Side targetSide;
 		Serial* serial;
 		std::vector<InfoBoardListener*> listeners;
