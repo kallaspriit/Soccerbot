@@ -312,6 +312,10 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 }
 
 bool Vision::isBallInGoal(Object* ball, Dir dir) {
+	if (ball->distance < 1.0f) {
+		return false;
+	}
+
 	int ballRadius = Math::max(ball->width, ball->height) / 2;
     int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
 
