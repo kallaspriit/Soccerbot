@@ -117,7 +117,7 @@ void InfoBoard::step(double dt) {
 						(*it)->onGoRequestedChange(goRequested);
 					}
 				}
-			} else if (cmd.name == "angle" && cmd.params.size() == 1) {
+			} else if (cmd.name == "Gyroscope" && cmd.params.size() == 1) {
 				float angle = Util::toFloat(cmd.params[0]);
 
 				if (Math::abs(angle) < 0.05f) {
