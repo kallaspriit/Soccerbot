@@ -118,9 +118,9 @@ void InfoBoard::step(double dt) {
 					}
 				}
 			} else if (cmd.name == "Gyroscope" && cmd.params.size() == 1) {
-				float angle = Util::toFloat(cmd.params[0]);
+				float angle = Util::toFloat(cmd.params[0]) * -1.0f * dt;
 
-				if (Math::abs(angle) < 0.05f) {
+				if (Math::abs(angle) < 0.005f) {
 					angle = 0.0f;
 				}
 
