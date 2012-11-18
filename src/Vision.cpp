@@ -1196,10 +1196,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 	for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
 		goal = *it;
 		
-		if (
-			(side != Side::UNKNOWN && goal->type != (int)side)
-			|| (frontOnly && goal->behind)
-		) {
+		if (side != Side::UNKNOWN && goal->type != (int)side) {
 			continue;
 		}
 
@@ -1212,32 +1209,46 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 		}
 	}
 
-	const ObjectList& rearGoals = getRearGoals();
+	if (frontOnly != true) {
+		const ObjectList& rearGoals = getRearGoals();
 
-	for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
-		goal = *it;
+		for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+			goal = *it;
 
-		if (
-			(side != Side::UNKNOWN && goal->type != (int)side)
-			|| (frontOnly && goal->behind)
-		) {
-			continue;
-		}
+			if (side != Side::UNKNOWN && goal->type != (int)side) {
+				continue;
+			}
 
-		//area = goal->area;
-		area = goal->width * goal->height;
+			//area = goal->area;
+			area = goal->width * goal->height;
 		
-		if (largestGoal == NULL || area > largestArea) {
-			largestGoal = goal;
-			largestArea = area;
+			if (largestGoal == NULL || area > largestArea) {
+				largestGoal = goal;
+				largestArea = area;
+			}
 		}
 	}
 
 	if (largestGoal != NULL) {
-		if (!largestGoal->behind) {
+		int minX, minY, maxX, maxY;
+		const ObjectList& goals = largestGoal->behind ? getRearGoals() : getFrontGoals();
 
-		} else {
+		for (ObjectListItc it = goals.begin(); it != goals.end(); it++) {
+			goal = *it;
+		
+			if (!goal->intersects(largestGoal)) {
+				continue;
+			}
 
+			minX = Math::min(largestGoal->x - largestGoal->width / 2, goal->x - goal->width / 2);
+			maxX = Math::min(largestGoal->x + largestGoal->width / 2, goal->x + goal->width / 2);
+			minY = Math::min(largestGoal->y - largestGoal->height / 2, goal->y - goal->height / 2);
+			maxY = Math::min(largestGoal->y + largestGoal->height / 2, goal->y + goal->height / 2);
+
+			largestGoal->width = maxX - minX;
+			largestGoal->height = maxY - minY;
+			largestGoal->x = minX + largestGoal->width / 2;
+			largestGoal->y = minY + largestGoal->height / 2;
 		}
 
 		lastLargestGoal.copyFrom(largestGoal);
