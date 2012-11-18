@@ -35,7 +35,7 @@ class Serial : private Thread {
 
     private:
 		Result attemptOpen(std::string device, int speed = 9600, const char delimiter = '\n');
-		virtual void* run();
+		void* run();
 		const std::string readDirect(bool& isMore);
 
         std::string device;

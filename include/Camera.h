@@ -1,6 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include "Thread.h"
+
 #include <Windows.h>
 #include "xiApi.h"
 #include "xiExt.h"
@@ -8,7 +10,7 @@
 
 #include <string>
 
-class Camera {
+class Camera : private Thread {
     public:
         struct YUYV {
             int y1, u, y2, v;
@@ -101,12 +103,15 @@ class Camera {
         void setFloatParam(const char* name, float value);
 
     private:
+		void* run();
+
         XI_IMG image;
         FrameRaw frameRaw;
         FrameYUYV frameYUV;
         HANDLE device;
         bool opened;
         bool yuvInitialized;
+		bool running;
         int lastFrameNumber;
 };
 

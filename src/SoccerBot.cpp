@@ -439,7 +439,8 @@ int SoccerBot::updateCameras(double dt) {
 
 	if (frontCamera != NULL && frontCamera->capturing()) {
 		//s = Util::millitime();
-		image = frontCamera->getFrameYUYV();
+		//image = frontCamera->getFrameYUYV();
+		image = frontCamera->getLastFrame();
 		//printf("@ Get frame: %.4f\n", Util::duration(s));
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
@@ -495,7 +496,8 @@ int SoccerBot::updateCameras(double dt) {
 	}
 
 	if (rearCamera != NULL && rearCamera->capturing()) {
-		image = rearCamera->getFrameYUYV();
+		//image = rearCamera->getFrameYUYV();
+		image = rearCamera->getLastFrame();
 		//Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, image->dataYUYV, rgbBuffer);
 		//gui->setFrontCamera(rgbBuffer);
 

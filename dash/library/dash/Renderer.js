@@ -93,6 +93,14 @@ Dash.Renderer.prototype.renderState = function(state) {
 		state.orientation
 	);
 		
+	this.drawRobot(
+		dash.config.robot.radius,
+		'#CCC',
+		-0.4,
+		0.4,
+		state.gyroOrientation
+	);
+		
 	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
 	this.wheelGraphs.FR.render.apply(this.wheelGraphs.FR, [state, 'wheelFR']);
 	this.wheelGraphs.RL.render.apply(this.wheelGraphs.RL, [state, 'wheelRL']);
