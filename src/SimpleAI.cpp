@@ -354,6 +354,8 @@ void SimpleAI::stepFetchBall(double dt) {
 			searchDir = 1.0f;
 		}*/
 	} else {
+		bool braking = false;
+
 		if (distance > brakeDistance) {
 			speed = Config::ballChaseFarSpeed;
 		} else {
@@ -362,15 +364,18 @@ void SimpleAI::stepFetchBall(double dt) {
 			if (!nearSpeedReached) {
 				if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
 					speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
+					braking = true;
 				} else {
 					nearSpeedReached = true;
 				}
 			}
 		}
 
-		float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
+		if (!braking) {
+			float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 
-		speed = speed * (1.0f - speedDecrease);
+			speed = speed * (1.0f - speedDecrease);
+		}
 
 		if (distance <= Config::dribblerOnThreshold) {
 			robot->getDribbler().start();
