@@ -355,6 +355,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 void SimpleAI::enterFindGoal() {
 	goalTurnDirection = 0;
+	ballKickAvoidDir = 0;
 }
 
 void SimpleAI::stepFindGoal(double dt) {
@@ -392,7 +393,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
-			robot->setTargetDir(Math::Deg(0), 0, Config::ballRotateOmega * goalTurnDirection);
+			robot->setTargetDir(Math::Deg(0), 0, Config::ballRotateOmega * (float)goalTurnDirection);
 		}
 
 		return;
@@ -442,7 +443,15 @@ void SimpleAI::stepFindGoal(double dt) {
 
 			setState(State::FIND_BALL);
 		} else {
-			robot->setTargetDir(0.0f, goal->angle > 0 ? Config::kickBallAvoidSideSpeed : -Config::kickBallAvoidSideSpeed, 0.0f);
+			if (ballKickAvoidDir == 0) {
+				if (goal->angle > 0) {
+					ballKickAvoidDir = 1;
+				} else {
+					ballKickAvoidDir = -1;
+				}
+			}
+
+			robot->setTargetDir(0.0f, Config::kickBallAvoidSideSpeed * (float)ballKickAvoidDir, 0.0f);
 		}
 	} else {
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
