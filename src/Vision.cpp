@@ -871,12 +871,14 @@ bool Vision::isBallInWay(int goalY) {
 	int halfWidth = Config::cameraWidth / 2;
 	const ObjectList& frontBalls = getFrontBalls();
 	Object* ball;
+	float checkWidth;
 
 	for (ObjectListItc it = frontBalls.begin(); it != frontBalls.end(); it++) {
 		ball = *it;
+		checkWidth = ball->width * 2.0f;
 		
 		if (
-			ball->x - ball->width < halfWidth && ball->x + ball->width > halfWidth
+			ball->x - checkWidth < halfWidth && ball->x + checkWidth > halfWidth
 			&& ball->y - ball->height < startY && ball->y  + ball->height > goalY
 		) {
 			return true;
