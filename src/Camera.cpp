@@ -8,6 +8,7 @@ Camera::Camera() : opened(false), yuvInitialized(false) {
     image.bp = NULL;
     image.bp_size = 0;
     device = NULL;
+	serialNumber = 0;
 
     frameRaw.data = NULL;
     frameYUV.data = NULL;
@@ -90,18 +91,9 @@ bool Camera::open(int serial) {
     //xiSetParamInt(device, XI_PRM_HDR, 1);
 
     opened = true;
+	serialNumber = serial;
 
     return true;
-}
-
-void Camera::startAcquisition() {
-    if (!opened) {
-        return;
-    }
-
-    xiStartAcquisition(device);
-
-	start();
 }
 
 Camera::FrameRaw* Camera::getFrame() {
@@ -332,16 +324,36 @@ void* Camera::run() {
 	running = true;
 
 	while (running) {
-		getFrameYUYV();
+		Camera::FrameYUYV* frame = getFrameYUYV();
+
+		if (frame == NULL) {
+			std::cout << "- Didn't get a frame from camera #" << serialNumber << std::endl;
+
+			Util::sleep(10);
+		}
 	}
 
 	return NULL;
+}
+
+void Camera::startAcquisition() {
+    if (!opened) {
+        return;
+    }
+
+    xiStartAcquisition(device);
+
+	running = true;
+
+	start();
 }
 
 void Camera::stopAcquisition() {
     if (!opened) {
         return;
     }
+
+	running = false;
 
     xiStopAcquisition(device);
 }
