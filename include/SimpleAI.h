@@ -24,6 +24,7 @@ class SimpleAI : public Controller {
 		bool handleCommand(const Command& cmd);
 		void onGoRequestedChange(bool isGoRequested);
 		void onTargetSideChange(Side newTargetSide);
+		bool isSearchingFrontOnly();
         void step(double dt);
 
 		void enterPrestart();
@@ -51,6 +52,7 @@ class SimpleAI : public Controller {
 		State state;
 		double stateDuration;
 		double totalDuration;
+		double lastEscapeTime;
 		float searchDir;
 		bool nearSpeedReached;
 		bool viewObstructed;

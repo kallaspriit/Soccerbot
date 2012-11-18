@@ -16,6 +16,7 @@ void SimpleAI::onEnter() {
 	state = State::PRESTART;
 	stateDuration = 0.0;
 	totalDuration = 0.0;
+	lastEscapeTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -196,6 +197,18 @@ std::string SimpleAI::getStateName() {
 	return "UNKNOWN";
 }
 
+bool SimpleAI::isSearchingFrontOnly() {
+	if (frontBallChosen) {
+		return true;
+	}
+
+	if (lastEscapeTime != -1.0 && Util::duration(lastEscapeTime) < 10.0) {
+		return true;
+	}
+
+	return false;
+}
+
 void SimpleAI::enterPrestart() {
 	robot->clearTasks();
 }
@@ -226,7 +239,7 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	const Object* ball = vision->getClosestBall();
+	const Object* ball = vision->getClosestBall(isSearchingFrontOnly());
 
 	if (ball != NULL) {
 		setState(State::FETCH_BALL);
@@ -277,7 +290,7 @@ void SimpleAI::stepFetchBall(double dt) {
 		return;
 	}
 
-	const Object* ball = vision->getClosestBall(frontBallChosen ? true : false);
+	const Object* ball = vision->getClosestBall(isSearchingFrontOnly());
 
 	if (ball == NULL) {
 		setState(State::FIND_BALL);
@@ -486,6 +499,8 @@ void SimpleAI::enterEscapeObstruction() {
 }
 
 void SimpleAI::stepEscapeObstruction(double dt) {
+	lastEscapeTime = Util::millitime();
+
 	if (robot->hasTasks()) {
 		return;
 	}
