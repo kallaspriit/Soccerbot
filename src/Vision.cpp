@@ -962,11 +962,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 				if (senseY > height - 1) {
 					break;
 				}
-
-				if (senseY > maxValidY) {
-					maxValidY = senseY;
-				}
-						
+		
 				color = getColorAt(x, senseY);
 
 				//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
@@ -994,15 +990,15 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 							break;
 						}
 
-						if (gapY > maxValidY) {
-							maxValidY = gapY;
-						}
-								
 						color = getColorAt(x, gapY);
 
 						if (color != NULL) {
 							if (strcmp(color->name, targetColorName) == 0) {
 								retryTarget = true;
+
+								if (gapY > maxValidY) {
+									maxValidY = gapY;
+								}
 
 								break;
 							}
@@ -1238,6 +1234,12 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 	}
 
 	if (largestGoal != NULL) {
+		if (!largestGoal->behind) {
+
+		} else {
+
+		}
+
 		lastLargestGoal.copyFrom(largestGoal);
 
 		return largestGoal;
