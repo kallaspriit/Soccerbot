@@ -370,12 +370,12 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 		x1, y1, x2, y2
 	);
 
-	if (x1 != -1 && y1 != -1 && x2 != -1 && y2 != -1) {
+	/*if (x1 != -1 && y1 != -1 && x2 != -1 && y2 != -1) {
 		goal->width = x2 - x1;
 		goal->height = y2 - y1;
 		goal->x = x1 + goal->width / 2;
 		goal->y = y1 + goal->height / 2;
-	}
+	}*/
 
 	if (undersideMetric < Config::goalMinUndersideMetric) {
 		return false;
