@@ -1154,7 +1154,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 
 void Vision::updateObstructions() {
 	float leftMetric = getBlockMetric(
-		Config::cameraWidth - Config::robotInWayWidth,
+		Config::cameraWidth / 2 - Config::robotInWayWidth,
 		Config::robotInWayY,
 		Config::robotInWayWidth,
 		Config::robotInWayHeight,
@@ -1163,7 +1163,7 @@ void Vision::updateObstructions() {
 	);
 
 	float rightMetric = getBlockMetric(
-		Config::cameraWidth + Config::robotInWayWidth,
+		Config::cameraWidth / 2 + Config::robotInWayWidth,
 		Config::robotInWayY,
 		Config::robotInWayWidth,
 		Config::robotInWayHeight,

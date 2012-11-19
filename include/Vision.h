@@ -61,6 +61,15 @@ class Vision/* : public Blobber::MapFilter*/ {
 		static int getGoalMaxInvalidSpree(int y);
 
     private:
+		void processBalls(Dir dir);
+        void processGoals(Dir dir);
+
+        bool isValidBall(Object* ball, Dir dir);
+        bool isValidGoal(Object* goal, Side side);
+		bool isBallInGoal(Object* ball, Dir dir);
+
+		void updateObstructions();
+
         Blobber* blobber;
         ImageBuffer img;
         ObjectList frontBalls;
@@ -87,15 +96,6 @@ class Vision/* : public Blobber::MapFilter*/ {
         unsigned char* classificationRear;
 		bool viewObstructed;
 		int robotInWay;
-
-        void processBalls(Dir dir);
-        void processGoals(Dir dir);
-
-        bool isValidBall(Object* ball, Dir dir);
-        bool isValidGoal(Object* goal, Side side);
-		bool isBallInGoal(Object* ball, Dir dir);
-
-		void updateObstructions();
 };
 
 #endif // VISION_H
