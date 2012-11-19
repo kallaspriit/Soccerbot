@@ -112,7 +112,7 @@ void InfoBoard::step(double dt) {
 						(*it)->onGoRequestedChange(goRequested);
 					}
 				}
-			} else if (cmd.name == "Gyroscope" && cmd.params.size() == 1) {
+			} else if (cmd.name == "Gyroscope" && cmd.params.size() == 2) {
 				if (firstAngle) {
 					std::cout << "! Ignoring first gyro angle reading" << std::endl;
 
@@ -121,7 +121,11 @@ void InfoBoard::step(double dt) {
 					continue;
 				}
 
-				float angle = Math::degToRad(Util::toFloat(cmd.params[0])) * -1.0f;
+				//float angle = Math::degToRad(Util::toFloat(cmd.params[0])) * -1.0f;
+				float angle = Util::toFloat(cmd.params[0]) / -1000.0f;
+				int measurementNr = Util::toInt(cmd.params[1]);
+
+				std::cout << "@ ANGLE #" << measurementNr << ": " << angle << std::endl;
 
 				for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
 					(*it)->onGyroChange(angle);

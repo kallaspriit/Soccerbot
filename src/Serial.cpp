@@ -341,7 +341,7 @@ int Serial::write(std::string message) {
         return 0;
     }
 
-	std::cout << "@ WRITE #" << id << " ON '" << device << "' : '" << message << "'" << std::endl;
+	//std::cout << "@ WRITE #" << id << " ON '" << device << "' : '" << message << "'" << std::endl;
 
 	DWORD bytesWritten;   
 

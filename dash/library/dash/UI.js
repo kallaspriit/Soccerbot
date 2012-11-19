@@ -946,6 +946,22 @@ Dash.UI.prototype.showStateStats = function(state) {
 		$('#status').addClass('stop');
 	}
 	
+	if (state.isError) {
+		$('#contents').removeClass('no-error');
+	} else {
+		$('#contents').addClass('no-error');
+	}
+	
+	$('#obstruction-indicator-left, #obstruction-indicator-right').removeClass('active');
+	
+	if (state.isViewObstructed) {
+		$('#obstruction-indicator-left, #obstruction-indicator-right').addClass('active');
+	} else if (state.robotInWay == -1) {
+		$('#obstruction-indicator-left').addClass('active');
+	} else if (state.robotInWay == 1) {
+		$('#obstruction-indicator-right').addClass('active');
+	}
+	
 	this.showControllerState(state.controllerState);
 };
 
