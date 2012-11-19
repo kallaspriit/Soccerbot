@@ -188,6 +188,9 @@ void SoccerBot::init() {
 
 	setTargetSide(Side::BLUE);
 
+	frontCamera->startAcquisition();
+	rearCamera->startAcquisition();
+
     std::cout << "! SoccerBot ready" << std::endl;
 }
 
@@ -255,7 +258,7 @@ void SoccerBot::setupCameras() {
 		configureCamera(frontCamera);
 		showCameraInfo(frontCamera, "! Front camera");
         
-		frontCamera->startAcquisition();
+		//frontCamera->startAcquisition();
     } else {
 		std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
 
@@ -270,7 +273,7 @@ void SoccerBot::setupCameras() {
         configureCamera(rearCamera);
 		showCameraInfo(rearCamera, "! Rear camera");
 
-		rearCamera->startAcquisition();
+		//rearCamera->startAcquisition();
     } else {
 		std::cout << "- Failed to find rear camera with serial: " << Config::rearCameraSerial << std::endl;
 
