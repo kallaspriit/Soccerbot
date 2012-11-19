@@ -33,7 +33,7 @@ class Robot {
         Robot(Vision* vision);
         ~Robot();
 
-        bool init();
+        bool init(int attemptsLeft = 3);
 		void initLocalizer();
         void step(double dt);
 

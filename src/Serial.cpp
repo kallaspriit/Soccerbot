@@ -160,7 +160,7 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
         while (attemptsLeft-- > 0) {
 			writeln("?");
 
-			Util::sleep(100);
+			Util::sleep(50);
 
             while (available() > 0) {
                 std::string message = read();

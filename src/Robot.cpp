@@ -85,7 +85,7 @@ Robot::~Robot() {
     }
 }
 
-bool Robot::init() {
+bool Robot::init(int attemptsLeft) {
     omegaMatrix = Math::Matrix4x3(
         -Math::sin(wheelAngles[0]), Math::cos(wheelAngles[0]), wheelOffset,
 		-Math::sin(wheelAngles[1]), Math::cos(wheelAngles[1]), wheelOffset,
@@ -138,6 +138,12 @@ bool Robot::init() {
 		|| !dribbler->isReady()
 		|| !coilgun->isReady()
 	) {
+		if (attemptsLeft > 0) {
+			std::cout << "! Failed to setup robot, " << attemptsLeft << " attempts left" << std::endl;
+
+			return init(attemptsLeft - 1);
+		}
+
 		return false;
 	}
 

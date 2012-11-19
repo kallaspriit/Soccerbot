@@ -125,9 +125,9 @@ void InfoBoard::step(double dt) {
 				for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
 					(*it)->onGyroChange(angle);
 				}
-			} else {
+			}/* else {
 				std::cout << "- Invalid info-board command: " << cmd.name << " " << Util::toString(cmd.params) << std::endl;
-			}
+			}*/
 		}
 	}
 
