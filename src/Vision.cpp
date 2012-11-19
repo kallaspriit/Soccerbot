@@ -1171,15 +1171,15 @@ void Vision::updateObstructions() {
 		20
 	);
 
+	viewObstructed = false;
+	robotInWay = 0;
+
 	if (leftMetric < Config::viewObstructedThreshold && rightMetric < Config::viewObstructedThreshold) {
 		viewObstructed = true;
-		robotInWay = 0;
 	} else if (leftMetric < Config::viewObstructedThreshold) {
 		robotInWay = -1;
 	} else if (rightMetric < Config::viewObstructedThreshold) {
 		robotInWay = 1;
-	} else {
-		robotInWay = 0;
 	}
 }
 
