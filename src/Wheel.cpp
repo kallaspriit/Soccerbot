@@ -9,11 +9,13 @@
 const float Wheel::pidFrequency = 62.5f;
 const float Wheel::ticksPerRevolution = 64.0f * 18.75f;
 
-Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), lastMessageTime(-1.0), stallCounter(0) {
+Wheel::Wheel(int id) : id(id), targetOmega(0), realOmega(0), ready(false), onceOpened(false), lastMessageTime(-1.0), stallCounter(0) {
     serial = new Serial();
 
     if (serial->open(id) == Serial::OK) {
 		std::cout << "+ Wheel #" << id << " found on port '" << serial->getPortName() << "'" << std::endl;
+
+		onceOpened = true;
 
         // request sending speed automatically
         //serial->writeln("gs1");
@@ -83,7 +85,7 @@ void Wheel::step(double dt) {
         }
     }
 
-	if (lastMessageTime != -1.0 && serial->isOpen() && currentTime - lastMessageTime > 1.0f) {
+	if (lastMessageTime != -1.0 && onceOpened && currentTime - lastMessageTime > 1.0f) {
 		std::cout << "- Wheel #" << id << " seems to have lost connection" << std::endl;
 
 		realOmega = 0.0f;

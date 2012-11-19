@@ -49,7 +49,7 @@ const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const int viewObstructedX = 100;
-const int viewObstructedY = 100;
+const int viewObstructedY = 80;
 const int viewObstructedWidth = cameraWidth - viewObstructedX * 2;
 const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 
@@ -84,6 +84,7 @@ const float ballFocusD = 0.0f;						//< how fast to yaw to focus on a ball (angl
 const float goalFocusP = ballFocusP;				//< how fast to yaw to focus on a goal (angle multiplier)
 const float ballSearchOmega = 3.14f;				//< how fast to spin to search for ball
 const float ballRotateOmega = 2.0f;					//< how fast to rotate while searching for goal
+const float goalSpinOmega = 1.5f;					//< how fast to rotate while searching for goal
 //const float ballChaseK = 1.0f;					//< distance multiplier to chase speed
 const float focusMaxOmega = ballSearchOmega;		//< maximum omega to apply while focusing on an object
 //const float ballChaseMaxSpeed = 0.75f;			//< maximum speed to chase a ball at

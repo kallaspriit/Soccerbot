@@ -358,9 +358,9 @@ void SimpleAI::stepFetchBall(double dt) {
 
 		if (robotInWay != 0) {
 			if (robotInWay == -1) {
-				robot->setTargetDir(Math::Deg(65.0f), 0.5f, omega);
+				robot->setTargetDir(Math::Deg(70.0f), 0.5f, omega);
 			} else {
-				robot->setTargetDir(Math::Deg(-65.0f), 0.5f, omega);
+				robot->setTargetDir(Math::Deg(-70.0f), 0.5f, omega);
 			}
 		} else {
 			bool braking = false;
@@ -439,7 +439,8 @@ void SimpleAI::stepFindGoal(double dt) {
 		if (lastGoalDistance >= 1.0f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
-			robot->setTargetDir(Math::Deg(0), 0, Config::ballRotateOmega * (float)goalTurnDirection);
+			// @TODO start spinning gradually
+			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection);
 		}
 
 		return;

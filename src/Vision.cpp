@@ -1163,7 +1163,7 @@ void Vision::updateObstructions() {
 	);
 
 	float rightMetric = getBlockMetric(
-		Config::cameraWidth / 2 + Config::robotInWayWidth,
+		Config::cameraWidth / 2,
 		Config::robotInWayY,
 		Config::robotInWayWidth,
 		Config::robotInWayHeight,

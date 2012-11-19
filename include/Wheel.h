@@ -29,6 +29,7 @@ class Wheel
         float targetOmega;
         float realOmega;
         bool ready;
+		bool onceOpened;
 		double lastMessageTime;
 		int stallCounter;
 
