@@ -341,6 +341,8 @@ int Serial::write(std::string message) {
         return 0;
     }
 
+	std::cout << "@ WRITE #" << id << " ON '" << device << "' : '" << message << "'" << std::endl;
+
 	DWORD bytesWritten;   
 
     if (!WriteFile(hSerial, message.c_str(), message.length(), &bytesWritten, NULL)) {
