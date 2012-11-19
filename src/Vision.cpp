@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL), viewObstructed(false) {
+Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL), viewObstructed(false), robotInWay(0) {
     blobber = new Blobber();
 
     blobber->initialize(width, height);
@@ -135,7 +135,7 @@ void Vision::process(Dir dir) {
 	processGoals(dir);
 
 	if (dir == Dir::DIR_FRONT) {
-		updateViewObstructed();
+		updateObstructions();
 	}
 }
 
@@ -1135,7 +1135,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	return (float)matches / (float)points;
 }
 
-void Vision::updateViewObstructed() {
+/*void Vision::updateViewObstructed() {
 	float validColorsPercentage = getBlockMetric(
 		Config::viewObstructedX,
 		Config::viewObstructedY,
@@ -1149,6 +1149,37 @@ void Vision::updateViewObstructed() {
 		viewObstructed = true;
 	} else {
 		viewObstructed = false;
+	}
+}*/
+
+void Vision::updateObstructions() {
+	float leftMetric = getBlockMetric(
+		Config::cameraWidth - Config::robotInWayWidth,
+		Config::robotInWayY,
+		Config::robotInWayWidth,
+		Config::robotInWayHeight,
+		viewObstructedValidColors,
+		20
+	);
+
+	float rightMetric = getBlockMetric(
+		Config::cameraWidth + Config::robotInWayWidth,
+		Config::robotInWayY,
+		Config::robotInWayWidth,
+		Config::robotInWayHeight,
+		viewObstructedValidColors,
+		20
+	);
+
+	if (leftMetric < Config::viewObstructedThreshold && rightMetric < Config::viewObstructedThreshold) {
+		viewObstructed = true;
+		robotInWay = 0;
+	} else if (leftMetric < Config::viewObstructedThreshold) {
+		robotInWay = -1;
+	} else if (rightMetric < Config::viewObstructedThreshold) {
+		robotInWay = 1;
+	} else {
+		robotInWay = 0;
 	}
 }
 

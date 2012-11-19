@@ -1122,6 +1122,9 @@ std::string SoccerBot::getStateJSON() const {
     stream << "\"dt\":" << lastStepDt << ",";
     stream << "\"load\":" << lastStepLoad << ",";
     stream << "\"duration\":" << lastStepDuration << ",";
+	stream << "\"isError\":" << (infoBoard->isError() ? "true" : "false") << ",";
+	stream << "\"isViewObstructed\":" << (vision->isViewObstructed() ? "true" : "false") << ",";
+	stream << "\"robotInWay\":" << vision->getRobotInWay() << ",";
     stream << "\"totalTime\":" << totalTime << ",";
 	stream << "\"gotBall\":" << robot->getDribbler().gotBall() << ",";
 
