@@ -104,6 +104,8 @@ void InfoBoard::step(double dt) {
 						(*it)->onGoRequestedChange(goRequested);
 					}
 				}
+			} else if (cmd.name == "id") {
+				// never mind..
 			} else if (cmd.name == "Gyroscope" && cmd.params.size() == 1) {
 				if (firstAngle) {
 					std::cout << "! Ignoring first gyro angle reading" << std::endl;

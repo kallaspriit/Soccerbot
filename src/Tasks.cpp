@@ -133,7 +133,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 		std::cout << "; CUT SPEED: " << useSpeed;
 	}*/
 
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
     robot.setTargetDir(Math::Rad(0), 0, useSpeed);
 
