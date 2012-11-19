@@ -49,7 +49,7 @@ const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const int viewObstructedX = 100;
-const int viewObstructedY = 80;
+const int viewObstructedY = 20;
 const int viewObstructedWidth = cameraWidth - viewObstructedX * 2;
 const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 
