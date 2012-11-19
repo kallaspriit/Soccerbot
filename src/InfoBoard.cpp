@@ -122,10 +122,10 @@ void InfoBoard::step(double dt) {
 				}
 
 				//float angle = Math::degToRad(Util::toFloat(cmd.params[0])) * -1.0f;
-				float angle = Util::toFloat(cmd.params[0]) / -1000000000.0f;
+				float angle = (float)(Util::toDouble(cmd.params[0]) / -1000000000.0);
 				
 				/*int measurementNr = Util::toInt(cmd.params[1]);
-
+				
 				std::cout << "@ ANGLE #" << measurementNr << ": " << angle << std::endl;*/
 
 				for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {

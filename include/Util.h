@@ -64,6 +64,10 @@ class Util {
             return atof(str.c_str());
         }
 
+		static inline double toDouble(const std::string str) {
+            return (double)atof(str.c_str());
+        }
+
     private:
         static const std::string base64Chars;
 };
