@@ -188,9 +188,6 @@ void SoccerBot::init() {
 
 	setTargetSide(Side::BLUE);
 
-	frontCamera->startAcquisition();
-	rearCamera->startAcquisition();
-
     std::cout << "! SoccerBot ready" << std::endl;
 }
 
@@ -342,15 +339,18 @@ void SoccerBot::showCameraInfo(Camera* camera, std::string name) {
 }
 
 void SoccerBot::run() {
-	std::cout << "! Running the SoccerBot" << std::endl;
-
     std::string message;
     double time, dt;
     
 	rgbaBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 4];
 	rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
 
+	frontCamera->startAcquisition();
+	rearCamera->startAcquisition();
+
 	active = true;
+
+	std::cout << "! Running the SoccerBot" << std::endl;
 
     while (!stopRequested) {
 		if (signalHandler->gotExitSignal()) {
