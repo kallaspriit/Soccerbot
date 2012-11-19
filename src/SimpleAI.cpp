@@ -90,10 +90,6 @@ void SimpleAI::setState(State newState) {
 	state = newState;
 	stateDuration = 0;
 
-	if (state != FIND_BALL && state != FETCH_BALL) {
-		findOrFetchDuration = 0.0;
-	}
-
 	switch (state) {
 		case PRESTART:
 			enterPrestart();
@@ -126,7 +122,9 @@ void SimpleAI::step(double dt) {
 	totalDuration += dt;
 
 	if (state == FIND_BALL || state == FETCH_BALL) {
-		findOrFetchDuration = 0.0;
+		findOrFetchDuration += dt;
+	} else {
+		findOrFetchDuration = 0;
 	}
 
 	viewObstructed = false;
