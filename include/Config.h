@@ -55,7 +55,7 @@ const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 
 const int robotInWayWidth = 120;
 const int robotInWayHeight = 150;
-const int robotInWayY = 20;
+const int robotInWayY = 60;
 
 const float viewObstructedThreshold = 0.5f;
 const float ballInGoalThreshold = 0.25f;
