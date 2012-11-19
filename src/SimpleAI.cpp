@@ -358,9 +358,9 @@ void SimpleAI::stepFetchBall(double dt) {
 
 		if (robotInWay != 0) {
 			if (robotInWay == -1) {
-				robot->setTargetDir(Math::Deg(70.0f), 0.5f, omega);
+				robot->setTargetDir(Math::Deg(90.0f), 0.5f, omega);
 			} else {
-				robot->setTargetDir(Math::Deg(-70.0f), 0.5f, omega);
+				robot->setTargetDir(Math::Deg(-90.0f), 0.5f, omega);
 			}
 		} else {
 			bool braking = false;
