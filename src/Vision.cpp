@@ -1350,7 +1350,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 	}
 }
 
-Object* Vision::getFurthestGoal(bool frontOnly) {
+/*Object* Vision::getFurthestGoal(bool frontOnly) {
 	const ObjectList& frontGoals = getFrontGoals();
 	float furthestDistance = 0.0f;
 	Object* goal;
@@ -1389,5 +1389,28 @@ Object* Vision::getFurthestGoal(bool frontOnly) {
 		return &lastFurthestGoal;
 	} else {
 		return NULL;
+	}
+}*/
+
+Object* Vision::getFurthestGoal(bool frontOnly) {
+	Object* largestYellow = getLargestGoal(Side::YELLOW);
+	Object* largestBlue = getLargestGoal(Side::BLUE);
+
+	if (largestYellow != NULL) {
+		if (largestBlue != NULL) {
+			if (largestYellow->distance > largestBlue->distance) {
+				return largestYellow;
+			} else {
+				return largestBlue;
+			}
+		} else {
+			return largestYellow;
+		}
+	} else {
+		if (largestBlue != NULL) {
+			return largestBlue;
+		} else {
+			return NULL;
+		}
 	}
 }
