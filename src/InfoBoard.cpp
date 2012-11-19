@@ -122,7 +122,7 @@ void InfoBoard::step(double dt) {
 				}
 
 				//float angle = Math::degToRad(Util::toFloat(cmd.params[0])) * -1.0f;
-				float angle = Util::toFloat(cmd.params[0]) / -1000000.0f;
+				float angle = Util::toFloat(cmd.params[0]) / -1000000000.0f;
 				
 				/*int measurementNr = Util::toInt(cmd.params[1]);
 
