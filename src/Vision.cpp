@@ -1393,8 +1393,8 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 }*/
 
 Object* Vision::getFurthestGoal(bool frontOnly) {
-	Object* largestYellow = getLargestGoal(Side::YELLOW);
-	Object* largestBlue = getLargestGoal(Side::BLUE);
+	Object* largestYellow = getLargestGoal(Side::YELLOW, frontOnly);
+	Object* largestBlue = getLargestGoal(Side::BLUE, frontOnly);
 
 	if (largestYellow != NULL) {
 		if (largestBlue != NULL) {
