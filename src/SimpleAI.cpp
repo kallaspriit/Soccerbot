@@ -378,7 +378,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 		int robotInWay = vision->getRobotInWay();
 
-		if (robotInWay != 0) {
+		if (robotInWay != 0 && lastGoalDistance >= 1.0f && lastGoalDistance <= 4.0f) {
 			if (robotInWay == -1) {
 				robot->setTargetDirFor(0.25, 0.5f, omega, 1.0);
 				//robot->setTargetDir(Math::Deg(90.0f), 0.5f, omega);
