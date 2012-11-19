@@ -288,14 +288,6 @@ void SimpleAI::stepFetchBall(double dt) {
 		return;
 	}
 
-	if (vision->isViewObstructed()) {
-		setState(State::ESCAPE_OBSTRUCTION);
-
-		viewObstructed = true;
-
-		return;
-	}
-
 	const Object* ball = vision->getClosestBall(isSearchingFrontOnly());
 
 	if (ball == NULL) {
@@ -354,36 +346,54 @@ void SimpleAI::stepFetchBall(double dt) {
 			searchDir = 1.0f;
 		}*/
 	} else {
-		bool braking = false;
+		if (vision->isViewObstructed()) {
+			setState(State::ESCAPE_OBSTRUCTION);
 
-		if (distance > brakeDistance) {
-			speed = Config::ballChaseFarSpeed;
+			viewObstructed = true;
+
+			return;
+		}
+
+		int robotInWay = vision->getRobotInWay();
+
+		if (robotInWay != 0) {
+			if (robotInWay == -1) {
+				robot->setTargetDir(Math::Deg(65.0f), 0.5f, omega);
+			} else {
+				robot->setTargetDir(Math::Deg(-65.0f), 0.5f, omega);
+			}
 		} else {
-			speed = Config::ballChaseNearSpeed;
+			bool braking = false;
 
-			if (!nearSpeedReached) {
-				if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
-					speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
-					braking = true;
-				} else {
-					nearSpeedReached = true;
+			if (distance > brakeDistance) {
+				speed = Config::ballChaseFarSpeed;
+			} else {
+				speed = Config::ballChaseNearSpeed;
+
+				if (!nearSpeedReached) {
+					if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+						speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
+						braking = true;
+					} else {
+						nearSpeedReached = true;
+					}
 				}
 			}
+
+			if (!braking) {
+				float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
+
+				speed = speed * (1.0f - speedDecrease);
+			}
+
+			if (distance <= Config::dribblerOnThreshold) {
+				robot->getDribbler().start();
+			} else {
+				robot->getDribbler().stop();
+			}
+
+			robot->setTargetDir(Math::Rad(0), speed, omega);
 		}
-
-		if (!braking) {
-			float speedDecrease = Math::limit(Math::abs(ball->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
-
-			speed = speed * (1.0f - speedDecrease);
-		}
-
-		if (distance <= Config::dribblerOnThreshold) {
-			robot->getDribbler().start();
-		} else {
-			robot->getDribbler().stop();
-		}
-
-		robot->setTargetDir(Math::Rad(0), speed, omega);
 	}
 
 	lastVelocityX = currentVelocityX;
@@ -426,7 +436,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			goalTurnDirection = angle >= 0 ? 1 : -1;
 		}*/
 
-		if (lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
+		if (lastGoalDistance >= 1.0f && lastGoalDistance <= 4.0f) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
 			robot->setTargetDir(Math::Deg(0), 0, Config::ballRotateOmega * (float)goalTurnDirection);
