@@ -12,7 +12,7 @@
 #include "Util.h"
 #include "Command.h"
 
-Serial::Serial() : opened(false), threadStarted(false), id(0) {
+Serial::Serial() : opened(false), threadStarted(false), id(0), lastReconnectTime(-1.0) {
 	InitializeCriticalSection(&messagesMutex);
 }
 
@@ -119,12 +119,26 @@ Serial::Result Serial::attemptOpen(std::string device, int speed, const char del
 }
 
 void Serial::reconnect() {
+	if (lastReconnectTime != -1.0 && Util::duration(lastReconnectTime) < 1.0) {
+		return;
+	}
+
+	std::cout << "! Reconnecting serial #" << id << " on " << device << ".. ";
+
 	close();
 
 	if (id != 0) {
-		open(id, speed, delimiter);
+		if (open(id, speed, delimiter) == Serial::OK) {
+			std::cout << "success!" << std::endl;
+		} else {
+			std::cout << "failed" << std::endl;
+		}
 	} else {
-		open(device, speed, delimiter);
+		if (open(device, speed, delimiter)== Serial::OK) {
+			std::cout << "success!" << std::endl;
+		} else {
+			std::cout << "failed" << std::endl;
+		}
 	}
 }
 

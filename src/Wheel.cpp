@@ -88,7 +88,7 @@ void Wheel::step(double dt) {
 
 		realOmega = 0.0f;
 
-		//serial->reconnect();
+		serial->reconnect();
 	}
 }
 

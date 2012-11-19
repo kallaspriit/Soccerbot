@@ -44,6 +44,7 @@ class Serial : private Thread {
         char delimiter;
         bool opened;
 		bool threadStarted;
+		double lastReconnectTime;
 		std::string portName;
         std::string message;
         std::stack<std::string> messages;
