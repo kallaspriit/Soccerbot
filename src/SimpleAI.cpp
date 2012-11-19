@@ -6,6 +6,7 @@
 #include "Coilgun.h"
 #include "Command.h"
 #include "InfoBoard.h"
+#include "Tasks.h"
 #include "Util.h"
 
 #include <iostream>
@@ -16,6 +17,7 @@ void SimpleAI::onEnter() {
 	state = State::PRESTART;
 	stateDuration = 0.0;
 	totalDuration = 0.0;
+	findOrFetchDuration = 0.0;
 	lastEscapeTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
@@ -88,6 +90,10 @@ void SimpleAI::setState(State newState) {
 	state = newState;
 	stateDuration = 0;
 
+	if (state != FIND_BALL && state != FETCH_BALL) {
+		findOrFetchDuration = 0.0;
+	}
+
 	switch (state) {
 		case PRESTART:
 			enterPrestart();
@@ -118,6 +124,10 @@ void SimpleAI::setState(State newState) {
 void SimpleAI::step(double dt) {
 	stateDuration += dt;
 	totalDuration += dt;
+
+	if (state == FIND_BALL || state == FETCH_BALL) {
+		findOrFetchDuration = 0.0;
+	}
 
 	viewObstructed = false;
 	stalled = false;
@@ -247,7 +257,7 @@ void SimpleAI::stepFindBall(double dt) {
 		return;
 	}
 
-	if (stateDuration > 6.0f) {
+	if (findOrFetchDuration > 6.0f) {
 		setState(State::RELOCATE);
 
 		return;
@@ -255,7 +265,7 @@ void SimpleAI::stepFindBall(double dt) {
 
 	float omega = Config::ballSearchOmega * searchDir;
 
-	if (stateDuration > 2.0f) {
+	if (findOrFetchDuration > 2.0f) {
 		omega /= 2.0f;
 	}
 
@@ -279,6 +289,20 @@ void SimpleAI::enterFetchBall() {
 
 void SimpleAI::stepFetchBall(double dt) {
 	if (robot->hasTasks()) {
+		const Object* ball = vision->getClosestBall(true);
+
+		if (ball != NULL) {
+			Task* currentTask = robot->getCurrentTask();
+
+			if (currentTask->getType() == "drive-for") {
+				DriveForTask* driveTask = (DriveForTask*)currentTask;
+
+				float omega = Math::limit(ball->angle * Config::ballFocusP, Config::focusMaxOmega);
+
+				driveTask->setOmega(omega);
+			}
+		}
+
 		return;
 	}
 
@@ -296,7 +320,7 @@ void SimpleAI::stepFetchBall(double dt) {
 		return;
 	}
 
-	if (stateDuration > 10.0f) {
+	if (findOrFetchDuration > 10.0f) {
 		setState(State::RELOCATE);
 
 		return;
@@ -358,10 +382,10 @@ void SimpleAI::stepFetchBall(double dt) {
 
 		if (robotInWay != 0) {
 			if (robotInWay == -1) {
-				robot->setTargetDirFor(0.5, 0.5f, omega, 1.0);
+				robot->setTargetDirFor(0.25, 0.5f, omega, 1.0);
 				//robot->setTargetDir(Math::Deg(90.0f), 0.5f, omega);
 			} else {
-				robot->setTargetDirFor(0.5, -0.5f, omega, 1.0);
+				robot->setTargetDirFor(0.25, -0.5f, omega, 1.0);
 				//robot->setTargetDir(Math::Deg(-90.0f), 0.5f, omega);
 			}
 		} else {

@@ -52,6 +52,7 @@ class SimpleAI : public Controller {
 		State state;
 		double stateDuration;
 		double totalDuration;
+		double findOrFetchDuration;
 		double lastEscapeTime;
 		float searchDir;
 		bool nearSpeedReached;

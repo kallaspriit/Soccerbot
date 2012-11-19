@@ -162,6 +162,8 @@ class DriveForTask : public Task {
     public:
         DriveForTask(float x, float y, float omega, double duration) : Task(), x(x), y(y), omega(omega), duration(duration) {}
 
+		void setOmega(float newOmega) { omega = newOmega; }
+
         void onStart(Robot& robot, double dt);
         bool onStep(Robot& robot, double dt);
         void onEnd(Robot& robot, double dt);
