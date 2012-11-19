@@ -49,13 +49,13 @@ const int rearCameraSerial = 857735761;
 const std::string blobberConfigFilename = "config/blobber.cfg";
 
 const int viewObstructedX = 100;
-const int viewObstructedY = 20;
+const int viewObstructedY = 100;
 const int viewObstructedWidth = cameraWidth - viewObstructedX * 2;
 const int viewObstructedHeight = cameraHeight - viewObstructedY * 2;
 
 const int robotInWayWidth = 120;
 const int robotInWayHeight = 150;
-const int robotInWayY = 120;
+const int robotInWayY = 60;
 
 const float viewObstructedThreshold = 0.5f;
 const float ballInGoalThreshold = 0.25f;
