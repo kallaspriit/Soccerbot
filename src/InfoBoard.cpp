@@ -71,13 +71,9 @@ void InfoBoard::step(double dt) {
 				if (sideValue == 0 && targetSide != Side::BLUE) {
 					targetSide = Side::BLUE;
 					sideChanged = true;
-
-					std::cout << "! Target goal changed to blue" << std::endl;
 				} else if (sideValue == 1 && targetSide != Side::YELLOW) {
 					targetSide = Side::YELLOW;
 					sideChanged = true;
-
-					std::cout << "! Target goal changed to yellow" << std::endl;
 				}
 
 				serial->write("<goal:" + Util::toString(sideValue) + ">");
@@ -95,14 +91,10 @@ void InfoBoard::step(double dt) {
 					goRequested = false;
 					goReceived = true;
 					goChanged = true;
-
-					std::cout << "! Stop requested by button" << std::endl;
 				} else if (startValue == 1 && (!goReceived || goRequested != true)) {
 					goRequested = true;
 					goReceived = true;
 					goChanged = true;
-
-					std::cout << "! Go requested" << std::endl;
 				}
 
 				serial->write("<start:" + Util::toString(startValue) + ">");
@@ -125,7 +117,7 @@ void InfoBoard::step(double dt) {
 				float angle = (float)(Util::toDouble(cmd.params[0]) / -1000000000.0);
 				
 				/*int measurementNr = Util::toInt(cmd.params[1]);
-				
+
 				std::cout << "@ ANGLE #" << measurementNr << ": " << angle << std::endl;*/
 
 				for (std::vector<InfoBoardListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
