@@ -461,3 +461,42 @@ float JumpAngleTask::getPercentage() {
 std::string JumpAngleTask::toString() {
     return "JumpAngle";
 }
+
+
+// drives for an duration
+void DriveForTask::onStart(Robot& robot, double dt) {
+	startTime = Util::millitime();
+	endTime = startTime + duration;
+}
+
+bool DriveForTask::onStep(Robot& robot, double dt) {
+	currentTime = Util::millitime();
+
+	if (currentTime > endTime) {
+		robot.stop();
+
+		return false;
+	}
+
+	robot.setTargetDir(x, y, omega);
+
+	return true;
+}
+
+void DriveForTask::onEnd(Robot& robot, double dt) {
+	robot.stop();
+}
+
+float DriveForTask::getPercentage() {
+    if (!started) {
+        return 0.0f;
+    }
+
+	double timeRemaining = endTime - currentTime;
+
+	return 100.0f - (timeRemaining * 100.0f / duration);
+}
+
+std::string DriveForTask::toString() {
+    return "Drive " + Util::toString(x) + "x" + Util::toString(y) + " @ " + Util::toString(omega) + " for " + Util::toString(duration) + "seconds";
+}

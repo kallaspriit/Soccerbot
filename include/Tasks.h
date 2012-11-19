@@ -158,4 +158,25 @@ class JumpAngleTask : public Task {
 		bool breaking;
 };
 
+class DriveForTask : public Task {
+    public:
+        DriveForTask(float x, float y, float omega, double duration) : Task(), x(x), y(y), omega(omega), duration(duration) {}
+
+        void onStart(Robot& robot, double dt);
+        bool onStep(Robot& robot, double dt);
+        void onEnd(Robot& robot, double dt);
+        float getPercentage();
+        std::string getType() { return "drive-for"; };
+        std::string toString();
+
+	private:
+		double duration;
+		float x;
+		float y;
+		float omega;
+		double startTime;
+		double endTime;
+		double currentTime;
+};
+
 #endif // TASKS_H

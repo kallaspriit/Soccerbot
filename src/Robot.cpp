@@ -318,6 +318,10 @@ void Robot::jumpAngle(float angle, float speed) {
 	addTask(new JumpAngleTask(angle, speed));
 }
 
+void Robot::setTargetDirFor(float x, float y, float omega, double duration) {
+	addTask(new DriveForTask(x, y, omega, duration));
+}
+
 void Robot::handleTasks(double dt) {
     Task* task = getCurrentTask();
 
