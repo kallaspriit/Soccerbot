@@ -135,10 +135,12 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
         std::string port = "\\\\.\\COM" + Util::toString(i);
 
         if (isOpen()) {
-            close();
+			Util::sleep(50);
 
-			//Util::sleep(50);
+            close();
         }
+
+		Util::sleep(50);
 
         if (open(port) != Serial::OK) {
             //std::cout << "! Failed to open port '" << port << "'" << std::endl;
@@ -158,7 +160,7 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
         while (attemptsLeft-- > 0) {
 			writeln("?");
 
-			//Util::sleep(50);
+			Util::sleep(50);
 
             while (available() > 0) {
                 std::string message = read();
@@ -187,7 +189,7 @@ Serial::Result Serial::open(int id, int speed, const char delimiter) {
 				break;
 			}
 
-            Util::sleep(10);
+            Util::sleep(50);
         }
 
 		if (found) {
