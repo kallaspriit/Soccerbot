@@ -32,6 +32,10 @@ Robot::Robot(Vision* vision) : vision(vision) {
     wheelRadius = 0.034f;
     wheelRadiusInv = 1.0f / wheelRadius;
 
+	fluidTargetX = 0.0f;
+	fluidTargetY = 0.0f;
+	fluidTargetOmega = 0.0f;
+
     x = 0.125f;
     y = 0.125f;
     orientation = 0.0f;
@@ -232,27 +236,27 @@ void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
 	fluidMovement = fluid;
 
 	if (fluidMovement) {
-		float currentX = movement.velocityX;
+		/*float currentX = movement.velocityX;
 		float currentY = movement.velocityY;
-		float currentOmega = movement.omega;
+		float currentOmega = movement.omega;*/
 		float stepX, stepY, stepOmega;
 
-		if (currentX < x) {
-			stepX = Math::min(currentX + Config::fluidSpeedStep * lastDt, x);
+		if (fluidTargetX < x) {
+			stepX = Math::min(fluidTargetX + Config::fluidSpeedStep * lastDt, x);
 		} else {
-			stepX = Math::max(currentX - Config::fluidSpeedStep * lastDt, x);
+			stepX = Math::max(fluidTargetX - Config::fluidSpeedStep * lastDt, x);
 		}
 
-		if (currentY < y) {
-			stepY = Math::min(currentY + Config::fluidSpeedStep * lastDt, y);
+		if (fluidTargetY < y) {
+			stepY = Math::min(fluidTargetY + Config::fluidSpeedStep * lastDt, y);
 		} else {
-			stepY = Math::max(currentY - Config::fluidSpeedStep * lastDt, y);
+			stepY = Math::max(fluidTargetY - Config::fluidSpeedStep * lastDt, y);
 		}
 
-		if (currentOmega < omega) {
-			stepOmega = Math::min(currentOmega + Config::fluidOmegaStep * lastDt, omega);
+		if (fluidTargetOmega < omega) {
+			stepOmega = Math::min(fluidTargetOmega + Config::fluidOmegaStep * lastDt, omega);
 		} else {
-			stepOmega = Math::max(currentOmega - Config::fluidOmegaStep * lastDt, omega);
+			stepOmega = Math::max(fluidTargetOmega - Config::fluidOmegaStep * lastDt, omega);
 		}
 
 		targetDir = Math::Vector(stepX, stepY);

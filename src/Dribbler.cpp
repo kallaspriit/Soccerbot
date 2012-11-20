@@ -54,10 +54,8 @@ void Dribbler::step(double dt) {
 	}
 
 	if (ballDetected) {
-		ballInDribblerTime += dt;
+		ballInDribblerTime = Util::millitime();
 	} else {
-		ballInDribblerTime = 0.0;
-
 		if (hadBall) {
 			ballLostTime = Util::millitime();
 		}
@@ -73,7 +71,7 @@ double Dribbler::getBallLostDuration() {
 }
 
 bool Dribbler::gotBall() const {
-	if (ballInDribblerTime >= Config::ballInDribblerThreshold || (ballLostTime != -1.0 && Util::duration(ballLostTime) <= Config::dribblerBallLostThreshold)) {
+	if (Util::duration(ballInDribblerTime) < Config::ballInDribblerThreshold || (ballLostTime != -1.0 && Util::duration(ballLostTime) < Config::dribblerBallLostThreshold)) {
 		return true;
 	}
 
