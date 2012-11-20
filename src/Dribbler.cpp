@@ -39,8 +39,6 @@ void Dribbler::step(double dt) {
 
 	std::string message;
 
-	bool hadBall = ballDetected;
-
     while (serial->available() > 0) {
         message = serial->read();
 
@@ -56,9 +54,9 @@ void Dribbler::step(double dt) {
 	if (ballDetected) {
 		ballInDribblerTime += dt;
 		ballLostTime = 0.0;
-	} else if (hadBall) {
-		ballLostTime += dt;
+	} else {
 		ballInDribblerTime = 0.0;
+		ballLostTime += dt;
 	}
 }
 
