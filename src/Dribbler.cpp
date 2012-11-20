@@ -69,5 +69,5 @@ bool Dribbler::gotBall() const {
 		return false;
 	}
 
-	return true;
+	return false;
 }
