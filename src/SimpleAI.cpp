@@ -449,7 +449,7 @@ void SimpleAI::stepFindGoal(double dt) {
 	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
 	if (stateDuration > 10.0f) {
-		robot->getCoilgun().kick();
+		robot->getCoilgun().kick(750);
 		setState(State::RELOCATE);
 
 		return;

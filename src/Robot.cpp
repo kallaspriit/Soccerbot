@@ -294,7 +294,7 @@ bool Robot::isStalled() {
 }
 
 void Robot::stop() {
-	setTargetDir(0, 0, 0);
+	setTargetDir(0, 0, 0, fluidMovement);
 	dribbler->stop();
 }
 
