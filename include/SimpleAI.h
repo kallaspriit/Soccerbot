@@ -54,6 +54,7 @@ class SimpleAI : public Controller {
 		double totalDuration;
 		double findOrFetchDuration;
 		double lastEscapeTime;
+		double ballInDribblerTime;
 		float searchDir;
 		bool nearSpeedReached;
 		bool viewObstructed;

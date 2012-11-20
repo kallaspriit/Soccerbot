@@ -232,7 +232,31 @@ void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
 	fluidMovement = fluid;
 
 	if (fluidMovement) {
+		float currentX = movement.velocityX;
+		float currentY = movement.velocityY;
+		float currentOmega = movement.omega;
+		float stepX, stepY, stepOmega;
 
+		if (currentX < x) {
+			stepX = Math::min(currentX + Config::fluidSpeedStep * lastDt, x);
+		} else {
+			stepX = Math::max(currentX - Config::fluidSpeedStep * lastDt, x);
+		}
+
+		if (currentY < y) {
+			stepY = Math::min(currentY + Config::fluidSpeedStep * lastDt, y);
+		} else {
+			stepY = Math::max(currentY - Config::fluidSpeedStep * lastDt, y);
+		}
+
+		if (currentOmega < omega) {
+			stepOmega = Math::min(currentOmega + Config::fluidOmegaStep * lastDt, omega);
+		} else {
+			stepOmega = Math::max(currentOmega - Config::fluidOmegaStep * lastDt, omega);
+		}
+
+		targetDir = Math::Vector(stepX, stepY);
+		targetOmega = stepOmega;
 	} else {
 		targetDir = Math::Vector(x, y);
 		targetOmega = omega;

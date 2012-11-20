@@ -77,6 +77,9 @@ const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels nee
 const float blobberPickerStdDevMultiplier = 1.5f;
 const int undersideMetricBaseSteps = 20;
 
+const float fluidSpeedStep = 1.0f;
+const float fluidOmegaStep = 3.14f;
+
 const float ballFocusP = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusD = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
