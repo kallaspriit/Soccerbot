@@ -20,6 +20,7 @@ void SimpleAI::onEnter() {
 	findOrFetchDuration = 0.0;
 	lastEscapeTime = -1.0;
 	lastRelocateTime = -1.0;
+	lastFetchRearSpinTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -342,24 +343,30 @@ void SimpleAI::stepFetchBall(double dt) {
 	float distance = ball->distance + Config::chaseDistanceCorrection;
 
 	if (ball->behind) {
-		float turnAngle = ball->angle;
-		float underturnAngle = Math::degToRad(60.0f);
+		if (lastFetchRearSpinTime == -1.0 || Util::duration(lastFetchRearSpinTime) > 2.0) {
+			float turnAngle = ball->angle;
+			float underturnAngle = Math::degToRad(60.0f);
 
-		if (turnAngle < 0.0f) {
-			turnAngle += underturnAngle;
+			if (turnAngle < 0.0f) {
+				turnAngle += underturnAngle;
+			} else {
+				turnAngle -= underturnAngle;
+			}
+
+			robot->turnBy(turnAngle, Math::TWO_PI);
+
+			if (turnAngle < 0.0f) {
+				searchDir = -1.0f;
+			} else {
+				searchDir = 1.0f;
+			}
+
+			lastFetchRearSpinTime = Util::millitime();
+
+			return;
 		} else {
-			turnAngle -= underturnAngle;
+			robot->setTargetDir(0, 0, omega);
 		}
-
-		robot->turnBy(turnAngle, Math::TWO_PI);
-
-		if (turnAngle < 0.0f) {
-			searchDir = -1.0f;
-		} else {
-			searchDir = 1.0f;
-		}
-
-		return;
 
 		/*robot->setTargetDir(Math::Rad(0), 0, omega);
 
