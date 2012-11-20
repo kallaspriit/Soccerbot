@@ -53,23 +53,26 @@ void Dribbler::step(double dt) {
 
 	if (ballDetected) {
 		ballInDribblerTime += dt;
-		ballLostTime = Config::dribblerBallLostThreshold;
+
+		if (ballInDribblerTime >= Config::ballInDribblerThreshold) {
+			ballInDribblerTime = 0.0;
+		}
 	} else {
-		ballInDribblerTime = 0.0;
-		ballLostTime -= dt;
+		ballLostTime += dt;
+
+		if (ballLostTime >= Config::dribblerBallLostThreshold) {
+			ballInDribblerTime = 0.0;
+		}
 	}
 }
 
 bool Dribbler::gotBall() const {
-	/*if (ballInDribblerTime >= Config::ballInDribblerThreshold) {
+	if (
+		ballInDribblerTime >= Config::ballInDribblerThreshold
+		&& ballLostTime <= Config::dribblerBallLostThreshold
+	) {
 		return true;
 	}
 
-	if (ballLostTime != Config::dribblerBallLostThreshold && ballLostTime > 0.0) {
-		return true;
-	}
-
-	return false;*/
-
-	return ballDetected;
+	return false;
 }

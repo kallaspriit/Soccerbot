@@ -303,9 +303,9 @@ const std::string Serial::read() {
 
     LeaveCriticalSection(&messagesMutex);
 
-	if (id == 7) {
+	/*if (id == 7) {
 		std::cout << "@ READ #" << id << " ON '" << device << "' : '" << message << "'" << std::endl;
-	}
+	}*/
 
     return message;
 }
@@ -361,9 +361,9 @@ int Serial::write(std::string message) {
         return 0;
     }
 
-	if (id == 7) {
+	/*if (id == 7) {
 		std::cout << "@ WRITE #" << id << " ON '" << device << "' : '" << message << "'" << std::endl;
-	}
+	}*/
 
 	DWORD bytesWritten;   
 
