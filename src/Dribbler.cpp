@@ -55,7 +55,7 @@ void Dribbler::step(double dt) {
 		ballInDribblerTime += dt;
 
 		if (ballInDribblerTime >= Config::ballInDribblerThreshold) {
-			ballInDribblerTime = 0.0;
+			ballLostTime = 0.0;
 		}
 	} else {
 		ballLostTime += dt;

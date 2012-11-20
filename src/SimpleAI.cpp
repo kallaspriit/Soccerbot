@@ -631,6 +631,7 @@ std::string SimpleAI::getJSON() {
 	stream << "\"stateDuration\": " << stateDuration << ",";
 	stream << "\"totalDuration\": " << totalDuration << ",";
 	stream << "\"ballInDribblerTime\": " << robot->getDribbler().getBallInDribblerTime() << ",";
+	stream << "\"ballLostTime\": " << robot->getDribbler().getBallLostTime() << ",";
 	stream << "\"searchDir\": " << searchDir << ",";
 	stream << "\"nearSpeedReached\": " << (nearSpeedReached ? "true" : "false") << ",";
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";

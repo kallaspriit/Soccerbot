@@ -253,7 +253,7 @@ void SoccerBot::setupCameras() {
 
     if (frontCamera->open(Config::frontCameraSerial)) {
 		configureCamera(frontCamera);
-		showCameraInfo(frontCamera, "! Front camera");
+		//showCameraInfo(frontCamera, "! Front camera");
         
 		//frontCamera->startAcquisition();
     } else {
@@ -268,7 +268,7 @@ void SoccerBot::setupCameras() {
 
 	if (rearCamera->open(Config::rearCameraSerial)) {
         configureCamera(rearCamera);
-		showCameraInfo(rearCamera, "! Rear camera");
+		//showCameraInfo(rearCamera, "! Rear camera");
 
 		//rearCamera->startAcquisition();
     } else {
