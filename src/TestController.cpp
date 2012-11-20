@@ -80,7 +80,7 @@ void TestController::watchBallRoutine(double dt) {
 		std::cout << "! Omega limited to " << Config::focusMaxOmega << std::endl;
 	}
 
-	robot->setTargetOmega(omega);
+	robot->setTargetDir(0, 0, omega);
 }
 
 void TestController::chaseBallRoutine(double dt) {

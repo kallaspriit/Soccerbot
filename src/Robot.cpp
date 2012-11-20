@@ -38,6 +38,7 @@ Robot::Robot(Vision* vision) : vision(vision) {
 	gyroOrientation = 0.0f;
 
     lastCommandTime = -1;
+	fluidMovement = false;
 	coilgunCharged = false;
 	autostop = true;
 }
@@ -199,14 +200,6 @@ void Robot::step(double dt) {
 
     //std::cout << "Vx: " << movement.velocityX << "; Vy: " << movement.velocityY << "; omega: " << movement.omega << std::endl;
 
-    if (lastCommandTime != -1 && Util::duration(lastCommandTime) > 0.5f) {
-        std::cout << "! No movement command for half a second, stopping for safety" << std::endl;
-
-        stop();
-
-        lastCommandTime = -1;
-    }
-
 	if (!coilgunCharged) {
 		coilgun->charge();
 
@@ -226,26 +219,27 @@ void Robot::step(double dt) {
 
 	if (autostop) {
 		stop();
-	}
+	} else if (lastCommandTime != -1 && Util::duration(lastCommandTime) > 0.25f) {
+        std::cout << "! No movement command for 250ms, stopping for safety" << std::endl;
+
+        stop();
+
+        lastCommandTime = -1;
+    }
 }
 
-void Robot::setTargetDir(float x, float y, float omega) {
+void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
+	fluidMovement = fluid;
     targetDir = Math::Vector(x, y);
     targetOmega = omega;
 
     lastCommandTime = Util::millitime();
 }
 
-void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega) {
+void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega, bool fluid) {
     Math::Vector dirVector = Math::Vector::createForwardVec(dir.rad(), speed);
 
-    setTargetDir(dirVector.x, dirVector.y, omega);
-}
-
-void Robot::setTargetOmega(float omega) {
-    targetOmega = omega;
-
-    lastCommandTime = Util::millitime();
+    setTargetDir(dirVector.x, dirVector.y, omega, fluid);
 }
 
 void Robot::spinAroundDribbler(bool reverse, float period, float radius, float forwardSpeed) {

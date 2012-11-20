@@ -56,9 +56,8 @@ class Robot {
 		const ParticleFilterLocalizer& getRobotLocalizer() { return *robotLocalizer; }
 		const Measurements& getMeasurements() const { return measurements; }
 
-        void setTargetDir(float x, float y, float omega = 0.0f);
-        void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f);
-        void setTargetOmega(float omega);
+        void setTargetDir(float x, float y, float omega = 0.0f, bool fluid = false);
+        void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f, bool fluid = false);
         void stop();
         void setPosition(float x, float y, float orientation);
 		void updateGyroOrientation(float deltaAngle);
@@ -94,7 +93,10 @@ class Robot {
 		float velocity;
 		float lastVelocity;
 
+		Math::Vector targetDir;
         float targetOmega;
+		bool fluidMovement;
+
         float wheelOffset;
         float wheelRadius;
         float wheelRadiusInv;
@@ -116,7 +118,6 @@ class Robot {
         Math::Matrix3x3 omegaMatrixInvB;
         Math::Matrix3x3 omegaMatrixInvC;
         Math::Matrix3x3 omegaMatrixInvD;
-        Math::Vector targetDir;
 		Movement movement;
 
         TaskQueue tasks;

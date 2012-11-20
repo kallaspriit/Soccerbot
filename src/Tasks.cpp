@@ -141,7 +141,7 @@ bool TurnByTask::onStep(Robot& robot, double dt) {
 }
 
 void TurnByTask::onEnd(Robot& robot, double dt) {
-    robot.setTargetOmega(0);
+    robot.stop();
 }
 
 float TurnByTask::getPercentage() {
