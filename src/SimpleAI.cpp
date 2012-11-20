@@ -378,7 +378,7 @@ void SimpleAI::stepFetchBall(double dt) {
 
 		int robotInWay = vision->getRobotInWay();
 
-		if (robotInWay != 0 && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
+		/*if (robotInWay != 0 && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
 			if (robotInWay == -1) {
 				robot->setTargetDirFor(0.25, 0.5f, omega, 1.0);
 
@@ -390,7 +390,7 @@ void SimpleAI::stepFetchBall(double dt) {
 				return;
 				//robot->setTargetDir(Math::Deg(-90.0f), 0.5f, omega);
 			}
-		} else {
+		} else {*/
 			bool braking = false;
 
 			if (distance > brakeDistance) {
@@ -421,7 +421,7 @@ void SimpleAI::stepFetchBall(double dt) {
 			}
 
 			robot->setTargetDir(Math::Rad(0), speed, omega);
-		}
+		//}
 	}
 
 	lastVelocityX = currentVelocityX;
