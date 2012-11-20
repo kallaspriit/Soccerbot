@@ -230,8 +230,13 @@ void Robot::step(double dt) {
 
 void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
 	fluidMovement = fluid;
-    targetDir = Math::Vector(x, y);
-    targetOmega = omega;
+
+	if (fluidMovement) {
+
+	} else {
+		targetDir = Math::Vector(x, y);
+		targetOmega = omega;
+	}
 
     lastCommandTime = Util::millitime();
 }

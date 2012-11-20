@@ -381,9 +381,13 @@ void SimpleAI::stepFetchBall(double dt) {
 		if (robotInWay != 0 && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
 			if (robotInWay == -1) {
 				robot->setTargetDirFor(0.25, 0.5f, omega, 1.0);
+
+				return;
 				//robot->setTargetDir(Math::Deg(90.0f), 0.5f, omega);
 			} else {
 				robot->setTargetDirFor(0.25, -0.5f, omega, 1.0);
+
+				return;
 				//robot->setTargetDir(Math::Deg(-90.0f), 0.5f, omega);
 			}
 		} else {
@@ -460,7 +464,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			goalTurnDirection = angle >= 0 ? 1 : -1;
 		}*/
 
-		if (lastGoalDistance >= 1.0f && lastGoalDistance <= 4.0f) {
+		if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
 			// @TODO start spinning gradually
@@ -529,7 +533,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
 
-		if (goal->behind && lastGoalDistance >= 0.5f && lastGoalDistance <= 4.0f) {
+		if (goal->behind && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
 			robot->setTargetDir(Math::Rad(0), speed, omega);
