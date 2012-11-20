@@ -236,6 +236,8 @@ Dash.UI.prototype.initSocket = function() {
 		self.reconnectTimeout = window.setTimeout(function() {
 			dash.socket.open(dash.config.socket.host, dash.config.socket.port);
 		}, 1000);
+		
+		$('#controller-choice OPTIONS:eq[0]').trigger('select');
 	});
 	
 	dash.socket.bind(Dash.Socket.Event.ERROR, function(e) {

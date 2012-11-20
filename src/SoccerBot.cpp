@@ -365,13 +365,11 @@ void SoccerBot::run() {
 			//std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
 			Util::sleep(8);
-
-			continue;
 		}
 
 		dt = currentDt;
 
-		//@ HACK
+		// @HACK
 		if (dt < 0.016f) {
 			dt = 0.016f;
 		}
