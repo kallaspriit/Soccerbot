@@ -18,7 +18,6 @@ class Dribbler {
 		bool isReady() { return serial->isOpen(); }
 		double getBallInDribblerTime() { return ballInDribblerTime; }
 		double getBallLostTime() { return ballLostTime; }
-		double getBallLostDuration();
 		void step(double dt);
 
 	private:
