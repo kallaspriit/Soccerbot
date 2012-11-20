@@ -364,12 +364,18 @@ void SoccerBot::run() {
 		if (updateCameras(currentDt) == 0) {
 			//std::cout << "- Failed to get image from either cameras, sleeping for a while.." << std::endl;
 
-			Util::sleep(14);
+			Util::sleep(8);
 
 			continue;
 		}
 
 		dt = currentDt;
+
+		//@ HACK
+		if (dt < 0.016f) {
+			dt = 0.016f;
+		}
+
 		lastStepTime = time;
         lastStepDt = dt;
         totalTime += dt;
