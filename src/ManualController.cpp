@@ -37,8 +37,8 @@ void ManualController::handleTargetVectorCommand(const Command& cmd) {
     float y = Util::toFloat(cmd.params[1]);
     float omega = Util::toFloat(cmd.params[2]);
 
-    //robot->setTargetDir(x, y, omega);
-    robot->setTargetDir(x, y, omega, true);
+    robot->setTargetDir(x, y, omega);
+    //robot->setTargetDir(x, y, omega, true);
 
     //std::cout << "! Set robot dir by vector: " << x << "x" << y << " with omega " << omega << std::endl;
 }
@@ -49,8 +49,8 @@ void ManualController::handleTargetDirCommand(const Command& cmd) {
     float speed = Util::toFloat(cmd.params[1]);
     float omega = Util::toFloat(cmd.params[2]);
 
-    //robot->setTargetDir(dir, speed, omega);
-    robot->setTargetDir(dir, speed, omega, true);
+    robot->setTargetDir(dir, speed, omega);
+    //robot->setTargetDir(dir, speed, omega, true);
 
     //std::cout << "Set robot dir by orientation: " << dir.deg() << ", speed: " << speed << " and omega " << omega << std::endl;
 }
