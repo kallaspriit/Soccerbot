@@ -19,6 +19,7 @@ void SimpleAI::onEnter() {
 	totalDuration = 0.0;
 	findOrFetchDuration = 0.0;
 	lastEscapeTime = -1.0;
+	lastRelocateTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -468,7 +469,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
 			// @TODO start spinning gradually
-			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection);
+			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection, true);
 		}
 
 		return;
@@ -565,8 +566,12 @@ void SimpleAI::stepEscapeObstruction(double dt) {
 }
 
 void SimpleAI::enterRelocate() {
-	robot->clearTasks();
-	robot->turnBy(Math::degToRad(60.0f), Math::PI);
+	if (lastRelocateTime == -1.0 || Util::duration(lastRelocateTime) > 5.0) {
+		robot->clearTasks();
+		robot->turnBy(Math::degToRad(60.0f), Math::PI);
+	}
+
+	lastRelocateTime = Util::millitime();
 }
 
 void SimpleAI::stepRelocate(double dt) {
@@ -597,7 +602,7 @@ void SimpleAI::stepRelocate(double dt) {
 	}*/
 
 	if (goal->distance < 1.5f) {
-		robot->turnBy(Math::degToRad(165.0f), Math::PI);
+		robot->turnBy(Math::degToRad(150.0f), Math::PI);
 
 		return;
 	} else {

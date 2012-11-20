@@ -143,11 +143,11 @@ bool Robot::init(int attemptsLeft) {
 		|| !dribbler->isReady()
 		|| !coilgun->isReady()
 	) {
-		if (attemptsLeft > 0) {
+		/*if (attemptsLeft > 0) {
 			std::cout << "! Failed to setup robot, " << attemptsLeft << " attempts left" << std::endl;
 
 			return init(attemptsLeft - 1);
-		}
+		}*/
 
 		return false;
 	}
@@ -223,8 +223,8 @@ void Robot::step(double dt) {
 
 	if (autostop) {
 		stop();
-	} else if (lastCommandTime != -1 && Util::duration(lastCommandTime) > 0.25f) {
-        std::cout << "! No movement command for 250ms, stopping for safety" << std::endl;
+	} else if (lastCommandTime != -1 && Util::duration(lastCommandTime) > 0.5f) {
+        std::cout << "! No movement command for 500ms, stopping for safety" << std::endl;
 
         stop();
 
