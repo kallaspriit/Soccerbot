@@ -14,14 +14,19 @@ class Dribbler {
 		void start() { setSpeed(Config::dribblerSpeed); }
 		void stop();
 		bool isActive() const { return speed > 0; }
-		bool gotBall() const { return ballDetected; }
+		bool gotBall() const;
 		bool isReady() { return serial->isOpen(); }
+		double getBallInDribblerTime() { return ballInDribblerTime; }
+		double getBallLostTime() { return ballLostTime; }
+		double getBallLostDuration();
 		void step(double dt);
 
 	private:
 		int serialId;
 		int speed;
 		bool ballDetected;
+		double ballInDribblerTime;
+		double ballLostTime;
 		Serial* serial;
 };
 

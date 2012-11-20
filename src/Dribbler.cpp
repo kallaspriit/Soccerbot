@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Dribbler::Dribbler(int serialId) : serialId(serialId), speed(0), ballDetected(false), serial(NULL) {
+Dribbler::Dribbler(int serialId) : serialId(serialId), speed(0), ballDetected(false), ballInDribblerTime(0.0), ballLostTime(-1.0), serial(NULL) {
 	serial = new Serial();
 
 	if (serial->open(serialId) == Serial::OK) {
@@ -39,6 +39,8 @@ void Dribbler::step(double dt) {
 
 	std::string message;
 
+	bool hadBall = ballDetected;
+
     while (serial->available() > 0) {
         message = serial->read();
 
@@ -50,4 +52,30 @@ void Dribbler::step(double dt) {
 			}
 		}
 	}
+
+	if (ballDetected) {
+		ballInDribblerTime += dt;
+	} else {
+		ballInDribblerTime = 0.0;
+
+		if (hadBall) {
+			ballLostTime = Util::millitime();
+		}
+	}
+}
+
+double Dribbler::getBallLostDuration() {
+	if (ballLostTime == -1.0) {
+		return 0.0;
+	}
+
+	return Util::millitime() - ballLostTime;
+}
+
+bool Dribbler::gotBall() const {
+	if (ballInDribblerTime >= Config::ballInDribblerThreshold || (ballLostTime != -1.0 && Util::duration(ballLostTime) <= Config::dribblerBallLostThreshold)) {
+		return true;
+	}
+
+	return false;
 }

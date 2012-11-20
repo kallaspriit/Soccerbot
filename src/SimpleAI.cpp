@@ -19,7 +19,6 @@ void SimpleAI::onEnter() {
 	totalDuration = 0.0;
 	findOrFetchDuration = 0.0;
 	lastEscapeTime = -1.0;
-	ballInDribblerTime = 0.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -137,12 +136,6 @@ void SimpleAI::step(double dt) {
 		setState(State::ESCAPE_OBSTRUCTION);
 
 		stalled = true;
-	}
-
-	if (robot->getDribbler().gotBall()) {
-		ballInDribblerTime += dt;
-	} else {
-		ballInDribblerTime = 0.0;
 	}
 
 	Object* largestGoal = vision->getLargestGoal(Side::UNKNOWN);
@@ -637,7 +630,7 @@ std::string SimpleAI::getJSON() {
 	stream << "\"state\": \"" << getStateName() << "\",";
 	stream << "\"stateDuration\": " << stateDuration << ",";
 	stream << "\"totalDuration\": " << totalDuration << ",";
-	stream << "\"ballInDribblerTime\": " << ballInDribblerTime << ",";
+	stream << "\"ballInDribblerTime\": " << robot->getDribbler().getBallInDribblerTime() << ",";
 	stream << "\"searchDir\": " << searchDir << ",";
 	stream << "\"nearSpeedReached\": " << (nearSpeedReached ? "true" : "false") << ",";
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
