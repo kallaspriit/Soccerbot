@@ -469,7 +469,9 @@ void SimpleAI::stepFindGoal(double dt) {
 			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
 		} else {
 			// @TODO start spinning gradually
-			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection, true);
+			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection);
+
+			//std::cout << "@ SPINNING SEARCH GRADUALLY" << std::endl;
 		}
 
 		return;
@@ -530,7 +532,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			robot->setTargetDir(0.0f, Config::kickBallAvoidSideSpeed * (float)ballKickAvoidDir, 0.0f);
 		}
 	} else {
-		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::focusMaxOmega);
+		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::goalFocusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
 
