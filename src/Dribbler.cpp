@@ -65,7 +65,7 @@ bool Dribbler::gotBall() const {
 		return true;
 	}
 
-	if (ballLostTime > 0.0) {
+	if (ballLostTime != Config::dribblerBallLostThreshold && ballLostTime > 0.0) {
 		return true;
 	}
 
