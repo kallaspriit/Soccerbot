@@ -61,7 +61,7 @@ void Dribbler::step(double dt) {
 }
 
 bool Dribbler::gotBall() const {
-	if (ballInDribblerTime >= Config::ballInDribblerThreshold) {
+	/*if (ballInDribblerTime >= Config::ballInDribblerThreshold) {
 		return true;
 	}
 
@@ -69,5 +69,7 @@ bool Dribbler::gotBall() const {
 		return true;
 	}
 
-	return false;
+	return false;*/
+
+	return ballDetected;
 }
