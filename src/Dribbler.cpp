@@ -71,7 +71,10 @@ double Dribbler::getBallLostDuration() {
 }
 
 bool Dribbler::gotBall() const {
-	if (Util::duration(ballInDribblerTime) < Config::ballInDribblerThreshold || (ballLostTime != -1.0 && Util::duration(ballLostTime) < Config::dribblerBallLostThreshold)) {
+	if (
+		Util::duration(ballInDribblerTime) >= Config::ballInDribblerThreshold
+		|| (ballLostTime != -1.0 && Util::duration(ballLostTime) < Config::dribblerBallLostThreshold)
+	) {
 		return true;
 	}
 
