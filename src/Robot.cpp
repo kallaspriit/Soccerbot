@@ -257,9 +257,9 @@ void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
 		targetDir = Math::Vector(fluidTargetX, fluidTargetY);
 		targetOmega = fluidTargetOmega;
 	} else {
-		fluidTargetX = movement.velocityX;
+		/*fluidTargetX = movement.velocityX;
 		fluidTargetY = movement.velocityY;
-		fluidTargetOmega = movement.omega;
+		fluidTargetOmega = movement.omega;*/
 
 		targetDir = Math::Vector(x, y);
 		targetOmega = omega;
