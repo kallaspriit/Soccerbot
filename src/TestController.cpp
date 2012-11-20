@@ -24,6 +24,10 @@ TestController::TestController(SoccerBot* bot) : Controller(bot) {
 	focusPid.p = Config::ballFocusP;
 	focusPid.i = Config::ballFocusI;
 	focusPid.d = Config::ballFocusD;
+
+	spinPeriod = Config::spinAroundDribblerPeriod;
+	spinRadius = Config::spinAroundDribblerRadius;
+	spinForward = Config::spinAroundDribblerForwardSpeed;
 };
 
 void TestController::step(double dt) {
@@ -41,6 +45,10 @@ void TestController::step(double dt) {
 		case Routine::FIND_GOAL:
 			findGoalRoutine(dt);
 		break;
+
+		case Routine::TEST:
+			testRoutine(dt);
+		break;
 	};
 }
 
@@ -56,8 +64,8 @@ void TestController::watchBallRoutine(double dt) {
 	}
 
 	if (ball == NULL) {
-		robot->jumpAngle();
-		//robot->setTargetDir(0, 0, focusK * searchDir);
+		//robot->jumpAngle();
+		robot->setTargetDir(0, 0, focusK * searchDir);
 		newBall = true;
 
 		return;
@@ -206,6 +214,14 @@ void TestController::findGoalRoutine(double dt) {
 	}
 }
 
+void TestController::testRoutine(double dt) {
+	if (!robot->getDribbler().gotBall()) {
+		return;
+	}
+
+	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward);
+}
+
 bool TestController::handleRequest(std::string request) {
     return false;
 }
@@ -278,6 +294,16 @@ bool TestController::handleCommand(const Command& cmd) {
 		std::cout << "! Testing finding goal" << std::endl;
 
 		activeRoutine = Routine::FIND_GOAL;
+    } else if (cmd.name == "test") {
+		std::cout << "! Running current test" << std::endl;
+
+		activeRoutine = Routine::TEST;
+    } else if (cmd.name == "sp") {
+		spinPeriod = Util::toFloat(cmd.params[0]);
+    } else if (cmd.name == "sr") {
+		spinRadius = Util::toFloat(cmd.params[0]);
+    } else if (cmd.name == "sf") {
+		spinForward = Util::toFloat(cmd.params[0]);
     } else {
 		return false;
 	}

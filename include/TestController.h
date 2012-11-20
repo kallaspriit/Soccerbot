@@ -11,7 +11,8 @@ class TestController : public Controller {
 			NONE,
 			WATCH_BALL,
 			CHASE_BALL,
-			FIND_GOAL
+			FIND_GOAL,
+			TEST
 		};
 
         TestController(SoccerBot* bot);
@@ -28,6 +29,7 @@ class TestController : public Controller {
 		void watchBallRoutine(double dt);
 		void chaseBallRoutine(double dt);
 		void findGoalRoutine(double dt);
+		void testRoutine(double dt);
 
 	private:
 		Routine activeRoutine;
@@ -39,6 +41,10 @@ class TestController : public Controller {
 		float lastVelocityX;
 		float farApproachSpeed;
 		bool nearSpeedReached;
+
+		float spinPeriod;
+		float spinRadius;
+		float spinForward;
 };
 
 #endif // TESTCONTROLLER_H
