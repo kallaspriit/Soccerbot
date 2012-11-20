@@ -456,7 +456,7 @@ void SimpleAI::stepFindGoal(double dt) {
 	const Object* goal = vision->getLargestGoal(bot->getTargetSide());
 
 	if (stateDuration > 10.0f) {
-		robot->getCoilgun().kick(750);
+		robot->getCoilgun().kick(650);
 		setState(State::RELOCATE);
 
 		return;
@@ -612,6 +612,8 @@ void SimpleAI::stepRelocate(double dt) {
 
 	if (goal->distance < 1.5f) {
 		robot->turnBy(Math::degToRad(150.0f), Math::PI);
+
+		std::cout << "@ TURN 150 TO " << goal->type << ", distance: " << goal->distance << ", behind: " << (goal->behind ? "yes" : "no") << std::endl;
 
 		return;
 	} else {

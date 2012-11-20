@@ -1343,6 +1343,7 @@ Object* Vision::getLargestGoal(Side side, bool frontOnly) {
 		lastLargestGoal.width > 0
 		&& lastLargestGoal.type == side
 		&& Util::duration(lastLargestGoal.lastSeenTime) < Config::fakeObjectLifetime
+		&& !frontOnly
 	) {
 		return &lastLargestGoal;
 	} else {
