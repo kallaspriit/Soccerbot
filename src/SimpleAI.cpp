@@ -542,6 +542,12 @@ void SimpleAI::stepFindGoal(double dt) {
 }
 
 void SimpleAI::enterEscapeObstruction() {
+	if (lastEscapeTime != -1.0 && Util::duration(lastEscapeTime) < 5.0) {
+		setState(State::RELOCATE);
+
+		return;
+	}
+
 	robot->clearTasks();
 	//robot->turnBy(Math::degToRad(60.0f), Math::PI);
 	robot->turnBy(Math::PI, Math::PI);
