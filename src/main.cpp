@@ -3,18 +3,22 @@
 #include "Gui.h"
 
 // memory leak detection
-#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
+
+
 
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-//int WINAPI WinMain(HINSTANCE instance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nShowCmd) {
-	/*AllocConsole();
-	freopen("conin$", "r", stdin);
-	freopen("conout$", "w", stdout);
-	freopen("conout$", "w", stderr);*/
+	#ifdef _DEBUG
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	#endif
 
 	HWND consoleWindow = GetConsoleWindow();
 	HINSTANCE instance = GetModuleHandle(0);
@@ -84,7 +88,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "-- Properly Terminated --" << std::endl;
 
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 
     return 0;
 }
