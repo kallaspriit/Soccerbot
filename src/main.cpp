@@ -11,8 +11,6 @@
 #define new DEBUG_NEW
 #endif
 
-
-
 #include <iostream>
 
 int main(int argc, char* argv[]) {
@@ -88,7 +86,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "-- Properly Terminated --" << std::endl;
 
-	//_CrtDumpMemoryLeaks();
+	_CrtDumpMemoryLeaks();
 
     return 0;
 }
