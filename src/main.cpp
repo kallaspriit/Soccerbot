@@ -3,10 +3,9 @@
 #include "Gui.h"
 
 // memory leak detection
+#ifdef _DEBUG
 #include <stdlib.h>
 #include <crtdbg.h>
-
-#ifdef _DEBUG
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #define new DEBUG_NEW
 #endif
@@ -50,39 +49,21 @@ int main(int argc, char* argv[]) {
         std::cout << "! Start with gui option to show GUI" << std::endl;
     }
 
-    SoccerBot bot;
+    SoccerBot* bot = new SoccerBot();
 
-    bot.init();
+    bot->init();
 
     if (withGui) {
-		bot.setupGui(instance);
+		bot->setupGui(instance);
     }
 
 	if (controller != "") {
-		bot.setController(controller);
+		bot->setController(controller);
 	}
 
-    bot.run();
+    bot->run();
 
-    //std::string endCommand = bot.getEndCommand();
-
-    /*if (endCommand.length() > 0) {
-        usleep(1000000);
-
-        int pid = fork();
-
-        if (pid == 0) {
-            std::cout << "! End command: '" << endCommand << "'" << std::endl;
-
-            std::string endResult = Util::exec(endCommand);
-
-            std::cout << "! Command result: '" << endResult << "'" << std::endl;
-        }
-    }*/
-
-    /*std::cout << "! Waiting for all threads to exit.. " << std::endl;
-    pthread_exit(NULL);
-    std::cout << "done!" << std::endl;*/
+	delete bot;
 
     std::cout << "-- Properly Terminated --" << std::endl;
 
