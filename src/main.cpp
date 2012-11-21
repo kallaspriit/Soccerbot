@@ -2,6 +2,11 @@
 #include "Util.h"
 #include "Gui.h"
 
+// memory leak detection
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <iostream>
 
 int main(int argc, char* argv[]) {
@@ -78,6 +83,8 @@ int main(int argc, char* argv[]) {
     std::cout << "done!" << std::endl;*/
 
     std::cout << "-- Properly Terminated --" << std::endl;
+
+	_CrtDumpMemoryLeaks();
 
     return 0;
 }
