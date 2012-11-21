@@ -3,7 +3,8 @@
 #include <cstring>
 
 WebSocketServer::WebSocketServer(int port) : port(port), listening(false), handler(this), server(handler) {
-
+	server.alog().unset_level(websocketpp::log::alevel::ALL);
+    server.elog().unset_level(websocketpp::log::elevel::ALL);
 }
 
 WebSocketServer::~WebSocketServer() {
