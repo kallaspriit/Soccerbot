@@ -194,13 +194,6 @@ Camera::FrameYUYV* Camera::getFrameYUYV() {
 
     //std::cout << "Get: " << (Util::millitime() - s) << std::endl;
 
-	if (frameYUV.dataYUYV != NULL) {
-		delete frameYUV.dataY; frameYUV.dataY = NULL;
-		delete frameYUV.dataU; frameYUV.dataU = NULL;
-		delete frameYUV.dataV; frameYUV.dataV = NULL;
-		delete frameYUV.dataYUYV; frameYUV.dataYUYV = NULL;
-	}
-
     frameYUV.data = (unsigned char*)image.bp;
     frameYUV.size = image.bp_size;
     frameYUV.number = image.nframe;
