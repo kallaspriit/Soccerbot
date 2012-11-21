@@ -613,7 +613,7 @@ void SimpleAI::stepRelocate(double dt) {
 	if (goal->distance < 1.5f) {
 		robot->turnBy(Math::degToRad(150.0f), Math::PI);
 
-		std::cout << "@ TURN 150 TO " << goal->type << ", distance: " << goal->distance << ", behind: " << (goal->behind ? "yes" : "no") << std::endl;
+		//std::cout << "@ TURN 150 TO " << goal->type << ", distance: " << goal->distance << ", behind: " << (goal->behind ? "yes" : "no") << std::endl;
 
 		return;
 	} else {

@@ -1085,11 +1085,15 @@ void SoccerBot::sendFrame() {
     int jpegBufferSize = 1024 * 1000;
 
     if (jpegBuffer == NULL) {
+		std::cout << "! Creating frame JPEG buffer.. ";
         jpegBuffer = new unsigned char[jpegBufferSize];
+		std::cout << "done!" << std::endl;
     }
 
     if (rgbBuffer == NULL) {
+		std::cout << "! Creating frame RGB buffer.. ";
         rgbBuffer = new unsigned char[Config::cameraWidth * Config::cameraHeight * 3];
+		std::cout << "done!" << std::endl;
     }
 
     Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, frame, rgbBuffer);

@@ -1186,13 +1186,17 @@ void Vision::updateObstructions() {
 unsigned char* Vision::getClassification(Dir dir) {
 	if (dir == Dir::DIR_FRONT) {
 		if (classificationFront == NULL) {
+			std::cout << "! Creating front classification buffer.. ";
 			classificationFront = new unsigned char[width * height * 3];
+			std::cout << "done!" << std::endl;
 		}
 
 		return classificationFront;
 	} else {
 		if (classificationRear == NULL) {
+			std::cout << "! Creating rear classification buffer.. ";
 			classificationRear = new unsigned char[width * height * 3];
+			std::cout << "done!" << std::endl;
 		}
 
 		return classificationRear;

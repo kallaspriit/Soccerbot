@@ -328,8 +328,6 @@ void* Camera::run() {
 
 		if (frame == NULL) {
 			std::cout << "- Didn't get a frame from camera #" << serialNumber << std::endl;
-
-			Util::sleep(10);
 		}
 	}
 

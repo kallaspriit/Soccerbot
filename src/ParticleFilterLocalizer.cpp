@@ -124,6 +124,8 @@ void ParticleFilterLocalizer::update(const Measurements& measurements) {
     }
 
     resample(probabilities, particles.size());
+
+	// @TODO should delete probabilities?
 }
 
 void ParticleFilterLocalizer::resample(float probabilities[], int count) {
