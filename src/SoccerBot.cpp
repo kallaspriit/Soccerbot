@@ -352,7 +352,7 @@ void SoccerBot::run() {
 
 	std::cout << "! Running the SoccerBot" << std::endl;
 
-    while (!stopRequested && totalTime < 10.0) {
+    while (!stopRequested) {
 		if (signalHandler->gotExitSignal()) {
 			break;
 		}
