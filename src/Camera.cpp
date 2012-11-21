@@ -194,6 +194,13 @@ Camera::FrameYUYV* Camera::getFrameYUYV() {
 
     //std::cout << "Get: " << (Util::millitime() - s) << std::endl;
 
+	if (frameYUV.dataYUYV != NULL) {
+		delete frameYUV.dataY;
+		delete frameYUV.dataU;
+		delete frameYUV.dataV;
+		delete frameYUV.dataYUYV;
+	}
+
     frameYUV.data = (unsigned char*)image.bp;
     frameYUV.size = image.bp_size;
     frameYUV.number = image.nframe;
@@ -314,7 +321,6 @@ Camera::FrameYUYV* Camera::getFrameYUYV() {
 			pixelsInRow = 0;
 		}
 	}
-
 
     //std::cout << "I420 > YUYV: " << (Util::millitime() - s) << std::endl;
 
