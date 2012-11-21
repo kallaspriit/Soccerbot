@@ -67,7 +67,5 @@ int main(int argc, char* argv[]) {
 
     std::cout << "-- Properly Terminated --" << std::endl;
 
-	_CrtDumpMemoryLeaks();
-
     return 0;
 }
