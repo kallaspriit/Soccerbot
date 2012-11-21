@@ -15,6 +15,7 @@ Camera::Camera() : opened(false), yuvInitialized(false), acquisitioning(false) {
     frameYUV.dataY = NULL;
     frameYUV.dataU = NULL;
     frameYUV.dataV = NULL;
+    frameYUV.dataYUYV = NULL;
 }
 
 Camera::~Camera() {

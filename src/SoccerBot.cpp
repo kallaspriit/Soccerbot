@@ -463,7 +463,7 @@ int SoccerBot::updateCameras(double dt) {
 			std::cout << "@ FRONT " << image->number << " VS " << lastFrontFrameNr << std::endl;
 		}*/
 
-		if (image != NULL && image->number != lastFrontFrameNr) {
+		if (image != NULL && image->dataYUYV != NULL && image->number != lastFrontFrameNr) {
 			//s = Util::millitime();
 			vision->setFrame(image->dataYUYV, Vision::Dir::DIR_FRONT);
 			//printf("@ Blobber: %.4f\n", Util::duration(s));
@@ -524,7 +524,7 @@ int SoccerBot::updateCameras(double dt) {
 			std::cout << "@ REAR " << image->number << " VS " << lastRearFrameNr << std::endl;
 		}*/
 
-		if (image != NULL && image->number != lastRearFrameNr) {
+		if (image != NULL && image->dataYUYV != NULL && image->number != lastRearFrameNr) {
 			vision->setFrame(image->dataYUYV, Vision::Dir::DIR_REAR);
 
 			if (gui != NULL) {
