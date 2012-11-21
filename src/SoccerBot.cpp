@@ -251,21 +251,6 @@ void SoccerBot::setupCameras() {
     frontCamera = new Camera();
 	rearCamera = new Camera();
 
-    if (frontCamera->open(Config::frontCameraSerial)) {
-		configureCamera(frontCamera);
-		//showCameraInfo(frontCamera, "! Front camera");
-        
-		//frontCamera->startAcquisition();
-    } else {
-		std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
-
-		infoBoard->raiseError();
-
-		//delete frontCamera;
-
-		//frontCamera = NULL;
-	}
-
 	if (rearCamera->open(Config::rearCameraSerial)) {
         configureCamera(rearCamera);
 		//showCameraInfo(rearCamera, "! Rear camera");
@@ -279,6 +264,21 @@ void SoccerBot::setupCameras() {
 		//delete rearCamera;
 
 		//rearCamera = NULL;
+	}
+
+    if (frontCamera->open(Config::frontCameraSerial)) {
+		configureCamera(frontCamera);
+		//showCameraInfo(frontCamera, "! Front camera");
+        
+		//frontCamera->startAcquisition();
+    } else {
+		std::cout << "- Failed to find front camera with serial: " << Config::frontCameraSerial << std::endl;
+
+		infoBoard->raiseError();
+
+		//delete frontCamera;
+
+		//frontCamera = NULL;
 	}
 
 	std::cout << "! Cameras ready" << std::endl;
