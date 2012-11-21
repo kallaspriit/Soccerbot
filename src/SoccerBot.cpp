@@ -381,7 +381,7 @@ void SoccerBot::run() {
 		//std::cout << "! Updating cameras took " << Util::duration(s) << " seconds" << std::endl;
 
         if (gui != NULL) {
-			gui->debugParticles(robot->getRobotLocalizer());
+			//@TEMPgui->debugParticles(robot->getRobotLocalizer());
 
             gui->update();
         }
@@ -392,7 +392,7 @@ void SoccerBot::run() {
 
         //usleep(6000); // some long-running thingy test
 
-		if (socket != NULL) {
+		if (socket != NULL && socket->hasConnections()) {
 			JsonResponse stateResponse("state", getStateJSON());
 
 			socket->broadcast(stateResponse.toJSON());
@@ -425,7 +425,7 @@ void SoccerBot::run() {
 			frameRequested = false;
 		}
 
-		if (controllerRequested) {
+		if (controllerRequested && socket->hasConnections()) {
 			JsonResponse controllerMsg("controller", "\"" + getActiveControllerName() + "\"");
 
 			socket->broadcast(controllerMsg.toJSON());
@@ -1073,6 +1073,10 @@ void SoccerBot::handleCameraCommand(const Command& cmd) {
 }
 
 void SoccerBot::sendFrame() {
+	if (!socket->hasConnections()) {
+		return;
+	}
+
 	Vision::Dir dir = cameraChoice == 1 ? Vision::Dir::DIR_FRONT : Vision::Dir::DIR_REAR;
 	unsigned char* frame = vision->getLastFrame(dir);
 

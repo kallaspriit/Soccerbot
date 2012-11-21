@@ -20,6 +20,8 @@ class WebSocketServer : public websocketpp::server::handler {
         void close();
         void addListener(ListenerInterface* listener);
         void broadcast(std::string message);
+		int numConnections() { return connections.size(); }
+		bool hasConnections() { return numConnections() > 0; }
 
     private:
         void on_open(connection_ptr con);
