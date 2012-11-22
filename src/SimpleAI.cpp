@@ -138,7 +138,7 @@ void SimpleAI::step(double dt) {
 
 		stalled = true;
 	}
-	sp
+	
 	Object* largestGoal = vision->getLargestGoal(Side::UNKNOWN);
 
 	if (largestGoal != NULL) {
@@ -559,7 +559,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Config::spinAroundDribblerPeriod, Config::spinAroundDribblerRadius, 0.0f);
-
+			
 			//robot->setTargetDir(Math::Rad(0), speed, omega);
 		}
 	}
