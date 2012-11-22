@@ -429,7 +429,7 @@ void SimpleAI::stepFetchBall(double dt) {
 				robot->getDribbler().stop();
 			}
 
-			robot->setTargetDir(Math::Rad(0), speed, omega);
+			robot->setTargetDir(Math::Rad(0), speed, omega, false);
 		//}
 	}
 
@@ -558,7 +558,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		if (goal->behind && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 1.0f)) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
-			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Math::max(Config::goalAimPeriod / Math::abs(goal->angle), 5.0f), Config::spinAroundDribblerRadius, 0.0f);
+			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Math::max(Config::goalAimPeriod / Math::abs(goal->angle), 3.0f), Config::spinAroundDribblerRadius, 0.0f);
 			
 			//robot->setTargetDir(Math::Rad(0), speed, omega);
 		}
