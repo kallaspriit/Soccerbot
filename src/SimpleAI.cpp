@@ -149,12 +149,20 @@ void SimpleAI::step(double dt) {
 
 	if (targetGoal != NULL && (lastGoalTurnChangeTime == -1.0 || Util::duration(lastGoalTurnChangeTime) >= 3.0)) {
 		if (targetGoal->angle > 0) {
-			goalTurnDirection = 1;
+			if (goalTurnDirection != 1) {
+				goalTurnDirection = 1;
+
+				lastGoalTurnChangeTime = Util::millitime();
+			}
 		} else {
-			goalTurnDirection = -1;
+			if (goalTurnDirection != -1) {
+				goalTurnDirection = -1;
+
+				lastGoalTurnChangeTime = Util::millitime();
+			}
 		}
 
-		lastGoalTurnChangeTime = Util::millitime();
+		
 	}
 
 	switch (state) {
@@ -558,7 +566,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		if (goal->behind && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
-			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Math::max(Config::goalAimPeriod / Math::abs(goal->angle), 3.0f), Config::spinAroundDribblerRadius, 0.0f);
+			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Config::goalAimPeriod / Math::abs(goal->angle), Config::spinAroundDribblerRadius, 0.0f);
 			
 			//robot->setTargetDir(Math::Rad(0), speed, omega);
 		}
