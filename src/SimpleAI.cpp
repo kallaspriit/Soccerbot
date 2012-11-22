@@ -374,13 +374,13 @@ void SimpleAI::stepFetchBall(double dt) {
 			searchDir = 1.0f;
 		}*/
 	} else {
-		if (vision->isViewObstructed()) {
+		/*@TEMP?if (vision->isViewObstructed()) {
 			setState(State::ESCAPE_OBSTRUCTION);
 
 			viewObstructed = true;
 
 			return;
-		}
+		}*/
 
 		int robotInWay = vision->getRobotInWay();
 
