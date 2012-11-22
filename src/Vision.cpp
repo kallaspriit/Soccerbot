@@ -1069,7 +1069,7 @@ float Vision::getColorDistance(std::string colorName, int x1, int y1, int x2, in
 
         Blobber::Color* color = getColorAt(x, y);
 
-		if (strcmp(color->name, colorName.c_str()) == 0) {
+		if (color != NULL && strcmp(color->name, colorName.c_str()) == 0) {
 			return getDistance(Dir::DIR_FRONT, x, y);
 		}
 	}
