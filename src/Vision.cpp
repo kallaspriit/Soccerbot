@@ -369,6 +369,8 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 		////std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
 
 		return false;
+	} else if (goal->area > 10000) {
+		return true;
 	}
 
 	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
@@ -959,6 +961,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	bool sawWhite = false;
 	bool sawBlack = false;
 	const char* targetColorName = targetColor.c_str();
+	const char* targetColorName2 = targetColor2.c_str();
 	std::string lastColorName;
 	Blobber::Color* color;
 
