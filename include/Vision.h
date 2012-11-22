@@ -39,8 +39,8 @@ class Vision/* : public Blobber::MapFilter*/ {
         float getSurroundMetric(int x, int y, float radius, std::vector<std::string> validColors, std::string requiredColor = "", int side = 0, bool allowNone = false);
         PathMetric getPathMetric(int x1, int y1, int x2, int y2, std::vector<std::string> validColors, std::string requiredColor = "");
 		float getBlockMetric(int x, int y, int width, int height, std::vector<std::string> validColors, int step = 6);
-		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::vector<std::string> validColors);
-		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY);
+		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors);
+		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY);
 		bool isViewObstructed() { return viewObstructed; }
 		int getRobotInWay() { return robotInWay; }
 		bool isBallInWay(int goalY);
