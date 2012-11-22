@@ -99,6 +99,7 @@ const float dribblerOnThreshold = 0.2f;				//< distance at which to turn on the 
 const float ballChaseFarSpeed = 2.4f;				//< how fast to chase far-away balls
 const float ballChaseNearSpeed = 0.45f;				//< how fast to chase near balls
 const float goalAimSpeed = 0.35f;					//< how fast to move forward while aiming
+const float goalAimPeriod = 2.0f;					//< how fast to spin around dribbler while aiming
 //const float ballSlowDownAngleThreshold = 20.0f;	//< if the ball angle is larger than this then drive slower
 //const float ballCircleSideSpeed = 0.5f;			//< how fast to turn to the side while circling ball
 //const float ballCircleOmega = 2.0f;				//< how fast to yaw while circling ball
