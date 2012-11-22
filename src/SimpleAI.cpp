@@ -474,7 +474,7 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		float blackDistance = vision->getBlackDistance();
 
-		if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 1.0f)) {
+		if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
 			robot->spinAroundDribbler(goalTurnDirection == -1 ? true : false);
 		} else {
 			// @TODO start spinning gradually
@@ -555,7 +555,7 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		float blackDistance = vision->getBlackDistance();
 
-		if (goal->behind && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 1.0f)) {
+		if (goal->behind && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 		} else {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Math::max(Config::goalAimPeriod / Math::abs(goal->angle), 3.0f), Config::spinAroundDribblerRadius, 0.0f);
