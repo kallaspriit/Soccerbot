@@ -56,6 +56,7 @@ class SimpleAI : public Controller {
 		double lastEscapeTime;
 		double lastRelocateTime;
 		double lastFetchRearSpinTime;
+		double lastGoalTurnChangeTime;
 		float searchDir;
 		bool nearSpeedReached;
 		bool viewObstructed;

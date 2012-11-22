@@ -21,6 +21,7 @@ void SimpleAI::onEnter() {
 	lastEscapeTime = -1.0;
 	lastRelocateTime = -1.0;
 	lastFetchRearSpinTime = -1.0;
+	lastGoalTurnChangeTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -146,12 +147,14 @@ void SimpleAI::step(double dt) {
 
 	Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
 
-	if (targetGoal != NULL) {
+	if (targetGoal != NULL && (lastGoalTurnChangeTime == -1.0 || Util::duration(lastGoalTurnChangeTime) >= 3.0)) {
 		if (targetGoal->angle > 0) {
 			goalTurnDirection = 1;
 		} else {
 			goalTurnDirection = -1;
 		}
+
+		lastGoalTurnChangeTime = Util::millitime();
 	}
 
 	switch (state) {
