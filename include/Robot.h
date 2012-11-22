@@ -57,7 +57,7 @@ class Robot {
 		const Measurements& getMeasurements() const { return measurements; }
 
         void setTargetDir(float x, float y, float omega = 0.0f, bool fluid = false);
-        void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f, bool fluid = false);
+        void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f, bool fluid = true);
         void stop();
         void setPosition(float x, float y, float orientation);
 		void updateGyroOrientation(float deltaAngle);
