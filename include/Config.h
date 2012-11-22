@@ -79,8 +79,8 @@ const int undersideMetricBaseSteps = 20;
 const double ballInDribblerThreshold = 0.35f;		//< how long has the ball be in dribbler to be considered to have ball
 const double dribblerBallLostThreshold = 0.25f;		//< how long must the ball have left the dribbler to consider have lost the ball
 
-const float fluidSpeedStep = 3.0f;
-const float fluidOmegaStep = 9.42f;
+const float fluidSpeedStep = 0.5f;
+const float fluidOmegaStep = 3.14f;
 
 const float ballFocusP = 5.0f;						//< how fast to yaw to focus on a ball (angle multiplier)
 const float ballFocusI = 0.0f;						//< how fast to yaw to focus on a ball (angle multiplier)

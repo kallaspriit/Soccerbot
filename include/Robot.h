@@ -96,6 +96,7 @@ class Robot {
 		Math::Vector targetDir;
         float targetOmega;
 		bool fluidMovement;
+		bool frameTargetSpeedSet;
 		float fluidTargetX;
 		float fluidTargetY;
 		float fluidTargetOmega;

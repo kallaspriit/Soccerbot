@@ -43,6 +43,7 @@ Robot::Robot(Vision* vision) : vision(vision) {
 
     lastCommandTime = -1;
 	fluidMovement = false;
+	frameTargetSpeedSet = false;
 	coilgunCharged = false;
 	autostop = true;
 }
@@ -222,7 +223,9 @@ void Robot::step(double dt) {
 	coilgun->step(dt);
 
 	if (autostop) {
-		stop();
+		if (!frameTargetSpeedSet) {
+			stop();
+		}
 	} else if (lastCommandTime != -1 && Util::duration(lastCommandTime) > 0.5f) {
         std::cout << "! No movement command for 500ms, stopping for safety" << std::endl;
 
@@ -230,6 +233,8 @@ void Robot::step(double dt) {
 
         lastCommandTime = -1;
     }
+
+	frameTargetSpeedSet = false;
 }
 
 void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
@@ -266,6 +271,7 @@ void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
 	}
 
     lastCommandTime = Util::millitime();
+	frameTargetSpeedSet = true;
 }
 
 void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega, bool fluid) {

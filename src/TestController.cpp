@@ -219,10 +219,10 @@ void TestController::testRoutine(double dt) {
 		return;
 	}
 
-	/*robot->getDribbler().start();
-	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward, true);*/
+	robot->getDribbler().start();
+	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward, true);
 
-	robot->setTargetDir(1.0f, 0.0f, 0.0f);
+	//robot->setTargetDir(1.0f, 0.0f, 0.0f);
 }
 
 bool TestController::handleRequest(std::string request) {
