@@ -219,6 +219,7 @@ void TestController::testRoutine(double dt) {
 		return;
 	}
 
+	robot->getDribbler().start();
 	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward);
 }
 
