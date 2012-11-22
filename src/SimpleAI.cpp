@@ -429,7 +429,7 @@ void SimpleAI::stepFetchBall(double dt) {
 				robot->getDribbler().stop();
 			}
 
-			robot->setTargetDir(Math::Rad(0), speed, omega, false);
+			robot->setTargetDir(Math::Rad(0), speed, omega);
 		//}
 	}
 
@@ -478,7 +478,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			robot->spinAroundDribbler(goalTurnDirection == -1 ? true : false);
 		} else {
 			// @TODO start spinning gradually
-			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection);
+			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection, true);
 
 			//std::cout << "@ SPINNING SEARCH GRADUALLY" << std::endl;
 		}

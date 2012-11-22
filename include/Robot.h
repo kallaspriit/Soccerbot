@@ -56,13 +56,13 @@ class Robot {
 		const ParticleFilterLocalizer& getRobotLocalizer() { return *robotLocalizer; }
 		const Measurements& getMeasurements() const { return measurements; }
 
-        void setTargetDir(float x, float y, float omega = 0.0f, bool fluid = true);
-        void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f, bool fluid = true);
+        void setTargetDir(float x, float y, float omega = 0.0f, bool fluid = false);
+        void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f, bool fluid = false);
+		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed, bool fluid = true);
         void stop();
         void setPosition(float x, float y, float orientation);
 		void updateGyroOrientation(float deltaAngle);
 		float getGyroOrientation() const { return gyroOrientation; }
-		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed, bool fluid = false);
 
         void addTask(Task* task) { tasks.push_back(task); }
         Task* getCurrentTask();
