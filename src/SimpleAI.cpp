@@ -145,6 +145,19 @@ void SimpleAI::step(double dt) {
 		lastGoalDistance = largestGoal->distance;
 	}
 
+	if (state != State::FIND_GOAL || !robot->getDribbler().gotBall()) {
+		Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
+
+		if (targetGoal != NULL) {
+			if (targetGoal->angle > 0) {
+				goalTurnDirection = 1;
+			} else {
+				goalTurnDirection = -1;
+			}
+		}
+	}
+
+	/*
 	Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
 
 	if (targetGoal != NULL && (lastGoalTurnChangeTime == -1.0 || Util::duration(lastGoalTurnChangeTime) >= 3.0)) {
@@ -161,9 +174,8 @@ void SimpleAI::step(double dt) {
 				lastGoalTurnChangeTime = Util::millitime();
 			}
 		}
-
-		
 	}
+	*/
 
 	switch (state) {
 		case PRESTART:
