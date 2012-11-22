@@ -386,6 +386,7 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 		goal->width,
 		goal->height,
 		side == Side::YELLOW ? "yellow-goal" : "blue-goal",
+		side == Side::YELLOW ? "yellow-goal-wide" : "blue-goal-wide",
 		validGoalPathColors,
 		x1, y1, x2, y2
 	);
@@ -936,16 +937,16 @@ float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, st
 	return (float)matches / (float)points;
 }
 
-float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::vector<std::string> validColors) {
+float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors) {
 	int minValidX = -1;
 	int maxValidX = -1;
 	int minValidY = -1;
 	int maxValidY = -1;
 
-	return getUndersideMetric(x1, y1, distance, blockWidth, blockHeight, targetColor, validColors, minValidX, minValidY, maxValidX, maxValidY);
+	return getUndersideMetric(x1, y1, distance, blockWidth, blockHeight, targetColor, targetColor2, validColors, minValidX, minValidY, maxValidX, maxValidY);
 }
 
-float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY) {
+float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY) {
 	bool debug = img.data != NULL;
 	int xStep = 6;
 	int yStep = 6;
