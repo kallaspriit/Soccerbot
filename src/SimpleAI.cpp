@@ -507,7 +507,13 @@ void SimpleAI::stepFindGoal(double dt) {
 				shouldKick = true;
 			}
 		}*/
-	}
+	}/* else {
+		if (goal->angle < 0) {
+			goalTurnDirection = -1;
+		} else {
+			goalTurnDirection = 1;
+		}
+	}*/
 
 	if (shouldKick) {
 		float currentOmega = robot->getMovement().omega;
