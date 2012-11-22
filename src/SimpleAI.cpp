@@ -24,15 +24,14 @@ void SimpleAI::onEnter() {
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
+	viewObstructed = false;
+	stalled = false;
 	lastVelocityX = 0.0f;
 	lastGoalDistance = 0.0f;
 	goalTurnDirection = 1;
-	targetGoalFrontDir = 1;
-	targetGoalRearDir = 1;
+	ballKickAvoidDir = 0;
 
-	onTargetSideChange(bot->getTargetSide()); 
-
-	// @TODO Set go to stop
+	onTargetSideChange(bot->getTargetSide());
 }
 
 bool SimpleAI::handleCommand(const Command& cmd) {
@@ -41,7 +40,6 @@ bool SimpleAI::handleCommand(const Command& cmd) {
 
 		bot->setGo(false);
 		setState(State::PRESTART);
-		robot->stop();
     } else if (cmd.name == "ai-start") {
 		std::cout << "! Starting AI" << std::endl;
 
@@ -407,7 +405,7 @@ void SimpleAI::stepFetchBall(double dt) {
 				speed = Config::ballChaseNearSpeed;
 
 				if (!nearSpeedReached) {
-					if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX < lastVelocityX) {
+					if (currentVelocityX > Config::ballChaseNearSpeed && currentVelocityX <= lastVelocityX) {
 						speed = -Math::max(Config::chaseBallBrakeMultiplier * currentVelocityX, Config::chaseBallMaxBrakeSpeed);
 						braking = true;
 					} else {
@@ -436,7 +434,6 @@ void SimpleAI::stepFetchBall(double dt) {
 }
 
 void SimpleAI::enterFindGoal() {
-	//goalTurnDirection = 0;
 	ballKickAvoidDir = 0;
 }
 
@@ -510,8 +507,6 @@ void SimpleAI::stepFindGoal(double dt) {
 				shouldKick = true;
 			}
 		}*/
-	} else {
-		//goalTurnDirection = goal->angle > 0 ? 1.0f : -1.0f;
 	}
 
 	if (shouldKick) {
