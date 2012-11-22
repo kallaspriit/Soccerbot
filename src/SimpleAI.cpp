@@ -492,9 +492,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			goalTurnDirection = angle >= 0 ? 1 : -1;
 		}*/
 
-		float blackDistance = vision->getBlackDistance();
-
-		if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
+		if (isSafeToDribble()) {
 			robot->spinAroundDribbler(goalTurnDirection == -1 ? true : false);
 		} else {
 			// @TODO start spinning gradually
@@ -573,13 +571,11 @@ void SimpleAI::stepFindGoal(double dt) {
 			speed = 0.0f;
 		}
 
-		float blackDistance = vision->getBlackDistance();
-
-		if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
+		if (isSafeToDribble()) {
 			if (goal->behind) {
 				robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 			} else {
-				robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Config::goalAimPeriod / Math::abs(goal->angle), Config::spinAroundDribblerRadius, 0.0f);
+				robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, Math::limit(Config::goalAimPeriod / Math::abs(goal->angle), 2.0, 5.0), Config::spinAroundDribblerRadius, 0.0f);
 			
 				//robot->setTargetDir(Math::Rad(0), speed, omega);
 			}
@@ -675,6 +671,16 @@ Math::Position SimpleAI::getGoalPosition(Side side) {
 	std::cout << "- Goal position invalid side, this should not happen" << std::endl;
 
 	return Math::Position(Config::fieldWidth, Config::fieldHeight / 2.0f);
+}
+
+bool SimpleAI::isSafeToDribble() {
+	float blackDistance = vision->getBlackDistance();
+
+	if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
+		return true;
+	}
+
+	return false;
 }
 
 std::string SimpleAI::getJSON() {

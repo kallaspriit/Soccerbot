@@ -46,6 +46,7 @@ class SimpleAI : public Controller {
 		void stepRelocate(double dt);
 
 		Math::Position getGoalPosition(Side side);
+		bool isSafeToDribble();
 		std::string getJSON();
 
 	private:
