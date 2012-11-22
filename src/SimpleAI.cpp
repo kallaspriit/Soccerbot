@@ -473,7 +473,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		}*/
 
 		if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
-			robot->spinAroundDribbler(goalTurnDirection == -1.0f ? true : false);
+			robot->spinAroundDribbler(goalTurnDirection == -1 ? true : false);
 		} else {
 			// @TODO start spinning gradually
 			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection);
@@ -661,8 +661,9 @@ std::string SimpleAI::getJSON() {
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
 	stream << "\"stalled\": " << (stalled ? "true" : "false") << ",";
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
+	stream << "\"blackDistance\": " << vision->getBlackDistance() << ",";
 	stream << "\"goalTurnDirection\": " << goalTurnDirection << ",";
-	stream << "\"lastGoalTurnChangeTime\": " << lastGoalTurnChangeTime << ",";
+	//stream << "\"lastGoalTurnChangeTime\": " << lastGoalTurnChangeTime << ",";
 	stream << "\"lastGoalDistance\": " << lastGoalDistance;
 	stream << "}";
 

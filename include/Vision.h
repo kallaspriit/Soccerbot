@@ -41,9 +41,12 @@ class Vision/* : public Blobber::MapFilter*/ {
 		float getBlockMetric(int x, int y, int width, int height, std::vector<std::string> validColors, int step = 6);
 		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors);
 		float getUndersideMetric(int x, int y, float distance, int width, int height, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY);
+		float getColorDistance(std::string colorName, int x1, int y1, int x2, int y2);
+		float getColorDistance(std::string colorName);
 		bool isViewObstructed() { return viewObstructed; }
 		int getRobotInWay() { return robotInWay; }
 		bool isBallInWay(int goalY);
+		float getBlackDistance() { return blackDistance; }
 
         const ObjectList& getFrontBalls() const { return frontBalls; }
         const ObjectList& getFrontGoals() const { return frontGoals; }
@@ -69,6 +72,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 		bool isBallInGoal(Object* ball, Dir dir);
 
 		void updateObstructions();
+		void updateColorDistances();
 
         Blobber* blobber;
         ImageBuffer img;
@@ -96,6 +100,7 @@ class Vision/* : public Blobber::MapFilter*/ {
         unsigned char* classificationRear;
 		bool viewObstructed;
 		int robotInWay;
+		float blackDistance;
 };
 
 #endif // VISION_H

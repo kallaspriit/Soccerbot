@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL), viewObstructed(false), robotInWay(0) {
+Vision::Vision(int width, int height) : blobber(NULL), width(width), height(height), lastFrameFront(NULL), lastFrameRear(NULL), classificationFront(NULL), classificationRear(NULL), viewObstructed(false), robotInWay(0), blackDistance(-1.0f) {
     blobber = new Blobber();
 
     blobber->initialize(width, height);
@@ -136,6 +136,7 @@ void Vision::process(Dir dir) {
 
 	if (dir == Dir::DIR_FRONT) {
 		updateObstructions();
+		updateColorDistances();
 	}
 }
 
@@ -873,6 +874,229 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	return PathMetric(percentage, longestInvalidSpree, validColorFound, crossingGreenWhiteBlackGreen);
 }
 
+float Vision::getColorDistance(std::string colorName, int x1, int y1, int x2, int y2) {
+	x1 = Math::limit(x1, 0, Config::cameraWidth);
+	x2 = Math::limit(x2, 0, Config::cameraWidth);
+	y1 = Math::limit(y1, 0, Config::cameraHeight);
+	y2 = Math::limit(y2, 0, Config::cameraHeight);
+
+	int originalX1 = x1;
+	int originalX2 = x2;
+	int originalY1 = y1;
+	int originalY2 = y2;
+	
+	if (y2 > y1) {
+		return -1.0f;
+	}
+	
+	int F, x, y;
+    int pixelCounter = 0;
+    int senseCounter = 0;
+    int senseStep = 3;
+    const int maxSensePoints = 255;
+    int senseX[maxSensePoints];
+    int senseY[maxSensePoints];
+	int invalidSpree = 0;
+	int longestInvalidSpree = 0;
+	//int scaler = 10;
+
+    if (x1 > x2) {
+        std::swap(x1, x2);
+        std::swap(y1, y2);
+    }
+
+    if (x1 == x2) {
+        if (y1 > y2) {
+            std::swap(y1, y2);
+        }
+
+        x = x1;
+        y = y1;
+
+        while (y <= y2) {
+			//senseStep = (y + scaler) / scaler;
+
+            if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                senseX[senseCounter] = x;
+                senseY[senseCounter] = y;
+                senseCounter++;
+            }
+
+            pixelCounter++;
+
+            y++;
+        }
+    } else if (y1 == y2) {
+        x = x1;
+        y = y1;
+
+		//senseStep = (y + scaler) / scaler;
+
+        while (x <= x2) {
+            if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                senseX[senseCounter] = x;
+                senseY[senseCounter] = y;
+                senseCounter++;
+            }
+
+            pixelCounter++;
+
+            x++;
+        }
+    } else {
+        int dy = y2 - y1;
+        int dx = x2 - x1;
+        int dy2 = (dy << 1);
+        int dx2 = (dx << 1);
+        int sub = dy2 - dx2;
+        int sum = dy2 + dx2;
+
+        if (dy >= 0) {
+            if (dy <= dx) {
+                F = dy2 - dx;
+                x = x1;
+                y = y1;
+
+                while (x <= x2) {
+					//senseStep = (y + scaler) / scaler;
+
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F += dy2;
+                    } else {
+                        y++;
+                        F += sub;
+                    }
+
+                    x++;
+                }
+            } else {
+                F = dx2 - dy;
+                y = y1;
+                x = x1;
+
+                while (y <= y2) {
+					//senseStep = (y + scaler) / scaler;
+
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F += dx2;
+                    } else {
+                        x++;
+                        F -= sub;
+                    }
+
+                    y++;
+                }
+            }
+        } else {
+            if (dx >= -dy) {
+                F = -dy2 - dx;
+                x = x1;
+                y = y1;
+
+                while (x <= x2) {
+					//senseStep = (y + scaler) / scaler;
+
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F -= dy2;
+                    } else {
+                        y--;
+                        F -= sum;
+                    }
+
+                    x++;
+                }
+            } else {
+                F = dx2 + dy;
+                y = y1;
+                x = x1;
+
+                while (y >= y2) {
+					//senseStep = (y + scaler) / scaler;
+
+                    if (pixelCounter % senseStep == 0 && senseCounter < maxSensePoints) {
+                        senseX[senseCounter] = x;
+                        senseY[senseCounter] = y;
+                        senseCounter++;
+                    }
+
+                    pixelCounter++;
+
+                    if (F <= 0) {
+                        F += dx2;
+                    } else {
+                        x++;
+                        F += sum;
+                    }
+
+                    y--;
+                }
+            }
+        }
+    }
+
+	int matches = 0;
+    bool debug = img.data != NULL;
+	int start = originalX1 < originalX2 ? 0 : senseCounter - 1;
+	int step = originalX1 < originalX2 ? 1 : -1;
+
+    for (int i = start; (originalX1 < originalX2 ? i < senseCounter : i >= 0); i += step) {
+        x = senseX[i];
+        y = senseY[i];
+
+        Blobber::Color* color = getColorAt(x, y);
+
+		if (strcmp(color->name, colorName.c_str()) == 0) {
+			return getDistance(Dir::DIR_FRONT, x, y);
+		}
+	}
+
+	return -1.0f;
+}
+
+float Vision::getColorDistance(std::string colorName) {
+	float distanceA = getColorDistance(
+		colorName,
+		Config::cameraPathStartX, Config::cameraPathStartY,
+		0, 0
+	);
+	float distanceB = getColorDistance(
+		colorName,
+		Config::cameraPathStartX, Config::cameraPathStartY,
+		Config::cameraWidth / 2, 0
+	);
+	float distanceC = getColorDistance(
+		colorName,
+		Config::cameraPathStartX, Config::cameraPathStartY,
+		Config::cameraWidth, 0
+	);
+
+	return Math::min(Math::min(distanceA, distanceB), distanceC);
+}
+
 bool Vision::isBallInWay(int goalY) {
 	int startY = Config::cameraHeight - 100;
 	int halfWidth = Config::cameraWidth / 2;
@@ -1185,6 +1409,10 @@ void Vision::updateObstructions() {
 	} else if (rightMetric < Config::viewObstructedThreshold) {
 		robotInWay = 1;
 	}
+}
+
+void Vision::updateColorDistances() {
+	blackDistance = getColorDistance("black");
 }
 
 unsigned char* Vision::getClassification(Dir dir) {
