@@ -220,7 +220,7 @@ void TestController::testRoutine(double dt) {
 	}
 
 	robot->getDribbler().start();
-	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward);
+	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward, true);
 }
 
 bool TestController::handleRequest(std::string request) {

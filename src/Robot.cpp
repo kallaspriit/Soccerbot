@@ -274,7 +274,7 @@ void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega, bool 
     setTargetDir(dirVector.x, dirVector.y, omega, fluid);
 }
 
-void Robot::spinAroundDribbler(bool reverse, float period, float radius, float forwardSpeed) {
+void Robot::spinAroundDribbler(bool reverse, float period, float radius, float forwardSpeed, bool fluid) {
 	float speed = (2 * Math::PI * radius) / period;
 	float omega = (2 * Math::PI) / period;
 
@@ -283,7 +283,7 @@ void Robot::spinAroundDribbler(bool reverse, float period, float radius, float f
 		omega *= -1.0f;
 	}
 
-	setTargetDir(forwardSpeed, -speed, omega);
+	setTargetDir(forwardSpeed, -speed, omega, fluid);
 }
 
 bool Robot::isStalled() {

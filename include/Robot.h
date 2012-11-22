@@ -62,7 +62,7 @@ class Robot {
         void setPosition(float x, float y, float orientation);
 		void updateGyroOrientation(float deltaAngle);
 		float getGyroOrientation() const { return gyroOrientation; }
-		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed);
+		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed, bool fluid = false);
 
         void addTask(Task* task) { tasks.push_back(task); }
         Task* getCurrentTask();
