@@ -527,7 +527,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			return;
 		}
 
-		if (!vision->isBallInWay(goal->y + goal->height / 2)) {
+		if (!vision->isBallInWay(goal->y + goal->height / 2) || stateDuration > 9.0f) { // match with 10 above!
 			robot->getCoilgun().kick();
 
 			setState(State::FIND_BALL);
@@ -546,6 +546,10 @@ void SimpleAI::stepFindGoal(double dt) {
 		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::goalFocusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
+
+		if (goal->distance < 1.0f) {
+			speed = 0.0f;
+		}
 
 		if (goal->behind && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
 			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
@@ -657,6 +661,8 @@ std::string SimpleAI::getJSON() {
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
 	stream << "\"stalled\": " << (stalled ? "true" : "false") << ",";
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
+	stream << "\"goalTurnDirection\": " << goalTurnDirection << ",";
+	stream << "\"lastGoalTurnChangeTime\": " << lastGoalTurnChangeTime << ",";
 	stream << "\"lastGoalDistance\": " << lastGoalDistance;
 	stream << "}";
 
