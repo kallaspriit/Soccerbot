@@ -984,7 +984,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 
 			color = getColorAt(x, y);
 
-			if (color == NULL || strcmp(color->name, targetColorName) != 0) {
+			if (color == NULL || (strcmp(color->name, targetColorName) != 0 && strcmp(color->name, targetColorName2) != 0)) {
 				if (debug) {
 					img.drawMarker(x, y, 64, 64, 64);
 				}
@@ -1023,7 +1023,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 
 				//std::cout << "! SENSE " << x << " " << senseY << " | " << blockHeight << std::endl;
 
-				if (color != NULL && strcmp(color->name, targetColorName) == 0) {
+				if (color != NULL && (strcmp(color->name, targetColorName) == 0 || strcmp(color->name, targetColorName2) == 0)) {
 					if (senseY > maxValidY) {
 						maxValidY = senseY;
 					}
@@ -1049,7 +1049,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 						color = getColorAt(x, gapY);
 
 						if (color != NULL) {
-							if (strcmp(color->name, targetColorName) == 0) {
+							if (strcmp(color->name, targetColorName) == 0 || strcmp(color->name, targetColorName2) == 0) {
 								retryTarget = true;
 
 								if (gapY > maxValidY) {
