@@ -1367,23 +1367,25 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	
 	if (expand) {
 		int maxGap = 2;
+		int expandY = 60;
+		int expandX = 60;
 
 		if (debug) {
 			img.drawBox(minValidX, minValidY, maxValidX - minValidX, maxValidY - minValidY, 255, 0, 0);
 			//img.drawBox(maxValidX, 0, Config::cameraWidth - maxValidX, Math::min(maxValidY + 60, Config::cameraHeight - 1), 255, 255, 255);
 		}
 
-		/*for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y += yStep) {
+		for (int y = 0; y < Math::min(maxValidY + expandY, Config::cameraHeight - 1); y += yStep) {
 			int gap = 0;
 
-			for (int x = maxValidX; x < Config::cameraWidth; x += xStep) {
+			for (int x = maxValidX; x < maxValidX + expandX; x += xStep) {
 				color = getColorAt(x, y);
 
 				if (color != NULL && (strcmp(color->name, targetColorName) == 0 || strcmp(color->name, targetColorName2) == 0)) {
 					gap = 0;
 
-					maxValidX = x;
-					maxValidY = y;
+					if (x > maxValidX) maxValidX = x;
+					if (y > maxValidY) maxValidY = y;
 
 					if (debug) {
 						img.drawMarker(x, y, 255, 255, 255);
@@ -1404,7 +1406,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 					break;
 				}
 			}
-		}*/
+		}
 	}
 
 	if (y1 > Config::whiteBlackMinY && !sawWhite && !sawBlack) {
