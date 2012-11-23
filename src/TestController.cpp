@@ -28,6 +28,10 @@ TestController::TestController(SoccerBot* bot) : Controller(bot) {
 	spinPeriod = Config::spinAroundDribblerPeriod;
 	spinRadius = Config::spinAroundDribblerRadius;
 	spinForward = Config::spinAroundDribblerForwardSpeed;
+
+	aimPeriod = Config::goalAimPeriod;
+	aimMinPeriod = 2.0f;
+	aimMaxPeriod = 10.0f;
 };
 
 void TestController::step(double dt) {
@@ -220,9 +224,45 @@ void TestController::testRoutine(double dt) {
 	}
 
 	robot->getDribbler().start();
-	robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward, true);
 
-	//robot->setTargetDir(1.0f, 0.0f, 0.0f);
+	Object* goal = vision->getLargestGoal(Side::BLUE);
+
+	if (goal == NULL) {
+		robot->spinAroundDribbler();
+
+		return;
+	}
+
+	int halfWidth = Config::cameraWidth / 2;
+	int leftEdge = goal->x - goal->width / 2;
+	int rightEdge = goal->x + goal->width / 2;
+	int goalKickThresholdPixels = goal->width * Config::goalKickThreshold;
+	bool shouldKick = false;
+
+	if (!goal->behind) {
+		if (
+			leftEdge + goalKickThresholdPixels < halfWidth
+			&& rightEdge - goalKickThresholdPixels > halfWidth
+		) {
+			shouldKick = true;
+		}
+	}
+
+	if (shouldKick) {
+		robot->stop();
+
+		return;
+	} else {
+		if (goal->behind) {
+			robot->spinAroundDribbler();
+		} else {
+			float period = Math::limit(aimPeriod / Math::abs(goal->angle), aimMinPeriod, aimMaxPeriod);
+
+			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, period, Config::spinAroundDribblerRadius, 0.0f);
+		}
+	}
+
+	//robot->spinAroundDribbler(false, spinPeriod, spinRadius, spinForward, true);
 }
 
 bool TestController::handleRequest(std::string request) {
@@ -307,6 +347,12 @@ bool TestController::handleCommand(const Command& cmd) {
 		spinRadius = Util::toFloat(cmd.params[0]);
     } else if (cmd.name == "sf") {
 		spinForward = Util::toFloat(cmd.params[0]);
+    } else if (cmd.name == "ap") {
+		aimPeriod = Util::toFloat(cmd.params[0]);
+    } else if (cmd.name == "amin") {
+		aimMinPeriod = Util::toFloat(cmd.params[0]);
+    } else if (cmd.name == "amax") {
+		aimMaxPeriod = Util::toFloat(cmd.params[0]);
     } else {
 		return false;
 	}

@@ -45,6 +45,10 @@ class TestController : public Controller {
 		float spinPeriod;
 		float spinRadius;
 		float spinForward;
+
+		float aimPeriod;
+		float aimMinPeriod;
+		float aimMaxPeriod;
 };
 
 #endif // TESTCONTROLLER_H

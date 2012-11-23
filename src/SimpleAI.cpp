@@ -520,32 +520,13 @@ void SimpleAI::stepFindGoal(double dt) {
 	bool shouldKick = false;
 
 	if (!goal->behind) {
-		//if (goal->width >= Config::wideGoalThreshold) {
-			if (
-				leftEdge + goalKickThresholdPixels < halfWidth
-				&& rightEdge - goalKickThresholdPixels > halfWidth
-			) {
-				//std::cout << "@ SHOOTING WIDE GOAL";
-
-				shouldKick = true;
-			}
-		/*} else {
-			float absGoalAngleDeg = Math::radToDeg(Math::abs(goal->angle));
-			float targetAngle = Math::max(4.0f / goal->distance, 1.0f);
-
-			if (absGoalAngleDeg < targetAngle) {
-				std::cout << "@ SHOOTING NARROW GOAL AT ANGLE: " << absGoalAngleDeg << std::endl;
-
-				shouldKick = true;
-			}
-		}*/
-	}/* else {
-		if (goal->angle < 0) {
-			goalTurnDirection = -1;
-		} else {
-			goalTurnDirection = 1;
+		if (
+			leftEdge + goalKickThresholdPixels < halfWidth
+			&& rightEdge - goalKickThresholdPixels > halfWidth
+		) {
+			shouldKick = true;
 		}
-	}*/
+	}
 
 	if (shouldKick) {
 		float currentOmega = robot->getMovement().omega;
