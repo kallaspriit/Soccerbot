@@ -1368,6 +1368,10 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	if (expand) {
 		int maxGap = 2;
 
+		if (debug) {
+			img.drawBox(maxValidX, 0, Config::cameraWidth - maxValidX, Math::min(maxValidY + 60, Config::cameraHeight - 1), 255, 255, 255);
+		}
+
 		for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y += yStep) {
 			int gap = 0;
 
@@ -1381,19 +1385,19 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 					maxValidY = y;
 
 					if (debug) {
-						img.drawMarker(x, y, 0, 200, 0, true);
+						img.drawMarker(x, y, 255, 255, 255);
 					}
 				} else {
 					gap++;
 
 					if (debug) {
-						img.drawMarker(x, y, 200, 0, 0, true);
+						img.drawMarker(x, y, 200, 0, 0);
 					}
 				}
 
 				if (gap > maxGap) {
 					if (debug) {
-						img.drawMarker(x, y, 100, 0, 0, true);
+						img.drawMarker(x, y, 100, 0, 0);
 					}
 
 					break;
