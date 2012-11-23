@@ -49,6 +49,7 @@ class TestController : public Controller {
 		float aimPeriod;
 		float aimMinPeriod;
 		float aimMaxPeriod;
+		bool aimKick;
 };
 
 #endif // TESTCONTROLLER_H

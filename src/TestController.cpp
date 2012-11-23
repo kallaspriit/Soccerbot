@@ -29,9 +29,10 @@ TestController::TestController(SoccerBot* bot) : Controller(bot) {
 	spinRadius = Config::spinAroundDribblerRadius;
 	spinForward = Config::spinAroundDribblerForwardSpeed;
 
-	aimPeriod = Config::goalAimPeriod;
-	aimMinPeriod = 2.0f;
-	aimMaxPeriod = 10.0f;
+	aimPeriod = 5.0f;
+	aimMinPeriod = 0.0f;
+	aimMaxPeriod = 99.0f;
+	aimKick = true;
 };
 
 void TestController::step(double dt) {
@@ -249,7 +250,11 @@ void TestController::testRoutine(double dt) {
 	}
 
 	if (shouldKick) {
-		robot->stop();
+		if (aimKick) {
+			robot->getCoilgun().kick();
+		} else {
+			robot->stop();
+		}
 
 		return;
 	} else {
@@ -353,6 +358,8 @@ bool TestController::handleCommand(const Command& cmd) {
 		aimMinPeriod = Util::toFloat(cmd.params[0]);
     } else if (cmd.name == "amax") {
 		aimMaxPeriod = Util::toFloat(cmd.params[0]);
+    } else if (cmd.name == "ak") {
+		aimKick = Util::toInt(cmd.params[0]) == 1;
     } else {
 		return false;
 	}
