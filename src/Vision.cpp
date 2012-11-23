@@ -366,20 +366,6 @@ int Vision::getGoalMaxInvalidSpree(int y) {
 }
 
 bool Vision::isValidGoal(Object* goal, Side side) {
-	if (goal->area < Config::goalMinArea) {
-		////std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
-
-		return false;
-	} else if (goal->area > 10000) {
-		return true;
-	}
-
-	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
-		////std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
-
-		return false;
-	}
-
 	int x1, y1, x2, y2;
 
 	float undersideMetric = getUndersideMetric(
@@ -399,6 +385,20 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 		goal->height = y2 - y1;
 		goal->x = x1 + goal->width / 2;
 		goal->y = y1 + goal->height / 2;
+	}
+
+	if (goal->area < Config::goalMinArea) {
+		////std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
+
+		return false;
+	} else if (goal->area > 10000) {
+		return true;
+	}
+
+	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
+		////std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
+
+		return false;
 	}
 
 	if (undersideMetric < Config::goalMinUndersideMetric) {
@@ -1178,16 +1178,16 @@ float Vision::getBlockMetric(int x1, int y1, int blockWidth, int blockHeight, st
 	return (float)matches / (float)points;
 }
 
-float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors) {
+float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors, bool expand) {
 	int minValidX = -1;
 	int maxValidX = -1;
 	int minValidY = -1;
 	int maxValidY = -1;
 
-	return getUndersideMetric(x1, y1, distance, blockWidth, blockHeight, targetColor, targetColor2, validColors, minValidX, minValidY, maxValidX, maxValidY);
+	return getUndersideMetric(x1, y1, distance, blockWidth, blockHeight, targetColor, targetColor2, validColors, minValidX, minValidY, maxValidX, maxValidY, expand);
 }
 
-float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY) {
+float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth, int blockHeight, std::string targetColor, std::string targetColor2, std::vector<std::string> validColors, int& minValidX, int& minValidY, int& maxValidX, int& maxValidY, bool expand) {
 	bool debug = img.data != NULL;
 	int xStep = 6;
 	int yStep = 6;
@@ -1363,6 +1363,12 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 
 			break;
 		}
+	}
+
+	if (expand) {
+		std::string wideColor = targetColor + "-wide";
+
+
 	}
 
 	if (y1 > Config::whiteBlackMinY && !sawWhite && !sawBlack) {
