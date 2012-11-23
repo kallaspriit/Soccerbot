@@ -258,12 +258,22 @@ void TestController::testRoutine(double dt) {
 
 		return;
 	} else {
+		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::goalFocusMaxOmega);
+		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
+		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
+
+		if (goal->distance < 1.0f) {
+			speed = 0.0f;
+		}
+
 		if (goal->behind) {
 			robot->spinAroundDribbler();
 		} else {
-			float period = Math::limit(aimPeriod / Math::abs(goal->angle), aimMinPeriod, aimMaxPeriod);
+			//float period = Math::limit(aimPeriod / Math::abs(goal->angle), aimMinPeriod, aimMaxPeriod);
 
-			robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, period, Config::spinAroundDribblerRadius, 0.0f);
+			//robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, period, Config::spinAroundDribblerRadius, 0.0f);
+
+			robot->setTargetDir(Math::Rad(0), speed, omega);
 		}
 	}
 
