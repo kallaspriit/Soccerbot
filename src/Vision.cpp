@@ -1370,10 +1370,10 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 
 		if (debug) {
 			img.drawBox(minValidX, minValidY, maxValidX - minValidX, maxValidY - minValidY, 0, 100, 0);
-			img.drawBox(maxValidX, 0, Config::cameraWidth - maxValidX, Math::min(maxValidY + 60, Config::cameraHeight - 1), 255, 255, 255);
+			//img.drawBox(maxValidX, 0, Config::cameraWidth - maxValidX, Math::min(maxValidY + 60, Config::cameraHeight - 1), 255, 255, 255);
 		}
 
-		for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y += yStep) {
+		/*for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y += yStep) {
 			int gap = 0;
 
 			for (int x = maxValidX; x < Config::cameraWidth; x += xStep) {
@@ -1404,7 +1404,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 					break;
 				}
 			}
-		}
+		}*/
 	}
 
 	if (y1 > Config::whiteBlackMinY && !sawWhite && !sawBlack) {
