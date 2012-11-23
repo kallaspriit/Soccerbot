@@ -1366,10 +1366,12 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	}
 	
 	if (expand) {
-		for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y++) {
+		int maxGap = 2;
+
+		for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y += yStep) {
 			int gap = 0;
 
-			for (int x = maxValidX; x < Config::cameraWidth; x++) {
+			for (int x = maxValidX; x < Config::cameraWidth; x += xStep) {
 				color = getColorAt(x, y);
 
 				if (color != NULL && (strcmp(color->name, targetColorName) == 0 || strcmp(color->name, targetColorName2) == 0)) {
@@ -1387,6 +1389,14 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 					if (debug) {
 						img.drawMarker(x, y, 200, 0, 0, true);
 					}
+				}
+
+				if (gap > maxGap) {
+					if (debug) {
+						img.drawMarker(x, y, 100, 0, 0, true);
+					}
+
+					break;
 				}
 			}
 		}
