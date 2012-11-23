@@ -1369,7 +1369,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 		int maxGap = 2;
 
 		if (debug) {
-			img.drawBox(minValidX, minValidY, maxValidX - minValidX, maxValidY - minValidY, 0, 100, 0);
+			img.drawBox(minValidX, minValidY, maxValidX - minValidX, maxValidY - minValidY, 255, 0, 0);
 			//img.drawBox(maxValidX, 0, Config::cameraWidth - maxValidX, Math::min(maxValidY + 60, Config::cameraHeight - 1), 255, 255, 255);
 		}
 
