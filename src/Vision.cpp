@@ -1365,7 +1365,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 		}
 	}
 	
-	if (expand) {
+	/*if (expand) {
 		int maxGap = 2;
 		int expandY = 60;
 		int expandX = 60;
@@ -1407,7 +1407,7 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 				}
 			}
 		}
-	}
+	}*/
 
 	if (y1 > Config::whiteBlackMinY && !sawWhite && !sawBlack) {
 		return false;
