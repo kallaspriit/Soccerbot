@@ -47,6 +47,7 @@ class SimpleAI : public Controller {
 
 		Math::Position getGoalPosition(Side side);
 		bool isSafeToDribble();
+		float getBlackDistance();
 		std::string getJSON();
 
 	private:
@@ -58,6 +59,7 @@ class SimpleAI : public Controller {
 		double lastRelocateTime;
 		double lastFetchRearSpinTime;
 		double lastGoalTurnChangeTime;
+		double lastBlackSenseTime;
 		float searchDir;
 		bool nearSpeedReached;
 		bool viewObstructed;
@@ -65,6 +67,7 @@ class SimpleAI : public Controller {
 		bool frontBallChosen;
 		float lastVelocityX;
 		float lastGoalDistance;
+		float lastBlackDistance;
 		int goalTurnDirection;
 		int ballKickAvoidDir;
 };

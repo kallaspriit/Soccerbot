@@ -22,6 +22,7 @@ void SimpleAI::onEnter() {
 	lastRelocateTime = -1.0;
 	lastFetchRearSpinTime = -1.0;
 	lastGoalTurnChangeTime = -1.0;
+	lastBlackSenseTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -29,6 +30,7 @@ void SimpleAI::onEnter() {
 	stalled = false;
 	lastVelocityX = 0.0f;
 	lastGoalDistance = 0.0f;
+	lastBlackDistance = -1.0f;
 	goalTurnDirection = 1;
 	ballKickAvoidDir = 0;
 
@@ -145,7 +147,7 @@ void SimpleAI::step(double dt) {
 		lastGoalDistance = largestGoal->distance;
 	}
 
-	if (state != State::FIND_GOAL || !robot->getDribbler().gotBall()) {
+	if (!robot->getDribbler().gotBall()) {
 		Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
 
 		if (targetGoal != NULL) {
@@ -155,6 +157,13 @@ void SimpleAI::step(double dt) {
 				goalTurnDirection = -1;
 			}
 		}
+	}
+
+	float blackDistance = vision->getBlackDistance();
+
+	if (blackDistance != -1.0f) {
+		lastBlackDistance = blackDistance;
+		lastBlackSenseTime = Util::millitime();
 	}
 
 	/*
@@ -680,13 +689,21 @@ Math::Position SimpleAI::getGoalPosition(Side side) {
 }
 
 bool SimpleAI::isSafeToDribble() {
-	float blackDistance = vision->getBlackDistance();
+	float blackDistance = getBlackDistance();
 
-	if (lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
+	if (lastGoalDistance >= 0.75f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
 		return true;
 	}
 
 	return false;
+}
+
+float SimpleAI::getBlackDistance() {
+	if (lastBlackSenseTime != -1.0 && Util::duration(lastBlackSenseTime) <= 3.0) {
+		return lastBlackDistance;
+	} else {
+		return -1.0f;
+	}
 }
 
 std::string SimpleAI::getJSON() {
@@ -703,7 +720,7 @@ std::string SimpleAI::getJSON() {
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
 	stream << "\"stalled\": " << (stalled ? "true" : "false") << ",";
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
-	stream << "\"blackDistance\": " << vision->getBlackDistance() << ",";
+	stream << "\"blackDistance\": " << getBlackDistance() << ",";
 	stream << "\"goalTurnDirection\": " << goalTurnDirection << ",";
 	//stream << "\"lastGoalTurnChangeTime\": " << lastGoalTurnChangeTime << ",";
 	stream << "\"lastGoalDistance\": " << lastGoalDistance;
