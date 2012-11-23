@@ -1366,10 +1366,29 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 	}
 	
 	if (expand) {
-		std::string wideColor = targetColor + "-wide";
+		for (int y = 0; y < Math::min(maxValidY + 60, Config::cameraHeight - 1); y++) {
+			int gap = 0;
 
-		for (int x = maxValidX; x < Config::cameraWidth; x++) {
+			for (int x = maxValidX; x < Config::cameraWidth; x++) {
+				color = getColorAt(x, y);
 
+				if (color != NULL && (strcmp(color->name, targetColorName) == 0 || strcmp(color->name, targetColorName2) == 0)) {
+					gap = 0;
+
+					maxValidX = x;
+					maxValidY = y;
+
+					if (debug) {
+						img.drawMarker(x, y, 0, 200, 0, true);
+					}
+				} else {
+					gap++;
+
+					if (debug) {
+						img.drawMarker(x, y, 200, 0, 0, true);
+					}
+				}
+			}
 		}
 	}
 
