@@ -1364,11 +1364,13 @@ float Vision::getUndersideMetric(int x1, int y1, float distance, int blockWidth,
 			break;
 		}
 	}
-
+	
 	if (expand) {
 		std::string wideColor = targetColor + "-wide";
 
+		for (int x = maxValidX; x < Config::cameraWidth; x++) {
 
+		}
 	}
 
 	if (y1 > Config::whiteBlackMinY && !sawWhite && !sawBlack) {
