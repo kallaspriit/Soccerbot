@@ -247,6 +247,10 @@ bool SimpleAI::isSearchingFrontOnly() {
 		return true;
 	}
 
+	if (lastFetchRearSpinTime != -1.0 && Util::duration(lastFetchRearSpinTime) < 2.0f) {
+		return true;
+	}
+
 	return false;
 }
 

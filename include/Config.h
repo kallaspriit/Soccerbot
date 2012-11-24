@@ -58,7 +58,7 @@ const int robotInWayHeight = 150;
 const int robotInWayY = 60;
 
 const float viewObstructedThreshold = 0.5f;
-const float ballInGoalThreshold = 0.25f;
+const float ballInGoalThreshold = 0.5f;
 const float fakeObjectLifetime = 1.0f;
 const float fakeBallLifetime = 0.1f;
 const int wheelStalledThreshold = 60;
