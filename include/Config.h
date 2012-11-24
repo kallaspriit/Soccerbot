@@ -132,7 +132,7 @@ const int maxSurroundSenseY = cameraHeight - 50;
 const float jumpAngleStopMultiplier = 1.0f;
 const float goalKickThreshold = 0.35f;
 const int wideGoalThreshold = 100;
-const float kickBallAvoidSideSpeed = 0.3f;
+const float kickBallAvoidSideSpeed = 0.5f;
 
 } // namespace Config
 
