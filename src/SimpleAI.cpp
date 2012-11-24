@@ -586,13 +586,18 @@ void SimpleAI::stepFindGoal(double dt) {
 			robot->setTargetDir(0.0f, Config::kickBallAvoidSideSpeed * (float)ballKickAvoidDir, 0.0f);
 		}
 	} else {
-		float omega = Math::limit(goal->angle * Config::goalFocusP, Config::goalFocusMaxOmega);
+		float focusP = Config::goalFocusP;
+		float omega = Math::limit(goal->angle * focusP, Config::goalFocusMaxOmega);
 		float speedDecrease = Math::limit(Math::abs(goal->angle) * Config::ballChaseAngleSlowdownMultiplier, 0.0f, Config::ballChaseAngleMaxSlowdown);
 		float speed = Config::goalAimSpeed * (1.0f - speedDecrease);
 		float blackDistance = getBlackDistance();
 
 		if (goal->distance < 1.0f) {
 			speed = 0.0f;
+		}
+
+		if (getBlackDistance() < 0.2f) {
+			focusP /= 1.5f;
 		}
 
 		if (isSafeToDribble()) {
@@ -626,7 +631,7 @@ void SimpleAI::stepFindGoal(double dt) {
 					speed = -0.25f;
 				}
 
-				robot->setTargetDir(Math::Rad(0), speed, Config::goalFocusP * (float)goalTurnDirection, true);
+				robot->setTargetDir(Math::Rad(0), speed, focusP * (float)goalTurnDirection, true);
 			} else {
 				robot->setTargetDir(Math::Rad(0), speed, omega);
 			}
