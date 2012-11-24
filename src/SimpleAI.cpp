@@ -747,7 +747,7 @@ Math::Position SimpleAI::getGoalPosition(Side side) {
 }
 
 bool SimpleAI::isSafeToDribble() {
-	if (lastGoalDistance >= 0.75f && lastGoalDistance <= 3.75f) {
+	if (lastGoalDistance >= 0.5f/* && lastGoalDistance <= 3.75f*/) {
 		return true;
 	} else {
 		return false;
