@@ -879,6 +879,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 		tooManyBlacksInRow = true;
 	}
 
+	std::cout << "@ MOST BLACKS IN ROW: " << mostBlacksInRow << std::endl;
+
 	if (senseCounter < 20) {
 		return PathMetric(1.0f, 0, true, false);
 	}
