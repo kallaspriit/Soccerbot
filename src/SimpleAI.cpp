@@ -566,11 +566,11 @@ void SimpleAI::stepFindGoal(double dt) {
 				robot->spinAroundDribbler(goal->angle < 0.0f ? true : false);
 			} else {
 				//float period = Math::limit(Config::goalAimPeriod / Math::abs(goal->angle), 2.0, 10.0);
-				float period = Math::limit(Config::goalAimPeriod / Math::abs(goal->angle), 2.0, 20.0);
+				//float period = Math::limit(Config::goalAimPeriod / Math::abs(goal->angle), 2.0, 20.0);
 
-				robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, period, Config::spinAroundDribblerRadius, 0.0f);
+				//robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, period, Config::spinAroundDribblerRadius, 0.0f);
 			
-				//robot->setTargetDir(Math::Rad(0), speed, omega);
+				robot->setTargetDir(Math::Rad(0), speed, omega);
 			}
 		} else {
 			if (goal->behind) {
