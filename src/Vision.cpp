@@ -266,7 +266,7 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 			ball->y + ballRadius,
 			senseRadius,
 			validBallBgColors,
-			"green",
+			"",
 			1
 		);
 
@@ -314,47 +314,45 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 
 bool Vision::isBallInGoal(Object* ball, Dir dir) {
 	if (ball->distance < 1.0f) {
-		return false;
+		int ballRadius = Math::max(ball->width, ball->height) / 2;
+		int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
+
+		float surroundMetric = getSurroundMetric(
+			ball->x,
+			ball->y + ballRadius,
+			senseRadius,
+			goalColors,
+			"",
+			-1,
+			true
+		);
+
+		if (surroundMetric > Config::ballInGoalThreshold) {
+			//std::cout << "@ BALL IN GOAL SURROUND: " << surroundMetric << " VS " << Config::ballInGoalThreshold << std::endl;
+
+			return true;
+		}
 	}
 
-	int ballRadius = Math::max(ball->width, ball->height) / 2;
-    int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
+	/*if (dir == Dir::DIR_FRONT) {
+		for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
+			if (ball->contains(*it)) {
+				//std::cout << "@ BALL IN GOAL INTERSECTS FRONT" << std::endl;
 
-	float surroundMetric = getSurroundMetric(
-        ball->x,
-        ball->y + ballRadius,
-        senseRadius,
-        goalColors,
-		"",
-		-1,
-		true
-    );
-
-	if (surroundMetric > Config::ballInGoalThreshold) {
-		//std::cout << "@ BALL IN GOAL SURROUND: " << surroundMetric << " VS " << Config::ballInGoalThreshold << std::endl;
-
-		return true;
-	} else {
-		if (dir == Dir::DIR_FRONT) {
-			for (ObjectListItc it = frontGoals.begin(); it != frontGoals.end(); it++) {
-				if (ball->contains(*it)) {
-					//std::cout << "@ BALL IN GOAL INTERSECTS FRONT" << std::endl;
-
-					return true;
-				}
-			}
-		} else if (dir == Dir::DIR_REAR) {
-			for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
-				if (ball->contains(*it)) {
-					//std::cout << "@ BALL IN GOAL INTERSECTS REAR" << std::endl;
-
-					return true;
-				}
+				return true;
 			}
 		}
+	} else if (dir == Dir::DIR_REAR) {
+		for (ObjectListItc it = rearGoals.begin(); it != rearGoals.end(); it++) {
+			if (ball->contains(*it)) {
+				//std::cout << "@ BALL IN GOAL INTERSECTS REAR" << std::endl;
 
-		return false;
-	}
+				return true;
+			}
+		}
+	}*/
+
+	return false;
 }
 
 int Vision::getBallMaxInvalidSpree(int y) {
