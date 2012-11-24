@@ -423,7 +423,6 @@ void SimpleAI::stepFetchBall(double dt) {
 
 			return;
 		}*/
-
 		int robotInWay = vision->getRobotInWay();
 
 		/*if (robotInWay != 0 && lastGoalDistance >= 1.25f && lastGoalDistance <= 3.75f) {
