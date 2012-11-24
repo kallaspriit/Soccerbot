@@ -58,7 +58,7 @@ class Robot {
 
         void setTargetDir(float x, float y, float omega = 0.0f, bool fluid = false);
         void setTargetDir(const Math::Angle& dir, float speed = 1.0f, float omega = 0.0f, bool fluid = false);
-		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed, bool fluid = true);
+		void spinAroundDribbler(bool reverse = false, float period = Config::spinAroundDribblerPeriod, float radius = Config::spinAroundDribblerRadius, float forwardSpeed = Config::spinAroundDribblerForwardSpeed, bool fluid = false);
         void stop();
         void setPosition(float x, float y, float orientation);
 		void updateGyroOrientation(float deltaAngle);
