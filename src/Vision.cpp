@@ -598,6 +598,8 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     int senseY[maxSensePoints];
 	int invalidSpree = 0;
 	int longestInvalidSpree = 0;
+	int blacksInRow = 0;
+	int mostBlacksInRow = 0;
 	//int scaler = 10;
 
     if (x1 > x2) {
@@ -815,12 +817,19 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			if (strcmp(color->name, "black") == 0) {
 				sawBlack = true;
 				previousBlack++;
+				blacksInRow++;
 
 				if (sawWhite) {
 					sawWhiteBeforeBlack = true;
 				}
 			} else {
 				previousBlack = 0;
+
+				if (blacksInRow > mostBlacksInRow) {
+					mostBlacksInRow = blacksInRow;
+				}
+
+				blacksInRow = 0;
 			}
 
             if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
@@ -864,6 +873,12 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 		crossingGreenWhiteBlackGreen = true;
 	}
 
+	bool tooManyBlacksInRow = false;
+
+	if (mostBlacksInRow > 20) {
+		tooManyBlacksInRow = true;
+	}
+
 	if (senseCounter < 20) {
 		return PathMetric(1.0f, 0, true, false);
 	}
@@ -871,7 +886,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	float percentage = (float)matches / (float)senseCounter;
 	bool validColorFound = requiredColor == "" || requiredColorFound;
 
-	return PathMetric(percentage, longestInvalidSpree, validColorFound, crossingGreenWhiteBlackGreen);
+	return PathMetric(percentage, longestInvalidSpree, validColorFound, crossingGreenWhiteBlackGreen || tooManyBlacksInRow);
 }
 
 float Vision::getColorDistance(std::string colorName, int x1, int y1, int x2, int y2) {
