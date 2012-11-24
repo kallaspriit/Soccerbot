@@ -240,14 +240,10 @@ std::string SimpleAI::getStateName() {
 
 bool SimpleAI::isSearchingFrontOnly() {
 	if (frontBallChosen) {
-		std::cout << "@ FRONT ONYL, FRONT CHOSEN" << std::endl;
-
 		return true;
 	}
 
 	if (lastEscapeTime != -1.0 && Util::duration(lastEscapeTime) < 3.0) {
-		std::cout << "@ FRONT ONYL, ESCAPED RECENTLY" << std::endl;
-
 		return true;
 	}
 
@@ -287,6 +283,10 @@ void SimpleAI::stepFindBall(double dt) {
 	const Object* ball = vision->getClosestBall(isSearchingFrontOnly());
 
 	if (ball != NULL) {
+		if (!ball->behind) {
+			frontBallChosen = true;
+		}
+
 		setState(State::FETCH_BALL);
 
 		return;
@@ -323,7 +323,6 @@ void SimpleAI::enterFetchBall() {
 	}
 
 	nearSpeedReached = false;
-	frontBallChosen = false;
 	lastVelocityX = robot->getMovement().velocityX;
 }
 
@@ -364,10 +363,6 @@ void SimpleAI::stepFetchBall(double dt) {
 		setState(State::RELOCATE);
 
 		return;
-	}
-
-	if (!ball->behind) {
-		frontBallChosen = true;
 	}
 
 	/*if (ball->behind) {
