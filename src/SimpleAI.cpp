@@ -508,7 +508,7 @@ void SimpleAI::stepFindGoal(double dt) {
 		}*/
 
 		if (isSafeToDribble()) {
-			bool reverse = goal->angle < 0.0f ? true : false;
+			bool reverse = goalTurnDirection == -1 ? true : false;
 			float period = Config::spinAroundDribblerPeriod;
 			float radius = Config::spinAroundDribblerRadius;
 			float forwardSpeed = Config::spinAroundDribblerForwardSpeed;
@@ -602,7 +602,6 @@ void SimpleAI::stepFindGoal(double dt) {
 				float radius = Config::spinAroundDribblerRadius;
 				float forwardSpeed = Config::spinAroundDribblerForwardSpeed;
 				
-
 				if (blackDistance != -1.0f && blackDistance < 0.3) {
 					forwardSpeed = -0.25f;
 					period *= 1.5f;
@@ -615,10 +614,6 @@ void SimpleAI::stepFindGoal(double dt) {
 					forwardSpeed
 				);
 			} else {
-				if (blackDistance < 0.2f) {
-					speed = -0.25f;
-				}
-
 				//float period = Math::limit(Config::goalAimPeriod / Math::abs(goal->angle), 2.0, 10.0);
 				//float period = Math::limit(Config::goalAimPeriod / Math::abs(goal->angle), 2.0, 20.0);
 				//robot->spinAroundDribbler(goal->angle < 0.0f ? true : false, period, Config::spinAroundDribblerRadius, 0.0f);
@@ -627,6 +622,10 @@ void SimpleAI::stepFindGoal(double dt) {
 			}
 		} else {
 			if (goal->behind) {
+				if (blackDistance < 0.2f) {
+					speed = -0.25f;
+				}
+
 				robot->setTargetDir(Math::Rad(0), speed, Config::goalFocusP * (float)goalTurnDirection, true);
 			} else {
 				robot->setTargetDir(Math::Rad(0), speed, omega);
