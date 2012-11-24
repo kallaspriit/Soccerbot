@@ -598,8 +598,6 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     int senseY[maxSensePoints];
 	int invalidSpree = 0;
 	int longestInvalidSpree = 0;
-	int blacksInRow = 0;
-	int mostBlacksInRow = 0;
 	//int scaler = 10;
 
     if (x1 > x2) {
@@ -761,6 +759,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     }
 
     int matches = 0;
+	int blacksInRow = 0;
 	int maxBlacksInRow = 10;
     bool debug = img.data != NULL;
     bool requiredColorFound = false;
@@ -793,20 +792,12 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			if (strcmp(color->name, "black") == 0) {
 				blacksInRow++;
 
-				std::cout << "@ FOUND BLACK" << std::endl;
-			} else {
-				if (blacksInRow > 0) {
-					std::cout << "@ BLACKS IN ROW: " << blacksInRow << std::endl;
-				}
-
 				if (blacksInRow > maxBlacksInRow) {
 					tooManyBlacksInRow = true;
 
-					std::cout << "@ TOO MANY" << std::endl;
-
 					break;
 				}
-
+			} else {
 				blacksInRow = 0;
 			}
 
