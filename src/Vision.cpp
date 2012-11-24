@@ -761,6 +761,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
     }
 
     int matches = 0;
+	int maxBlacksInRow = 10;
     bool debug = img.data != NULL;
     bool requiredColorFound = false;
 	bool sawGreen = false;
@@ -769,6 +770,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 	bool sawWhiteBeforeBlack = false;
 	int previousBlack = 0;
 	bool crossingGreenWhiteBlackGreen = false;
+	bool tooManyBlacksInRow = false;
 	std::string firstColor = "";
 	std::string lastColor = "";
 
@@ -790,9 +792,19 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 
 			if (strcmp(color->name, "black") == 0) {
 				blacksInRow++;
+
+				std::cout << "@ FOUND BLACK" << std::endl;
 			} else {
-				if (blacksInRow > mostBlacksInRow) {
-					mostBlacksInRow = blacksInRow;
+				if (blacksInRow > 0) {
+					std::cout << "@ BLACKS IN ROW: " << blacksInRow << std::endl;
+				}
+
+				if (blacksInRow > maxBlacksInRow) {
+					tooManyBlacksInRow = true;
+
+					std::cout << "@ TOO MANY" << std::endl;
+
+					break;
 				}
 
 				blacksInRow = 0;
@@ -874,12 +886,6 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 		//std::cout << "@ OUT LATE" << std::endl;
 
 		crossingGreenWhiteBlackGreen = true;
-	}
-
-	bool tooManyBlacksInRow = false;
-
-	if (mostBlacksInRow > 20) {
-		tooManyBlacksInRow = true;
 	}
 
 	//std::cout << "@ MOST BLACKS IN ROW: " << mostBlacksInRow << std::endl;
