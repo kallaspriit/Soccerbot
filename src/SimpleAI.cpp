@@ -575,7 +575,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			if (goal->behind) {
 				robot->setTargetDir(Math::Rad(0), speed, Config::goalFocusP * (float)goalTurnDirection, true);
 			} else {
-				robot->setTargetDir(Math::Rad(0), speed, omega, true);
+				robot->setTargetDir(Math::Rad(0), speed, omega);
 			}
 		}
 	}
