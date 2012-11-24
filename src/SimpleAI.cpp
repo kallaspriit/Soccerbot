@@ -148,7 +148,7 @@ void SimpleAI::step(double dt) {
 		lastGoalDistance = largestGoal->distance;
 	}
 
-	//if (!robot->getDribbler().gotBall()) {
+	if (!robot->getDribbler().gotBall()) {
 		Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
 
 		if (targetGoal != NULL) {
@@ -167,7 +167,7 @@ void SimpleAI::step(double dt) {
 				}
 			}
 		}
-	//}
+	}
 
 	float blackDistance = vision->getBlackDistance();
 
@@ -620,7 +620,8 @@ void SimpleAI::stepFindGoal(double dt) {
 
 		if (isSafeToDribble()) {
 			if (goal->behind) {
-				bool reverse = goal->angle < 0.0f ? true : false;
+				//bool reverse = goal->angle < 0.0f ? true : false;
+				bool reverse = goalTurnDirection == -1 ? true : false;
 				float period = Config::spinAroundDribblerPeriod;
 				float radius = Config::spinAroundDribblerRadius;
 				float forwardSpeed = Config::spinAroundDribblerForwardSpeed;
