@@ -152,10 +152,19 @@ void SimpleAI::step(double dt) {
 		Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
 
 		if (targetGoal != NULL) {
+			int newGoalTurnDirection;
+
 			if (targetGoal->angle > 0) {
-				goalTurnDirection = 1;
+				newGoalTurnDirection = 1;
 			} else {
-				goalTurnDirection = -1;
+				newGoalTurnDirection = -1;
+			}
+
+			if (newGoalTurnDirection != goalTurnDirection) {
+				if (lastGoalTurnChangeTime == -1.0 || Util::duration(lastGoalTurnChangeTime) > 2.0) {
+					goalTurnDirection = newGoalTurnDirection;
+					lastGoalTurnChangeTime = Util::millitime();
+				}
 			}
 		}
 	}
