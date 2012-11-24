@@ -596,7 +596,7 @@ void SimpleAI::stepFindGoal(double dt) {
 			speed = 0.0f;
 		}
 
-		if (getBlackDistance() < 0.2f) {
+		if (blackDistance != -1.0f && getBlackDistance() < 0.25f) {
 			focusP /= 1.5f;
 		}
 
