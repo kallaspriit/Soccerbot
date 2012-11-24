@@ -148,7 +148,7 @@ void SimpleAI::step(double dt) {
 		lastGoalDistance = largestGoal->distance;
 	}
 
-	if (!robot->getDribbler().gotBall()) {
+	//if (!robot->getDribbler().gotBall()) {
 		Object* targetGoal = vision->getLargestGoal(bot->getTargetSide());
 
 		if (targetGoal != NULL) {
@@ -167,7 +167,7 @@ void SimpleAI::step(double dt) {
 				}
 			}
 		}
-	}
+	//}
 
 	float blackDistance = vision->getBlackDistance();
 
