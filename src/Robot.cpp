@@ -275,6 +275,10 @@ void Robot::setTargetDir(float x, float y, float omega, bool fluid) {
 }
 
 void Robot::setTargetDir(const Math::Angle& dir, float speed, float omega, bool fluid) {
+	fluidTargetX = movement.velocityX;
+	fluidTargetY = movement.velocityY;
+	fluidTargetOmega = movement.omega;
+
     Math::Vector dirVector = Math::Vector::createForwardVec(dir.rad(), speed);
 
     setTargetDir(dirVector.x, dirVector.y, omega, fluid);
