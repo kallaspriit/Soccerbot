@@ -449,6 +449,14 @@ void SimpleAI::stepFetchBall(double dt) {
 					} else {
 						nearSpeedReached = true;
 					}
+				} else {
+					float blackDistance = getBlackDistance();
+
+					if (blackDistance != -1.0f && blackDistance < 0.3f) {
+						std::cout << "@ SLOWING DOWN NEAR BLACK" << std::endl;
+
+						speed /= 2.0f;
+					}
 				}
 			}
 
@@ -597,7 +605,9 @@ void SimpleAI::stepFindGoal(double dt) {
 		}
 
 		if (blackDistance != -1.0f && getBlackDistance() < 0.25f) {
-			focusP /= 1.5f;
+			std::cout << "@ SPINNING SLOWER NEAR BLACK" << std::endl;
+
+			focusP /= 2.0f;
 		}
 
 		if (isSafeToDribble()) {
