@@ -723,13 +723,15 @@ Math::Position SimpleAI::getGoalPosition(Side side) {
 }
 
 bool SimpleAI::isSafeToDribble() {
-	float blackDistance = getBlackDistance();
+	return true;
+
+	/*float blackDistance = getBlackDistance();
 
 	if (lastGoalDistance >= 0.75f && lastGoalDistance <= 3.75f && (blackDistance == -1.0f || blackDistance >= 0.5f)) {
 		return true;
 	}
 
-	return false;
+	return false;*/
 }
 
 float SimpleAI::getBlackDistance() {
