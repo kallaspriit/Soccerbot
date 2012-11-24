@@ -790,7 +790,6 @@ std::string SimpleAI::getJSON() {
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
 	stream << "\"blackDistance\": " << getBlackDistance() << ",";
 	stream << "\"goalTurnDirection\": " << goalTurnDirection << ",";
-	//stream << "\"lastGoalTurnChangeTime\": " << lastGoalTurnChangeTime << ",";
 	stream << "\"lastGoalDistance\": " << lastGoalDistance;
 	stream << "}";
 
