@@ -509,7 +509,22 @@ void SimpleAI::stepFindGoal(double dt) {
 		}*/
 
 		if (isSafeToDribble()) {
-			robot->spinAroundDribbler(goalTurnDirection == -1 ? true : false);
+			float period = Config::spinAroundDribblerPeriod;
+			float radius = Config::spinAroundDribblerRadius;
+			float forwardSpeed = Config::spinAroundDribblerForwardSpeed;
+			float blackDistance = getBlackDistance();
+
+			if (blackDistance != -1.0f && blackDistance < 0.3) {
+				forwardSpeed = -0.25f;
+				period *= 1.5f;
+			}
+
+			robot->spinAroundDribbler(
+				goalTurnDirection == -1 ? true : false,
+				period,
+				radius,
+				forwardSpeed
+			);
 		} else {
 			// @TODO start spinning gradually
 			robot->setTargetDir(Math::Deg(0), 0, Config::goalSpinOmega * (float)goalTurnDirection, true);
