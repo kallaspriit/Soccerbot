@@ -240,10 +240,14 @@ std::string SimpleAI::getStateName() {
 
 bool SimpleAI::isSearchingFrontOnly() {
 	if (frontBallChosen) {
+		std::cout << "@ FRONT ONYL, FRONT CHOSEN" << std::endl;
+
 		return true;
 	}
 
-	if (lastEscapeTime != -1.0 && Util::duration(lastEscapeTime) < 10.0) {
+	if (lastEscapeTime != -1.0 && Util::duration(lastEscapeTime) < 3.0) {
+		std::cout << "@ FRONT ONYL, ESCAPED RECENTLY" << std::endl;
+
 		return true;
 	}
 
@@ -514,10 +518,10 @@ void SimpleAI::stepFindGoal(double dt) {
 			float forwardSpeed = Config::spinAroundDribblerForwardSpeed;
 			float blackDistance = getBlackDistance();
 
-			if (blackDistance != -1.0f && blackDistance < 0.3) {
+			/*if (blackDistance != -1.0f && blackDistance < 0.3) {
 				forwardSpeed = -0.25f;
 				period *= 1.5f;
-			}
+			}*/
 
 			robot->spinAroundDribbler(
 				goalTurnDirection == -1 ? true : false,
@@ -733,6 +737,7 @@ std::string SimpleAI::getJSON() {
 	stream << "\"nearSpeedReached\": " << (nearSpeedReached ? "true" : "false") << ",";
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
 	stream << "\"stalled\": " << (stalled ? "true" : "false") << ",";
+	stream << "\"isSearchingFrontOnly\": " << (isSearchingFrontOnly() ? "true" : "false") << ",";
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
 	stream << "\"blackDistance\": " << getBlackDistance() << ",";
 	stream << "\"goalTurnDirection\": " << goalTurnDirection << ",";
