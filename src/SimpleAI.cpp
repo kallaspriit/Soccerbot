@@ -723,7 +723,13 @@ Math::Position SimpleAI::getGoalPosition(Side side) {
 }
 
 bool SimpleAI::isSafeToDribble() {
-	return true;
+	if (lastGoalDistance >= 0.75f && lastGoalDistance <= 3.75f) {
+		return true;
+	} else {
+		return false;
+	}
+
+	//return true;
 
 	/*float blackDistance = getBlackDistance();
 
@@ -756,6 +762,7 @@ std::string SimpleAI::getJSON() {
 	stream << "\"viewObstructed\": " << (viewObstructed ? "true" : "false") << ",";
 	stream << "\"stalled\": " << (stalled ? "true" : "false") << ",";
 	stream << "\"isSearchingFrontOnly\": " << (isSearchingFrontOnly() ? "true" : "false") << ",";
+	stream << "\"isSafeToDribble\": " << (isSafeToDribble() ? "true" : "false") << ",";
 	stream << "\"lastVelocityX\": " << lastVelocityX << ",";
 	stream << "\"blackDistance\": " << getBlackDistance() << ",";
 	stream << "\"goalTurnDirection\": " << goalTurnDirection << ",";

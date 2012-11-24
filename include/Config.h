@@ -130,7 +130,7 @@ const float distanceCorrection = 0.0f;
 const float chaseDistanceCorrection = -0.18f;
 const int maxSurroundSenseY = cameraHeight - 50;
 const float jumpAngleStopMultiplier = 1.0f;
-const float goalKickThreshold = 0.35f;
+const float goalKickThreshold = 0.20f;
 const int wideGoalThreshold = 100;
 const float kickBallAvoidSideSpeed = 0.5f;
 
