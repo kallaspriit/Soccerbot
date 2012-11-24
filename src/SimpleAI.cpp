@@ -23,6 +23,7 @@ void SimpleAI::onEnter() {
 	lastFetchRearSpinTime = -1.0;
 	lastGoalTurnChangeTime = -1.0;
 	lastBlackSenseTime = -1.0;
+	lastStopRotationTime = -1.0;
 	searchDir = 1.0f;
 	nearSpeedReached = false;
 	frontBallChosen = false;
@@ -309,7 +310,12 @@ void SimpleAI::enterFetchBall() {
 
 	if (ball != NULL && !ball->behind) {
 		robot->clearTasks();
-		robot->stopRotation();
+
+		if (lastStopRotationTime == -1.0 || Util::duration(lastStopRotationTime) > 2.0) {
+			robot->stopRotation();
+
+			lastStopRotationTime = Util::millitime();
+		}
 	}
 
 	nearSpeedReached = false;
@@ -531,11 +537,22 @@ void SimpleAI::stepFindGoal(double dt) {
 	if (shouldKick) {
 		float currentOmega = robot->getMovement().omega;
 
-		if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks())  {
+		if (
+			Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks()
+			&& (lastStopRotationTime == -1.0 || Util::duration(lastStopRotationTime) > 2.0)
+		) {
 			robot->stopRotation();
+
+			lastStopRotationTime = Util::millitime();
 
 			return;
 		}
+
+		/*if (Math::abs(currentOmega) > Config::rotationStoppedOmegaThreshold && !robot->hasTasks())  {
+			robot->stopRotation();
+
+			return;
+		}*/
 
 		if (!vision->isBallInWay(goal->y + goal->height / 2) || stateDuration > 9.0f) { // match with 10 above!
 			robot->getCoilgun().kick();
