@@ -788,6 +788,16 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 
 			lastColor = std::string(color->name);
 
+			if (strcmp(color->name, "black") == 0) {
+				blacksInRow++;
+			} else {
+				if (blacksInRow > mostBlacksInRow) {
+					mostBlacksInRow = blacksInRow;
+				}
+
+				blacksInRow = 0;
+			}
+
 			if (strcmp(color->name, "green") == 0) {
 				if (!sawGreen) {
 					sawGreen = true;
@@ -817,19 +827,12 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 			if (strcmp(color->name, "black") == 0) {
 				sawBlack = true;
 				previousBlack++;
-				blacksInRow++;
 
 				if (sawWhite) {
 					sawWhiteBeforeBlack = true;
 				}
 			} else {
 				previousBlack = 0;
-
-				if (blacksInRow > mostBlacksInRow) {
-					mostBlacksInRow = blacksInRow;
-				}
-
-				blacksInRow = 0;
 			}
 
             if (find(validColors.begin(), validColors.end(), std::string(color->name)) != validColors.end()) {
@@ -879,7 +882,7 @@ Vision::PathMetric Vision::getPathMetric(int x1, int y1, int x2, int y2, std::ve
 		tooManyBlacksInRow = true;
 	}
 
-	std::cout << "@ MOST BLACKS IN ROW: " << mostBlacksInRow << std::endl;
+	//std::cout << "@ MOST BLACKS IN ROW: " << mostBlacksInRow << std::endl;
 
 	if (senseCounter < 20) {
 		return PathMetric(1.0f, 0, true, false);
