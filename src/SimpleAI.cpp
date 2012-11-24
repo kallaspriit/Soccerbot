@@ -270,7 +270,7 @@ void SimpleAI::stepPrestart(double dt) {
 }
 
 void SimpleAI::enterFindBall() {
-	
+	frontBallChosen = false;
 }
 
 void SimpleAI::stepFindBall(double dt) {
