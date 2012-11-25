@@ -76,7 +76,7 @@ const float validBallPathThreshold = 0.65f;			//< which percentage of pixels nee
 const float validGoalPathThreshold = 0.75f;			//< which percentage of pixels need to be valid on goal path
 const float blobberPickerStdDevMultiplier = 1.5f;
 const int undersideMetricBaseSteps = 20;
-const double ballInDribblerThreshold = 0.1f;		//< how long has the ball be in dribbler to be considered to have ball
+const double ballInDribblerThreshold = 0.2f;		//< how long has the ball be in dribbler to be considered to have ball
 const double dribblerBallLostThreshold = 0.0f;		//< how long must the ball have left the dribbler to consider have lost the ball
 
 const float fluidSpeedStep = 1.5f;
