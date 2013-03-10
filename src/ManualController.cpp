@@ -75,7 +75,8 @@ std::string ManualController::getJSON() {
 	std::stringstream stream;
 
     stream << "{";
-	stream << "\"test\": \"hey\"";
+	stream << "\"intersectionLocalizer\": ";
+	stream << intersectionLocalizer.getJSON();
 	stream << "}";
 
     return stream.str();

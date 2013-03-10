@@ -2,6 +2,7 @@
 #define MANUALCONTROLLER_H
 
 #include "Controller.h"
+#include "IntersectionLocalizer.h"
 
 class ManualController : public Controller {
     public:
@@ -17,6 +18,9 @@ class ManualController : public Controller {
         void handleResetPositionCommand(const Command& cmd);
         void handleSetDribblerCommand(const Command& cmd);
         void handleKickCommand(const Command& cmd);
+
+	private:
+		IntersectionLocalizer intersectionLocalizer;
 };
 
 #endif // MANUALCONTROLLER_H

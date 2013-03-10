@@ -1,22 +1,17 @@
 #ifndef INTERSECTIONLOCALIZER_H
 #define INTERSECTIONLOCALIZER_H
 
+#include "Localizer.h"
 #include "Config.h"
 
-class IntersectionLocalizer
+class IntersectionLocalizer : public Localizer
 {
     public:
         IntersectionLocalizer();
 
-		void setPosition(float x, float y, float orientation);
 		void move(float velocityX, float velocityY, float omega, float dt);
 		void update(float yellowDistance, float blueDistance, float yellowAngle, float blueAngle, Side frontGoal);
-
-		float x;
-		float y;
-		float orientation;
-
-    private:
+		std::string getJSON();
 };
 
 #endif // INTERSECTIONLOCALIZER_H

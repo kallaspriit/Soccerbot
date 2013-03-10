@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\IntersectionLocalizer.h" />
+    <ClInclude Include="include\Localizer.h" />
     <ClInclude Include="include\SimpleAI.h" />
     <ClInclude Include="include\BallLocalizer.h" />
     <ClInclude Include="include\Blobber.h" />

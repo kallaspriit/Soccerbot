@@ -1,14 +1,13 @@
 #include "IntersectionLocalizer.h"
 #include "Maths.h"
 
-IntersectionLocalizer::IntersectionLocalizer() : x(0), y(0), orientation(0) {
+#include <string>
+#include <sstream>
 
-}
-
-void IntersectionLocalizer::setPosition(float x, float y, float orientation) {
-	this->x = x;
-	this->y = y;
-	this->orientation = orientation;
+IntersectionLocalizer::IntersectionLocalizer() {
+	x = Config::robotRadius;
+	y = Config::fieldHeight - Config::robotRadius;
+	orientation = -Math::PI / 4.0f;
 }
 
 void IntersectionLocalizer::move(float velocityX, float velocityY, float omega, float dt) {
@@ -19,4 +18,15 @@ void IntersectionLocalizer::move(float velocityX, float velocityY, float omega, 
 
 void IntersectionLocalizer::update(float yellowDistance, float blueDistance, float yellowAngle, float blueAngle, Side frontGoal) {
 
+}
+
+std::string IntersectionLocalizer::getJSON() {
+	std::stringstream stream;
+
+    stream << "{";
+	stream << "\"yellowDistance\": 1.5,";
+	stream << "\"blueDistance\": 3.5";
+	stream << "}";
+
+    return stream.str();
 }
