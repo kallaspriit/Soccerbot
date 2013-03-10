@@ -1,0 +1,7 @@
+Use boost 1.49
+
+1) edit user-config.jam
+uncomment and change using msvc : 11.0 ;
+
+2) run the following in VS CMD
+b2 toolset=msvc-11.0 runtime-link=static link=static variant=release --with-date_time --with-system --with-thread --with-regex
