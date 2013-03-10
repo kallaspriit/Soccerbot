@@ -70,3 +70,13 @@ void ManualController::handleKickCommand(const Command& cmd) {
 
 	robot->getCoilgun().kick(strength);
 }
+
+std::string ManualController::getJSON() {
+	std::stringstream stream;
+
+    stream << "{";
+	stream << "\"test\": \"hey\"";
+	stream << "}";
+
+    return stream.str();
+}

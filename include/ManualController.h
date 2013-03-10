@@ -10,6 +10,7 @@ class ManualController : public Controller {
         bool handleRequest(std::string request);
         bool handleCommand(const Command& cmd);
         void step(double dt);
+		std::string getJSON();
 
         void handleTargetVectorCommand(const Command& cmd);
         void handleTargetDirCommand(const Command& cmd);
