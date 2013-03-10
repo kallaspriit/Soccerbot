@@ -1,1 +1,1 @@
-C:\tinyweb\TINY.exe C:\soccerbot\dash
+util\TINY.exe E:\soccerbot\dash

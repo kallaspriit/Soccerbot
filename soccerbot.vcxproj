@@ -44,13 +44,13 @@
     <OutDir>$(SolutionDir)</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
-    <LibraryPath>C:\boost\stage\lib;C:\XIMEA\API\x86;C:\websocketpp\windows\vcpp2010\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(BOOSTROOT)\stage\lib;$(XIMEAROOT)\API\x86;$(WEBSOCKETPPROOT)\windows\vcpp2010\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
-    <LibraryPath>C:\boost\stage\lib;C:\XIMEA\API\x86;C:\websocketpp\windows\vcpp2010\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(BOOSTROOT)\stage\lib;$(XIMEAROOT)\API\x86;$(WEBSOCKETPPROOT)\windows\vcpp2010\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -59,14 +59,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;C:\websocketpp\src;C:\XIMEA\API;C:\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\XIMEA\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(XIMEAROOT)\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
@@ -85,7 +85,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;C:\websocketpp\src;C:\XIMEA\API;C:\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -96,11 +96,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\XIMEA\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(XIMEAROOT)\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>call "C:\soccerbot\post-build.bat"</Command>
+      <Command>call "$(SolutionDir)post-build.bat"</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -130,6 +130,7 @@
     <ClCompile Include="lib\libyuv\source\scale_neon.cc" />
     <ClCompile Include="lib\libyuv\source\video_common.cc" />
     <ClCompile Include="src\Ball.cpp" />
+    <ClCompile Include="src\IntersectionLocalizer.cpp" />
     <ClCompile Include="src\SimpleAI.cpp" />
     <ClCompile Include="src\BallLocalizer.cpp" />
     <ClCompile Include="src\Blobber.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Ball.h" />
+    <ClInclude Include="include\IntersectionLocalizer.h" />
     <ClInclude Include="include\SimpleAI.h" />
     <ClInclude Include="include\BallLocalizer.h" />
     <ClInclude Include="include\Blobber.h" />
@@ -221,10 +223,6 @@
     <ClInclude Include="lib\libyuv\include\libyuv\scale_argb.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\version.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\video_common.h" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="soccerbot.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\socceerbot.png" />

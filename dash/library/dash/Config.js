@@ -9,6 +9,10 @@ Dash.Config = {
 	robot: {
 		radius: 0.125
 	},
+	field: {
+		width: 4.5,
+		height: 3.0
+	},
 	keyboard: {
 		speed: 0.5,
 		turnRate: Math.PI
