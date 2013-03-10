@@ -8,6 +8,35 @@
 
 void ManualController::step(double dt) {
 	robot->setAutostop(false);
+
+	updateIntersectionLocalizer(dt);
+}
+
+void ManualController::updateIntersectionLocalizer(double dt) {
+	float blueGoalDistance = -1.0f;
+	float yellowGoalDistance = -1.0f;
+	Side frontGoal = Side::UNKNOWN;
+
+	Object* blueGoal = bot->getVision()->getLargestGoal(Side::BLUE);
+	Object* yellowGoal = bot->getVision()->getLargestGoal(Side::YELLOW);
+
+	if (blueGoal != false) {
+		blueGoalDistance = blueGoal->distance;
+
+		if (!blueGoal->behind) {
+			frontGoal = Side::BLUE;
+		}
+	}
+
+	if (yellowGoal != false) {
+		yellowGoalDistance = yellowGoal->distance;
+
+		if (!yellowGoal->behind) {
+			frontGoal = Side::YELLOW;
+		}
+	}
+
+	intersectionLocalizer.update(yellowGoalDistance, blueGoalDistance, 0.0f, 0.0f, frontGoal);
 }
 
 bool ManualController::handleRequest(std::string request) {

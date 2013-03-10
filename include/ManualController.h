@@ -20,6 +20,8 @@ class ManualController : public Controller {
         void handleKickCommand(const Command& cmd);
 
 	private:
+		void updateIntersectionLocalizer(double dt);
+
 		IntersectionLocalizer intersectionLocalizer;
 };
 

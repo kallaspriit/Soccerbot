@@ -11,7 +11,10 @@ class IntersectionLocalizer : public Localizer
 
 		void move(float velocityX, float velocityY, float omega, float dt);
 		void update(float yellowDistance, float blueDistance, float yellowAngle, float blueAngle, Side frontGoal);
-		std::string getJSON();
+		std::string getJSON() { return json; }
+
+	private:
+		std::string json;
 };
 
 #endif // INTERSECTIONLOCALIZER_H

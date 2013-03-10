@@ -17,16 +17,14 @@ void IntersectionLocalizer::move(float velocityX, float velocityY, float omega, 
 }
 
 void IntersectionLocalizer::update(float yellowDistance, float blueDistance, float yellowAngle, float blueAngle, Side frontGoal) {
+	//...
 
-}
-
-std::string IntersectionLocalizer::getJSON() {
 	std::stringstream stream;
 
     stream << "{";
-	stream << "\"yellowDistance\": 1.5,";
-	stream << "\"blueDistance\": 3.5";
+	stream << "\"yellowDistance\": " << yellowDistance << ",";
+	stream << "\"blueDistance\": " << blueDistance << "";
 	stream << "}";
 
-    return stream.str();
+    json = stream.str();
 }
