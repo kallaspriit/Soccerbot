@@ -36,6 +36,9 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 		}
 	}
 
+	yellowGoalDistance = 1.5f;
+	blueGoalDistance = 3.5f;
+
 	intersectionLocalizer.update(yellowGoalDistance, blueGoalDistance, 0.0f, 0.0f, frontGoal);
 }
 

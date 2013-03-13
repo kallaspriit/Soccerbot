@@ -85,17 +85,21 @@ Dash.Renderer.prototype.drawIntersections = function(yellowDistance, blueDistanc
 
 	this.c.lineWidth = 1 / this.canvasToWorldRatio;
 
-	this.c.strokeStyle = '#DD0';
-	this.c.beginPath();
-	this.c.arc(0, Dash.Config.field.height / 2, yellowDistance, 0, Math.PI * 2, true);
-	this.c.closePath();
-	this.c.stroke();
+	if (yellowDistance !== -1) {
+		this.c.strokeStyle = '#DD0';
+		this.c.beginPath();
+		this.c.arc(0, Dash.Config.field.height / 2, yellowDistance, 0, Math.PI * 2, true);
+		this.c.closePath();
+		this.c.stroke();
+	}
 
-	this.c.strokeStyle = '#00F';
-	this.c.beginPath();
-	this.c.arc(Dash.Config.field.width, Dash.Config.field.height / 2, blueDistance, 0, Math.PI * 2, true);
-	this.c.closePath();
-	this.c.stroke();
+	if (blueDistance !== -1) {
+		this.c.strokeStyle = '#00F';
+		this.c.beginPath();
+		this.c.arc(Dash.Config.field.width, Dash.Config.field.height / 2, blueDistance, 0, Math.PI * 2, true);
+		this.c.closePath();
+		this.c.stroke();
+	}
 
 	this.c.restore();
 };
@@ -121,9 +125,12 @@ Dash.Renderer.prototype.renderState = function(state) {
 		state.gyroOrientation
 	);
 
-	state.yellowDistance = 1.5;
-	state.blueDistance = 3.5;
-	this.drawIntersections(state.yellowDistance, state.blueDistance);
+	if (typeof(state.controllerState.intersectionLocalizer) === 'object') {
+		this.drawIntersections(
+			state.controllerState.intersectionLocalizer.yellowDistance,
+			state.controllerState.intersectionLocalizer.blueDistance
+		);
+	}
 		
 	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
 	this.wheelGraphs.FR.render.apply(this.wheelGraphs.FR, [state, 'wheelFR']);
