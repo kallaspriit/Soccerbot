@@ -187,7 +187,7 @@ bool DriveToTask::onStep(Robot& robot, double dt) {
         useSpeed = speed * currentDistance * 5.0f;
     }
 
-    Math::Vector globalDir = Math::Vector::createDirVec(target, pos).getNormalized(useSpeed);
+    Math::Vector globalDir = Math::Vector::createDirVec(target, pos).getNormalized().getScaled(useSpeed);
     Math::Vector localDir = globalDir.getRotated(-currentOrientation);
 
     //std::cout << "[" << Util::round(Math::radToDeg(currentOrientation)) << "] " << Util::round(globalDir.x, 1) << "x" << Util::round(globalDir.y) << " > " << Util::round(localDir.x, 1) << "x" << Util::round(localDir.y) << std::endl;
@@ -259,7 +259,7 @@ bool DrivePathTask::onStep(Robot& robot, double dt) {
         useSpeed = speed * currentDistance * 5.0f;
     }
 
-    Math::Vector globalDir = Math::Vector::createDirVec(targetPos, currentPos).getNormalized(useSpeed);
+    Math::Vector globalDir = Math::Vector::createDirVec(targetPos, currentPos).getNormalized().getScaled(useSpeed);
     Math::Vector localDir = globalDir.getRotated(-currentPos.orientation);
 
     if (omega < -3.0f) {
@@ -329,7 +329,7 @@ bool DriveFacingTask::onStep(Robot& robot, double dt) {
         useSpeed = speed * currentDistance * 5.0f;
     }
 
-    Math::Vector globalDir = Math::Vector::createDirVec(target, pos).getNormalized(useSpeed);
+    Math::Vector globalDir = Math::Vector::createDirVec(target, pos).getNormalized().getScaled(useSpeed);
     Math::Vector localDir = globalDir.getRotated(-currentOrientation);
 
     //std::cout << "[" << Util::round(Math::radToDeg(currentOrientation)) << "] " << Util::round(globalDir.x, 1) << "x" << Util::round(globalDir.y) << " > " << Util::round(localDir.x, 1) << "x" << Util::round(localDir.y) << std::endl;

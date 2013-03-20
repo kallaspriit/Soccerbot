@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include "IntersectionLocalizer.h"
+#include "KalmanLocalizer.h"
 
 class ManualController : public Controller {
     public:
@@ -21,8 +22,10 @@ class ManualController : public Controller {
 
 	private:
 		void updateIntersectionLocalizer(double dt);
+		void updateKalmanLocalizer(double dt);
 
 		IntersectionLocalizer intersectionLocalizer;
+		KalmanLocalizer kalmanLocalizer;
 };
 
 #endif // MANUALCONTROLLER_H

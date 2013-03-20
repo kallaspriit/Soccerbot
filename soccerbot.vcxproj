@@ -59,15 +59,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;lib\armadillo\include;lib\matrix;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(XIMEAROOT)\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(XIMEAROOT)\API\x86;lib\armadillo\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;blas_win32_MT.lib;lapack_win32_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
@@ -85,7 +85,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;lib\armadillo\include;lib\matrix;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -96,11 +96,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(XIMEAROOT)\API\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(XIMEAROOT)\API\x86;lib\armadillo\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;blas_win32_MT.lib;lapack_win32_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>call "$(SolutionDir)post-build.bat"</Command>
+      <Command>ECHO call "$(SolutionDir)post-build.bat"</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -129,8 +129,11 @@
     <ClCompile Include="lib\libyuv\source\scale_argb.cc" />
     <ClCompile Include="lib\libyuv\source\scale_neon.cc" />
     <ClCompile Include="lib\libyuv\source\video_common.cc" />
+    <ClCompile Include="lib\matrix\Matrix.cpp" />
     <ClCompile Include="src\Ball.cpp" />
     <ClCompile Include="src\IntersectionLocalizer.cpp" />
+    <ClCompile Include="src\KalmanLocalizer.cpp" />
+    <ClCompile Include="src\LinearKalmanFilter.cpp" />
     <ClCompile Include="src\SimpleAI.cpp" />
     <ClCompile Include="src\BallLocalizer.cpp" />
     <ClCompile Include="src\Blobber.cpp" />
@@ -169,6 +172,8 @@
   <ItemGroup>
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\IntersectionLocalizer.h" />
+    <ClInclude Include="include\KalmanLocalizer.h" />
+    <ClInclude Include="include\LinearKalmanFilter.h" />
     <ClInclude Include="include\Localizer.h" />
     <ClInclude Include="include\SimpleAI.h" />
     <ClInclude Include="include\BallLocalizer.h" />
@@ -224,6 +229,7 @@
     <ClInclude Include="lib\libyuv\include\libyuv\scale_argb.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\version.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\video_common.h" />
+    <ClInclude Include="lib\matrix\Matrix.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\socceerbot.png" />

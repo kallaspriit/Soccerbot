@@ -968,13 +968,29 @@ Dash.UI.prototype.showStateStats = function(state) {
 };
 
 Dash.UI.prototype.showControllerState = function(state) {
-	var wrap = $('#controller-state');
+	var wrap = $('#controller-state'),
+		key,
+		sub,
+		parentId,
+		i = 0;
 	
 	wrap.html('');
 	
 	if (state != null && typeof(state) == 'object') {
-		for (var key in state) {
-			wrap.append('<li><strong>' + key + '</strong>: ' + state[key] + '</li>');
+		for (key in state) {
+			if (typeof(state[key]) === 'object') {
+				parentId = 'controller-parent-' + i;
+
+				wrap.append('<li id="' + parentId + '"><strong>' + key + '</strong><ul></ul></li>');
+
+				for (sub in state[key]) {
+					$('#' + parentId + ' UL').append('<li><strong>' + sub + '</strong>: ' + state[key][sub] + '</li>')
+				}
+			} else {
+				wrap.append('<li><strong>' + key + '</strong>: ' + state[key] + '</li>');
+			}
+
+			i++;
 		}
 	}
 };

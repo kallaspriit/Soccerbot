@@ -130,6 +130,14 @@ Dash.Renderer.prototype.renderState = function(state) {
 			state.controllerState.intersectionLocalizer.yellowDistance,
 			state.controllerState.intersectionLocalizer.blueDistance
 		);
+
+		this.drawRobot(
+			dash.config.robot.radius,
+			'#D0D',
+			state.controllerState.intersectionLocalizer.x,
+			state.controllerState.intersectionLocalizer.y,
+			state.controllerState.intersectionLocalizer.orientation
+		);
 	}
 		
 	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);

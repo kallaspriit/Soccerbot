@@ -63,6 +63,14 @@ static float cos(float a) {
     return ::cos(a);
 }
 
+static float asin(float a) {
+    return ::asin(a);
+}
+
+static float acos(float a) {
+    return ::acos(a);
+}
+
 static float tan(float a) {
     return ::tan(a);
 }
@@ -112,6 +120,18 @@ static float getAngleDir(float from, float to) {
 	    return -1;
 	}
 }
+
+static float getAngleAvg(float a, float b) {
+	float x = floatModulus(abs(a - b), Math::TWO_PI);
+
+	if (x >= 0 && x <= Math::PI) {
+		return floatModulus((a + b) / 2, Math::TWO_PI);
+	} else if (x > Math::PI && x < Math::PI * 6.0 / 4.0) {
+		return floatModulus((a + b) / 2, Math::TWO_PI) + Math::PI;
+	} else {
+		return floatModulus((a + b) / 2, Math::TWO_PI) - Math::PI;
+	}
+};
 
 static float getAngleDiff(float source, float target) {
     float diff = target - source;
@@ -221,7 +241,9 @@ class Vector {
         float dotProduct(const Vector& b) const;
         float getAngleBetween(const Vector& b) const;
         Vector getRotated(float angle) const;
-        Vector getNormalized(float magnitude = 1.0f) const;
+        Vector getNormalized() const;
+        Vector getScaled(float magnitude) const;
+        Vector getSummed(const Vector& b) const;
 
         static Vector createForwardVec(float dir, float magnitude = 1.0f);
         static Vector createDirVec(const Vector& from, const Vector& to);
@@ -290,6 +312,27 @@ class Polygon {
 
     private:
         PointList points;
+};
+
+class Circle {
+	public:
+		struct Intersections {
+			Intersections() : exist(false), x1(-1), y1(-1), x2(-1), y2(-1) {}
+
+			bool exist;
+			float x1;
+			float y1;
+			float x2;
+			float y2;
+		};
+
+		Circle(float x, float y, float radius) : x(x), y(y), radius(radius) {}
+
+		Intersections getIntersections(const Circle& other);
+
+		float x;
+		float y;
+		float radius;
 };
 
 static float getAngleBetween(Math::Position pointA, Math::Position pointB, float orientationA) {

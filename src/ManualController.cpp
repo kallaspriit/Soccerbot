@@ -10,18 +10,22 @@ void ManualController::step(double dt) {
 	robot->setAutostop(false);
 
 	updateIntersectionLocalizer(dt);
+	updateKalmanLocalizer(dt);
 }
 
 void ManualController::updateIntersectionLocalizer(double dt) {
-	float blueGoalDistance = -1.0f;
-	float yellowGoalDistance = -1.0f;
+	float blueDistance = -1.0f;
+	float yellowDistance = -1.0f;
+	float yellowAngle = 0.0f;
+	float blueAngle = 0.0f;
 	Side frontGoal = Side::UNKNOWN;
 
 	Object* blueGoal = bot->getVision()->getLargestGoal(Side::BLUE);
 	Object* yellowGoal = bot->getVision()->getLargestGoal(Side::YELLOW);
 
 	if (blueGoal != false) {
-		blueGoalDistance = blueGoal->distance;
+		blueDistance = blueGoal->distance;
+		blueAngle = blueGoal->angle;
 
 		if (!blueGoal->behind) {
 			frontGoal = Side::BLUE;
@@ -29,17 +33,40 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	}
 
 	if (yellowGoal != false) {
-		yellowGoalDistance = yellowGoal->distance;
+		yellowDistance = yellowGoal->distance;
+		blueAngle = yellowGoal->angle;
 
 		if (!yellowGoal->behind) {
 			frontGoal = Side::YELLOW;
 		}
 	}
 
-	yellowGoalDistance = 1.5f;
-	blueGoalDistance = 3.5f;
+	// test data
+	yellowDistance = 1.702261510622902f;
+	blueDistance = 3.0212367922100407f;
+	yellowAngle = 2.61935205967261f;
+	blueAngle = 0.0033758574732060675f;
+	frontGoal = Side::BLUE;
 
-	intersectionLocalizer.update(yellowGoalDistance, blueGoalDistance, 0.0f, 0.0f, frontGoal);
+	Robot::Movement movement = robot->getMovement();
+
+	intersectionLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
+	intersectionLocalizer.update(yellowDistance, blueDistance, yellowAngle, blueAngle, frontGoal);
+}
+
+void ManualController::updateKalmanLocalizer(double dt) {
+	Robot::Movement movement = robot->getMovement();
+
+	//kalmanLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
+
+	kalmanLocalizer.update(
+		intersectionLocalizer.x,
+		intersectionLocalizer.y,
+		intersectionLocalizer.orientation,
+		movement.velocityX,
+		movement.velocityY,
+		movement.omega
+	);
 }
 
 bool ManualController::handleRequest(std::string request) {
@@ -107,8 +134,8 @@ std::string ManualController::getJSON() {
 	std::stringstream stream;
 
     stream << "{";
-	stream << "\"intersectionLocalizer\": ";
-	stream << intersectionLocalizer.getJSON();
+	stream << "\"intersectionLocalizer\": " << intersectionLocalizer.getJSON() << ",";
+	stream << "\"kalmanLocalizer\": " << kalmanLocalizer.getJSON();
 	stream << "}";
 
     return stream.str();

@@ -2,7 +2,7 @@
 #define INTERSECTIONLOCALIZER_H
 
 #include "Localizer.h"
-#include "Config.h"
+#include "Maths.h"
 
 class IntersectionLocalizer : public Localizer
 {
@@ -15,6 +15,8 @@ class IntersectionLocalizer : public Localizer
 
 	private:
 		std::string json;
+		Math::Vector yellowGoalPos;
+		Math::Vector blueGoalPos;
 };
 
 #endif // INTERSECTIONLOCALIZER_H

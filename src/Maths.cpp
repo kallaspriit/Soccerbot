@@ -157,12 +157,26 @@ Vector Vector::getRotated(float angle) const {
     );
 }
 
-Vector Vector::getNormalized(float magnitude) const {
+Vector Vector::getNormalized() const {
     float length = getLength();
 
     return Vector(
-        x / length * magnitude,
-        y / length * magnitude
+        x / length,
+        y / length
+    );
+}
+
+Vector Vector::getScaled(float magnitude) const {
+    return Vector(
+        x * magnitude,
+        y * magnitude
+    );
+}
+
+Vector Vector::getSummed(const Vector& b) const {
+    return Vector(
+        x * b.x,
+        y * b.y
     );
 }
 
@@ -231,5 +245,33 @@ Polygon Polygon::getRotated(float angle) const {
 
     return rotated;
 }
+
+Circle::Intersections Circle::getIntersections(const Circle& other) {
+	Intersections intersections = Intersections();
+
+	float distanceSquared = Math::pow(x - other.x, 2) + Math::pow(y - other.y, 2);
+	float distance = Math::sqrt(distanceSquared);
+	
+	if (
+		distance > radius + other.radius
+		|| distance < Math::abs(radius - other.radius)
+		|| distance == 0
+	) {
+		return intersections;
+	}
+	
+	float a = (Math::pow(radius, 2) - Math::pow(other.radius, 2) + distanceSquared) / (2 * distance);
+	float h = Math::sqrt(Math::pow(radius, 2) - Math::pow(a, 2));
+	float centerX = x + a * (other.x - x) / distance;
+	float centerY = y + a * (other.y - y) / distance;
+	
+	intersections.exist = true;
+	intersections.x1 = centerX + h * (other.y - y) / distance,
+	intersections.y1 = centerY + h * (other.x - x) / distance,
+	intersections.x2 = centerX - h * (other.y - y) / distance,
+	intersections.y2 = centerY - h * (other.x - x) / distance;
+		
+	return intersections;
+};
 
 } // namespace Math

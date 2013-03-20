@@ -347,6 +347,11 @@ A:hover {
     background-color: rgba(0, 0, 0, 0.5);
     color: #FFF;
 }
+#controller-state > LI > UL {
+	margin: 0 0 0 10px;
+	padding: 0;
+	list-style: none;
+}
 
 /* Options and buttons */
 #options,
