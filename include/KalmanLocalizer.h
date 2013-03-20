@@ -10,12 +10,23 @@ class KalmanLocalizer : public Localizer
         KalmanLocalizer();
 
 		void move(float velocityX, float velocityY, float omega, float dt);
-		void update(float x, float y, float orientation, float velocityX, float velocityY, float omega);
+		void update(float senseX, float senseY, float senseOrientation, float velocityX, float velocityY, float omega, float dt);
 		std::string getJSON() { return json; }
 
 	private:
 		LinearKalmanFilter* filter;
 		std::string json;
+
+		arma::mat stateTransitionMatrix;
+		arma::mat controlMatrix;
+		arma::mat observationMatrix;
+		arma::mat initialStateEstimate;
+		arma::mat initialCovarianceEstimate;
+		arma::mat processErrorEstimate;
+		arma::mat measurementErrorEstimate;
+
+		float lastInputOrientation;
+		int rotationCounter;
 };
 
 #endif // KALMANLOCALIZER_H

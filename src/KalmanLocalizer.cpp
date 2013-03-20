@@ -9,77 +9,13 @@ KalmanLocalizer::KalmanLocalizer() : filter(NULL) {
 	x = Config::robotRadius;
 	y = Config::robotRadius;
 	orientation = Math::PI / 4.0f;
+	lastInputOrientation = 0.0f;
+	rotationCounter = 0;
 
 	double velocityPreserve = 0.5;
 	double covariance = 0.1;
 	double processError = 0.0001;
 	double measurementError = 0.5;
-
-	/*
-	double stateTransitionMatrix[] = {
-		1.00, 0.00, 1.00, 0.00, 0.00,				// x
-		0.00, 1.00, 0.00, 1.00, 0.00,				// y
-		0.00, 0.00, velocityPreserve, 0.00, 0.00,	// Vx
-		0.00, 0.00, 0.00, velocityPreserve, 0.00,	// Vy
-		0.00, 0.00, 0.00, 0.00, 1.00				// orientation
-	};
-
-	double controlMatrix[] = {
-		0.00, 0.00, 0.00, 0.00, 0.00,
-		0.00, 0.00, 0.00, 0.00, 0.00,
-		0.00, 0.00, 1.0 - velocityPreserve, 0.00, 0.00,
-		0.00, 0.00, 0.00, 1.0 - velocityPreserve, 0.00,
-		0.00, 0.00, 0.00, 0.00, 1.00
-	};
-
-	double observationMatrix[] = {
-		1, 0, 0, 0, 0,
-		0, 1, 0, 0, 0,
-		0, 0, 1, 0, 0,
-		0, 0, 0, 1, 0,
-		0, 0, 0, 0, 1
-	};
-
-	double initialStateEstimate[] = {
-		x,
-		y,
-		0, // start velocity x
-		0, // start velocity y,
-		orientation
-	};
-
-	double initialCovarianceEstimate[] = {
-		covariance, 0, 0, 0, 0, // x
-		0, covariance, 0, 0, 0, // y
-		0, 0, covariance, 0, 0, // Vx
-		0, 0, 0, covariance, 0, // Vy
-		0, 0, 0, 0, covariance  // omega
-	};
-
-	double processErrorEstimate[] = {
-		processError, 0, 0, 0, 0, // x
-		0, processError, 0, 0, 0, // y
-		0, 0, processError, 0, 0, // Vx
-		0, 0, 0, processError, 0, // Vy
-		0, 0, 0, 0, processError  // omega
-	};
-
-	double measurementErrorEstimate[] = {
-		measurementError, 0, 0, 0, 0, // x
-		0, measurementError, 0, 0, 0, // y
-		0, 0, measurementError, 0, 0, // Vx
-		0, 0, 0, measurementError, 0, // Vy
-		0, 0, 0, 0, measurementError  // omega
-	};
-	*/
-
-	arma::mat stateTransitionMatrix;
-	arma::mat controlMatrix;
-	arma::mat observationMatrix;
-	arma::mat initialStateEstimate;
-	arma::mat initialCovarianceEstimate;
-	arma::mat processErrorEstimate;
-	arma::mat measurementErrorEstimate;
 
 	stateTransitionMatrix
 		<< 1.00 << 0.00 << 1.00 << 0.00 << 0.00 << arma::endr				// x
@@ -147,9 +83,47 @@ void KalmanLocalizer::move(float velocityX, float velocityY, float omega, float 
     y += (velocityX * Math::sin(orientation) + velocityY * Math::cos(orientation)) * dt;
 }
 
-void KalmanLocalizer::update(float x, float y, float orientation, float velocityX, float velocityY, float omega) {
-	
+void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation, float velocityX, float velocityY, float omega, float dt) {
+	float originalOrientation = orientation;
+	float jumpThreshold = 0.1f;
 
+	if (senseOrientation < jumpThreshold && lastInputOrientation > Math::TWO_PI - jumpThreshold) {
+		rotationCounter++;
+	} else if (senseOrientation > Math::TWO_PI - jumpThreshold && lastInputOrientation < jumpThreshold) {
+		rotationCounter--;
+	}
+
+	senseOrientation = senseOrientation + rotationCounter * Math::TWO_PI;
+
+	float globalVelocityX = (velocityX * Math::cos(orientation) - velocityY * Math::sin(orientation)) * dt;
+	float globalVelocityY = (velocityX * Math::sin(orientation) + velocityY * Math::cos(orientation)) * dt;
+
+	arma::mat controlVector, measurementVector;
+
+	controlVector
+		<< 0 << arma::endr
+		<< 0 << arma::endr
+		<< globalVelocityX << arma::endr
+		<< globalVelocityY << arma::endr
+		<< omega * dt << arma::endr;
+
+	measurementVector
+		<< senseX << arma::endr
+		<< senseY << arma::endr
+		<< globalVelocityX << arma::endr
+		<< globalVelocityY << arma::endr
+		<< senseOrientation << arma::endr;
+
+	filter->predict(controlVector);
+	filter->observe(measurementVector);
+
+	const arma::mat& state = filter->getStateEstimate();
+
+	x = state(0, 0);
+	y = state(1, 0);
+	orientation = state(4, 0);
+
+	// generate the state JSON
 	std::stringstream stream;
 
     stream << "{";

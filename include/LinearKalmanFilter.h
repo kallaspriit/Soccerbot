@@ -19,6 +19,8 @@ class LinearKalmanFilter {
 		void predict(const arma::mat& controlVector);
 		void observe(const arma::mat& measurementVector);
 
+		const arma::mat& getStateEstimate() const { return stateEstimate; }
+
 	private:
 		const arma::mat& stateTransitionMatrix;
 		const arma::mat& controlMatrix;

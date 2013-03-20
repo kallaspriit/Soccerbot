@@ -48,6 +48,12 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	blueAngle = 0.0033758574732060675f;
 	frontGoal = Side::BLUE;
 
+	// add some noise
+	yellowDistance += (float)Math::randomInt(-10, 10) / 100.0f;
+	blueDistance += (float)Math::randomInt(-10, 10) / 100.0f;
+	yellowAngle += (float)Math::randomInt(-10, 10) / 100.0f;
+	blueAngle += (float)Math::randomInt(-10, 10) / 100.0f;
+
 	Robot::Movement movement = robot->getMovement();
 
 	intersectionLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
@@ -65,7 +71,8 @@ void ManualController::updateKalmanLocalizer(double dt) {
 		intersectionLocalizer.orientation,
 		movement.velocityX,
 		movement.velocityY,
-		movement.omega
+		movement.omega,
+		dt
 	);
 }
 

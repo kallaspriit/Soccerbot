@@ -58,7 +58,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;ARMA_USE_LAPACK;ARMA_USE_BLAS;_DEBUG;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;lib\armadillo\include;lib\matrix;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -84,7 +84,7 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;ARMA_USE_LAPACK;ARMA_USE_BLAS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;lib\jpeg;lib\libyuv\include;lib\armadillo\include;lib\matrix;$(WEBSOCKETPPROOT)\src;$(XIMEAROOT)\API;$(BOOSTROOT);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -129,7 +129,6 @@
     <ClCompile Include="lib\libyuv\source\scale_argb.cc" />
     <ClCompile Include="lib\libyuv\source\scale_neon.cc" />
     <ClCompile Include="lib\libyuv\source\video_common.cc" />
-    <ClCompile Include="lib\matrix\Matrix.cpp" />
     <ClCompile Include="src\Ball.cpp" />
     <ClCompile Include="src\IntersectionLocalizer.cpp" />
     <ClCompile Include="src\KalmanLocalizer.cpp" />
@@ -229,7 +228,6 @@
     <ClInclude Include="lib\libyuv\include\libyuv\scale_argb.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\version.h" />
     <ClInclude Include="lib\libyuv\include\libyuv\video_common.h" />
-    <ClInclude Include="lib\matrix\Matrix.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\socceerbot.png" />

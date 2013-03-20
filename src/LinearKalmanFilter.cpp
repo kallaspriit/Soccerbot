@@ -21,38 +21,6 @@ LinearKalmanFilter::LinearKalmanFilter(
 	covarianceEstimate = arma::mat(initialCovarianceEstimate);
 	predictedStateEstimate = arma::mat(initialStateEstimate);
 	predictedProbabilityEstimate = arma::mat(processErrorEstimate);
-
-	/*double d1[] = {
-		1.0, 2.0,
-		3.0, 4.0
-	};
-	double d2[] = {
-		2.0, 0.0,
-		1.0, 2.0
-	};*/
-	/*double d1[] = {
-		1.0, 3.0,
-		2.0, 4.0
-	};
-	double d2[] = {
-		2.0, 1.0,
-		0.0, 2.0
-	};
-
-	arma::mat m1(d1, 2, 2);
-	arma::mat m2(d2, 2, 2);*/
-
-	arma::mat m1, m2;
-
-	m1 << 1.0 << 2.0 << arma::endr
-	   << 3.0 << 4.0 << arma::endr;
-
-	m2 << 2.0 << 0.0 << arma::endr
-	   << 1.0 << 2.0 << arma::endr;
-
-	arma::mat m3 = m1 * m2;
-
-	m3.print("2x2 test");
 }
 
 void LinearKalmanFilter::predict(const arma::mat& controlVector) {
