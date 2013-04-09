@@ -108,6 +108,9 @@ void ParticleFilterLocalizer::update(const Measurements& measurements) {
 
     for (unsigned int i = 0; i < particles.size(); i++) {
         particle = particles[i];
+
+		Util::confineField(particle->x, particle->y);
+
         probabilities[i] = getMeasurementProbability(particle, measurements);
 
         if (maxProbability == -1 || probabilities[i] > maxProbability) {

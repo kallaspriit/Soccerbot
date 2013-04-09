@@ -7,9 +7,9 @@
 #include <sstream>
 
 KalmanLocalizer::KalmanLocalizer() : filter(NULL) {
-	x = Config::robotRadius;
-	y = Config::robotRadius;
-	orientation = Math::PI / 4.0f;
+	x = Config::fieldWidth / 2.0f;
+	y = Config::fieldHeight / 2.0f;
+	orientation = 0.0f;
 	lastInputOrientation = 0.0f;
 	rotationCounter = 0;
 	json = "null";

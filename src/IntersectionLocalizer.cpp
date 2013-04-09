@@ -6,9 +6,9 @@
 #include <sstream>
 
 IntersectionLocalizer::IntersectionLocalizer() {
-	x = Config::robotRadius;
-	y = Config::robotRadius;
-	orientation = Math::PI / 4.0f;
+	x = Config::fieldWidth / 2.0f;
+	y = Config::fieldHeight / 2.0f;
+	orientation = 0.0f;
 
 	yellowGoalPos = Math::Vector(0, Config::fieldHeight / 2.0f);
 	blueGoalPos = Math::Vector(Config::fieldWidth, Config::fieldHeight / 2.0f);
