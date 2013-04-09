@@ -101,6 +101,16 @@ Dash.Renderer.prototype.renderState = function(state) {
 		state.gyroOrientation
 	);
 
+	if (typeof(state.controllerState.odometerLocalizer) === 'object') {
+		this.drawRobot(
+			dash.config.robot.radius / 2,
+			'#600',
+			state.controllerState.odometerLocalizer.x,
+			state.controllerState.odometerLocalizer.y,
+			state.controllerState.odometerLocalizer.orientation
+		);
+	}
+
 	if (typeof(state.controllerState.intersectionLocalizer) === 'object') {
 		this.drawIntersections(
 			state.controllerState.intersectionLocalizer.yellowDistance,
@@ -108,8 +118,8 @@ Dash.Renderer.prototype.renderState = function(state) {
 		);
 
 		this.drawRobot(
-			dash.config.robot.radius,
-			'#D0D',
+			dash.config.robot.radius / 2,
+			'#660',
 			state.controllerState.intersectionLocalizer.x,
 			state.controllerState.intersectionLocalizer.y,
 			state.controllerState.intersectionLocalizer.orientation
@@ -118,11 +128,21 @@ Dash.Renderer.prototype.renderState = function(state) {
 
 	if (typeof(state.controllerState.kalmanLocalizer) === 'object') {
 		this.drawRobot(
-			dash.config.robot.radius,
-			'#0DD',
+			dash.config.robot.radius / 2,
+			'#006',
 			state.controllerState.kalmanLocalizer.x,
 			state.controllerState.kalmanLocalizer.y,
 			state.controllerState.kalmanLocalizer.orientation
+		);
+	}
+
+	if (typeof(state.controllerState.particleLocalizer) === 'object') {
+		this.drawRobot(
+			dash.config.robot.radius / 2,
+			'#060',
+			state.controllerState.particleLocalizer.x,
+			state.controllerState.particleLocalizer.y,
+			state.controllerState.particleLocalizer.orientation
 		);
 	}
 		

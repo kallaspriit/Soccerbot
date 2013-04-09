@@ -177,8 +177,8 @@ std::string ManualController::getJSON() {
 
     stream << "{";
 	stream << "\"intersectionLocalizer\": " << intersectionLocalizer.getJSON() << ",";
-	stream << "\"particleLocalizer\": " << particleLocalizer.getJSON() << ",";
-	stream << "\"kalmanLocalizer\": " << kalmanLocalizer.getJSON();
+	stream << "\"kalmanLocalizer\": " << kalmanLocalizer.getJSON() << ",";
+	stream << "\"particleLocalizer\": " << particleLocalizer.getJSON();
 	stream << "}";
 
     return stream.str();
