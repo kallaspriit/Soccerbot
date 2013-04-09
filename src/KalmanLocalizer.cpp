@@ -123,7 +123,7 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
 
 	x = state(0, 0);
 	y = state(1, 0);
-	orientation = state(4, 0);
+	orientation = Math::floatModulus(state(4, 0), Math::TWO_PI);
 
 	Util::confineField(x, y);
 
@@ -133,7 +133,7 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
     stream << "{";
 	stream << "\"x\": \"" << x << "\",";
 	stream << "\"y\": \"" << y << "\",";
-	stream << "\"orientation\": " << orientation;
+	stream << "\"orientation\": \"" << orientation << "\"";
 	stream << "}";
 
     json = stream.str();
