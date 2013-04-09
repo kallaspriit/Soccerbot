@@ -45,7 +45,7 @@ void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
 void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt, bool exact) {
 	if (exact) {
 		for (unsigned int i = 0; i < particles.size(); i++) {
-			particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt, Math::TWO_PI);
+			particles[i]->orientation = particles[i]->orientation + omega * dt;
 			particles[i]->x += (velocityX * Math::cos(particles[i]->orientation) - velocityY * Math::sin(particles[i]->orientation)) * dt;
 			particles[i]->y += (velocityX * Math::sin(particles[i]->orientation) + velocityY * Math::cos(particles[i]->orientation)) * dt;
 		}
@@ -54,7 +54,7 @@ void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega
 			float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
 			float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
 
-			particles[i]->orientation = Math::floatModulus(particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt, Math::TWO_PI);
+			particles[i]->orientation = particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt;
 			particles[i]->x += (noisyVelocityX * Math::cos(particles[i]->orientation) - noisyVelocityY * Math::sin(particles[i]->orientation)) * dt;
 			particles[i]->y += (noisyVelocityX * Math::sin(particles[i]->orientation) + noisyVelocityY * Math::cos(particles[i]->orientation)) * dt;
 		}
@@ -201,7 +201,7 @@ Math::Position ParticleFilterLocalizer::getPosition() {
 	stream << "\"orientation\": " << orientation << ",";
 	stream << "\"particles\": [";
 
-	 for (unsigned int i = 0; i < particleCount / 10; i++) {
+	 for (unsigned int i = 0; i < particleCount; i++) {
         particle = particles[i];
 
 		if (i > 0) {

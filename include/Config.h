@@ -23,9 +23,9 @@ const float ballElasticity = 0.3f;
 const float ballDrag = 0.2f;
 
 const int ballLocalizerParticleCount = 1000;
-const float ballLocalizerForwardNoise = 0.8f;
+const float ballLocalizerForwardNoise = 0.5f;
 const float ballLocalizerTurnNoise = 0.3f;
-const float ballLocalizerSenseNoise = 0.5f;
+const float ballLocalizerSenseNoise = 0.2f;
 const float ballLocalizerVelocityUpdateMaxTime = 0.025f;
 const float maxBallIdentityDistance = 0.25f;
 const float ballRemoveTime = 0.3f;
