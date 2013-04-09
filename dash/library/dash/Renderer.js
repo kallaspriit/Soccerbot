@@ -146,7 +146,10 @@ Dash.Renderer.prototype.renderState = function(state) {
 		);
 
 		for (var i = 0; i < state.controllerState.particleLocalizer.particles.length; i++) {
-			
+			this.drawParticle(
+				state.controllerState.particleLocalizer.particles[i][0],
+				state.controllerState.particleLocalizer.particles[i][1]
+			);
 		}
 	}
 		
