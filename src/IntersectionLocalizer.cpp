@@ -12,7 +12,18 @@ IntersectionLocalizer::IntersectionLocalizer() {
 	yellowGoalPos = Math::Vector(0, Config::fieldHeight / 2.0f);
 	blueGoalPos = Math::Vector(Config::fieldWidth, Config::fieldHeight / 2.0f);
 
-	json = "null";
+	std::stringstream stream;
+
+    stream << "{";
+	stream << "\"yellowDistance\": -1,";
+	stream << "\"blueDistance\": -1,";
+	stream << "\"correctIntersection\": \"unknown\",";
+	stream << "\"x\": " << x << ",";
+	stream << "\"y\": " << y << ",";
+	stream << "\"orientation\": " << orientation;
+	stream << "}";
+
+    json = stream.str();
 }
 
 void IntersectionLocalizer::move(float velocityX, float velocityY, float omega, float dt) {

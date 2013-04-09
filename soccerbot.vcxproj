@@ -100,7 +100,7 @@
       <AdditionalDependencies>m3api.lib;websocketpp.lib;winmm.lib;blas_win32_MT.lib;lapack_win32_MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>call "$(SolutionDir)post-build.bat"</Command>
+      <Command>ECHO call "$(SolutionDir)post-build.bat"</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
