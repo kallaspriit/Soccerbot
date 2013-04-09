@@ -80,6 +80,18 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 
 	intersectionLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
 	intersectionLocalizer.update(yellowDistance, blueDistance, yellowAngle, blueAngle, frontGoal);
+
+	std::cout << "Intersection "
+		<< "yellowDistance: " << yellowDistance
+		<< "; blueDistance: " << blueDistance
+		<< "; yellowAngle: " << yellowAngle
+		<< "; blueAngle: " << blueAngle
+		<< "; frontGoal: " << frontGoal
+		<< "; x: " << intersectionLocalizer.x
+		<< "; y: " << intersectionLocalizer.y
+		<< "; orient: " << intersectionLocalizer.orientation
+		<< "; dt: " << dt
+		<< std::endl;
 }
 
 void ManualController::updateKalmanLocalizer(double dt) {
