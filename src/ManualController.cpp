@@ -90,6 +90,9 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 		<< "; x: " << intersectionLocalizer.x
 		<< "; y: " << intersectionLocalizer.y
 		<< "; orient: " << intersectionLocalizer.orientation
+		<< "; velX: " << movement.velocityX
+		<< "; velY: " << movement.velocityY
+		<< "; omega: " << movement.omega
 		<< "; dt: " << dt
 		<< std::endl;
 }
