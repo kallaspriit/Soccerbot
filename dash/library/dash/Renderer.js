@@ -126,10 +126,10 @@ Dash.Renderer.prototype.renderState = function(state) {
 		);
 	}
 		
-	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
+	/*this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
 	this.wheelGraphs.FR.render.apply(this.wheelGraphs.FR, [state, 'wheelFR']);
 	this.wheelGraphs.RL.render.apply(this.wheelGraphs.RL, [state, 'wheelRL']);
-	this.wheelGraphs.RR.render.apply(this.wheelGraphs.RR, [state, 'wheelRR']);
+	this.wheelGraphs.RR.render.apply(this.wheelGraphs.RR, [state, 'wheelRR']);*/
 };
 
 Dash.Renderer.prototype.drawIntersections = function(yellowDistance, blueDistance) {

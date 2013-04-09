@@ -310,7 +310,7 @@ void Robot::setPosition(float x, float y, float orientation) {
 	this->orientation = Math::floatModulus(orientation, Math::TWO_PI);
 	this->gyroOrientation = this->orientation;
 
-	robotLocalizer->resetDeviation(x, y, orientation);
+	robotLocalizer->setPosition(x, y, orientation);
 }
 
 void Robot::updateGyroOrientation(float deltaAngle) {

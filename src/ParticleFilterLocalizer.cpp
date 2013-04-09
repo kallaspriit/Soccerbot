@@ -4,6 +4,8 @@
 #include "Config.h"
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 ParticleFilterLocalizer::ParticleFilterLocalizer(int particleCount, float forwardNoise, float turnNoise, float senseNoise) : particleCount(particleCount), forwardNoise(forwardNoise), turnNoise(turnNoise), senseNoise(senseNoise) {
     for (int i = 0; i < particleCount; i++) {
@@ -14,6 +16,8 @@ ParticleFilterLocalizer::ParticleFilterLocalizer(int particleCount, float forwar
             1.0f
         ));
     }
+
+	json = "null";
 }
 
 ParticleFilterLocalizer::~ParticleFilterLocalizer() {
@@ -57,7 +61,7 @@ void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega
 	}
 }
 
-void ParticleFilterLocalizer::resetDeviation(float x, float y, float orientation) {
+void ParticleFilterLocalizer::setPosition(float x, float y, float orientation) {
 	for (unsigned int i = 0; i < particles.size(); i++) {
 		particles[i]->orientation = orientation;
         particles[i]->x = x;
@@ -182,9 +186,24 @@ Math::Position ParticleFilterLocalizer::getPosition() {
         orientationSum += particle->orientation;
     }
 
+	x = xSum / (float)particleCount;
+	y = ySum / (float)particleCount;
+	orientation = Math::floatModulus(orientationSum / (float)particleCount, Math::TWO_PI);
+
+	// generate the state JSON
+	std::stringstream stream;
+
+    stream << "{";
+	stream << "\"x\": " << x << ",";
+	stream << "\"y\": " << y << ",";
+	stream << "\"orientation\": " << orientation;
+	stream << "}";
+
+    json = stream.str();
+
     return Math::Position(
-        xSum / (float)particleCount,
-        ySum / (float)particleCount,
-        Math::floatModulus(orientationSum / (float)particleCount, Math::TWO_PI)
+        x,
+        y,
+        orientation
     );
 }

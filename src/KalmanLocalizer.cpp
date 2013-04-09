@@ -11,6 +11,7 @@ KalmanLocalizer::KalmanLocalizer() : filter(NULL) {
 	orientation = Math::PI / 4.0f;
 	lastInputOrientation = 0.0f;
 	rotationCounter = 0;
+	json = "null";
 
 	double velocityPreserve = 0.5;
 	double covariance = 0.1;
@@ -78,9 +79,9 @@ KalmanLocalizer::KalmanLocalizer() : filter(NULL) {
 }
 
 void KalmanLocalizer::move(float velocityX, float velocityY, float omega, float dt) {
-	orientation = Math::floatModulus(orientation + omega * dt, Math::TWO_PI);
+	/*orientation = Math::floatModulus(orientation + omega * dt, Math::TWO_PI);
     x += (velocityX * Math::cos(orientation) - velocityY * Math::sin(orientation)) * dt;
-    y += (velocityX * Math::sin(orientation) + velocityY * Math::cos(orientation)) * dt;
+    y += (velocityX * Math::sin(orientation) + velocityY * Math::cos(orientation)) * dt;*/
 }
 
 void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation, float velocityX, float velocityY, float omega, float dt) {

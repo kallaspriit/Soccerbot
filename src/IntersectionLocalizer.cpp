@@ -11,6 +11,8 @@ IntersectionLocalizer::IntersectionLocalizer() {
 
 	yellowGoalPos = Math::Vector(0, Config::fieldHeight / 2.0f);
 	blueGoalPos = Math::Vector(Config::fieldWidth, Config::fieldHeight / 2.0f);
+
+	json = "null";
 }
 
 void IntersectionLocalizer::move(float velocityX, float velocityY, float omega, float dt) {

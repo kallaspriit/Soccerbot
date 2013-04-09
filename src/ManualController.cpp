@@ -6,6 +6,20 @@
 #include "Coilgun.h"
 #include "Util.h"
 
+ManualController::ManualController(SoccerBot* bot) : Controller(bot) {
+	particleLocalizer.addLandmark(
+		"yellow-center",
+		0.0f,
+		Config::fieldHeight / 2.0f
+	);
+
+	particleLocalizer.addLandmark(
+		"blue-center",
+		Config::fieldWidth,
+		Config::fieldHeight / 2.0f
+	);
+};
+
 void ManualController::step(double dt) {
 	robot->setAutostop(false);
 
@@ -76,6 +90,27 @@ void ManualController::updateKalmanLocalizer(double dt) {
 	);
 }
 
+void ManualController::updateParticleLocalizer(double dt) {
+	Robot::Movement movement = robot->getMovement();
+	Measurements measurements;
+
+	Object* yellowGoal = vision->getLargestGoal(Side::YELLOW);
+	Object* blueGoal = vision->getLargestGoal(Side::BLUE);
+
+	if (yellowGoal != NULL) {
+		measurements["yellow-center"] = yellowGoal->distance;
+	}
+
+	if (blueGoal != NULL) {
+		measurements["blue-center"] = blueGoal->distance;
+	}
+
+	particleLocalizer.update(measurements);
+	particleLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
+
+	Math::Position position = particleLocalizer.getPosition();
+}
+
 bool ManualController::handleRequest(std::string request) {
     return false;
 }
@@ -142,6 +177,7 @@ std::string ManualController::getJSON() {
 
     stream << "{";
 	stream << "\"intersectionLocalizer\": " << intersectionLocalizer.getJSON() << ",";
+	stream << "\"particleLocalizer\": " << particleLocalizer.getJSON() << ",";
 	stream << "\"kalmanLocalizer\": " << kalmanLocalizer.getJSON();
 	stream << "}";
 
