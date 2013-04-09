@@ -21,6 +21,7 @@ class Util {
         static bool replace(std::string& str, const std::string& from, const std::string& to);
 		static void sleep(int milliseconds) { Sleep(milliseconds); }
 		static void correctCameraPoint(int& x, int& y);
+		static void confineField(float& x, float& y);
         //static std::string exec(const std::string& cmd);
         //static std::string getWorkingDirectory();
 

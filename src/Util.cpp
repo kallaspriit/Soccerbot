@@ -232,3 +232,17 @@ void Util::correctCameraPoint(int& x, int& y) {
 	x = zoom * centerOffsetX / magnifacationFactor + centerX,
 	y = zoom * centerOffsetY / magnifacationFactor + centerY;
 }
+
+void Util::confineField(float& x, float& y) {
+	if (x < -Config::confineMargin) {
+		x = -Config::confineMargin;
+	} else if (x > Config::fieldWidth + Config::confineMargin) {
+		x = Config::fieldWidth + Config::confineMargin;
+	}
+
+	if (y < -Config::confineMargin) {
+		y = -Config::confineMargin;
+	} else if (y > Config::fieldHeight + Config::confineMargin) {
+		y = Config::fieldHeight + Config::confineMargin;
+	}
+}

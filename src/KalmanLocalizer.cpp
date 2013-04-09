@@ -1,5 +1,6 @@
 #include "KalmanLocalizer.h"
 #include "Maths.h"
+#include "Util.h"
 #include "armadillo"
 
 #include <string>
@@ -123,6 +124,8 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
 	x = state(0, 0);
 	y = state(1, 0);
 	orientation = state(4, 0);
+
+	Util::confineField(x, y);
 
 	// generate the state JSON
 	std::stringstream stream;

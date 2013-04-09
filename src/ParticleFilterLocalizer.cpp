@@ -190,6 +190,8 @@ Math::Position ParticleFilterLocalizer::getPosition() {
 	y = ySum / (float)particleCount;
 	orientation = Math::floatModulus(orientationSum / (float)particleCount, Math::TWO_PI);
 
+	Util::confineField(x, y);
+
 	// generate the state JSON
 	std::stringstream stream;
 

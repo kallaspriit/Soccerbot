@@ -1,5 +1,6 @@
 #include "IntersectionLocalizer.h"
 #include "Config.h"
+#include "Util.h"
 
 #include <string>
 #include <sstream>
@@ -113,6 +114,8 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 	if (orientation < 0) {
 		orientation += Math::TWO_PI;
 	}
+
+	Util::confineField(x, y);
 
 	std::stringstream stream;
 
