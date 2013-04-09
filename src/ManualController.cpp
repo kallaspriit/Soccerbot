@@ -23,9 +23,16 @@ ManualController::ManualController(SoccerBot* bot) : Controller(bot) {
 void ManualController::step(double dt) {
 	robot->setAutostop(false);
 
+	updateOdometerLocalizer(dt);
 	updateIntersectionLocalizer(dt);
 	updateKalmanLocalizer(dt);
 	updateParticleLocalizer(dt);
+}
+
+void ManualController::updateOdometerLocalizer(double dt) {
+	Robot::Movement movement = robot->getMovement();
+
+	intersectionLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
 }
 
 void ManualController::updateIntersectionLocalizer(double dt) {
@@ -57,11 +64,11 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	}
 
 	// test data
-	yellowDistance = 1.702261510622902f;
+	/*yellowDistance = 1.702261510622902f;
 	blueDistance = 3.0212367922100407f;
 	yellowAngle = 2.61935205967261f;
 	blueAngle = 0.0033758574732060675f;
-	frontGoal = Side::BLUE;
+	frontGoal = Side::BLUE;*/
 
 	// add some noise
 	/*yellowDistance += (float)Math::randomInt(-10, 10) / 100.0f;
@@ -177,6 +184,7 @@ std::string ManualController::getJSON() {
 	std::stringstream stream;
 
     stream << "{";
+	stream << "\"odometerLocalizer\": " << odometerLocalizer.getJSON() << ",";
 	stream << "\"intersectionLocalizer\": " << intersectionLocalizer.getJSON() << ",";
 	stream << "\"kalmanLocalizer\": " << kalmanLocalizer.getJSON() << ",";
 	stream << "\"particleLocalizer\": " << particleLocalizer.getJSON();

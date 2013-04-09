@@ -2,6 +2,7 @@
 #define MANUALCONTROLLER_H
 
 #include "Controller.h"
+#include "OdometerLocalizer.h"
 #include "IntersectionLocalizer.h"
 #include "KalmanLocalizer.h"
 #include "ParticleFilterLocalizer.h"
@@ -22,10 +23,12 @@ class ManualController : public Controller {
         void handleKickCommand(const Command& cmd);
 
 	private:
+		void updateOdometerLocalizer(double dt);
 		void updateIntersectionLocalizer(double dt);
 		void updateKalmanLocalizer(double dt);
 		void updateParticleLocalizer(double dt);
 
+		OdometerLocalizer odometerLocalizer;
 		IntersectionLocalizer intersectionLocalizer;
 		KalmanLocalizer kalmanLocalizer;
 		ParticleFilterLocalizer particleLocalizer;

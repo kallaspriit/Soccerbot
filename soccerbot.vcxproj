@@ -133,6 +133,7 @@
     <ClCompile Include="src\IntersectionLocalizer.cpp" />
     <ClCompile Include="src\KalmanLocalizer.cpp" />
     <ClCompile Include="src\LinearKalmanFilter.cpp" />
+    <ClCompile Include="src\OdometerLocalizer.cpp" />
     <ClCompile Include="src\SimpleAI.cpp" />
     <ClCompile Include="src\BallLocalizer.cpp" />
     <ClCompile Include="src\Blobber.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="include\KalmanLocalizer.h" />
     <ClInclude Include="include\LinearKalmanFilter.h" />
     <ClInclude Include="include\Localizer.h" />
+    <ClInclude Include="include\OdometerLocalizer.h" />
     <ClInclude Include="include\SimpleAI.h" />
     <ClInclude Include="include\BallLocalizer.h" />
     <ClInclude Include="include\Blobber.h" />
