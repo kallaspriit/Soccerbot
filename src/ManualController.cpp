@@ -60,13 +60,13 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	blueDistance = 3.0212367922100407f;
 	yellowAngle = 2.61935205967261f;
 	blueAngle = 0.0033758574732060675f;
-	frontGoal = Side::BLUE;*/
+	frontGoal = Side::BLUE;
 
 	// add some noise
 	yellowDistance += (float)Math::randomInt(-10, 10) / 100.0f;
 	blueDistance += (float)Math::randomInt(-10, 10) / 100.0f;
 	yellowAngle += (float)Math::randomInt(-10, 10) / 100.0f;
-	blueAngle += (float)Math::randomInt(-10, 10) / 100.0f;
+	blueAngle += (float)Math::randomInt(-10, 10) / 100.0f;*/
 
 	Robot::Movement movement = robot->getMovement();
 
