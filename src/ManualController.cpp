@@ -32,7 +32,7 @@ void ManualController::step(double dt) {
 void ManualController::updateOdometerLocalizer(double dt) {
 	Robot::Movement movement = robot->getMovement();
 
-	intersectionLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
+	odometerLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
 }
 
 void ManualController::updateIntersectionLocalizer(double dt) {
@@ -81,7 +81,7 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	intersectionLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt);
 	intersectionLocalizer.update(yellowDistance, blueDistance, yellowAngle, blueAngle, frontGoal);
 
-	std::cout << "Intersection "
+	/*std::cout << "Intersection "
 		<< "yellowDistance: " << yellowDistance
 		<< "; blueDistance: " << blueDistance
 		<< "; yellowAngle: " << yellowAngle
@@ -94,7 +94,7 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 		<< "; velY: " << movement.velocityY
 		<< "; omega: " << movement.omega
 		<< "; dt: " << dt
-		<< std::endl;
+		<< std::endl;*/
 }
 
 void ManualController::updateKalmanLocalizer(double dt) {

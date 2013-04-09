@@ -8,6 +8,7 @@ OdometerLocalizer::OdometerLocalizer() {
 	x = Config::robotRadius;
 	y = Config::robotRadius;
 	orientation = Math::PI / 4.0f;
+	json = "null";
 }
 
 void OdometerLocalizer::move(float velocityX, float velocityY, float omega, float dt) {
