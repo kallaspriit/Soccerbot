@@ -18,6 +18,9 @@ ManualController::ManualController(SoccerBot* bot) : Controller(bot) {
 		Config::fieldWidth,
 		Config::fieldHeight / 2.0f
 	);
+
+	// initiate at the center
+	particleLocalizer.setPosition(Config::fieldWidth / 2.0f, Config::fieldHeight / 2.0f, 0.0f);
 };
 
 void ManualController::step(double dt) {

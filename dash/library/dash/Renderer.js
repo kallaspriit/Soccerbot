@@ -66,6 +66,40 @@ Dash.Renderer.prototype.drawRobot = function(radius, color, x, y, orientation) {
 	this.c.restore();
 };
 
+
+Dash.Renderer.prototype.drawIntersections = function(yellowDistance, blueDistance) {
+	this.c.save();
+
+	this.c.lineWidth = 1 / this.canvasToWorldRatio;
+
+	if (yellowDistance !== -1) {
+		this.c.strokeStyle = '#DD0';
+		this.c.beginPath();
+		this.c.arc(0, Dash.Config.field.height / 2, yellowDistance, 0, Math.PI * 2, true);
+		this.c.closePath();
+		this.c.stroke();
+	}
+
+	if (blueDistance !== -1) {
+		this.c.strokeStyle = '#00F';
+		this.c.beginPath();
+		this.c.arc(Dash.Config.field.width, Dash.Config.field.height / 2, blueDistance, 0, Math.PI * 2, true);
+		this.c.closePath();
+		this.c.stroke();
+	}
+
+	this.c.restore();
+};
+
+Dash.Renderer.prototype.drawParticle = function(x, y) {
+	this.c.save();
+
+	this.c.fillStyle = '#F00';
+	this.c.fillRect(x, y, 0.01, 0.01);
+
+	this.c.restore();
+};
+
 Dash.Renderer.prototype.drawRuler = function() {
 	this.c.save();
 	
@@ -157,28 +191,4 @@ Dash.Renderer.prototype.renderState = function(state) {
 	this.wheelGraphs.FR.render.apply(this.wheelGraphs.FR, [state, 'wheelFR']);
 	this.wheelGraphs.RL.render.apply(this.wheelGraphs.RL, [state, 'wheelRL']);
 	this.wheelGraphs.RR.render.apply(this.wheelGraphs.RR, [state, 'wheelRR']);*/
-};
-
-Dash.Renderer.prototype.drawIntersections = function(yellowDistance, blueDistance) {
-	this.c.save();
-
-	this.c.lineWidth = 1 / this.canvasToWorldRatio;
-
-	if (yellowDistance !== -1) {
-		this.c.strokeStyle = '#DD0';
-		this.c.beginPath();
-		this.c.arc(0, Dash.Config.field.height / 2, yellowDistance, 0, Math.PI * 2, true);
-		this.c.closePath();
-		this.c.stroke();
-	}
-
-	if (blueDistance !== -1) {
-		this.c.strokeStyle = '#00F';
-		this.c.beginPath();
-		this.c.arc(Dash.Config.field.width, Dash.Config.field.height / 2, blueDistance, 0, Math.PI * 2, true);
-		this.c.closePath();
-		this.c.stroke();
-	}
-
-	this.c.restore();
 };
