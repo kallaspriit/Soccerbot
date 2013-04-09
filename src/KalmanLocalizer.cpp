@@ -131,8 +131,8 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
 	std::stringstream stream;
 
     stream << "{";
-	stream << "\"x\": " << x << ",";
-	stream << "\"y\": " << y << ",";
+	stream << "\"x\": \"" << x << "\",";
+	stream << "\"y\": \"" << y << "\",";
 	stream << "\"orientation\": " << orientation;
 	stream << "}";
 
