@@ -198,8 +198,20 @@ Math::Position ParticleFilterLocalizer::getPosition() {
     stream << "{";
 	stream << "\"x\": " << x << ",";
 	stream << "\"y\": " << y << ",";
-	stream << "\"orientation\": " << orientation;
-	stream << "}";
+	stream << "\"orientation\": " << orientation << ",";
+	stream << "\"particles\": [";
+
+	 for (unsigned int i = 0; i < particleCount / 10; i++) {
+        particle = particles[i];
+
+		if (i > 0) {
+			stream << ",";
+		}
+
+		stream << "[" << particle->x << ", " << particle->y << "]";
+	 }
+
+	stream << "]}";
 
     json = stream.str();
 

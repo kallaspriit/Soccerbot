@@ -131,7 +131,7 @@ void ManualController::updateParticleLocalizer(double dt) {
 	particleLocalizer.update(measurements);
 	particleLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
-	Math::Position position = particleLocalizer.getPosition();
+	//Math::Position position = particleLocalizer.getPosition();
 }
 
 bool ManualController::handleRequest(std::string request) {

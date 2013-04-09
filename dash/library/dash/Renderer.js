@@ -144,6 +144,10 @@ Dash.Renderer.prototype.renderState = function(state) {
 			state.controllerState.particleLocalizer.y,
 			state.controllerState.particleLocalizer.orientation
 		);
+
+		for (var i = 0; i < state.controllerState.particleLocalizer.particles.length; i++) {
+			
+		}
 	}
 		
 	/*this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
