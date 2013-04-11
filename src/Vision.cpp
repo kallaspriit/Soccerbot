@@ -256,7 +256,7 @@ void Vision::processGoals(Dir dir) {
 	ObjectList individualGoals;
 	Object* goal1;
 	Object* goal2;
-	Object* mergedGoal;
+	Object* mergedGoal = NULL;
 	bool merged;
 
 	while (goalset.size() > 0) {
@@ -271,6 +271,8 @@ void Vision::processGoals(Dir dir) {
 			if (goal1 == goal2 || goal1->processed || goal2->processed) {
 				continue;
 			}
+
+			mergedGoal = NULL;
 
 			if (mergeGoals(goal1, goal2, mergedGoal)) {
 				goal1->processed = true;
