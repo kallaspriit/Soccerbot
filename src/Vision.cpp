@@ -263,12 +263,16 @@ void Vision::processGoals(Dir dir) {
 		goal1 = goalset.back();
 		goalset.pop_back();
 
+		if (goal1->processed) {
+			continue;
+		}
+
 		merged = false;
 
 		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
 			goal2 = *it;
 
-			if (goal1 == goal2 || goal1->processed || goal2->processed) {
+			if (goal1 == goal2 || goal2->processed) {
 				continue;
 			}
 
@@ -284,7 +288,7 @@ void Vision::processGoals(Dir dir) {
 			}
 		}
 
-		if (!merged && !goal1->processed) {
+		if (!merged) {
 			individualGoals.push_back(goal1);
 		}
 	}
