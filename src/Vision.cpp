@@ -278,7 +278,7 @@ void Vision::processGoals(Dir dir) {
 			mergedGoal = new Object();
 
 			if (mergeGoals(goal1, goal2, mergedGoal)) {
-				//goal1->processed = true;
+				goal1->processed = true;
 				goal2->processed = true;
 				mergedGoal->processed = false;
 				merged = true;
