@@ -388,7 +388,7 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 	}
 
 	if (goal->area < Config::goalMinArea) {
-		////std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
+		std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
 
 		return false;
 	} else if (goal->area > 10000) {
@@ -396,13 +396,13 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 	}
 
 	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
-		////std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
+		std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
 
 		return false;
 	}
 
 	if (undersideMetric < Config::goalMinUndersideMetric) {
-		////std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
+		std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
 
 		return false;
 	}
