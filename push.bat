@@ -1,5 +1,5 @@
-ECHO > Commiting
+ECHO Commiting
 git commit -a -m "Updated"
 
-ECHO > Pushing
+ECHO Pushing
 git push --progress  "origin" master:master
