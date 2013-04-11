@@ -1,7 +1,7 @@
 #include "Object.h"
 #include "Util.h"
 
-Object::Object(int x, int y, int width, int height, int area, float distance, float angle, int type, bool behind) : x(x), y(y), width(width), height(height), area(area), distance(distance), angle(angle), type(type), behind(behind) {
+Object::Object(int x, int y, int width, int height, int area, float distance, float angle, int type, bool behind) : x(x), y(y), width(width), height(height), area(area), distance(distance), angle(angle), type(type), behind(behind), processed(false) {
 	lastSeenTime = Util::millitime();
 }
 
@@ -15,6 +15,8 @@ void Object::copyFrom(Object* other) {
 	angle = other->angle;
 	type = other->type;
 	lastSeenTime = other->lastSeenTime;
+	behind = other->behind;
+	processed = other->processed;
 }
 
 bool Object::intersects(Object* other) {

@@ -195,6 +195,7 @@ void Vision::processBalls(Dir dir) {
 }
 
 void Vision::processGoals(Dir dir) {
+	ObjectList goalset;
 	ObjectList* goals = dir == Dir::DIR_FRONT ? &frontGoals : &rearGoals;
 
     for (ObjectListIt it = goals->begin(); it != goals->end(); it++) {
@@ -241,14 +242,62 @@ void Vision::processGoals(Dir dir) {
 				dir == Dir::DIR_FRONT ? false : true
 			);
 
-            if (isValidGoal(goal, i == 0 ? Side::YELLOW : Side::BLUE)) {
-                goals->push_back(goal);
-            }
+			goal->processed = false;
+			goalset.push_back(goal);
 
             blob = blob->next;
         }
     }
+
+	// A, B, C
+	// A-B, A-C
+	// AB, C
+
+	ObjectList individualGoals;
+	Object* goal1;
+	Object* goal2;
+	Object* mergedGoal;
+	bool merged;
+
+	while (goalset.size() > 0) {
+		goal1 = goalset.back();
+		goalset.pop_back();
+
+		merged = false;
+
+		for (ObjectListItc it2 = goalset.begin(); it2 != goalset.end(); it2++) {
+			goal2 = *it2;
+
+			if (goal1 == goal2 || goal1->processed || goal2->processed) {
+				continue;
+			}
+
+			if (mergeGoals(goal1, goal2, mergedGoal)) {
+				goal1->processed = true;
+				goal2->processed = true;
+				merged = true;
+
+				goalset.push_back(mergedGoal);
+			}
+		}
+
+		if (!merged) {
+			individualGoals.push_back(goal1);
+		}
+	}
+
+	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
+		mergedGoal = *it;
+
+		if (isValidGoal(mergedGoal, mergedGoal->type == 0 ? Side::YELLOW : Side::BLUE)) {
+			goals->push_back(*it);
+		}
+	}
 }
+
+bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
+	return false;
+};
 
 bool Vision::isValidBall(Object* ball, Dir dir) {
     if (ball->area < Config::ballMinArea) {

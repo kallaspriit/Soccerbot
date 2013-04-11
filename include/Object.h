@@ -20,6 +20,7 @@ class Object {
         int type;
 		double lastSeenTime;
 		bool behind;
+		bool processed;
 };
 
 typedef std::vector<Object*> ObjectList;
