@@ -254,8 +254,8 @@ void Vision::processGoals(Dir dir) {
 	// AB, C
 
 	ObjectList individualGoals;
-	Object* goal1;
-	Object* goal2;
+	Object* goal1 = NULL;
+	Object* goal2 = NULL;
 	Object* mergedGoal = NULL;
 	bool merged;
 
@@ -265,8 +265,8 @@ void Vision::processGoals(Dir dir) {
 
 		merged = false;
 
-		for (ObjectListItc it2 = goalset.begin(); it2 != goalset.end(); it2++) {
-			goal2 = *it2;
+		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
+			goal2 = *it;
 
 			if (goal1 == goal2 || goal1->processed || goal2->processed) {
 				continue;
