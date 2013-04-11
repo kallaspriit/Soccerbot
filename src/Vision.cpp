@@ -333,6 +333,11 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 };
 
 bool Vision::isValidGoal(Object* goal, Side side) {
+
+
+return true; // TEMP
+
+
 	/*int x1, y1, x2, y2;
 
 	float undersideMetric = getUndersideMetric(
