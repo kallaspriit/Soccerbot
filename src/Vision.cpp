@@ -272,7 +272,7 @@ void Vision::processGoals(Dir dir) {
 				continue;
 			}
 
-			mergedGoal = NULL;
+			mergedGoal = new Object();
 
 			if (mergeGoals(goal1, goal2, mergedGoal)) {
 				goal1->processed = true;
@@ -303,7 +303,7 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 		return false;
 	}
 
-	mergedGoal = new Object();
+	//mergedGoal = new Object();
 	mergedGoal->copyFrom(goal1);
 
 	mergedGoal->x = Math::min(goal1->x, goal2->x);
