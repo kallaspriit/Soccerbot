@@ -1,4 +1,4 @@
-ECHO "Post-building"
+ECHO ! POST-BUILD
 
 set HOST=%COMPUTERNAME%
 

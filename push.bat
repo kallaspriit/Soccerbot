@@ -1,3 +1,7 @@
 cd E:\soccerbot
-git.exe commit -a -m "Updated"
-git.exe push
+
+ECHO > Commiting
+git commit -a -m "Updated"
+
+ECHO > Pushing
+git push
