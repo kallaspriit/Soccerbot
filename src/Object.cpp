@@ -51,3 +51,7 @@ bool Object::contains(Object* other, int margin) {
 
 	return bx1 >= ax1 && bx2 <= ax2 && by1 >= ay1 && by2 <= ay2;
 }
+
+bool Object::sameAs(Object* other) {
+	return x == other->x && y == other->y && width == other->width && height == other->height;
+}

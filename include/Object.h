@@ -9,6 +9,7 @@ class Object {
 		void copyFrom(Object* other);
 		bool intersects(Object* other, int margin = 0);
 		bool contains(Object* other, int margin = 0);
+		bool sameAs(Object* other);
 
         int x;
         int y;

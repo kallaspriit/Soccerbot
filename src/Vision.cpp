@@ -265,7 +265,7 @@ void Vision::processGoals(Dir dir) {
 		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
 			Object* goal2 = *it;
 
-			if (goal1 == goal2 || goal1->processed || goal2->processed) {
+			if (goal1->sameAs(goal2) || goal1->processed || goal2->processed) {
 				continue;
 			}
 
@@ -297,18 +297,14 @@ void Vision::processGoals(Dir dir) {
 		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
 			Object* goal2 = *it2;
 
-			if (goal2 != goal1 && goal2->contains(goal1)) {
+			if (!goal2->sameAs(goal1) && goal2->contains(goal1)) {
 				skip = true;
-				continue;
+				break;
 			}
 		}
 
-		if (skip) {
-			continue;
-		}
-
-		if (isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
-			goals->push_back(*it);
+		if (!skip && isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
+			goals->push_back(goal1);
 		}
 	}
 }
