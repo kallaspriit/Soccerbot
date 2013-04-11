@@ -295,7 +295,7 @@ void Vision::processGoals(Dir dir) {
 		bool skip = false;
 
 		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
-			Object* goal2 = *it;
+			Object* goal2 = *it2;
 
 			if (goal2 != goal1 && goal2->contains(goal1)) {
 				skip = true;
