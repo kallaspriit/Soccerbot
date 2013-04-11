@@ -19,16 +19,16 @@ void Object::copyFrom(Object* other) {
 	processed = other->processed;
 }
 
-bool Object::intersects(Object* other) {
-	int ax1 = x - width / 2;
-	int ax2 = x + width / 2;
-	int ay1 = y - height / 2;
-	int ay2 = y + height / 2;
+bool Object::intersects(Object* other, int margin) {
+	int ax1 = x - width / 2 - margin;
+	int ax2 = x + width / 2 + margin;
+	int ay1 = y - height / 2 - margin;
+	int ay2 = y + height / 2 + margin;
 
-	int bx1 = other->x - other->width / 2;
-	int bx2 = other->x + other->width / 2;
-	int by1 = other->y - other->height / 2;
-	int by2 = other->y + other->height / 2;
+	int bx1 = other->x - other->width / 2 - margin;
+	int bx2 = other->x + other->width / 2 + margin;
+	int by1 = other->y - other->height / 2 - margin;
+	int by2 = other->y + other->height / 2 + margin;
 
 	return !(bx1 > ax2 || 
            bx2 < ax1 || 

@@ -299,7 +299,7 @@ void Vision::processGoals(Dir dir) {
 }
 
 bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
-	if (!goal1->intersects(goal2)) {
+	if (!goal1->intersects(goal2, 20)) {
 		return false;
 	}
 
@@ -314,8 +314,6 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 
 	mergedGoal->width = maxX - mergedGoal->x;
 	mergedGoal->height = maxY - mergedGoal->y;
-
-	std::cout << "MERGED " << std::endl;
 
 	return true;
 };
