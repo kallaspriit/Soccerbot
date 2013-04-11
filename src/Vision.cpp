@@ -272,7 +272,7 @@ void Vision::processGoals(Dir dir) {
 				continue;
 			}
 
-			mergedGoal = new Object();
+			//mergedGoal = new Object();
 
 			if (mergeGoals(goal1, goal2, mergedGoal)) {
 				goal1->processed = true;
@@ -303,7 +303,7 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 		return false;
 	}
 
-	//mergedGoal = new Object();
+	mergedGoal = new Object();
 	mergedGoal->copyFrom(goal1);
 
 	mergedGoal->x = Math::min(goal1->x, goal2->x);
@@ -315,8 +315,55 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 	mergedGoal->width = maxX - mergedGoal->x;
 	mergedGoal->height = maxY - mergedGoal->y;
 
+	std::cout << "MERGED " << std::endl;
+
 	return true;
 };
+
+bool Vision::isValidGoal(Object* goal, Side side) {
+	int x1, y1, x2, y2;
+
+	float undersideMetric = getUndersideMetric(
+		goal->x - goal->width / 2,
+		goal->y - goal->height / 2,
+		goal->distance,
+		goal->width,
+		goal->height,
+		side == Side::YELLOW ? "yellow-goal" : "blue-goal",
+		side == Side::YELLOW ? "yellow-goal-wide" : "blue-goal-wide",
+		validGoalPathColors,
+		x1, y1, x2, y2
+	);
+
+	if (x1 != -1 && y1 != -1 && x2 != -1 && y2 != -1) {
+		goal->width = x2 - x1;
+		goal->height = y2 - y1;
+		goal->x = x1 + goal->width / 2;
+		goal->y = y1 + goal->height / 2;
+	}
+
+	if (goal->area < Config::goalMinArea) {
+		//std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
+
+		return false;
+	} else if (goal->area > 10000) {
+		return true;
+	}
+
+	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
+		//std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
+
+		return false;
+	}
+
+	if (undersideMetric < Config::goalMinUndersideMetric) {
+		//std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
+
+		return false;
+	}
+
+    return true;
+}
 
 bool Vision::isValidBall(Object* ball, Dir dir) {
     if (ball->area < Config::ballMinArea) {
@@ -431,51 +478,6 @@ int Vision::getBallMaxInvalidSpree(int y) {
 
 int Vision::getGoalMaxInvalidSpree(int y) {
 	return y / 20.0f;
-}
-
-bool Vision::isValidGoal(Object* goal, Side side) {
-	int x1, y1, x2, y2;
-
-	float undersideMetric = getUndersideMetric(
-		goal->x - goal->width / 2,
-		goal->y - goal->height / 2,
-		goal->distance,
-		goal->width,
-		goal->height,
-		side == Side::YELLOW ? "yellow-goal" : "blue-goal",
-		side == Side::YELLOW ? "yellow-goal-wide" : "blue-goal-wide",
-		validGoalPathColors,
-		x1, y1, x2, y2
-	);
-
-	if (x1 != -1 && y1 != -1 && x2 != -1 && y2 != -1) {
-		goal->width = x2 - x1;
-		goal->height = y2 - y1;
-		goal->x = x1 + goal->width / 2;
-		goal->y = y1 + goal->height / 2;
-	}
-
-	if (goal->area < Config::goalMinArea) {
-		//std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
-
-		return false;
-	} else if (goal->area > 10000) {
-		return true;
-	}
-
-	if (goal->y - goal->height / 2 > Config::goalTopMaxY) {
-		std::cout << "@ GOAL NOT TOP ENOUGH: " << (goal->y - goal->height / 2) << " VS " << Config::goalTopMaxY << std::endl;
-
-		return false;
-	}
-
-	if (undersideMetric < Config::goalMinUndersideMetric) {
-		std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
-
-		return false;
-	}
-
-    return true;
 }
 
 /*void Vision::filterMap(unsigned int* map) {

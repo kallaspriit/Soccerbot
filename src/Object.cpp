@@ -30,7 +30,12 @@ bool Object::intersects(Object* other) {
 	int by1 = other->y - other->height / 2;
 	int by2 = other->y + other->height / 2;
 
-	return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 >by1;
+	return !(bx1 > ax2 || 
+           bx2 < ax1 || 
+           by1 > ay2 ||
+           by2 < ay1);
+
+	//return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 >by1;
 }
 
 bool Object::contains(Object* other) {
