@@ -265,7 +265,7 @@ void Vision::processGoals(Dir dir) {
 		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
 			Object* goal2 = *it;
 
-			if (goal1 == goal2) {
+			if (goal1 == goal2 || goal1->processed || goal2->processed) {
 				continue;
 			}
 
