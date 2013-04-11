@@ -299,7 +299,7 @@ void Vision::processGoals(Dir dir) {
 }
 
 bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
-	if (goal1->intersects(goal2)) {
+	if (!goal1->intersects(goal2)) {
 		return false;
 	}
 
