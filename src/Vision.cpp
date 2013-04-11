@@ -277,6 +277,7 @@ void Vision::processGoals(Dir dir) {
 			if (mergeGoals(goal1, goal2, mergedGoal)) {
 				goal1->processed = true;
 				goal2->processed = true;
+				mergedGoal->processed = false;
 				merged = true;
 
 				goalset.push_back(mergedGoal);
