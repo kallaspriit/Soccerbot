@@ -297,7 +297,7 @@ void Vision::processGoals(Dir dir) {
 		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
 			Object* goal2 = *it;
 
-			if (goal2->contains(goal1)) {
+			if (goal2 != goal1 && goal2->contains(goal1)) {
 				skip = true;
 				continue;
 			}
