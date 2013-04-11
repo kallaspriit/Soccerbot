@@ -265,7 +265,7 @@ void Vision::processGoals(Dir dir) {
 		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
 			Object* goal2 = *it;
 
-			if (goal1->sameAs(goal2) || goal1->processed || goal2->processed) {
+			if (goal2 == goal1 || goal1->processed || goal2->processed) {
 				continue;
 			}
 
@@ -297,7 +297,7 @@ void Vision::processGoals(Dir dir) {
 		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
 			Object* goal2 = *it2;
 
-			if (!goal2->sameAs(goal1) && goal2->contains(goal1)) {
+			if (goal2 != goal1 && goal2->contains(goal1)) {
 				skip = true;
 				break;
 			}
@@ -310,7 +310,7 @@ void Vision::processGoals(Dir dir) {
 }
 
 bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
-	if (!goal1->intersects(goal2/*, 20*/) && !goal2->intersects(goal1/*, 20*/) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
+	if (!goal1->intersects(goal2/*, 20*/) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
 		return false;
 	}
 

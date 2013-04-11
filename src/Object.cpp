@@ -30,12 +30,17 @@ bool Object::intersects(Object* other, int margin) {
 	int by1 = other->y - margin;
 	int by2 = other->y + other->height + margin;
 
-	return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
+	/*separate = rect_a.right < rect_b.left or
+        rect_a.left > rect_b.right or
+        rect_a.top < rect_b.bottom or
+        rect_a.bottom > rect_b.top*/
+
+	//return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
 	
-	/*return !(bx1 > ax2 || 
+	return !(bx1 > ax2 || 
            bx2 < ax1 || 
            by1 > ay2 ||
-           by2 < ay1);*/
+           by2 < ay1);
 }
 
 bool Object::contains(Object* other) {
@@ -52,6 +57,6 @@ bool Object::contains(Object* other) {
 	return bx1 >= ax1 && bx2 <= ax2 && by1 >= ay1 && by2 <= ay2;
 }
 
-bool Object::sameAs(Object* other) {
+/*bool Object::sameAs(Object* other) {
 	return x == other->x && y == other->y && width == other->width && height == other->height;
-}
+}*/
