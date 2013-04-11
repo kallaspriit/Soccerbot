@@ -254,23 +254,22 @@ void Vision::processGoals(Dir dir) {
 	// AB, C
 
 	ObjectList individualGoals;
-	Object* goal1 = NULL;
-	Object* goal2 = NULL;
-	Object* mergedGoal = NULL;
-	bool merged;
 
+	int startSize = goalset.size();
+	
 	while (goalset.size() > 0) {
-		goal1 = goalset.back();
+		Object* goal1 = goalset.back();
+		Object* mergedGoal = NULL;
 		goalset.pop_back();
 
 		if (goal1->processed) {
 			continue;
 		}
 
-		merged = false;
+		bool merged = false;
 
 		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
-			goal2 = *it;
+			Object* goal2 = *it;
 
 			if (goal1 == goal2 || goal2->processed) {
 				continue;
@@ -285,18 +284,24 @@ void Vision::processGoals(Dir dir) {
 				merged = true;
 
 				goalset.push_back(mergedGoal);
+
+				if (goalset.size() > startSize) {
+					std::cout << "BIGGER" << std::endl;
+				}
+			} else {
+				delete mergedGoal;
 			}
 		}
 
-		if (!merged) {
+		if (!merged && !goal1->processed) {
 			individualGoals.push_back(goal1);
 		}
 	}
 
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
-		mergedGoal = *it;
+		Object* goal = *it;
 
-		if (isValidGoal(mergedGoal, mergedGoal->type == 0 ? Side::YELLOW : Side::BLUE)) {
+		if (isValidGoal(goal, goal->type == 0 ? Side::YELLOW : Side::BLUE)) {
 			goals->push_back(*it);
 		}
 	}
