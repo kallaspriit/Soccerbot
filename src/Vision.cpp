@@ -291,9 +291,23 @@ void Vision::processGoals(Dir dir) {
 	}
 
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
-		Object* goal = *it;
+		Object* goal1 = *it;
+		bool skip = false;
 
-		if (isValidGoal(goal, goal->type == 0 ? Side::YELLOW : Side::BLUE)) {
+		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
+			Object* goal2 = *it;
+
+			if (goal2->contains(goal1)) {
+				skip = true;
+				continue;
+			}
+		}
+
+		if (skip) {
+			continue;
+		}
+
+		if (isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
 			goals->push_back(*it);
 		}
 	}
