@@ -1,3 +1,5 @@
+ECHO > Switching directory
+
 cd E:\soccerbot
 
 ECHO > Commiting
