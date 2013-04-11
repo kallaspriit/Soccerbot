@@ -164,9 +164,9 @@ Dash.Renderer.prototype.renderState = function(state) {
 		this.drawRobot(
 			dash.config.robot.radius / 2,
 			'#006',
-			state.controllerState.kalmanLocalizer.x,
-			state.controllerState.kalmanLocalizer.y,
-			state.controllerState.kalmanLocalizer.orientation
+			parseFloat(state.controllerState.kalmanLocalizer.x),
+			parseFloat(state.controllerState.kalmanLocalizer.y),
+				parseFloat(state.controllerState.kalmanLocalizer.orientation)
 		);
 	}
 
@@ -179,7 +179,7 @@ Dash.Renderer.prototype.renderState = function(state) {
 			state.controllerState.particleLocalizer.orientation
 		);
 
-		for (var i = 0; i < state.controllerState.particleLocalizer.particles.length; i++) {
+		for (var i = 0; i < state.controllerState.particleLocalizer.particles.length; i +´10) {
 			this.drawParticle(
 				state.controllerState.particleLocalizer.particles[i][0],
 				state.controllerState.particleLocalizer.particles[i][1]

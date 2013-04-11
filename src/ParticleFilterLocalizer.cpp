@@ -204,7 +204,7 @@ Math::Position ParticleFilterLocalizer::getPosition() {
 	stream << "\"orientation\": " << orientation << ",";
 	stream << "\"particles\": [";
 
-	 for (unsigned int i = 0; i < particleCount; i++) {
+	 for (unsigned int i = 0; i < particleCount / 10; i++) {
         particle = particles[i];
 
 		if (i > 0) {
