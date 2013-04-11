@@ -38,16 +38,16 @@ bool Object::intersects(Object* other, int margin) {
            by2 < ay1);*/
 }
 
-bool Object::contains(Object* other, int margin) {
-	int ax1 = x - margin;
-	int ax2 = x + width + margin;
-	int ay1 = y - margin;
-	int ay2 = y + height + margin;
+bool Object::contains(Object* other) {
+	int ax1 = x;
+	int ax2 = x + width;
+	int ay1 = y;
+	int ay2 = y + height;
 
-	int bx1 = other->x + margin;
-	int bx2 = other->x - other->width + margin;
-	int by1 = other->y + margin;
-	int by2 = other->y - other->height + margin;
+	int bx1 = other->x;
+	int bx2 = other->x + other->width;
+	int by1 = other->y;
+	int by2 = other->y + other->height;
 
 	return bx1 >= ax1 && bx2 <= ax2 && by1 >= ay1 && by2 <= ay2;
 }
