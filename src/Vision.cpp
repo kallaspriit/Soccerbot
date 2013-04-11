@@ -278,7 +278,7 @@ void Vision::processGoals(Dir dir) {
 			mergedGoal = new Object();
 
 			if (mergeGoals(goal1, goal2, mergedGoal)) {
-				goal1->processed = true;
+				//goal1->processed = true;
 				goal2->processed = true;
 				mergedGoal->processed = false;
 				merged = true;
@@ -310,7 +310,7 @@ void Vision::processGoals(Dir dir) {
 }
 
 bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
-	if (!goal1->intersects(goal2, 20) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
+	if (!goal1->intersects(goal2/*, 20*/) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
 		return false;
 	}
 
@@ -333,9 +333,7 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 };
 
 bool Vision::isValidGoal(Object* goal, Side side) {
-return true; // TEMP
-
-	int x1, y1, x2, y2;
+	/*int x1, y1, x2, y2;
 
 	float undersideMetric = getUndersideMetric(
 		goal->x - goal->width / 2,
@@ -354,7 +352,7 @@ return true; // TEMP
 		goal->height = y2 - y1;
 		goal->x = x1 + goal->width / 2;
 		goal->y = y1 + goal->height / 2;
-	}
+	}*/
 
 	if (goal->area < Config::goalMinArea) {
 		//std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
@@ -370,11 +368,11 @@ return true; // TEMP
 		return false;
 	}
 
-	if (undersideMetric < Config::goalMinUndersideMetric) {
+	/*if (undersideMetric < Config::goalMinUndersideMetric) {
 		//std::cout << "@ GOAL INVALID UNDERSIDE: " << undersideMetric << " VS " << Config::goalMinUndersideMetric << std::endl;
 
 		return false;
-	}
+	}*/
 
     return true;
 }
