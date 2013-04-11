@@ -20,22 +20,22 @@ void Object::copyFrom(Object* other) {
 }
 
 bool Object::intersects(Object* other, int margin) {
-	int ax1 = x - width / 2 - margin;
-	int ax2 = x + width / 2 + margin;
-	int ay1 = y - height / 2 - margin;
-	int ay2 = y + height / 2 + margin;
+	int ax1 = x - margin;
+	int ax2 = x + width + margin;
+	int ay1 = y - margin;
+	int ay2 = y + height + margin;
 
-	int bx1 = other->x - other->width / 2 - margin;
-	int bx2 = other->x + other->width / 2 + margin;
-	int by1 = other->y - other->height / 2 - margin;
-	int by2 = other->y + other->height / 2 + margin;
+	int bx1 = other->x - margin;
+	int bx2 = other->x + other->width + margin;
+	int by1 = other->y - margin;
+	int by2 = other->y + other->height + margin;
 
-	return !(bx1 > ax2 || 
+	return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
+	
+	/*return !(bx1 > ax2 || 
            bx2 < ax1 || 
            by1 > ay2 ||
-           by2 < ay1);
-
-	//return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 >by1;
+           by2 < ay1);*/
 }
 
 bool Object::contains(Object* other) {
