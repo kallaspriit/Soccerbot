@@ -299,7 +299,23 @@ void Vision::processGoals(Dir dir) {
 }
 
 bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
-	return false;
+	if (goal1->intersects(goal2)) {
+		return false;
+	}
+
+	mergedGoal = new Object();
+	mergedGoal->copyFrom(goal1);
+
+	mergedGoal->x = Math::min(goal1->x, goal2->x);
+	mergedGoal->y = Math::min(goal1->y, goal2->y);
+
+	float maxX = Math::max(goal1->x + goal1->width, goal2->x + goal2->width);
+	float maxY = Math::max(goal1->y + goal1->height, goal2->y + goal2->height);
+
+	mergedGoal->width = maxX - mergedGoal->x;
+	mergedGoal->height = maxY - mergedGoal->y;
+
+	return true;
 };
 
 bool Vision::isValidBall(Object* ball, Dir dir) {
