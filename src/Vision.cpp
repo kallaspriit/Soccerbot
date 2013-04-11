@@ -258,17 +258,21 @@ void Vision::processGoals(Dir dir) {
 	Object* goal2 = NULL;
 	Object* mergedGoal = NULL;
 	bool merged;
+	bool skipped;
 
 	while (goalset.size() > 0) {
 		goal1 = goalset.back();
 		goalset.pop_back();
 
 		merged = false;
+		skipped = false;
 
 		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
 			goal2 = *it;
 
 			if (goal1 == goal2 || goal1->processed || goal2->processed) {
+				skipped = true;
+
 				continue;
 			}
 
@@ -284,7 +288,7 @@ void Vision::processGoals(Dir dir) {
 			}
 		}
 
-		if (!merged) {
+		if (!merged && !skipped) {
 			individualGoals.push_back(goal1);
 		}
 	}
@@ -306,14 +310,17 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 	//mergedGoal = new Object();
 	mergedGoal->copyFrom(goal1);
 
-	mergedGoal->x = Math::min(goal1->x, goal2->x);
-	mergedGoal->y = Math::min(goal1->y, goal2->y);
+	float minX = Math::min(goal1->x - goal1->width / 2, goal2->x - goal2->width / 2);
+	float minY = Math::min(goal1->y - goal1->height, goal2->y - goal2->height / 2);
+	float maxX = Math::max(goal1->x + goal1->width / 2, goal2->x + goal2->width / 2);
+	float maxY = Math::max(goal1->y + goal1->height / 2, goal2->y + goal2->height / 2);
+	float width = maxX - minX;
+	float height = maxY - minY;
 
-	float maxX = Math::max(goal1->x + goal1->width, goal2->x + goal2->width);
-	float maxY = Math::max(goal1->y + goal1->height, goal2->y + goal2->height);
-
-	mergedGoal->width = maxX - mergedGoal->x;
-	mergedGoal->height = maxY - mergedGoal->y;
+	mergedGoal->x = minX + width / 2;
+	mergedGoal->y = minY + height / 2;
+	mergedGoal->width = width;
+	mergedGoal->height = height;
 
 	return true;
 };
