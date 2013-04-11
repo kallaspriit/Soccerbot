@@ -286,14 +286,16 @@ void Vision::processGoals(Dir dir) {
 				goalset.push_back(mergedGoal);
 
 				if (goalset.size() > startSize) {
-					std::cout << "BIGGER" << std::endl;
+					std::cout << "BIGGER: " << goalset.size() << " VS " << startSize << std::endl;
 				}
+
+				break;
 			} else {
 				delete mergedGoal;
 			}
 		}
 
-		if (!merged && !goal1->processed) {
+		if (!merged) {
 			individualGoals.push_back(goal1);
 		}
 	}
