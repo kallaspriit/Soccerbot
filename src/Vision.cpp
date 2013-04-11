@@ -388,7 +388,7 @@ bool Vision::isValidGoal(Object* goal, Side side) {
 	}
 
 	if (goal->area < Config::goalMinArea) {
-		std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
+		//std::cout << "@ GOAL INVALID MIN AREA: " << goal->area << " VS " << Config::goalMinArea << std::endl;
 
 		return false;
 	} else if (goal->area > 10000) {
