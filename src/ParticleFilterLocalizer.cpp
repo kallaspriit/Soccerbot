@@ -61,8 +61,10 @@ void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega
 			particleOrientationNoise = 0;
 		} else {
 			// TODO Add noise in FORWARD direction
-			particleVelocityX = velocityX + velocityX * Math::randomGaussian(forwardNoise);
-			particleVelocityY = velocityY + velocityY * Math::randomGaussian(forwardNoise);
+			/*particleVelocityX = velocityX + velocityX * Math::randomGaussian(forwardNoise);
+			particleVelocityY = velocityY + velocityY * Math::randomGaussian(forwardNoise);*/
+			particleVelocityX = velocityX + Math::randomGaussian(forwardNoise);
+			particleVelocityY = velocityY + Math::randomGaussian(forwardNoise);
 			particleOrientationNoise = Math::randomGaussian(turnNoise) * dt;
 		}
 
@@ -92,16 +94,12 @@ void ParticleFilterLocalizer::update(const Measurements& measurements) {
         }
     }
 
+	if (maxProbability == 0) {
+		return;
+	}
+
     for (unsigned int i = 0; i < particles.size(); i++) {
-		particle = particles[i];
-
-		if (maxProbability != 0) {
-			particle->probability /= maxProbability;
-		} else {
-			std::cout << "@ MAX PROBABILITY ZERO" << std::endl;
-
-			particle->probability =  1;
-		}
+		particles[i]->probability /= maxProbability;
     }
 
     resample();
@@ -136,12 +134,12 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
 
 void ParticleFilterLocalizer::resample() {
     ParticleList resampledParticles;
-	int particleCount = particles.size();
+	int particleCount = (int)particles.size();
     int index = Math::randomInt(0, particleCount - 1);
     float beta = 0.0f;
     float maxProbability = 1.0f;
 
-    for (unsigned int i = 0; i < particleCount; i++) {
+    for (int i = 0; i < particleCount; i++) {
         beta += Math::randomFloat() * 2.0f * maxProbability;
 
         while (beta > particles[index]->probability) {
