@@ -49,7 +49,7 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	Object* yellowGoal = bot->getVision()->getLargestGoal(Side::YELLOW);
 
 	if (blueGoal != NULL) {
-		blueDistance = blueGoal->distance;
+		blueDistance = Math::min(Math::max(blueGoal->distance, 0.0f), Config::fieldWidth);
 		blueAngle = blueGoal->angle;
 
 		if (!blueGoal->behind) {
@@ -58,7 +58,7 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	}
 
 	if (yellowGoal != NULL) {
-		yellowDistance = yellowGoal->distance;
+		yellowDistance = Math::min(Math::max(yellowGoal->distance, 0.0f), Config::fieldWidth);
 		yellowAngle = yellowGoal->angle;
 
 		if (!yellowGoal->behind) {
@@ -124,11 +124,11 @@ void ManualController::updateParticleLocalizer(double dt) {
 	Object* blueGoal = vision->getLargestGoal(Side::BLUE);
 
 	if (yellowGoal != NULL) {
-		measurements["yellow-center"] = yellowGoal->distance;
+		measurements["yellow-center"] = Math::min(Math::max(yellowGoal->distance, 0.0f), Config::fieldWidth);
 	}
 
 	if (blueGoal != NULL) {
-		measurements["blue-center"] = blueGoal->distance;
+		measurements["blue-center"] = Math::min(Math::max(blueGoal->distance, 0.0f), Config::fieldWidth);
 	}
 
 	particleLocalizer.update(measurements);

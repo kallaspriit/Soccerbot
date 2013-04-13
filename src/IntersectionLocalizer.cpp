@@ -57,6 +57,8 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 			y = newPos.y;
 	    }
 
+		Util::confineField(x, y);
+
 		std::stringstream stream;
 
 		stream << "{";
@@ -106,6 +108,8 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 		x = intersections.x1;
 		y = intersections.y1;
 	}
+
+	Util::confineField(x, y);
 
 	float verticalOffset = y - Config::fieldHeight / 2.0;
 	float zeroAngleBlue = Math::asin(verticalOffset / blueDistance);
