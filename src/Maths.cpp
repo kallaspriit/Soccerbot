@@ -179,8 +179,8 @@ Vector Vector::getScaled(float magnitude) const {
 
 Vector Vector::getSummed(const Vector& b) const {
     return Vector(
-        x * b.x,
-        y * b.y
+        x + b.x,
+        y + b.y
     );
 }
 
