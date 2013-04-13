@@ -26,9 +26,17 @@ struct Particle {
     float probability;
 };
 
+struct Measurement {
+	Measurement() : distance(-1), angle(0) {}
+	Measurement(float distance, float angle) : distance(distance), angle(angle) {}
+
+	float distance;
+	float angle;
+};
+
 typedef std::map<std::string, Landmark*> LandmarkMap;
 typedef std::vector<Particle*> ParticleList;
-typedef std::map<std::string, float> Measurements;
+typedef std::map<std::string, Measurement> Measurements;
 
 class ParticleFilterLocalizer : public Localizer {
     public:

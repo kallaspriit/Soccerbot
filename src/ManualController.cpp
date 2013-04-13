@@ -124,11 +124,11 @@ void ManualController::updateParticleLocalizer(double dt) {
 	Object* blueGoal = vision->getLargestGoal(Side::BLUE);
 
 	if (yellowGoal != NULL) {
-		measurements["yellow-center"] = Math::min(Math::max(yellowGoal->distance, 0.0f), Config::fieldWidth);
+		measurements["yellow-center"] = Measurement(Math::min(Math::max(yellowGoal->distance, 0.0f), Config::fieldWidth), yellowGoal->angle);
 	}
 
 	if (blueGoal != NULL) {
-		measurements["blue-center"] = Math::min(Math::max(blueGoal->distance, 0.0f), Config::fieldWidth);
+		measurements["blue-center"] = Measurement(Math::min(Math::max(blueGoal->distance, 0.0f), Config::fieldWidth), blueGoal->angle);
 	}
 
 	particleLocalizer.update(measurements);

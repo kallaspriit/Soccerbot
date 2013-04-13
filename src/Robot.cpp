@@ -487,10 +487,10 @@ void Robot::updateMeasurements() {
 	Object* blueGoal = vision->getLargestGoal(Side::BLUE);
 
 	if (yellowGoal != NULL) {
-		measurements["yellow-center"] = yellowGoal->distance;
+		measurements["yellow-center"] = Measurement(yellowGoal->distance, yellowGoal->angle);
 	}
 
 	if (blueGoal != NULL) {
-		measurements["blue-center"] = blueGoal->distance;
+		measurements["blue-center"] = Measurement(blueGoal->distance, blueGoal->angle);
 	}
 }

@@ -107,15 +107,19 @@ void ParticleFilterLocalizer::update(const Measurements& measurements) {
 
 float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, const Measurements& measurements) {
     float probability = 1.0f;
-    float measuredDistance;
     float expectedDistance;
+	float expectedAngle;
+	float measuredDistance;
+	float measuredAngle;
     std::string landmarkName;
     Landmark* landmark;
     LandmarkMap::iterator landmarkSearch;
 
     for (Measurements::const_iterator it = measurements.begin(); it != measurements.end(); it++) {
         landmarkName = it->first;
-        measuredDistance = it->second;
+		Measurement measurement = it->second;
+        measuredDistance = measurement.distance;
+        measuredAngle = measurement.angle;
         landmarkSearch = landmarks.find(landmarkName);
 
         if (landmarkSearch == landmarks.end()) {
@@ -126,6 +130,8 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
 
         landmark = landmarkSearch->second;
         expectedDistance = Math::distanceBetween(particle->x, particle->y, landmark->x, landmark->y);
+		expectedAngle = Math::getAngleBetween(Math::Position(landmark->x, landmark->y), Math::Position(particle->x, particle->y), particle->orientation);
+		// TODO Use angle also
         probability *= Math::getGaussian(expectedDistance, senseNoise, measuredDistance);
     }
 

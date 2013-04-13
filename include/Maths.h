@@ -336,8 +336,8 @@ class Circle {
 		float radius;
 };
 
-static float getAngleBetween(Math::Position pointA, Math::Position pointB, float orientationA) {
-	Vector forwardVec = Vector::createForwardVec(orientationA);
+static float getAngleBetween(Math::Position pointA, Math::Position pointB, float orientationB) {
+	Vector forwardVec = Vector::createForwardVec(orientationB);
 	Vector dirVec = Vector::createDirVec(pointA, pointB);
 
 	float angle = atan2(dirVec.y, dirVec.x) - atan2(forwardVec.y, forwardVec.x);
