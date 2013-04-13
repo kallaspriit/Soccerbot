@@ -20,15 +20,15 @@ void Object::copyFrom(Object* other) {
 }
 
 bool Object::intersects(Object* other, int margin) {
-	int ax1 = x - margin;
-	int ax2 = x + width + margin;
-	int ay1 = y - margin;
-	int ay2 = y + height + margin;
+	int ax1 = x - width / 2 - margin;
+	int ax2 = x + width / 2 + margin;
+	int ay1 = y - height / 2 - margin;
+	int ay2 = y + height / 2 + margin;
 
-	int bx1 = other->x - margin;
-	int bx2 = other->x + other->width + margin;
-	int by1 = other->y - margin;
-	int by2 = other->y + other->height + margin;
+	int bx1 = other->x - other->width / 2 - margin;
+	int bx2 = other->x + other->width / 2 + margin;
+	int by1 = other->y - other->height / 2 - margin;
+	int by2 = other->y + other->height / 2 + margin;
 
 	if (
 		ax1 >= bx2 
@@ -55,15 +55,15 @@ bool Object::intersects(Object* other, int margin) {
 }
 
 bool Object::contains(Object* other) {
-	int ax1 = x;
-	int ax2 = x + width;
-	int ay1 = y;
-	int ay2 = y + height;
+	int ax1 = x - width / 2 ;
+	int ax2 = x + width / 2;
+	int ay1 = y - height / 2;
+	int ay2 = y + height / 2;
 
-	int bx1 = other->x;
-	int bx2 = other->x + other->width;
-	int by1 = other->y;
-	int by2 = other->y + other->height;
+	int bx1 = other->x - other->width / 2;
+	int bx2 = other->x + other->width / 2;
+	int by1 = other->y - other->height / 2;
+	int by2 = other->y + other->height / 2;
 
 	return bx1 >= ax1 && bx2 <= ax2 && by1 >= ay1 && by2 <= ay2;
 }
