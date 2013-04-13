@@ -317,7 +317,7 @@ void Vision::processGoals(Dir dir) {
 }
 
 Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
-	if (!goal1->intersects(goal2, 20) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
+	if (!goal1->intersects(goal2, 30) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
 		return NULL;
 	}
 
