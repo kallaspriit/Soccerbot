@@ -251,6 +251,8 @@ void Vision::processGoals(Dir dir) {
     }
 
 	ObjectList individualGoals;
+	int startSize = goalset.size();
+	int merges = 0;
 
 	while (goalset.size() > 0) {
 		Object* goal1 = goalset.back();
@@ -277,6 +279,7 @@ void Vision::processGoals(Dir dir) {
 				goal2->processed = true;
 				mergedGoal->processed = false;
 				merged = true;
+				merges++;
 
 				goalset.push_back(mergedGoal);
 
@@ -289,23 +292,28 @@ void Vision::processGoals(Dir dir) {
 		}
 	}
 
+	int skips = 0;
+
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
 		Object* goal1 = *it;
 		bool skip = false;
 
-		/*for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
+		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
 			Object* goal2 = *it2;
 
 			if (goal2 != goal1 && goal2->contains(goal1)) {
 				skip = true;
+				skips++;
 				break;
 			}
-		}*/
+		}
 
 		if (!skip && isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
 			goals->push_back(goal1);
 		}
 	}
+
+	std::cout << "Start: " << startSize << ", Current: " << goalset.size() << ", Merges: " << merges << ", Indi: " << individualGoals.size() << ", Skips: " << skips << std::endl;
 }
 
 Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
