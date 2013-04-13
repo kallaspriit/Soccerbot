@@ -49,7 +49,8 @@ bool Object::intersects(Object* other, int margin) {
         rect_a.top < rect_b.bottom or
         rect_a.bottom > rect_b.top*/
 
-	bool separate = ax2 < bx1 || ax1 > bx2 || ay1 < by2 || ay2 > by1;
+	//bool separate = ax2 < bx1 || ax1 > bx2 || ay1 < by2 || ay2 > by1;
+	bool separate = ax2 < bx1 || ax1 > bx2 || ay2 < by1 || ay1 > by2;
 
 	return !separate;
 
