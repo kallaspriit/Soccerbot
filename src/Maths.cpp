@@ -142,6 +142,10 @@ float Vector::getLength() const {
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
+float Vector::distanceTo(const Vector& b) const {
+	return Math::distanceBetween(x, y, b.x, b.y);
+}
+
 float Vector::dotProduct(const Vector& b) const {
     return x * b.x + y * b.y;
 }

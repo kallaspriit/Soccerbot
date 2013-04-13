@@ -41,14 +41,14 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
     if (!intersections.exist) {
 		Math::Vector currentPos(x, y), dirVector, scaledDir, newPos;
 
-	    if (yellowDistance != -1.0f) {
+		if (yellowDistance != -1.0f && currentPos.distanceTo(yellowGoalPos) != 0) {
 			dirVector = Math::Vector::createDirVec(currentPos, yellowGoalPos);
 			scaledDir = dirVector.getScaled(yellowDistance);
 			newPos = dirVector.getSummed(yellowGoalPos);
 
 			x = newPos.x;
 			y = newPos.y;
-	    } else if (blueDistance != -1.0f) {
+	    } else if (blueDistance != -1.0f && currentPos.distanceTo(blueGoalPos) != 0) {
 			dirVector = Math::Vector::createDirVec(currentPos, blueGoalPos);
 			scaledDir = dirVector.getScaled(blueDistance);
 			newPos = dirVector.getSummed(blueGoalPos);
