@@ -86,6 +86,8 @@ void KalmanLocalizer::move(float velocityX, float velocityY, float omega, float 
 }
 
 void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation, float velocityX, float velocityY, float omega, float dt) {
+	Util::confineField(senseX, senseY);
+
 	float originalOrientation = orientation;
 	float jumpThreshold = 0.1f;
 

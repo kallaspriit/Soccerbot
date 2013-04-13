@@ -133,8 +133,6 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 		orientation += Math::TWO_PI;
 	}
 
-	Util::confineField(x, y);
-
 	std::stringstream stream;
 
     stream << "{";
