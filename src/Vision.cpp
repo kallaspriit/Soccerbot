@@ -212,6 +212,8 @@ void Vision::processGoals(Dir dir) {
 
         while (blob != NULL) {
 			if (blob->area < Config::goalBlobMinArea) {
+				blob = blob->next;
+
 				continue;
 			}
 
