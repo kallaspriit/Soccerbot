@@ -293,14 +293,14 @@ void Vision::processGoals(Dir dir) {
 		Object* goal1 = *it;
 		bool skip = false;
 
-		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
+		/*for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
 			Object* goal2 = *it2;
 
 			if (goal2 != goal1 && goal2->contains(goal1)) {
 				skip = true;
 				break;
 			}
-		}
+		}*/
 
 		if (!skip && isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
 			goals->push_back(goal1);
@@ -319,7 +319,7 @@ Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
 	mergedGoal->copyFrom(goal1);
 
 	float minX = Math::max(Math::min(goal1->x - goal1->width / 2, goal2->x - goal2->width / 2), 0);
-	float minY = Math::max(Math::min(goal1->y - goal1->height, goal2->y - goal2->height / 2), 0);
+	float minY = Math::max(Math::min(goal1->y - goal1->height / 2, goal2->y - goal2->height / 2), 0);
 	float maxX = Math::min(Math::max(goal1->x + goal1->width / 2, goal2->x + goal2->width / 2), Config::cameraWidth - 1);
 	float maxY = Math::min(Math::max(goal1->y + goal1->height / 2, goal2->y + goal2->height / 2), Config::cameraWidth - 1);
 	float width = maxX - minX;
