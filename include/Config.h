@@ -70,6 +70,7 @@ const int ballMinArea = 4;
 //const int goalMaxInvalidSpree = 3;					//< max number of invalid color steps in a row for a valid ball
 const float ballInvalidSpreeScaler = 0.55f;
 const int ballMinInvalidSpree = 4;
+const int goalOverlapMargin = 20;
 const float goalInvalidSpreeScaler = 0.55f;
 const int goalMinInvalidSpree = 1;
 const float validBallSurroundThreshold = 0.5f;

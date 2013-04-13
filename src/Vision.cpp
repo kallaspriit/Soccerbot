@@ -251,8 +251,6 @@ void Vision::processGoals(Dir dir) {
     }
 
 	ObjectList individualGoals;
-	int startSize = goalset.size();
-	int merges = 0;
 
 	while (goalset.size() > 0) {
 		Object* goal1 = goalset.back();
@@ -279,7 +277,6 @@ void Vision::processGoals(Dir dir) {
 				goal2->processed = true;
 				mergedGoal->processed = false;
 				merged = true;
-				merges++;
 
 				goalset.push_back(mergedGoal);
 
@@ -299,12 +296,10 @@ void Vision::processGoals(Dir dir) {
 			goals->push_back(goal1);
 		}
 	}
-
-	std::cout << "Start: " << startSize << ", Merges: " << merges << ", Individual: " << individualGoals.size() << std::endl;
 }
 
 Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
-	if (!goal1->intersects(goal2, 10)) {
+	if (!goal1->intersects(goal2, Config::goalOverlapMargin)) {
 		return NULL;
 	}
 
