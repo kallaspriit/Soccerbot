@@ -42,7 +42,7 @@ class ParticleFilterLocalizer : public Localizer {
         float getMeasurementProbability(Particle* particle, const Measurements& measurements);
 		void setPosition(float x, float y, float orientation);
         void update(const Measurements& measurements);
-        void resample(float probabilities[], int count);
+        void resample();
         Math::Position getPosition();
 		const ParticleList& getParticles() const { return particles; }
 		std::string getJSON() { return json; }

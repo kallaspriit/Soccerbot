@@ -42,25 +42,6 @@ void ParticleFilterLocalizer::addLandmark(std::string name, float x, float y) {
 	addLandmark(new Landmark(name, x, y));
 }
 
-void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt, bool exact) {
-	if (exact) {
-		for (unsigned int i = 0; i < particles.size(); i++) {
-			particles[i]->orientation = particles[i]->orientation + omega * dt;
-			particles[i]->x += (velocityX * Math::cos(particles[i]->orientation) - velocityY * Math::sin(particles[i]->orientation)) * dt;
-			particles[i]->y += (velocityX * Math::sin(particles[i]->orientation) + velocityY * Math::cos(particles[i]->orientation)) * dt;
-		}
-	} else {
-		for (unsigned int i = 0; i < particles.size(); i++) {
-			float noisyVelocityX = velocityX + Math::randomGaussian(forwardNoise);
-			float noisyVelocityY = velocityY + Math::randomGaussian(forwardNoise);
-
-			particles[i]->orientation = particles[i]->orientation + omega * dt + Math::randomGaussian(turnNoise) * dt;
-			particles[i]->x += (noisyVelocityX * Math::cos(particles[i]->orientation) - noisyVelocityY * Math::sin(particles[i]->orientation)) * dt;
-			particles[i]->y += (noisyVelocityX * Math::sin(particles[i]->orientation) + noisyVelocityY * Math::cos(particles[i]->orientation)) * dt;
-		}
-	}
-}
-
 void ParticleFilterLocalizer::setPosition(float x, float y, float orientation) {
 	for (unsigned int i = 0; i < particles.size(); i++) {
 		particles[i]->orientation = orientation;
@@ -70,17 +51,73 @@ void ParticleFilterLocalizer::setPosition(float x, float y, float orientation) {
     }
 }
 
+void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega, double dt, bool exact) {
+	float particleVelocityX, particleVelocityY, particleOrientationNoise;
+
+	for (unsigned int i = 0; i < particles.size(); i++) {
+		if (exact) {
+			particleVelocityX = velocityX;
+			particleVelocityY = velocityY;
+			particleOrientationNoise = 0;
+		} else {
+			// TODO Add noise in FORWARD direction
+			particleVelocityX = velocityX + velocityX * Math::randomGaussian(forwardNoise);
+			particleVelocityY = velocityY + velocityY * Math::randomGaussian(forwardNoise);
+			particleOrientationNoise = Math::randomGaussian(turnNoise) * dt;
+		}
+
+		particles[i]->orientation = particles[i]->orientation + omega * dt + particleOrientationNoise;
+		particles[i]->x += (particleVelocityX * Math::cos(particles[i]->orientation) - particleVelocityY * Math::sin(particles[i]->orientation)) * dt;
+		particles[i]->y += (particleVelocityX * Math::sin(particles[i]->orientation) + particleVelocityY * Math::cos(particles[i]->orientation)) * dt;
+	}
+}
+
+void ParticleFilterLocalizer::update(const Measurements& measurements) {
+	if (measurements.size() == 0) {
+		return;
+	}
+
+    Particle* particle;
+    float maxProbability = -1;
+
+    for (unsigned int i = 0; i < particles.size(); i++) {
+        particle = particles[i];
+
+		Util::confineField(particle->x, particle->y);
+
+        particle->probability = getMeasurementProbability(particle, measurements);
+
+        if (maxProbability == -1 || particle->probability > maxProbability) {
+            maxProbability = particle->probability;
+        }
+    }
+
+    for (unsigned int i = 0; i < particles.size(); i++) {
+		particle = particles[i];
+
+		if (maxProbability != 0) {
+			particle->probability /= maxProbability;
+		} else {
+			std::cout << "@ MAX PROBABILITY ZERO" << std::endl;
+
+			particle->probability =  1;
+		}
+    }
+
+    resample();
+}
+
 float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, const Measurements& measurements) {
     float probability = 1.0f;
-    float measurement;
-    float distance;
+    float measuredDistance;
+    float expectedDistance;
     std::string landmarkName;
     Landmark* landmark;
     LandmarkMap::iterator landmarkSearch;
 
     for (Measurements::const_iterator it = measurements.begin(); it != measurements.end(); it++) {
         landmarkName = it->first;
-        measurement = it->second;
+        measuredDistance = it->second;
         landmarkSearch = landmarks.find(landmarkName);
 
         if (landmarkSearch == landmarks.end()) {
@@ -90,72 +127,33 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
         }
 
         landmark = landmarkSearch->second;
-        distance = Math::distanceBetween(particle->x, particle->y, landmark->x, landmark->y);
-        probability *= Math::getGaussian(distance, senseNoise, measurement);
+        expectedDistance = Math::distanceBetween(particle->x, particle->y, landmark->x, landmark->y);
+        probability *= Math::getGaussian(expectedDistance, senseNoise, measuredDistance);
     }
 
     return probability;
 }
 
-void ParticleFilterLocalizer::update(const Measurements& measurements) {
-	if (measurements.size() == 0) {
-		return;
-	}
-
-    Particle* particle;
-    float* probabilities = new float[particles.size()];
-    float maxProbability = -1;
-
-    for (unsigned int i = 0; i < particles.size(); i++) {
-        particle = particles[i];
-
-		Util::confineField(particle->x, particle->y);
-
-        probabilities[i] = getMeasurementProbability(particle, measurements);
-
-        if (maxProbability == -1 || probabilities[i] > maxProbability) {
-            maxProbability = probabilities[i];
-        }
-    }
-
-    for (unsigned int i = 0; i < particles.size(); i++) {
-		if (maxProbability != 0) {
-			probabilities[i] /= maxProbability;
-		} else {
-			std::cout << "@ MAX PROBABILITY ZERO" << std::endl;
-
-			probabilities[i] =  1;
-		}
-
-        particles[i]->probability = probabilities[i];
-    }
-
-    resample(probabilities, particles.size());
-
-	// @TODO should delete probabilities?
-}
-
-void ParticleFilterLocalizer::resample(float probabilities[], int count) {
+void ParticleFilterLocalizer::resample() {
     ParticleList resampledParticles;
-    Particle* particle;
-    int index = Math::randomInt(0, count - 1);
+	int particleCount = particles.size();
+    int index = Math::randomInt(0, particleCount - 1);
     float beta = 0.0f;
     float maxProbability = 1.0f;
 
-    for (unsigned int i = 0; i < particles.size(); i++) {
-        particle = particles[i];
+    for (unsigned int i = 0; i < particleCount; i++) {
         beta += Math::randomFloat() * 2.0f * maxProbability;
 
-        while (beta > probabilities[index]) {
-            beta -= probabilities[index];
+        while (beta > particles[index]->probability) {
+            beta -= particles[index]->probability;
             index = (index + 1) % particleCount;
         }
 
         resampledParticles.push_back(new Particle(
-            particle->x,
-            particle->y,
-            particle->orientation,
-            particle->probability
+            particles[index]->x,
+            particles[index]->y,
+            particles[index]->orientation,
+            particles[index]->probability
         ));
     }
 
