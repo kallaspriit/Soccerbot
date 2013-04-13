@@ -292,32 +292,19 @@ void Vision::processGoals(Dir dir) {
 		}
 	}
 
-	int skips = 0;
-
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
 		Object* goal1 = *it;
-		bool skip = false;
 
-		for (ObjectListItc it2 = individualGoals.begin(); it2 != individualGoals.end(); it2++) {
-			Object* goal2 = *it2;
-
-			if (goal2 != goal1 && goal2->contains(goal1)) {
-				skip = true;
-				skips++;
-				break;
-			}
-		}
-
-		if (!skip && isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
+		if (isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
 			goals->push_back(goal1);
 		}
 	}
 
-	std::cout << "Start: " << startSize << ", Current: " << goalset.size() << ", Merges: " << merges << ", Indi: " << individualGoals.size() << ", Skips: " << skips << std::endl;
+	std::cout << "Start: " << startSize << ", Merges: " << merges << ", Individual: " << individualGoals.size() << std::endl;
 }
 
 Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
-	if (!goal1->intersects(goal2, 30) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
+	if (!goal1->intersects(goal2, 30)) {
 		return NULL;
 	}
 
