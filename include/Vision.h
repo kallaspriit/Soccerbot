@@ -67,7 +67,7 @@ class Vision/* : public Blobber::MapFilter*/ {
 		void processBalls(Dir dir);
         void processGoals(Dir dir);
 
-		bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal);
+		Object* Vision::mergeGoals(Object* goal1, Object* goal2);
         bool isValidBall(Object* ball, Dir dir);
         bool isValidGoal(Object* goal, Side side);
 		bool isBallInGoal(Object* ball, Dir dir);

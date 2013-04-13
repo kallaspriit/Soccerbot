@@ -211,6 +211,7 @@ void Vision::processGoals(Dir dir) {
         Blobber::Blob* blob = blobber->getBlobs(i == 0 ? "yellow-goal" : "blue-goal");
 
         while (blob != NULL) {
+			// TODO Calculate from center lowest y pixel and recalculate after merge
 			distance = getDistance(dir, blob->centerX, blob->y2);
             angle = getAngle(dir, blob->centerX, blob->y2);
 
@@ -269,9 +270,9 @@ void Vision::processGoals(Dir dir) {
 				continue;
 			}
 
-			mergedGoal = new Object();
+			mergedGoal = mergeGoals(goal1, goal2);
 
-			if (mergeGoals(goal1, goal2, mergedGoal)) {
+			if (mergedGoal != NULL) {
 				goal1->processed = true;
 				goal2->processed = true;
 				mergedGoal->processed = false;
@@ -280,8 +281,6 @@ void Vision::processGoals(Dir dir) {
 				goalset.push_back(mergedGoal);
 
 				break;
-			} else {
-				delete mergedGoal;
 			}
 		}
 
@@ -309,12 +308,14 @@ void Vision::processGoals(Dir dir) {
 	}
 }
 
-bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
+Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
 	if (!goal1->intersects(goal2/*, 20*/) && !goal1->contains(goal2) && !goal2->contains(goal1)) {
-		return false;
+		return NULL;
 	}
 
-	//mergedGoal = new Object();
+
+	Object* mergedGoal = new Object();
+
 	mergedGoal->copyFrom(goal1);
 
 	float minX = Math::max(Math::min(goal1->x - goal1->width / 2, goal2->x - goal2->width / 2), 0);
@@ -329,7 +330,7 @@ bool Vision::mergeGoals(Object* goal1, Object* goal2, Object* mergedGoal) {
 	mergedGoal->width = width;
 	mergedGoal->height = height;
 
-	return true;
+	return mergedGoal;
 };
 
 bool Vision::isValidGoal(Object* goal, Side side) {
