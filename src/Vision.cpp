@@ -211,6 +211,10 @@ void Vision::processGoals(Dir dir) {
         Blobber::Blob* blob = blobber->getBlobs(i == 0 ? "yellow-goal" : "blue-goal");
 
         while (blob != NULL) {
+			if (blob->area < Config::goalBlobMinArea) {
+				continue;
+			}
+
 			// TODO Calculate from center lowest y pixel and recalculate after merge
 			distance = getDistance(dir, blob->centerX, blob->y2);
             angle = getAngle(dir, blob->centerX, blob->y2);
@@ -307,6 +311,7 @@ Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
 
 	mergedGoal->copyFrom(goal1);
 
+	Dir dir = mergedGoal->behind ? Dir::DIR_REAR : Dir::DIR_FRONT;
 	float minX = Math::max(Math::min(goal1->x - goal1->width / 2, goal2->x - goal2->width / 2), 0);
 	float minY = Math::max(Math::min(goal1->y - goal1->height / 2, goal2->y - goal2->height / 2), 0);
 	float maxX = Math::min(Math::max(goal1->x + goal1->width / 2, goal2->x + goal2->width / 2), Config::cameraWidth - 1);
@@ -318,16 +323,14 @@ Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
 	mergedGoal->y = minY + height / 2;
 	mergedGoal->width = width;
 	mergedGoal->height = height;
+	mergedGoal->area = goal1->area + goal2->area;
+	mergedGoal->distance = getDistance(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
+    mergedGoal->angle = getAngle(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
 
 	return mergedGoal;
 };
 
 bool Vision::isValidGoal(Object* goal, Side side) {
-
-
-return true; // TEMP
-
-
 	/*int x1, y1, x2, y2;
 
 	float undersideMetric = getUndersideMetric(

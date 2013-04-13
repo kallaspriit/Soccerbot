@@ -113,6 +113,7 @@ const float spinAroundDribblerForwardSpeed = 0.2f;	//< radius at which to spin a
 const float goalAimSpeed = 0.35f;					//< how fast to move forward while aiming
 const float goalAimPeriod = 1.0f;					//< how fast to spin around dribbler while aiming
 const float goalMinUndersideMetric = 0.50f;			//< minimum amount of valid pixels under goal
+const int goalBlobMinArea = 16;
 const int goalMinArea = 64;
 const int goalTopMaxY = 15;
 const int validGoalMinMatches = 10;
