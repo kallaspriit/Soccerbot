@@ -48,7 +48,7 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 	Object* blueGoal = bot->getVision()->getLargestGoal(Side::BLUE);
 	Object* yellowGoal = bot->getVision()->getLargestGoal(Side::YELLOW);
 
-	if (blueGoal != false) {
+	if (blueGoal != NULL) {
 		blueDistance = blueGoal->distance;
 		blueAngle = blueGoal->angle;
 
@@ -57,9 +57,9 @@ void ManualController::updateIntersectionLocalizer(double dt) {
 		}
 	}
 
-	if (yellowGoal != false) {
+	if (yellowGoal != NULL) {
 		yellowDistance = yellowGoal->distance;
-		blueAngle = yellowGoal->angle;
+		yellowAngle = yellowGoal->angle;
 
 		if (!yellowGoal->behind) {
 			frontGoal = Side::YELLOW;

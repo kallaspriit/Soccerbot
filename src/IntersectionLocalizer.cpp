@@ -57,6 +57,20 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 			y = newPos.y;
 	    }
 
+		std::stringstream stream;
+
+		stream << "{";
+		stream << "\"intersections\": false,";
+		stream << "\"yellowDistance\": " << yellowDistance << ",";
+		stream << "\"blueDistance\": " << blueDistance << ",";
+		stream << "\"correctIntersection\": \"unknown\",";
+		stream << "\"x\": " << x << ",";
+		stream << "\"y\": " << y << ",";
+		stream << "\"orientation\": " << orientation;
+		stream << "}";
+
+		json = stream.str();
+
         return;
     }
 
@@ -120,6 +134,7 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 	std::stringstream stream;
 
     stream << "{";
+	stream << "\"intersections\": true,";
 	stream << "\"yellowDistance\": " << yellowDistance << ",";
 	stream << "\"blueDistance\": " << blueDistance << ",";
 	stream << "\"correctIntersection\": \"" << correctIntersection << "\",";
