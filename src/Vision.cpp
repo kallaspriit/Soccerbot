@@ -141,6 +141,7 @@ void Vision::process(Dir dir) {
 }
 
 void Vision::processBalls(Dir dir) {
+	ObjectList ballset;
 	ObjectList* balls = dir == Dir::DIR_FRONT ? &frontBalls : &rearBalls;
 
     for (ObjectListIt it = balls->begin(); it != balls->end(); it++) {
@@ -155,6 +156,12 @@ void Vision::processBalls(Dir dir) {
     Blobber::Blob* blob = blobber->getBlobs("ball");
 
     while (blob != NULL) {
+		if (blob->area < Config::ballBlobMinArea) {
+			blob = blob->next;
+
+			continue;
+		}
+
 		distance = getDistance(dir, blob->centerX, blob->y2);
         angle = getAngle(dir, blob->centerX, blob->y2);
 
@@ -186,12 +193,24 @@ void Vision::processBalls(Dir dir) {
 			dir == Dir::DIR_FRONT ? false : true
         );
 		
-        if (isValidBall(ball, dir)) {
-            balls->push_back(ball);
-        }
+        //if (isValidBall(ball, dir)) {
+            ballset.push_back(ball);
+        //}
 
         blob = blob->next;
     }
+
+	ObjectList individualBalls = Object::mergeOverlapping(ballset, Config::ballOverlapMargin);
+
+	for (ObjectListItc it = individualBalls.begin(); it != individualBalls.end(); it++) {
+		Object* ball = *it;
+
+		if (isValidGoal(ball, ball->type == 0 ? Side::YELLOW : Side::BLUE)) {
+			ball->distance = getDistance(dir, ball->x, ball->y + ball->height / 2);
+			ball->angle = getAngle(dir, ball->x, ball->y + ball->height / 2);
+			balls->push_back(ball);
+		}
+	}
 }
 
 void Vision::processGoals(Dir dir) {
@@ -258,53 +277,13 @@ void Vision::processGoals(Dir dir) {
 
 	ObjectList individualGoals = Object::mergeOverlapping(goalset, Config::goalOverlapMargin);
 
-	/*while (goalset.size() > 0) {
-		Object* goal1 = goalset.back();
-		Object* mergedGoal = NULL;
-		goalset.pop_back();
-
-		if (goal1->processed) {
-			continue;
-		}
-
-		bool merged = false;
-
-		for (ObjectListItc it = goalset.begin(); it != goalset.end(); it++) {
-			Object* goal2 = *it;
-
-			if (goal2 == goal1 || goal1->processed || goal2->processed) {
-				continue;
-			}
-
-			mergedGoal = goal1->mergeWith(goal2, Config::goalOverlapMargin);
-
-			if (mergedGoal != NULL) {
-				mergedGoal->distance = getDistance(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
-				mergedGoal->angle = getAngle(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
-
-				goal1->processed = true;
-				goal2->processed = true;
-				mergedGoal->processed = false;
-				merged = true;
-
-				goalset.push_back(mergedGoal);
-
-				break;
-			}
-		}
-
-		if (!merged && !goal1->processed) {
-			individualGoals.push_back(goal1);
-		}
-	}*/
-
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
-		Object* goal1 = *it;
+		Object* goal = *it;
 
-		if (isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
-			goal1->distance = getDistance(dir, goal1->x, goal1->y + goal1->height / 2);
-			goal1->angle = getAngle(dir, goal1->x, goal1->y + goal1->height / 2);
-			goals->push_back(goal1);
+		if (isValidGoal(goal, goal->type == 0 ? Side::YELLOW : Side::BLUE)) {
+			goal->distance = getDistance(dir, goal->x, goal->y + goal->height / 2);
+			goal->angle = getAngle(dir, goal->x, goal->y + goal->height / 2);
+			goals->push_back(goal);
 		}
 	}
 }
