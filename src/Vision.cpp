@@ -193,9 +193,7 @@ void Vision::processBalls(Dir dir) {
 			dir == Dir::DIR_FRONT ? false : true
         );
 		
-        //if (isValidBall(ball, dir)) {
-            ballset.push_back(ball);
-        //}
+        ballset.push_back(ball);
 
         blob = blob->next;
     }
@@ -205,7 +203,7 @@ void Vision::processBalls(Dir dir) {
 	for (ObjectListItc it = individualBalls.begin(); it != individualBalls.end(); it++) {
 		Object* ball = *it;
 
-		if (isValidGoal(ball, ball->type == 0 ? Side::YELLOW : Side::BLUE)) {
+		if (isValidBall(ball, dir)) {
 			ball->distance = getDistance(dir, ball->x, ball->y + ball->height / 2);
 			ball->angle = getAngle(dir, ball->x, ball->y + ball->height / 2);
 			balls->push_back(ball);
