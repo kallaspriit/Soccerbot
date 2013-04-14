@@ -256,9 +256,9 @@ void Vision::processGoals(Dir dir) {
         }
     }
 
-	ObjectList individualGoals;
+	ObjectList individualGoals = Object::mergeOverlapping(goalset, Config::goalOverlapMargin);
 
-	while (goalset.size() > 0) {
+	/*while (goalset.size() > 0) {
 		Object* goal1 = goalset.back();
 		Object* mergedGoal = NULL;
 		goalset.pop_back();
@@ -276,9 +276,12 @@ void Vision::processGoals(Dir dir) {
 				continue;
 			}
 
-			mergedGoal = mergeGoals(goal1, goal2);
+			mergedGoal = goal1->mergeWith(goal2, Config::goalOverlapMargin);
 
 			if (mergedGoal != NULL) {
+				mergedGoal->distance = getDistance(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
+				mergedGoal->angle = getAngle(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
+
 				goal1->processed = true;
 				goal2->processed = true;
 				mergedGoal->processed = false;
@@ -293,44 +296,18 @@ void Vision::processGoals(Dir dir) {
 		if (!merged && !goal1->processed) {
 			individualGoals.push_back(goal1);
 		}
-	}
+	}*/
 
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
 		Object* goal1 = *it;
 
 		if (isValidGoal(goal1, goal1->type == 0 ? Side::YELLOW : Side::BLUE)) {
+			goal1->distance = getDistance(dir, goal1->x, goal1->y + goal1->height / 2);
+			goal1->angle = getAngle(dir, goal1->x, goal1->y + goal1->height / 2);
 			goals->push_back(goal1);
 		}
 	}
 }
-
-Object* Vision::mergeGoals(Object* goal1, Object* goal2) {
-	if (!goal1->intersects(goal2, Config::goalOverlapMargin)) {
-		return NULL;
-	}
-
-	Object* mergedGoal = new Object();
-
-	mergedGoal->copyFrom(goal1);
-
-	Dir dir = mergedGoal->behind ? Dir::DIR_REAR : Dir::DIR_FRONT;
-	float minX = Math::max(Math::min(goal1->x - goal1->width / 2, goal2->x - goal2->width / 2), 0);
-	float minY = Math::max(Math::min(goal1->y - goal1->height / 2, goal2->y - goal2->height / 2), 0);
-	float maxX = Math::min(Math::max(goal1->x + goal1->width / 2, goal2->x + goal2->width / 2), Config::cameraWidth - 1);
-	float maxY = Math::min(Math::max(goal1->y + goal1->height / 2, goal2->y + goal2->height / 2), Config::cameraWidth - 1);
-	float width = maxX - minX;
-	float height = maxY - minY;
-
-	mergedGoal->x = minX + width / 2;
-	mergedGoal->y = minY + height / 2;
-	mergedGoal->width = width;
-	mergedGoal->height = height;
-	mergedGoal->area = goal1->area + goal2->area;
-	mergedGoal->distance = getDistance(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
-    mergedGoal->angle = getAngle(dir, mergedGoal->x, mergedGoal->y + mergedGoal->height / 2);
-
-	return mergedGoal;
-};
 
 bool Vision::isValidGoal(Object* goal, Side side) {
 	/*int x1, y1, x2, y2;
