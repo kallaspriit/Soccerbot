@@ -338,7 +338,13 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
         return false;
     }
 
-	int ballRadius = Math::max(ball->width, ball->height) / 2;
+	float sizeRatio = (float)ball->width / (float)ball->height;
+
+	if (sizeRatio > 3.0f || sizeRatio < 1.0f/3.0f) {
+		return false;
+	}
+
+	int ballRadius = Math::min(ball->width, ball->height) / 2;
 	int senseRadius = Math::min(ballRadius * 1.35f * Math::max(ball->distance / 2.0f, 1.0f) + 10.0f, Config::maxBallSenseRadius);
 
 	if (ball->y + ballRadius < Config::maxSurroundSenseY) {
