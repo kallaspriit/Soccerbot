@@ -97,6 +97,7 @@ const float goalSpinOmega = 1.5f;					//< how fast to rotate while searching for
 const float focusMaxOmega = ballSearchOmega;		//< maximum omega to apply while focusing on an object
 const float goalFocusMaxOmega = 2.0f;				//< maximum omega to apply while aiming at goal
 //const float ballChaseMaxSpeed = 0.75f;			//< maximum speed to chase a ball at
+const float maxBallSizeRatio = 5.0f;
 const float ballCloseThreshold = 0.27f;				//< balls closer than this are considered to be close
 const float dribblerOnThreshold = 0.2f;				//< distance at which to turn on the dribbler
 const float ballChaseFarSpeed = 3.0f;				//< how fast to chase far-away balls

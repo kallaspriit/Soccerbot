@@ -340,7 +340,7 @@ bool Vision::isValidBall(Object* ball, Dir dir) {
 
 	float sizeRatio = (float)ball->width / (float)ball->height;
 
-	if (sizeRatio > 3.0f || sizeRatio < 1.0f/3.0f) {
+	if (sizeRatio > Config::maxBallSizeRatio || sizeRatio < 1.0f/Config::maxBallSizeRatio) {
 		return false;
 	}
 
