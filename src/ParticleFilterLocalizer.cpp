@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 
-ParticleFilterLocalizer::ParticleFilterLocalizer(int particleCount, float forwardNoise, float turnNoise, float senseNoise) : particleCount(particleCount), forwardNoise(forwardNoise), turnNoise(turnNoise), senseNoise(senseNoise) {
+ParticleFilterLocalizer::ParticleFilterLocalizer(int particleCount, float forwardNoise, float turnNoise, float distanceSenseNoise, float angleSenseNoise) : particleCount(particleCount), forwardNoise(forwardNoise), turnNoise(turnNoise), distanceSenseNoise(distanceSenseNoise), angleSenseNoise(angleSenseNoise) {
     for (int i = 0; i < particleCount; i++) {
         particles.push_back(new Particle(
             Math::randomFloat(0.0f, Config::fieldWidth),
@@ -75,10 +75,6 @@ void ParticleFilterLocalizer::move(float velocityX, float velocityY, float omega
 }
 
 void ParticleFilterLocalizer::update(const Measurements& measurements) {
-	if (measurements.size() == 0) {
-		return;
-	}
-
     Particle* particle;
     float maxProbability = -1;
 
@@ -131,8 +127,9 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
         landmark = landmarkSearch->second;
         expectedDistance = Math::distanceBetween(particle->x, particle->y, landmark->x, landmark->y);
 		expectedAngle = Math::getAngleBetween(Math::Position(landmark->x, landmark->y), Math::Position(particle->x, particle->y), particle->orientation);
-		// TODO Use angle also
-        probability *= Math::getGaussian(expectedDistance, senseNoise, measuredDistance);
+		
+		probability *= Math::getGaussian(expectedDistance, distanceSenseNoise, measuredDistance);
+		probability *= Math::getGaussian(expectedAngle, angleSenseNoise, measuredAngle);
     }
 
     return probability;

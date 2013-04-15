@@ -131,7 +131,12 @@ void ManualController::updateParticleLocalizer(double dt) {
 		measurements["blue-center"] = Measurement(Math::min(Math::max(blueGoal->distance, 0.0f), Config::fieldWidth), blueGoal->angle);
 	}
 
-	particleLocalizer.update(measurements);
+	float velocityMagnitude = Math::Vector(movement.velocityX, movement.velocityY).getLength();
+
+	if (velocityMagnitude > 0.05 && measurements.size() > 0) {
+		particleLocalizer.update(measurements);
+	}
+
 	particleLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
 	Math::Position position = particleLocalizer.getPosition();

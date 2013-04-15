@@ -40,7 +40,7 @@ typedef std::map<std::string, Measurement> Measurements;
 
 class ParticleFilterLocalizer : public Localizer {
     public:
-		ParticleFilterLocalizer(int particleCount = Config::ballLocalizerParticleCount, float forwardNoise = Config::ballLocalizerForwardNoise, float turnNoise = Config::ballLocalizerTurnNoise, float senseNoise = Config::ballLocalizerSenseNoise);
+		ParticleFilterLocalizer(int particleCount = Config::ballLocalizerParticleCount, float forwardNoise = Config::ballLocalizerForwardNoise, float turnNoise = Config::ballLocalizerTurnNoise, float distanceSenseNoise = Config::ballLocalizerDistanceNoise, float angleSenseNoise = Config::ballLocalizerAngleNoise);
         ~ParticleFilterLocalizer();
 
         void addLandmark(Landmark* landmark);
@@ -59,7 +59,8 @@ class ParticleFilterLocalizer : public Localizer {
         const int particleCount;
         float forwardNoise;
         float turnNoise;
-        float senseNoise;
+        float distanceSenseNoise;
+        float angleSenseNoise;
         LandmarkMap landmarks;
         ParticleList particles;
 		std::string json;
