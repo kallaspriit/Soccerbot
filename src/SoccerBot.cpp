@@ -890,6 +890,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
     float stdev = Util::toInt(cmd.params[5]);
 	//int range = 0;
 
+	Camera* camera = cameraChoice == 1 ? frontCamera : rearCamera;
 	Camera::YUYV* pixel = NULL;
 	Blobber::Color* color = vision->getBlobber()->getColor(className);
 
@@ -917,7 +918,7 @@ void SoccerBot::handleBlobberThresholdCommand(const Command& cmd) {
 				continue;
 			}
 
-			pixel = frontCamera->getLastFrame()->getPixelAt(x + centerX, y + centerY);
+			pixel = camera->getLastFrame()->getPixelAt(x + centerX, y + centerY);
 
 			Y = (pixel->y1 + pixel->y2) / 2;
 			U = pixel->u;
