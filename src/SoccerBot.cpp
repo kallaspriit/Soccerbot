@@ -1111,9 +1111,9 @@ void SoccerBot::sendFrame() {
 
 	jpegBufferSize = 1024 * 1000;
 
-	if (classification == NULL) {
+	//if (classification == NULL) {
 		classification = vision->classify(dir);
-	}
+	//}
 
 	vision->setImage(classification->data);
 
@@ -1123,6 +1123,8 @@ void SoccerBot::sendFrame() {
 	JsonResponse frameResponse("frame", "{\"rgb\": \"" + base64Rgb + "\",\"classification\": \"" + base64Classification + "\"}");
 
 	socket->broadcast(frameResponse.toJSON());
+
+	//classification = NULL;
 }
 
 std::string SoccerBot::getStateJSON() const {
