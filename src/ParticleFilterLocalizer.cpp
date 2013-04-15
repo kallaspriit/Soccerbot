@@ -128,8 +128,8 @@ float ParticleFilterLocalizer::getMeasurementProbability(Particle* particle, con
         expectedDistance = Math::distanceBetween(particle->x, particle->y, landmark->x, landmark->y);
 		expectedAngle = Math::getAngleBetween(Math::Position(landmark->x, landmark->y), Math::Position(particle->x, particle->y), particle->orientation);
 		
-		probability *= Math::getGaussian(expectedDistance, distanceSenseNoise, measuredDistance)
-			+ Math::getGaussian(expectedAngle, angleSenseNoise, measuredAngle);
+		probability *= Math::getGaussian(expectedDistance, distanceSenseNoise, measuredDistance) * 0.75
+			+ Math::getGaussian(expectedAngle, angleSenseNoise, measuredAngle) * 0.25;
     }
 
     return probability;

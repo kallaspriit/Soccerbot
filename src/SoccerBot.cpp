@@ -1100,8 +1100,11 @@ void SoccerBot::sendFrame() {
 		std::cout << "done!" << std::endl;
     }
 
+	const ObjectList balls = (dir == Vision::Dir::DIR_FRONT ? vision->getFrontBalls() : vision->getRearBalls());
+	const ObjectList goals = (dir == Vision::Dir::DIR_FRONT ? vision->getFrontGoals() : vision->getRearGoals());
+
     Util::yuyvToRgb(Config::cameraWidth, Config::cameraHeight, frame, rgbBuffer);
-	DebugRenderer::render(rgbBuffer, vision->getFrontBalls(), vision->getFrontGoals());
+	DebugRenderer::render(rgbBuffer, balls, goals);
 
     Util::jpegEncode(rgbBuffer, jpegBuffer, jpegBufferSize, Config::cameraWidth, Config::cameraHeight, 3);
     std::string base64Rgb = Util::base64Encode(jpegBuffer, jpegBufferSize);
