@@ -411,6 +411,14 @@ Dash.UI.prototype.initControls = function() {
 			}
 		}
 	});
+
+	this.joystickController.onSelfEnable = function() {
+		$('INPUT[name="keyboard-controller-enabled"]')
+			.removeAttr('checked')
+			.iphoneStyle('refresh')
+			.attr('disabled', 'disabled')
+			.iphoneStyle('refresh');
+	};
 	
 	$('#controller-choice').change(function() {
 		var controller = $(this).val();

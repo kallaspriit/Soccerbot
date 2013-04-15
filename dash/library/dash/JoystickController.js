@@ -23,6 +23,12 @@ Dash.JoystickController.prototype.init = function() {
 };
 
 Dash.JoystickController.prototype.onTick = function(gamepads) {
+	if (!this.enabled && gamepads[0].state.X === 1) {
+		this.enabled = true;
+
+		this.onSelfEnable();
+	}
+
 	if (!this.enabled) {
 		return;
 	}
@@ -72,3 +78,5 @@ Dash.JoystickController.prototype.onTick = function(gamepads) {
 		this.lastToggleTime =  currentTime;
 	}
 };
+
+Dash.JoystickController.prototype.onSelfEnable = function() {};
