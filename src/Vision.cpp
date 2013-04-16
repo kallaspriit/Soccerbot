@@ -273,7 +273,7 @@ void Vision::processGoals(Dir dir) {
         }
     }
 
-	ObjectList individualGoals = Object::mergeOverlapping(goalset, Config::goalOverlapMargin);
+	ObjectList individualGoals = Object::mergeOverlapping(goalset, Config::goalOverlapMargin, true);
 
 	for (ObjectListItc it = individualGoals.begin(); it != individualGoals.end(); it++) {
 		Object* goal = *it;

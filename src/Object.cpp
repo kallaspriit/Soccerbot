@@ -75,7 +75,7 @@ Object* Object::mergeWith(Object* other, int margin) const {
 	return merged;
 }
 
-std::vector<Object*> Object::mergeOverlapping(const std::vector<Object*>& set, int margin) {
+std::vector<Object*> Object::mergeOverlapping(const std::vector<Object*>& set, int margin, bool requireSameType) {
 	ObjectList stack(set);
 	ObjectList individuals;
 
@@ -94,6 +94,10 @@ std::vector<Object*> Object::mergeOverlapping(const std::vector<Object*>& set, i
 			Object* object2 = *it;
 
 			if (object2 == object1 || object1->processed || object2->processed) {
+				continue;
+			}
+
+			if (requireSameType && object1->type != object2->type) {
 				continue;
 			}
 

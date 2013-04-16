@@ -973,6 +973,13 @@ Dash.UI.prototype.showStateStats = function(state) {
 	}
 	
 	this.showControllerState(state.controllerState);
+
+	if (
+		typeof(state.controllerState.particleLocalizer) !== 'undefined'
+		&& typeof(state.controllerState.particleLocalizer.particles) !== 'undefined'
+	) {
+		delete state.controllerState.particleLocalizer.particles;
+	}
 };
 
 Dash.UI.prototype.showControllerState = function(state) {
@@ -992,6 +999,10 @@ Dash.UI.prototype.showControllerState = function(state) {
 				wrap.append('<li id="' + parentId + '"><strong>' + key + '</strong><ul></ul></li>');
 
 				for (sub in state[key]) {
+					if (sub === 'particles') {
+						continue;
+					}
+
 					$('#' + parentId + ' UL').append('<li><strong>' + sub + '</strong>: ' + state[key][sub] + '</li>')
 				}
 			} else {

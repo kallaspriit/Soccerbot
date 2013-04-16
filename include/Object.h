@@ -11,7 +11,7 @@ class Object {
 		bool contains(Object* other) const;
 		Object* mergeWith(Object* other, int margin = 0) const;
 
-		static std::vector<Object*> mergeOverlapping(const std::vector<Object*>& set, int margin = 0);
+		static std::vector<Object*> mergeOverlapping(const std::vector<Object*>& set, int margin = 0, bool requireSameType = false);
 
         int x;
         int y;
