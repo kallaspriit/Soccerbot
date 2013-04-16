@@ -43,7 +43,7 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 	bool intersectionsFound = false;
 	
-	if (yellowDistance != -1.0f && blueDistance != -1.0f) {
+	/*if (yellowDistance != -1.0f && blueDistance != -1.0f) {
 		Math::Circle yellowCircle = Math::Circle(yellowGoalPos.x, yellowGoalPos.y, yellowDistance);
 		Math::Circle blueCircle = Math::Circle(blueGoalPos.x, blueGoalPos.y, blueDistance);
 		Math::Circle::Intersections intersections = yellowCircle.getIntersections(blueCircle);
@@ -123,7 +123,7 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 			return;
 		}
-	}
+	}*/
 
 	if (!intersectionsFound) {
 		if (yellowDistance != -1.0f || blueDistance != -1.0f) {

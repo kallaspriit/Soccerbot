@@ -135,9 +135,8 @@ void ManualController::updateParticleLocalizer(double dt) {
 
 	if (velocityMagnitude > 0.05 && measurements.size() > 0) {
 		particleLocalizer.update(measurements);
+		particleLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 	}
-
-	particleLocalizer.move(movement.velocityX, movement.velocityY, movement.omega, dt, measurements.size() == 0 ? true : false);
 
 	Math::Position position = particleLocalizer.getPosition();
 }
