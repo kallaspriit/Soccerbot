@@ -269,9 +269,11 @@ Circle::Intersections Circle::getIntersections(const Circle& other) {
 
 	intersections.exist = true;
 	
-	//if (radius + other.radius != distance) {
-		float a = (Math::pow(radius, 2.0f) - Math::pow(other.radius, 2.0f) + distanceSquared) / (2.0f * distance);
-		float h = Math::sqrt(Math::pow(radius, 2.0f) - Math::pow(a, 2.0f));
+	float a = (Math::pow(radius, 2.0f) - Math::pow(other.radius, 2.0f) + distanceSquared) / (2.0f * distance);
+	float d = Math::pow(radius, 2.0f) - Math::pow(a, 2.0f);
+
+	if (d >= 0) {
+		float h = Math::sqrt(d);
 		float centerX = x + a * (other.x - x) / distance;
 		float centerY = y + a * (other.y - y) / distance;
 	
@@ -279,13 +281,14 @@ Circle::Intersections Circle::getIntersections(const Circle& other) {
 		intersections.y1 = centerY + h * (other.x - x) / distance,
 		intersections.x2 = centerX - h * (other.y - y) / distance,
 		intersections.y2 = centerY - h * (other.x - x) / distance;
+	} else {
+		intersections.exist = false;
 
-		std::cout << "! INT " << intersections.x1 << "x" << intersections.y1 << ", " << intersections.x2 << "x" << intersections.y2 << std::endl;
-		std::cout << "  > distance: " << distance << ", a: " << a << ", h: " << h << ", centerX: " << centerX << ", centerY: " << centerY << std::endl;
+		return intersections;
+	}
 
-	//} else {
-
-	//}
+	//std::cout << "! INT " << intersections.x1 << "x" << intersections.y1 << ", " << intersections.x2 << "x" << intersections.y2 << std::endl;
+	//std::cout << "  > distance: " << distance << ", a: " << a << ", h: " << h << ", centerX: " << centerX << ", centerY: " << centerY << std::endl;
 		
 	return intersections;
 };

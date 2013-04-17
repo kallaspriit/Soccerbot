@@ -89,7 +89,7 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
 	Util::confineField(senseX, senseY);
 
 	float originalOrientation = senseOrientation;
-	float jumpThreshold = 0.1f;
+	float jumpThreshold = Math::PI / 2.0f;
 
 	if (senseOrientation < jumpThreshold && lastInputOrientation > Math::TWO_PI - jumpThreshold) {
 		rotationCounter++;
@@ -130,6 +130,7 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
 	x = state(0, 0);
 	y = state(1, 0);
 	orientation = Math::floatModulus(state(4, 0), Math::TWO_PI);
+	lastInputOrientation = originalOrientation;
 
 	Util::confineField(x, y);
 
