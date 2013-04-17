@@ -976,7 +976,8 @@ Dash.UI.prototype.showStateStats = function(state) {
 	this.showControllerState(state.controllerState);
 
 	if (
-		typeof(state.controllerState.particleLocalizer) !== 'undefined'
+		state.controllerState.particleLocalizer !== null
+		&& typeof(state.controllerState.particleLocalizer) !== 'undefined'
 		&& typeof(state.controllerState.particleLocalizer.particles) !== 'undefined'
 	) {
 		delete state.controllerState.particleLocalizer.particles;

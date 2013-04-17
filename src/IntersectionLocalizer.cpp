@@ -85,25 +85,25 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 			Util::confineField(x, y);
 
-			float verticalOffset = y - Config::fieldHeight / 2.0;
+			float verticalOffset = y - Config::fieldHeight / 2.0f;
 			float zeroAngleBlue = Math::asin(verticalOffset / blueDistance);
 			float zeroAngleYellow = Math::asin(verticalOffset / yellowDistance);
-			float posYellowAngle = yellowAngle < 0 ? yellowAngle + Math::TWO_PI : yellowAngle;
-			float posBlueAngle = blueAngle < 0 ? blueAngle + Math::TWO_PI : blueAngle;
+			float posYellowAngle = yellowAngle < 0.0f ? yellowAngle + Math::TWO_PI : yellowAngle;
+			float posBlueAngle = blueAngle < 0.0f ? blueAngle + Math::TWO_PI : blueAngle;
 			float yellowGuess = Math::floatModulus(Math::PI - (posYellowAngle - zeroAngleYellow), Math::TWO_PI);
 			float blueGuess = Math::floatModulus(-zeroAngleBlue - posBlueAngle, Math::TWO_PI);
 
-			while (yellowGuess < 0) {
+			while (yellowGuess < 0.0f) {
 				yellowGuess += Math::TWO_PI;
 			}
 
-			while (blueGuess < 0) {
+			while (blueGuess < 0.0f) {
 				blueGuess += Math::TWO_PI;
 			}
 
 			orientation = Math::getAngleAvg(yellowGuess, blueGuess);
 
-			if (orientation < 0) {
+			if (orientation < 0.0f) {
 				orientation += Math::TWO_PI;
 			}
 
@@ -148,7 +148,7 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 				closestVisible = Side::BLUE;
 			}
 
-			float verticalOffset = y - Config::fieldHeight / 2.0;
+			float verticalOffset = y - Config::fieldHeight / 2.0f;
 
 			if (closestVisible == Side::YELLOW) {
 				dirVector = Math::Vector::createDirVec(currentPos, yellowGoalPos);
@@ -161,10 +161,10 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 				Util::confineField(x, y);
 
 				float zeroAngleYellow = Math::asin(verticalOffset / yellowDistance);
-				float posYellowAngle = yellowAngle < 0 ? yellowAngle + Math::TWO_PI : yellowAngle;
+				float posYellowAngle = yellowAngle < 0.0f ? yellowAngle + Math::TWO_PI : yellowAngle;
 				float yellowGuess = Math::floatModulus(Math::PI - (posYellowAngle - zeroAngleYellow), Math::TWO_PI);
 
-				while (yellowGuess < 0) {
+				while (yellowGuess < 0.0f) {
 					yellowGuess += Math::TWO_PI;
 				}
 
@@ -188,17 +188,17 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 				Util::confineField(x, y);
 
 				float zeroAngleBlue = Math::asin(verticalOffset / blueDistance);
-				float posBlueAngle = blueAngle < 0 ? blueAngle + Math::TWO_PI : blueAngle;
+				float posBlueAngle = blueAngle < 0.0f ? blueAngle + Math::TWO_PI : blueAngle;
 				float blueGuess = Math::floatModulus(-zeroAngleBlue - posBlueAngle, Math::TWO_PI);
 
-				while (blueGuess < 0) {
+				while (blueGuess < 0.0f) {
 					blueGuess += Math::TWO_PI;
 				}
 
 				orientation = blueGuess;
 			}
 
-			if (orientation < 0) {
+			if (orientation < 0.0f) {
 				orientation += Math::TWO_PI;
 			}
 		}

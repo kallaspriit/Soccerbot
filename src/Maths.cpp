@@ -253,19 +253,21 @@ Polygon Polygon::getRotated(float angle) const {
 Circle::Intersections Circle::getIntersections(const Circle& other) {
 	Intersections intersections = Intersections();
 
-	float distanceSquared = Math::pow(x - other.x, 2) + Math::pow(y - other.y, 2);
+	float distanceSquared = Math::pow(x - other.x, 2.0f) + Math::pow(y - other.y, 2.0f);
 	float distance = Math::sqrt(distanceSquared);
 	
 	if (
 		distance > radius + other.radius
 		|| distance < Math::abs(radius - other.radius)
-		|| distance == 0
+		|| distance == 0.0f
 	) {
+		intersections.exist = false;
+
 		return intersections;
 	}
 	
-	float a = (Math::pow(radius, 2) - Math::pow(other.radius, 2) + distanceSquared) / (2 * distance);
-	float h = Math::sqrt(Math::pow(radius, 2) - Math::pow(a, 2));
+	float a = (Math::pow(radius, 2.0f) - Math::pow(other.radius, 2.0f) + distanceSquared) / (2.0f * distance);
+	float h = Math::sqrt(Math::pow(radius, 2.0f) - Math::pow(a, 2.0f));
 	float centerX = x + a * (other.x - x) / distance;
 	float centerY = y + a * (other.y - y) / distance;
 	
