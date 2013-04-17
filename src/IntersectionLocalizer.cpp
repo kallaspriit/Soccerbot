@@ -129,7 +129,7 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 		if (yellowDistance != -1.0f || blueDistance != -1.0f) {
 			Math::Vector currentPos(x, y), dirVector, scaledDir, newPos;
 
-			std::cout << "! Distances Y: " << yellowDistance << ", B: " << blueDistance << std::endl;
+			//std::cout << "! Distances Y: " << yellowDistance << ", B: " << blueDistance << std::endl;
 
 			Side closestVisible = Side::UNKNOWN;
 
