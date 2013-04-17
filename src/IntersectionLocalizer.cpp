@@ -113,6 +113,9 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 			stream << "\"intersections\": true,";
 			stream << "\"yellowDistance\": " << yellowDistance << ",";
 			stream << "\"blueDistance\": " << blueDistance << ",";
+			stream << "\"used\": \"both\",";
+			stream << "\"yellowAngle\": " << Math::radToDeg(yellowAngle) << ",";
+			stream << "\"blueAngle\": " << Math::radToDeg(blueAngle) << ",";
 			stream << "\"correctIntersection\": \"" << correctIntersection << "\",";
 			stream << "\"x\": " << x << ",";
 			stream << "\"y\": " << y << ",";
@@ -126,12 +129,12 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 	}
 
 	if (!intersectionsFound) {
+		Side closestVisible = Side::UNKNOWN;
+
 		if (yellowDistance != -1.0f || blueDistance != -1.0f) {
 			Math::Vector currentPos(x, y), dirVector, scaledDir, newPos;
 
 			//std::cout << "! Distances Y: " << yellowDistance << ", B: " << blueDistance << std::endl;
-
-			Side closestVisible = Side::UNKNOWN;
 
 			if (yellowDistance != -1.0f && blueDistance != -1.0f) {
 				if (yellowDistance < blueDistance) {
@@ -139,7 +142,7 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 				} else {
 					closestVisible = Side::BLUE;
 				}
-			} else if (yellowDistance != -1) {
+			} else if (yellowDistance != -1.0f) {
 				closestVisible = Side::YELLOW;
 			} else {
 				closestVisible = Side::BLUE;
@@ -204,8 +207,11 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 		stream << "{";
 		stream << "\"intersections\": false,";
+		stream << "\"used\": \"" << (closestVisible == Side::YELLOW ? "yellow" : "blue") << "\",";
 		stream << "\"yellowDistance\": " << yellowDistance << ",";
 		stream << "\"blueDistance\": " << blueDistance << ",";
+		stream << "\"yellowAngle\": " << Math::radToDeg(yellowAngle) << ",";
+		stream << "\"blueAngle\": " << Math::radToDeg(blueAngle) << ",";
 		stream << "\"correctIntersection\": \"unsure\",";
 		stream << "\"x\": " << x << ",";
 		stream << "\"y\": " << y << ",";

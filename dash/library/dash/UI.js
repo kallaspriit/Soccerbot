@@ -255,6 +255,7 @@ Dash.UI.prototype.initSocket = function() {
 			message = JSON.parse(e.message.data);
 		} catch (ex) {
 			dash.dbg.log('- Invalid message', e.message.data);
+			debugger;
 			
 			return;
 		}
