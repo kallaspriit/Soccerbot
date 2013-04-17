@@ -88,13 +88,17 @@ void KalmanLocalizer::move(float velocityX, float velocityY, float omega, float 
 void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation, float velocityX, float velocityY, float omega, float dt) {
 	Util::confineField(senseX, senseY);
 
-	float originalOrientation = orientation;
+	float originalOrientation = senseOrientation;
 	float jumpThreshold = 0.1f;
 
 	if (senseOrientation < jumpThreshold && lastInputOrientation > Math::TWO_PI - jumpThreshold) {
 		rotationCounter++;
+
+		//std::cout << "! JUMP FORWARD: " << rotationCounter << std::endl;
 	} else if (senseOrientation > Math::TWO_PI - jumpThreshold && lastInputOrientation < jumpThreshold) {
 		rotationCounter--;
+
+		//std::cout << "! JUMP BACKWARD: " << rotationCounter << std::endl;
 	}
 
 	senseOrientation = senseOrientation + rotationCounter * Math::TWO_PI;
