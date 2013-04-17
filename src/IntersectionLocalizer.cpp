@@ -145,6 +145,8 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 				closestVisible = Side::BLUE;
 			}
 
+			float verticalOffset = y - Config::fieldHeight / 2.0;
+
 			if (closestVisible == Side::YELLOW) {
 				dirVector = Math::Vector::createDirVec(currentPos, yellowGoalPos);
 				scaledDir = dirVector.getScaled(yellowDistance);
@@ -152,6 +154,18 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 				x = newPos.x;
 				y = newPos.y;
+
+				Util::confineField(x, y);
+
+				float zeroAngleYellow = Math::asin(verticalOffset / yellowDistance);
+				float posYellowAngle = yellowAngle < 0 ? yellowAngle + Math::TWO_PI : yellowAngle;
+				float yellowGuess = Math::floatModulus(Math::PI - (posYellowAngle - zeroAngleYellow), Math::TWO_PI);
+
+				while (yellowGuess < 0) {
+					yellowGuess += Math::TWO_PI;
+				}
+
+				orientation = yellowGuess;
 
 				/*std::cout << "! Pos from yellow: " << x << ", " << y << std::endl;
 				std::cout << "  > distance: " << yellowDistance << std::endl;
@@ -167,11 +181,23 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 				x = newPos.x;
 				y = newPos.y;
-			} else {
-				std::cout << "! No pos" << std::endl;
+
+				Util::confineField(x, y);
+
+				float zeroAngleBlue = Math::asin(verticalOffset / blueDistance);
+				float posBlueAngle = blueAngle < 0 ? blueAngle + Math::TWO_PI : blueAngle;
+				float blueGuess = Math::floatModulus(-zeroAngleBlue - posBlueAngle, Math::TWO_PI);
+
+				while (blueGuess < 0) {
+					blueGuess += Math::TWO_PI;
+				}
+
+				orientation = blueGuess;
 			}
 
-			Util::confineField(x, y);
+			if (orientation < 0) {
+				orientation += Math::TWO_PI;
+			}
 		}
 
 		std::stringstream stream;
