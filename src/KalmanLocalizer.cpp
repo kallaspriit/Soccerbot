@@ -94,11 +94,11 @@ void KalmanLocalizer::update(float senseX, float senseY, float senseOrientation,
 	if (senseOrientation < jumpThreshold && lastInputOrientation > Math::TWO_PI - jumpThreshold) {
 		rotationCounter++;
 
-		std::cout << "! JUMP FORWARD: " << rotationCounter << std::endl;
+		//std::cout << "! JUMP FORWARD: " << rotationCounter << std::endl;
 	} else if (senseOrientation > Math::TWO_PI - jumpThreshold && lastInputOrientation < jumpThreshold) {
 		rotationCounter--;
 
-		std::cout << "! JUMP BACKWARD: " << rotationCounter << std::endl;
+		//std::cout << "! JUMP BACKWARD: " << rotationCounter << std::endl;
 	}
 
 	senseOrientation = senseOrientation + rotationCounter * Math::TWO_PI;

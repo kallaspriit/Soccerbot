@@ -4,7 +4,7 @@
 
 #include <string>
 #include <sstream>
-#include <iostream>
+//#include <iostream>
 
 IntersectionLocalizer::IntersectionLocalizer() {
 	x = Config::fieldWidth / 2.0f;
@@ -36,7 +36,7 @@ void IntersectionLocalizer::move(float velocityX, float velocityY, float omega, 
 
 void IntersectionLocalizer::update(float yellowDistance, float blueDistance, float yellowAngle, float blueAngle, Side frontGoal) {
 	if (blueDistance == 0.0f || yellowDistance == 0.0f) {
-		std::cout << "- Invalid goal distance: " << blueDistance << ", " << yellowDistance << std::endl;
+		//std::cout << "- Invalid goal distance: " << blueDistance << ", " << yellowDistance << std::endl;
 
 		return;
 	}
