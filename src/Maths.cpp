@@ -1,4 +1,5 @@
 #include "Maths.h"
+#include <iostream>
 
 namespace Math {
 
@@ -276,6 +277,8 @@ Circle::Intersections Circle::getIntersections(const Circle& other) {
 	intersections.y1 = centerY + h * (other.x - x) / distance,
 	intersections.x2 = centerX - h * (other.y - y) / distance,
 	intersections.y2 = centerY - h * (other.x - x) / distance;
+
+	std::cout << "! INT " << intersections.x1 << "x" << intersections.y1 << ", " << intersections.x2 << "x" << intersections.y2 << std::endl;
 		
 	return intersections;
 };
