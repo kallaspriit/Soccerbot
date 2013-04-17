@@ -148,27 +148,25 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 			if (closestVisible == Side::YELLOW) {
 				dirVector = Math::Vector::createDirVec(currentPos, yellowGoalPos);
 				scaledDir = dirVector.getScaled(yellowDistance);
-				newPos = dirVector.getSummed(yellowGoalPos);
+				newPos = scaledDir.getSummed(yellowGoalPos);
 
 				x = newPos.x;
 				y = newPos.y;
 
-				std::cout << "! Pos from yellow: " << x << ", " << y << std::endl;
+				/*std::cout << "! Pos from yellow: " << x << ", " << y << std::endl;
 				std::cout << "  > distance: " << yellowDistance << std::endl;
 				std::cout << "  > yellowGoalPos: " << yellowGoalPos.x << ", " << yellowGoalPos.y << std::endl;
 				std::cout << "  > currentPos: " << currentPos.x << ", " << currentPos.y << std::endl;
 				std::cout << "  > dirVector:  " << dirVector.x << ", " << dirVector.y << ", length: " << dirVector.getLength() << std::endl;
 				std::cout << "  > scaledDir:  " << scaledDir.x << ", " << scaledDir.y << ", length: " << scaledDir.getLength() << std::endl;
-				std::cout << "  > newPos:     " << newPos.x << ", " << newPos.y << std::endl;
+				std::cout << "  > newPos:     " << newPos.x << ", " << newPos.y << std::endl;*/
 			} else if (closestVisible == Side::BLUE) {
 				dirVector = Math::Vector::createDirVec(currentPos, blueGoalPos);
 				scaledDir = dirVector.getScaled(blueDistance);
-				newPos = dirVector.getSummed(blueGoalPos);
+				newPos = scaledDir.getSummed(blueGoalPos);
 
 				x = newPos.x;
 				y = newPos.y;
-
-				std::cout << "! Pos from blue: " << x << ", " << y << std::endl;
 			} else {
 				std::cout << "! No pos" << std::endl;
 			}
