@@ -154,6 +154,10 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 				y = newPos.y;
 
 				std::cout << "! Pos from yellow: " << x << ", " << y << std::endl;
+				std::cout << "  > currentPos: " << currentPos.x << ", " << currentPos.y << std::endl;
+				std::cout << "  > dirVector:  " << dirVector.x << ", " << dirVector.y << std::endl;
+				std::cout << "  > scaledDir:  " << scaledDir.x << ", " << scaledDir.y << std::endl;
+				std::cout << "  > newPos:     " << newPos.x << ", " << newPos.y << std::endl;
 			} else if (closestVisible == Side::BLUE) {
 				dirVector = Math::Vector::createDirVec(currentPos, blueGoalPos);
 				scaledDir = dirVector.getScaled(blueDistance);
