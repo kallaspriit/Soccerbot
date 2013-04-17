@@ -528,9 +528,18 @@ float Vision::getAngle(Dir dir, int x, int y) {
 	//float distance = getDistance(dir, x, y);
 
 	// last working
-	float centerOffset = (float)(realX - (Config::cameraWidth / 2));
-	
-	return Math::degToRad(centerOffset / 11.5f);
+	float centerOffset = (float)(realX - (Config::cameraWidth / 2.0f)),
+		angle = Math::degToRad(centerOffset / 11.5f);
+
+	if (dir == Dir::DIR_REAR) {
+		if (angle < 0.0f) {
+			angle += Math::PI;
+		} else {
+			angle -= Math::PI;
+		}
+	}
+
+	return angle;
 
 	/*float distance = getDistance(dir, x, y);
 	float horizontalDistance = getHorizontalDistance(dir, x, y);
