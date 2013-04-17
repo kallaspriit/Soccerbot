@@ -86,8 +86,10 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 			Util::confineField(x, y);
 
 			float verticalOffset = y - Config::fieldHeight / 2.0f;
-			float zeroAngleBlue = Math::asin(verticalOffset / blueDistance);
-			float zeroAngleYellow = Math::asin(verticalOffset / yellowDistance);
+			float offsetRatioBlue = Math::max(Math::max(verticalOffset / yellowDistance, -1.0f), -1.0f);
+			float offsetRatioYellow = Math::max(Math::max(verticalOffset / yellowDistance, -1.0f), -1.0f);
+			float zeroAngleBlue = Math::asin(offsetRatioBlue);
+			float zeroAngleYellow = Math::asin(offsetRatioYellow);
 			float posYellowAngle = yellowAngle < 0.0f ? yellowAngle + Math::TWO_PI : yellowAngle;
 			float posBlueAngle = blueAngle < 0.0f ? blueAngle + Math::TWO_PI : blueAngle;
 			float yellowGuess = Math::floatModulus(Math::PI - (posYellowAngle - zeroAngleYellow), Math::TWO_PI);
@@ -160,7 +162,8 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 				Util::confineField(x, y);
 
-				float zeroAngleYellow = Math::asin(verticalOffset / yellowDistance);
+				float offsetRatioYellow = Math::max(Math::max(verticalOffset / yellowDistance, -1.0f), -1.0f);
+				float zeroAngleYellow = Math::asin(offsetRatioYellow);
 				float posYellowAngle = yellowAngle < 0.0f ? yellowAngle + Math::TWO_PI : yellowAngle;
 				float yellowGuess = Math::floatModulus(Math::PI - (posYellowAngle - zeroAngleYellow), Math::TWO_PI);
 
@@ -187,7 +190,8 @@ void IntersectionLocalizer::update(float yellowDistance, float blueDistance, flo
 
 				Util::confineField(x, y);
 
-				float zeroAngleBlue = Math::asin(verticalOffset / blueDistance);
+				float offsetRatioBlue = Math::max(Math::max(verticalOffset / yellowDistance, -1.0f), -1.0f);
+				float zeroAngleBlue = Math::asin(offsetRatioBlue);
 				float posBlueAngle = blueAngle < 0.0f ? blueAngle + Math::TWO_PI : blueAngle;
 				float blueGuess = Math::floatModulus(-zeroAngleBlue - posBlueAngle, Math::TWO_PI);
 
