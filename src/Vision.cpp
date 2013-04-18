@@ -279,6 +279,8 @@ void Vision::processGoals(Dir dir) {
 		Object* goal = *it;
 
 		if (isValidGoal(goal, goal->type == 0 ? Side::YELLOW : Side::BLUE)) {
+			// TODO Extend the goal downwards using extended color / limited ammount horizontal too
+
 			goal->distance = getDistance(dir, goal->x, goal->y + goal->height / 2);
 			goal->angle = getAngle(dir, goal->x, goal->y + goal->height / 2);
 			goals->push_back(goal);

@@ -114,12 +114,55 @@ Dash.Renderer.prototype.drawRuler = function() {
 	this.c.restore();
 };
 
+Dash.Renderer.prototype.drawPath = function(state, localizer, color, items) {
+	items = typeof(items) !== 'undefined' ? items : 500;
+
+	var data = state.controllerState[localizer],
+		previousState = state.previous,
+		skips = 10;
+
+	if (!previousState) {
+		return;
+	}
+
+	/*for (var i = 0; i < skips; i++) {
+		if (!previousState.previous) {
+			return;
+		}
+
+		previousState = previousState.previous;
+	}*/
+
+	if (arguments.length == 5) {
+		var last = arguments[4];
+
+		this.drawPathSegment(last.x, last.y, data.x, data.y, color);
+	}
+
+	if (items > 0) {
+		this.drawPath(previousState, localizer, color, items - 1, data);
+	}
+};
+
+Dash.Renderer.prototype.drawPathSegment = function(x1, y1, x2, y2, color) {
+	this.c.save();
+
+	this.c.beginPath();
+	this.c.lineWidth = 1.0 / this.canvasToWorldRatio;
+	this.c.strokeStyle = color;
+	this.c.moveTo(x1, y1);
+	this.c.lineTo(x2, y2);
+	this.c.stroke();
+
+	this.c.restore();
+};
+
 Dash.Renderer.prototype.renderState = function(state) {
 	this.c.clearRect(-1, -1, this.width + 1, this.height + 1);
 	
 	//this.drawRuler();
 	
-	this.drawRobot(
+	/*this.drawRobot(
 		dash.config.robot.radius,
 		state.targetGoal == 1 ? '#00F' : '#DD0',
 		state.x,
@@ -133,7 +176,7 @@ Dash.Renderer.prototype.renderState = function(state) {
 		-0.4,
 		0.4,
 		state.gyroOrientation
-	);
+	);*/
 
 	if (state.controllerState.odometerLocalizer !== null && typeof(state.controllerState.odometerLocalizer) === 'object') {
 		this.drawRobot(
@@ -143,6 +186,8 @@ Dash.Renderer.prototype.renderState = function(state) {
 			state.controllerState.odometerLocalizer.y,
 			state.controllerState.odometerLocalizer.orientation
 		);
+
+		this.drawPath(state, 'odometerLocalizer', '#600');
 	}
 
 	if (state.controllerState.intersectionLocalizer !== null && typeof(state.controllerState.intersectionLocalizer) === 'object') {
@@ -151,16 +196,18 @@ Dash.Renderer.prototype.renderState = function(state) {
 			state.controllerState.intersectionLocalizer.blueDistance
 		);
 
-		this.drawRobot(
+		/*this.drawRobot(
 			dash.config.robot.radius / 2,
 			'#660',
 			state.controllerState.intersectionLocalizer.x,
 			state.controllerState.intersectionLocalizer.y,
 			state.controllerState.intersectionLocalizer.orientation
 		);
+
+		this.drawPath(state, 'intersectionLocalizer', '#660');*/
 	}
 
-	if (state.controllerState.kalmanLocalizer !== null && typeof(state.controllerState.kalmanLocalizer) === 'object') {
+	/*if (state.controllerState.kalmanLocalizer !== null && typeof(state.controllerState.kalmanLocalizer) === 'object') {
 		this.drawRobot(
 			dash.config.robot.radius / 2,
 			'#006',
@@ -168,7 +215,9 @@ Dash.Renderer.prototype.renderState = function(state) {
 			parseFloat(state.controllerState.kalmanLocalizer.y),
 				parseFloat(state.controllerState.kalmanLocalizer.orientation)
 		);
-	}
+
+		this.drawPath(state, 'kalmanLocalizer', '#006');
+	}*/
 
 	if (state.controllerState.particleLocalizer !== null && typeof(state.controllerState.particleLocalizer) === 'object') {
 		this.drawRobot(
@@ -185,6 +234,8 @@ Dash.Renderer.prototype.renderState = function(state) {
 				state.controllerState.particleLocalizer.particles[i][1]
 			);
 		}
+
+		this.drawPath(state, 'particleLocalizer', '#060');
 	}
 		
 	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);

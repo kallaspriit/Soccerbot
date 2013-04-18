@@ -5,7 +5,6 @@ Dash.JoystickController = function(robot) {
 	this.enabled = false;
 	this.fastMode = false;
 	this.gamepad = new Gamepad();
-	this.lastToggleTime = 0;
 };
 
 Dash.JoystickController.prototype.init = function() {
@@ -15,10 +14,34 @@ Dash.JoystickController.prototype.init = function() {
 		self.onTick(gamepads);
 	});
 
+	this.gamepad.bind(Gamepad.Event.BUTTON_DOWN, function(e) {
+		self.onButtonDown(e);
+	});
+
+	this.gamepad.bind(Gamepad.Event.AXIS_CHANGED, function(e) {
+		self.onAxisChanged(e);
+	});
+
 	$('#gamepad').html('Your browser supports gamepads, try connecting one');
 
 	if (!this.gamepad.init()) {
 		$('#gamepad').html('If you use latest Google Chrome or Firefox, you can use gamepads..');
+	}
+};
+
+Dash.JoystickController.prototype.onButtonDown = function(e) {
+	if (e.control == 'RB') {
+		this.robot.kick();
+	} else if (e.control == 'Y') {
+		this.fastMode = !this.fastMode;
+	} else if (e.control == 'LB') {
+		this.robot.toggleDribbler();
+	}
+};
+
+Dash.JoystickController.prototype.onAxisChanged = function(e) {
+	if (e.axis == 'LEFT_TRIGGER') {
+		this.robot.setDribbler(e.value * 255);
 	}
 };
 
@@ -60,23 +83,6 @@ Dash.JoystickController.prototype.onTick = function(gamepads) {
 		gamepads[0].state.RIGHT_STICK_X * speed,
 		gamepads[0].state.LEFT_STICK_X * turnRate
 	);
-		
-	if (gamepads[0].state.Y && currentTime - this.lastToggleTime > 0.5) {
-		this.fastMode = !this.fastMode;
-		this.lastToggleTime =  currentTime;
-	}
-
-	if (gamepads[0].state.RB  && currentTime - this.lastToggleTime > 0.5) {
-		this.robot.kick();
-		this.lastToggleTime =  currentTime;
-	}
-	
-	if (gamepads[0].state.LEFT_TRIGGER > 0.1) {
-		this.robot.setDribbler(gamepads[0].state.LEFT_TRIGGER * 255);
-	} else if (gamepads[0].state.LB  && currentTime - this.lastToggleTime > 0.5) {
-		this.robot.toggleDribbler();
-		this.lastToggleTime =  currentTime;
-	}
 };
 
 Dash.JoystickController.prototype.onSelfEnable = function() {};
