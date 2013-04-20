@@ -61,3 +61,13 @@ Dash.Util.degToRad = function(degrees) {
 Dash.Util.radToDeg = function(radians) {
 	return radians * 180.0 / Math.PI;
 };
+
+Dash.Util.getDistanceBetween = function(a, b, squared) {
+	var squaredValue = Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
+
+	if (squared) {
+		return squaredValue;
+	} else {
+		return Math.sqrt(squaredValue);
+	}
+};

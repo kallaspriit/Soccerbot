@@ -115,7 +115,7 @@ Dash.Renderer.prototype.drawRuler = function() {
 };
 
 Dash.Renderer.prototype.drawPath = function(state, localizer, color, items) {
-	items = typeof(items) !== 'undefined' ? items : 500;
+	items = typeof(items) !== 'undefined' ? items : 1500;
 
 	var data = state.controllerState[localizer],
 		previousState = state.previous,
@@ -125,13 +125,13 @@ Dash.Renderer.prototype.drawPath = function(state, localizer, color, items) {
 		return;
 	}
 
-	/*for (var i = 0; i < skips; i++) {
+	for (var i = 0; i < skips; i++) {
 		if (!previousState.previous) {
 			return;
 		}
 
 		previousState = previousState.previous;
-	}*/
+	}
 
 	if (arguments.length == 5) {
 		var last = arguments[4];
@@ -157,6 +157,29 @@ Dash.Renderer.prototype.drawPathSegment = function(x1, y1, x2, y2, color) {
 	this.c.restore();
 };
 
+Dash.Renderer.prototype.drawMarkers = function() {
+	var hor = 1.3,
+		ver = 0.8;
+
+	this.drawMarker(hor, ver);
+	this.drawMarker(dash.config.field.width - hor, ver);
+	this.drawMarker(hor, dash.config.field.height - ver);
+	this.drawMarker(dash.config.field.width - hor, dash.config.field.height - ver);
+};
+
+Dash.Renderer.prototype.drawMarker = function(x, y) {
+	this.c.save();
+
+	this.c.translate(x, y);
+	this.c.fillStyle = '#F00';
+	this.c.beginPath();
+	this.c.arc(0, 0, 0.05, 0, Math.PI * 2, true);
+	this.c.closePath();
+	this.c.fill();
+
+	this.c.restore();
+};
+
 Dash.Renderer.prototype.renderState = function(state) {
 	this.c.clearRect(-1, -1, this.width + 1, this.height + 1);
 	
@@ -178,7 +201,7 @@ Dash.Renderer.prototype.renderState = function(state) {
 		state.gyroOrientation
 	);*/
 
-	if (state.controllerState.odometerLocalizer !== null && typeof(state.controllerState.odometerLocalizer) === 'object') {
+	/*if (state.controllerState.odometerLocalizer !== null && typeof(state.controllerState.odometerLocalizer) === 'object') {
 		this.drawRobot(
 			dash.config.robot.radius / 2,
 			'#600',
@@ -188,13 +211,13 @@ Dash.Renderer.prototype.renderState = function(state) {
 		);
 
 		this.drawPath(state, 'odometerLocalizer', '#600');
-	}
+	}*/
 
 	if (state.controllerState.intersectionLocalizer !== null && typeof(state.controllerState.intersectionLocalizer) === 'object') {
-		this.drawIntersections(
+		/*this.drawIntersections(
 			state.controllerState.intersectionLocalizer.yellowDistance,
 			state.controllerState.intersectionLocalizer.blueDistance
-		);
+		);*/
 
 		/*this.drawRobot(
 			dash.config.robot.radius / 2,
@@ -207,9 +230,9 @@ Dash.Renderer.prototype.renderState = function(state) {
 		this.drawPath(state, 'intersectionLocalizer', '#660');*/
 	}
 
-	/*if (state.controllerState.kalmanLocalizer !== null && typeof(state.controllerState.kalmanLocalizer) === 'object') {
+	if (state.controllerState.kalmanLocalizer !== null && typeof(state.controllerState.kalmanLocalizer) === 'object') {
 		this.drawRobot(
-			dash.config.robot.radius / 2,
+			dash.config.robot.radius,
 			'#006',
 			parseFloat(state.controllerState.kalmanLocalizer.x),
 			parseFloat(state.controllerState.kalmanLocalizer.y),
@@ -217,11 +240,11 @@ Dash.Renderer.prototype.renderState = function(state) {
 		);
 
 		this.drawPath(state, 'kalmanLocalizer', '#006');
-	}*/
+	}
 
-	if (state.controllerState.particleLocalizer !== null && typeof(state.controllerState.particleLocalizer) === 'object') {
+	/*if (state.controllerState.particleLocalizer !== null && typeof(state.controllerState.particleLocalizer) === 'object') {
 		this.drawRobot(
-			dash.config.robot.radius / 2,
+			dash.config.robot.radius,
 			'#060',
 			state.controllerState.particleLocalizer.x,
 			state.controllerState.particleLocalizer.y,
@@ -236,10 +259,12 @@ Dash.Renderer.prototype.renderState = function(state) {
 		}
 
 		this.drawPath(state, 'particleLocalizer', '#060');
-	}
+	}*/
+
+	this.drawMarkers();
 		
-	this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
+	/*this.wheelGraphs.FL.render.apply(this.wheelGraphs.FL, [state, 'wheelFL']);
 	this.wheelGraphs.FR.render.apply(this.wheelGraphs.FR, [state, 'wheelFR']);
 	this.wheelGraphs.RL.render.apply(this.wheelGraphs.RL, [state, 'wheelRL']);
-	this.wheelGraphs.RR.render.apply(this.wheelGraphs.RR, [state, 'wheelRR']);
+	this.wheelGraphs.RR.render.apply(this.wheelGraphs.RR, [state, 'wheelRR']);*/
 };
