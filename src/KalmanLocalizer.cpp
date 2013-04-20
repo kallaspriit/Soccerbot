@@ -16,8 +16,8 @@ KalmanLocalizer::KalmanLocalizer() : filter(NULL) {
 
 	double velocityPreserve = 0.5;
 	double covariance = 0.1;
-	double processError = 0.0000005;
-	double measurementError = 0.25;
+	double processError = 0.0000001;
+	double measurementError = 1.0;
 
 	stateTransitionMatrix
 		<< 1.00 << 0.00 << 1.00 << 0.00 << 0.00 << arma::endr				// x
