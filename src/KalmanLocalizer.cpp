@@ -16,7 +16,7 @@ KalmanLocalizer::KalmanLocalizer() : filter(NULL) {
 
 	double velocityPreserve = 0.5;
 	double covariance = 0.1;
-	double processError = 0.0000001;
+	double processError = 0.0000005;
 	double measurementError = 0.25;
 
 	stateTransitionMatrix

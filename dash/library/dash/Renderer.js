@@ -242,7 +242,7 @@ Dash.Renderer.prototype.renderState = function(state) {
 		this.drawPath(state, 'kalmanLocalizer', '#006');
 	}
 
-	/*if (state.controllerState.particleLocalizer !== null && typeof(state.controllerState.particleLocalizer) === 'object') {
+	if (state.controllerState.particleLocalizer !== null && typeof(state.controllerState.particleLocalizer) === 'object') {
 		this.drawRobot(
 			dash.config.robot.radius,
 			'#060',
@@ -259,7 +259,7 @@ Dash.Renderer.prototype.renderState = function(state) {
 		}
 
 		this.drawPath(state, 'particleLocalizer', '#060');
-	}*/
+	}
 
 	this.drawMarkers();
 		

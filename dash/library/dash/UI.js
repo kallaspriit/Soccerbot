@@ -868,7 +868,7 @@ Dash.UI.prototype.showState = function(index) {
 	dash.renderer.renderState(state);
 	
 	this.showTasksQueue(state);
-	this.showStateStats(state);
+	//this.showStateStats(state); // @TEMP
 };
 
 Dash.UI.prototype.showCurrentStateInfo = function() {
